@@ -218,52 +218,68 @@ document.addEventListener('DOMContentLoaded', () => {
     updateParallax();
   }
 
-  // GROWTH STORY — curve draws on view + counters count up + steps highlight
+  // GROWTH STORY — curve draws progressief mee met scroll, cijfers en stappen in sync
   const growthStory = document.querySelector('.growth-story');
+  const growthScroller = document.querySelector('.growth-scroller');
   const growthPath = document.getElementById('growthPath');
   const growthPoint = document.getElementById('growthPoint');
   const growthMetrics = document.querySelectorAll('.growth-metrics .mn');
   const growthSteps = document.querySelectorAll('.gs-step');
-  if(growthStory && growthPath){
+  if(growthStory && growthScroller && growthPath){
     const pathLength = growthPath.getTotalLength();
     growthPath.style.strokeDasharray = pathLength;
     growthPath.style.strokeDashoffset = pathLength;
-    growthPath.style.transition = 'stroke-dashoffset 2.2s cubic-bezier(.22,1,.36,1)';
-    if(growthPoint){ growthPoint.style.transition = 'opacity .6s ease 1.8s'; }
+    // geen CSS transition — we sturen de offset direct via scroll
+    if(growthPoint){ growthPoint.style.transition = 'opacity .3s ease'; growthPoint.style.opacity = 0; }
 
-    function animateOnce(){
-      // draw curve
-      growthPath.style.strokeDashoffset = 0;
-      if(growthPoint){ growthPoint.style.opacity = 1; }
-      // count up metrics
-      const dur = 2200;
-      const start = performance.now();
-      function tick(now){
-        const p = Math.min(1, (now-start)/dur);
-        const eased = 1 - Math.pow(1-p, 3);
-        growthMetrics.forEach(el => {
-          const target = parseFloat(el.dataset.target);
-          const suffix = el.dataset.suffix || '';
-          const decimals = parseInt(el.dataset.decimal || 0);
-          const cur = target * eased;
-          el.textContent = (decimals ? cur.toFixed(decimals).replace('.', ',') : Math.round(cur).toLocaleString('nl-NL')) + suffix;
-        });
-        if(p < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-      // highlight steps one by one
-      growthSteps.forEach((s, idx) => {
-        setTimeout(() => s.classList.add('reached'), 400 + idx * 400);
+    const targets = Array.from(growthMetrics).map(el => ({
+      el,
+      target: parseFloat(el.dataset.target),
+      decimals: parseInt(el.dataset.decimal || 0),
+      suffix: el.dataset.suffix || ''
+    }));
+
+    function ease(p){ return 1 - Math.pow(1 - p, 2.2); }
+
+    function updateGrowth(){
+      const rect = growthScroller.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // start als top van scroller viewport-midden bereikt, klaar als bottom viewport-midden voorbij is
+      const startAt = vh * 0.6;
+      const endAt = vh * 0.25;
+      const total = rect.height - (startAt - endAt);
+      const passed = startAt - rect.top;
+      let progress = Math.max(0, Math.min(1, passed / total));
+
+      // curve
+      growthPath.style.strokeDashoffset = pathLength * (1 - progress);
+      if(growthPoint){ growthPoint.style.opacity = progress > 0.95 ? 1 : 0; }
+
+      // cijfers
+      const eased = ease(progress);
+      targets.forEach(t => {
+        const cur = t.target * eased;
+        t.el.textContent = (t.decimals ? cur.toFixed(t.decimals).replace('.', ',') : Math.round(cur).toLocaleString('nl-NL')) + t.suffix;
+      });
+
+      // stappen: activeer als hun midden boven viewport-midden komt
+      growthSteps.forEach(step => {
+        const sr = step.getBoundingClientRect();
+        const mid = sr.top + sr.height / 2;
+        if(mid < vh * 0.55) step.classList.add('reached');
+        else step.classList.remove('reached');
       });
     }
 
-    const gsIo = new IntersectionObserver((entries) => {
-      if(entries[0].isIntersecting){
-        animateOnce();
-        gsIo.disconnect();
-      }
-    }, {threshold: 0.15});
-    gsIo.observe(growthStory);
+    let gsTicking = false;
+    function onGsScroll(){
+      if(gsTicking) return;
+      gsTicking = true;
+      requestAnimationFrame(() => { updateGrowth(); gsTicking = false; });
+    }
+    window.addEventListener('scroll', onGsScroll, {passive: true});
+    window.addEventListener('resize', updateGrowth);
+    updateGrowth();
   }
 
   // BOOKING WIDGET — day + time picker → WhatsApp
