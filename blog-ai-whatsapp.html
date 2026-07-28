@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI + WhatsApp voor MKB · geen chatbot, wél opvolging | Harte Growth</title>
+<meta name="description" content="Hoe wij AI-opvolging via WhatsApp bouwen voor MKB-klanten. Geen chatbot, wél samenvatting, opvolging en bevestiging binnen 30 seconden.">
+<link rel="canonical" href="https://hartegrowth.com/blog-ai-whatsapp.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI + WhatsApp voor MKB, geen chatbot, wél opvolging">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<canvas class="bg-canvas"></canvas>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo" aria-label="Harte Growth"><img src="logo-nav.svg" alt="Harte Growth"></a>
+    <nav class="navlinks"><a href="diensten.html">Diensten</a><a href="cases.html">Cases</a><a href="blog.html">Blog</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
+    <div class="nav-right">
+      <a href="contact.html" class="btn btn-primary magnetic">Gratis groeiscan</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8"/></svg></button>
+    </div>
+  </div>
+  <div class="progress-line"></div>
+</header>
+
+<div class="mnav" id="mnav">
+  <div class="mnav-top"><span class="logo" aria-label="Harte Growth"><img src="logo-nav.svg" alt="Harte Growth"></span><button class="menu-btn" id="closeBtn" style="display:block" aria-label="Sluit"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8"/></svg></button></div>
+  <a href="diensten.html">Diensten</a><a href="cases.html">Cases</a><a href="blog.html">Blog</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a>
+  <a href="contact.html" class="btn btn-primary">Gratis groeiscan</a>
+</div>
+
+<main>
+  <article>
+    <section class="post-hero">
+      <div class="wrap-narrow">
+        <div class="meta reveal in"><span>AI · Automatisering</span><span class="dot"></span><span>7 min lezen</span><span class="dot"></span><span>15 mei 2026</span></div>
+        <h1 class="reveal in">Zo bouwen we <em>AI-opvolging</em> via WhatsApp voor MKB-klanten.</h1>
+        <p class="lede reveal in">Geen chatbot met "hoe kan ik je helpen?". Een AI die aanvragen samenvat, jou pingt, en de klant binnen 30 seconden bevestigt.</p>
+      </div>
+    </section>
+
+    <section class="post-body">
+      <p>Elke MKB-ondernemer kent het: een goeie aanvraag komt binnen op een moment dat je in bespreking zit. Tegen de tijd dat je terugbelt, is de klant al bij een ander.</p>
+      <p>De oplossing hoeft geen chatbot te zijn (die vaak alleen irritatie oplevert). Wij bouwen iets simpelers en effectiever.</p>
+
+      <h2>Hoe het werkt in de praktijk</h2>
+      <ol>
+        <li>Iemand vult een korte intake in op je site. 3 velden max.</li>
+        <li>Direct daarna opent WhatsApp met een vooringevuld bericht: "Hoi! Ik heb net het formulier ingevuld op jullie site. Kunnen we het over [X] hebben?"</li>
+        <li>Op de achtergrond: AI leest de intake, maakt er een compacte samenvatting van, en zet die in je CRM.</li>
+        <li>Jij krijgt een korte notificatie ("Nieuwe aanvraag: airco Moraira. Marleen, waarschijnlijk hoge intentie"), geen document van 4 pagina's.</li>
+        <li>De aanvrager krijgt binnen 30 seconden een automatische WhatsApp: "Bedankt Marleen! We nemen uiterlijk vandaag contact op."</li>
+      </ol>
+
+      <h2>Waarom AI en niet gewoon een auto-reply?</h2>
+      <p>Auto-replies zijn generiek en irritant. AI kan:</p>
+      <ul>
+        <li><strong>Personaliseren</strong>: noemt de naam, herhaalt de vraag, maakt duidelijk dat er iemand meeleest</li>
+        <li><strong>Kwalificeren</strong>: herkent op basis van de intake of iemand waarschijnlijk hoge of lage intentie heeft</li>
+        <li><strong>Samenvatten</strong>: zodat jij niet een lang verhaal hoeft door te lezen om de kern te snappen</li>
+        <li><strong>Signaleren</strong>: pingt collega X als het over dienst X gaat, collega Y als het over dienst Y gaat</li>
+      </ul>
+
+      <h2>Wat we NIET doen</h2>
+      <p class="callout">Wij bouwen geen chatbots die "gesprekken voeren" met de klant. Mensen zien er dwars doorheen en het frustreert.</p>
+      <p>Wat we ook niet doen:</p>
+      <ul>
+        <li>Geen bots die pretenderen mensen te zijn</li>
+        <li>Geen 24/7 "beantwoord alles" AI die dingen belooft die niet kloppen</li>
+        <li>Geen automatiseringen die je klantcontact overnemen, alleen ondersteunen</li>
+      </ul>
+
+      <h2>De tools</h2>
+      <p>We werken meestal met:</p>
+      <ul>
+        <li><strong>WhatsApp Business API</strong>: voor betrouwbare, geverifieerde berichten</li>
+        <li><strong>Make of n8n</strong>: voor de workflow-logica</li>
+        <li><strong>OpenAI / Anthropic</strong>: voor de AI-samenvatting (via API, niet ChatGPT UI)</li>
+        <li><strong>Jouw CRM</strong>: Pipedrive, HubSpot, of maatwerk</li>
+      </ul>
+      <p>Onder de motorkap dus geen zwarte doos. Alles is uitlegbaar en overneembaar door een andere partij als je dat ooit wilt.</p>
+
+      <h2>Wat kost het?</h2>
+      <p>Setup varieert. Ruw:</p>
+      <ul>
+        <li>Basis WhatsApp-flow + AI-samenvatting: 1 week werk</li>
+        <li>Uitgebreidere routing + CRM-koppeling: 2–3 weken</li>
+        <li>Terugkerende kosten: ~€30–80 per maand voor tools + WhatsApp API-verkeer</li>
+      </ul>
+      <p>Meestal verdien je dat binnen 2–3 maanden terug aan één extra binnengehaalde klus.</p>
+
+      <div class="post-cta">
+        <div>
+          <h4>Wil je zoiets voor je eigen bedrijf?</h4>
+          <p>In de groeiscan kijken we of dit voor jou zin heeft, en wat het ongeveer kost.</p>
+        </div>
+        <a href="contact.html" class="btn btn-primary magnetic">Vraag een groeiscan aan
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <h2>Een korte waarschuwing</h2>
+      <p>AI-opvolging heeft alleen zin als het proces erachter klopt. Als jij daarna 2 dagen niet terugbelt, heeft de bevestiging van 30 seconden geen enkele zin, dan schuif je de teleurstelling gewoon 30 seconden op.</p>
+      <p>Fix eerst het proces, automatiseer daarna. Nooit andersom.</p>
+    </section>
+  </article>
+</main>
+
+<section class="cta-full">
+  <div class="wrap-wide">
+    <div class="chapter reveal"><span class="num">→</span><span>Volgende stap</span><span class="line"></span></div>
+    <h2 class="reveal">Klaar om te stoppen<br>met leads <em>verliezen</em>?</h2>
+    <p class="reveal">Vraag een gratis groeiscan aan. Binnen 1 werkdag reactie.</p>
+    <a href="contact.html" class="btn btn-primary magnetic reveal">Naar contact
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap-wide">
+    <div class="foot-grid">
+      <div class="foot-brand"><h3>Harte<em> Growth.</em></h3><p>Groeimarketing voor dienstverlenende MKB'ers. Website als fundament, content, SEO en ads als motor. Nederland en Costa Blanca.</p></div>
+      <div><h4>Diensten</h4><ul class="foot-links"><li><a href="diensten.html">Website &amp; funnel</a></li><li><a href="diensten.html">Google &amp; SEO</a></li><li><a href="diensten.html">Content &amp; video</a></li><li><a href="diensten.html">AI &amp; automatisering</a></li></ul></div>
+      <div><h4>Studio</h4><ul class="foot-links"><li><a href="cases.html">Cases</a></li><li><a href="blog.html">Blog</a></li><li><a href="over-ons.html">Over ons</a></li><li><a href="index.html#faq">FAQ</a></li></ul></div>
+      <div><h4>Contact</h4><ul class="foot-links"><li><a href="tel:+31634455762">+31 6 3445 5762</a></li><li><a href="mailto:hello@hartegrowth.com">hello@hartegrowth.com</a></li><li><a href="https://wa.me/31634455762">WhatsApp</a></li></ul><h4 style="margin-top:22px;">Social</h4><ul class="foot-links"><li><a href="https://www.linkedin.com/company/hartegrowth" rel="me">LinkedIn</a></li><li><a href="https://www.instagram.com/hartegrowth" rel="me">Instagram</a></li><li><a href="https://www.facebook.com/hartegrowth" rel="me">Facebook</a></li><li><a href="https://www.tiktok.com/@hartegrowth" rel="me">TikTok</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Harte Growth</span><span>Nederland · Costa Blanca · Remote</span></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/31634455762?text=Hallo%20Harte%20Growth%2C%20ik%20wil%20graag%20een%20gratis%20groeiscan%20aanvragen." class="wa-float" aria-label="WhatsApp">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+  WhatsApp
+</a>
+
+<script src="script.js"></script>
+</body>
+</html>
