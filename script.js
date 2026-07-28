@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateParallax();
   }
 
-  // GROWTH STORY — scroll-driven chart + counters + step highlights
+  // GROWTH STORY — curve draws on view + counters count up + steps highlight
   const growthStory = document.querySelector('.growth-story');
   const growthPath = document.getElementById('growthPath');
   const growthPoint = document.getElementById('growthPoint');
@@ -228,28 +228,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const pathLength = growthPath.getTotalLength();
     growthPath.style.strokeDasharray = pathLength;
     growthPath.style.strokeDashoffset = pathLength;
-    function updateGrowth(){
-      const rect = growthStory.getBoundingClientRect();
-      const viewH = window.innerHeight;
-      const start = viewH * 0.75;
-      const end = -rect.height + viewH * 0.5;
-      const prog = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
-      growthPath.style.strokeDashoffset = pathLength * (1 - prog);
-      if(growthPoint){ growthPoint.style.opacity = prog > 0.88 ? 1 : 0; }
-      growthMetrics.forEach(el => {
-        const target = parseFloat(el.dataset.target);
-        const suffix = el.dataset.suffix || '';
-        const decimals = parseInt(el.dataset.decimal || 0);
-        const cur = target * prog;
-        el.textContent = (decimals ? cur.toFixed(decimals).replace('.', ',') : Math.round(cur).toLocaleString('nl-NL')) + suffix;
-      });
+    growthPath.style.transition = 'stroke-dashoffset 2.2s cubic-bezier(.22,1,.36,1)';
+    if(growthPoint){ growthPoint.style.transition = 'opacity .6s ease 1.8s'; }
+
+    function animateOnce(){
+      // draw curve
+      growthPath.style.strokeDashoffset = 0;
+      if(growthPoint){ growthPoint.style.opacity = 1; }
+      // count up metrics
+      const dur = 2200;
+      const start = performance.now();
+      function tick(now){
+        const p = Math.min(1, (now-start)/dur);
+        const eased = 1 - Math.pow(1-p, 3);
+        growthMetrics.forEach(el => {
+          const target = parseFloat(el.dataset.target);
+          const suffix = el.dataset.suffix || '';
+          const decimals = parseInt(el.dataset.decimal || 0);
+          const cur = target * eased;
+          el.textContent = (decimals ? cur.toFixed(decimals).replace('.', ',') : Math.round(cur).toLocaleString('nl-NL')) + suffix;
+        });
+        if(p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      // highlight steps one by one
       growthSteps.forEach((s, idx) => {
-        const stepProg = (idx + 1) / (growthSteps.length + 0.5);
-        s.classList.toggle('reached', prog >= stepProg - 0.15);
+        setTimeout(() => s.classList.add('reached'), 400 + idx * 400);
       });
     }
-    window.addEventListener('scroll', updateGrowth, {passive:true});
-    updateGrowth();
+
+    const gsIo = new IntersectionObserver((entries) => {
+      if(entries[0].isIntersecting){
+        animateOnce();
+        gsIo.disconnect();
+      }
+    }, {threshold: 0.15});
+    gsIo.observe(growthStory);
   }
 
   // BOOKING WIDGET — day + time picker → WhatsApp
