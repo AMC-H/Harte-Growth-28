@@ -407,10 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const scanForm = document.getElementById('scanForm');
   if(!scanForm) return;
 
-  // Leads worden verzonden via Netlify Forms. Notificatie-e-mail wordt ingesteld in Netlify dashboard.
-  function encodeForm(data){
-    return Object.keys(data).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k] == null ? '' : data[k])).join('&');
-  }
+  // Leads worden verzonden via Netlify Function (/.netlify/functions/send-lead) die Resend gebruikt.
 
   const scanUrl = document.getElementById('scanUrl');
   const scanSubmit = document.getElementById('scanSubmit');
@@ -517,24 +514,23 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     gateSubmit.disabled = true;
-    // Verstuur naar Netlify Forms (non-blocking: als het faalt gaat scan door)
+    // Verstuur naar Netlify Function → Resend (non-blocking: als het faalt gaat scan door)
     try {
-      await fetch('/', {
+      await fetch('/.netlify/functions/send-lead', {
         method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: encodeForm({
-          'form-name': 'scan-leads',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
           name: lead.name,
           email: lead.email,
           company: lead.company || '',
           url: lead.url,
-          consent: lead.consent ? 'ja' : 'nee',
+          consent: lead.consent,
           referrer: document.referrer || '',
           'bot-field': ''
         })
       });
     } catch(err){
-      console.warn('[netlify-forms] verzenden mislukt:', err);
+      console.warn('[lead-mail] verzenden mislukt:', err);
     }
     saveLead(lead);
     currentLead = lead;
