@@ -492,14 +492,20 @@ document.addEventListener('DOMContentLoaded', () => {
     await wait(200);
     log('toegankelijkheid analyseren', 'run');
 
-    const endpoint = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance&category=seo&category=accessibility&category=best-practices&strategy=mobile`;
+    // Google PageSpeed API-key. Beperkt tot hartegrowth.netlify.app + hartegrowth.com via HTTP-referrer restrictions in Google Cloud Console.
+    const API_KEY = 'AIzaSyCX90ioFgQaID9Ek2BflrcsrDrroQ7odss';
+    const keyParam = API_KEY ? `&key=${API_KEY}` : '';
+    const endpoint = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance&category=seo&category=accessibility&category=best-practices&strategy=mobile${keyParam}`;
 
     try {
       const res = await fetch(endpoint);
-      if(!res.ok) throw new Error(`API antwoordde ${res.status}`);
+      if(res.status === 429){
+        throw new Error('RATE_LIMIT');
+      }
+      if(!res.ok) throw new Error(`API_${res.status}`);
       const data = await res.json();
       const lh = data.lighthouseResult;
-      if(!lh) throw new Error('geen resultaten ontvangen');
+      if(!lh) throw new Error('NO_RESULT');
 
       log('resultaten binnen, samenvatten...', 'ok');
       await wait(500);
@@ -510,7 +516,17 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch(err){
       scanError.hidden = false;
       scanRunning.hidden = true;
-      scanErrorMsg.textContent = 'De scan lukte niet: ' + (err.message || 'onbekende fout') + '. Vaak helpt: check of de URL bereikbaar is (open in een tab), of probeer over 30 seconden opnieuw (Google beperkt scans per minuut).';
+      let msg;
+      if(err.message === 'RATE_LIMIT'){
+        msg = 'Even geduld: er zijn nu net veel scans tegelijk. Wacht 30 seconden en probeer opnieuw. (De site kan meer scans aan zodra we de API-verhoging inschakelen.)';
+      } else if(err.message === 'NO_RESULT' || (err.message && err.message.startsWith('API_400'))){
+        msg = 'Deze URL kon niet worden gescand. Meestal betekent dit dat de site niet bereikbaar is vanaf Google, of dat er een IP-blokkade staat. Probeer een andere URL.';
+      } else if(err.message && err.message.startsWith('API_')){
+        msg = 'Google gaf een fout terug (' + err.message.replace('API_','code ') + '). Probeer over een minuut opnieuw.';
+      } else {
+        msg = 'De scan kon niet worden uitgevoerd: ' + (err.message || 'onbekende fout') + '. Check of de URL klopt en probeer opnieuw.';
+      }
+      scanErrorMsg.textContent = msg;
     } finally {
       scanSubmit.disabled = false;
     }
