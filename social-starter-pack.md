@@ -49,20 +49,20 @@ Groeimarketing voor dienstverleners.
 Costa Blanca · Nederland.
 Meer aanvragen, meetbaar.
 ↓ Plan een gesprek
-hartegrowth.com
+hartegrowth.eu
 ```
 
 ### Facebook (255 tekens)
 
 ```
-Groeimarketing voor dienstverleners aan de Costa Blanca en in Nederland. Website + funnel als fundament, content, SEO en ads als motor. Vanaf de eerste maand meetbaar. Plan een gratis groeigesprek via hartegrowth.com.
+Groeimarketing voor dienstverleners aan de Costa Blanca en in Nederland. Website + funnel als fundament, content, SEO en ads als motor. Vanaf de eerste maand meetbaar. Plan een gratis groeigesprek via hartegrowth.eu.
 ```
 
 ### TikTok (80 tekens)
 
 ```
 Groeimarketing voor MKB · Costa Blanca & NL
-↓ hartegrowth.com
+↓ hartegrowth.eu
 ```
 
 ---
@@ -83,15 +83,15 @@ Dezelfde drie ideeën, elke keer aangepast aan het platform.
 **Instagram (carrousel van 3 slides):**
 1. Slide 1 (zwart, oranje tekst): *"Van onvindbaar naar 7.780 Google-vertoningen. In 3 maanden."*
 2. Slide 2: screenshot van SGC-grafiek + tekst *"Zonder advertenties. Alleen lokale SEO."*
-3. Slide 3 (CTA): *"Wil je zoiets? hartegrowth.com"*
+3. Slide 3 (CTA): *"Wil je zoiets? hartegrowth.eu"*
 
-Caption: *"Airco Costa Blanca in drie maanden op Google. Lokale SEO doet 't nog steeds. Meer cases: hartegrowth.com/cases"* + hashtags (zie hieronder).
+Caption: *"Airco Costa Blanca in drie maanden op Google. Lokale SEO doet 't nog steeds. Meer cases: hartegrowth.eu/cases"* + hashtags (zie hieronder).
 
 **TikTok (30-45 sec video):**
 - Screen-recording van hun Search Console grafiek die omhoog schiet
 - Voice-over: *"Deze installateur was drie maanden geleden onvindbaar. Nu 7.780 Google-vertoningen. Dit deden we."*
 - Overlay met de 3 stappen (Google Business, lokale pagina's, technisch fundament)
-- Eindscherm: hartegrowth.com
+- Eindscherm: hartegrowth.eu
 
 ### Post 2 · Uitgesproken mening (Standpunt)
 
@@ -172,7 +172,7 @@ Niet dagelijks. Wel consistent.
 
 Na 30 dagen kijk je 1× naar:
 
-- Welk platform stuurt verkeer naar hartegrowth.com? (Google Analytics)
+- Welk platform stuurt verkeer naar hartegrowth.eu? (Google Analytics)
 - Welk type post krijgt reacties? (native platform inzichten)
 - Welke posts leidden tot een groeiscan-aanvraag? (vraag altijd bij de intake: "hoe kwam je bij ons?")
 

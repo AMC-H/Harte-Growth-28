@@ -3,7 +3,7 @@
 Groeimarketingbureau voor dienstverleners aan de Costa Blanca en in Nederland.
 Website + funnel als fundament, content, SEO en ads als motor.
 
-hartegrowth.com
+hartegrowth.eu
 
 ---
 
@@ -39,7 +39,7 @@ Deze site is statisch en werkt op elke hosting:
 - **Netlify** / **Vercel** — drag-and-drop deploy
 - **Eigen hosting** — upload alle bestanden naar de webroot
 
-Voor GitHub Pages: het domein `hartegrowth.com` koppelen via een `CNAME`-record naar `<username>.github.io` en een `CNAME`-bestand in de root met de inhoud `hartegrowth.com`.
+Voor GitHub Pages: het domein `hartegrowth.eu` koppelen via een `CNAME`-record naar `<username>.github.io` en een `CNAME`-bestand in de root met de inhoud `hartegrowth.eu`.
 
 ## Ontwikkeling
 
@@ -47,4 +47,4 @@ Geen framework, geen dependencies. Aanpassen = bestand openen, opslaan, ververse
 
 ## Contact
 
-+31 6 3445 5762 · hello@hartegrowth.com
++31 6 3445 5762 · hello@hartegrowth.eu

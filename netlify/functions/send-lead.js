@@ -2,7 +2,7 @@
 // Environment variables (in te stellen in Netlify dashboard → Site settings → Environment variables):
 //   RESEND_API_KEY   - je Resend API-key (re_xxxxx)
 //   LEAD_TO_EMAIL    - adres waar de notificatie heen moet, bijv. alainh1990@gmail.com
-//   LEAD_FROM_EMAIL  - afzender, bijv. "Harte Growth <noreply@hartegrowth.com>" (domein moet in Resend geverifieerd zijn)
+//   LEAD_FROM_EMAIL  - afzender, bijv. "Harte Growth <noreply@hartegrowth.eu>" (domein moet in Resend geverifieerd zijn)
 
 exports.handler = async (event) => {
   const cors = {
@@ -78,7 +78,7 @@ exports.handler = async (event) => {
           </div>
         </td></tr>
         <tr><td style="padding:14px 32px;background:#0f1015;border-top:1px solid #25262e;color:#565968;font-size:12px;font-family:'SF Mono',Consolas,monospace;">
-          Automatische notificatie van hartegrowth.com/groeiscan
+          Automatische notificatie van hartegrowth.eu/groeiscan
         </td></tr>
       </table>
     </td></tr>

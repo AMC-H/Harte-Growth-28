@@ -610,7 +610,7 @@ document.addEventListener('DOMContentLoaded', () => {
     await wait(600);
     startStatusCycle();
 
-    // Google PageSpeed API-key. Beperkt tot hartegrowth.netlify.app + hartegrowth.com via HTTP-referrer restrictions in Google Cloud Console.
+    // Google PageSpeed API-key. Beperkt tot hartegrowth.netlify.app + hartegrowth.eu via HTTP-referrer restrictions in Google Cloud Console.
     const API_KEY = 'AIzaSyCX90ioFgQaID9Ek2BflrcsrDrroQ7odss';
     const keyParam = API_KEY ? `&key=${API_KEY}` : '';
     const endpoint = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance&category=seo&category=accessibility&category=best-practices&strategy=mobile${keyParam}`;
