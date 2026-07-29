@@ -575,3 +575,25 @@ footer .foot-links a:hover{color:var(--accent);}
 .scan-viz-status::after{content:"";display:inline-block;width:8px;height:8px;background:#ff4d1a;border-radius:50%;margin-left:6px;animation:statusPulse 1.2s ease-in-out infinite;vertical-align:middle;}
 @keyframes statusPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
 .scan-viz-hint{font-size:13.5px;color:#8a8b95;line-height:1.55;font-family:'Inter',sans-serif;}
+
+/* =============== SCAN GATE (EMAIL CAPTURE) =============== */
+.scan-gate-panel{padding:40px 0 80px;}
+.scan-gate-box{max-width:640px;background:#0f1015;border:1px solid #25262e;border-radius:16px;padding:44px 40px;}
+@media(max-width:600px){.scan-gate-box{padding:32px 24px;}}
+.scan-gate-title{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin:12px 0 12px;}
+.scan-gate-lede{color:#8a8b95;font-size:15.5px;line-height:1.6;margin-bottom:32px;max-width:520px;}
+.scan-gate-form{display:flex;flex-direction:column;gap:20px;}
+.scan-gate-fields{display:flex;flex-direction:column;gap:16px;}
+.gate-field{display:flex;flex-direction:column;gap:8px;}
+.gate-field label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8a8b95;font-weight:500;}
+.gate-field label .opt{color:#565968;text-transform:none;letter-spacing:.02em;font-weight:400;}
+.gate-field input{background:#0a0a0c;border:1.5px solid #25262e;border-radius:10px;padding:14px 16px;color:#f5f5f7;font-family:'Inter',sans-serif;font-size:15.5px;transition:border-color .2s;letter-spacing:-.01em;}
+.gate-field input:focus{outline:0;border-color:#ff4d1a;}
+.gate-field input::placeholder{color:#565968;}
+.scan-gate-consent{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;color:#a5a7b0;line-height:1.5;cursor:pointer;padding:6px 0;}
+.scan-gate-consent input[type=checkbox]{width:18px;height:18px;accent-color:#ff4d1a;margin-top:2px;flex-shrink:0;cursor:pointer;}
+.scan-gate-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:8px;}
+.scan-gate-actions .scan-submit{padding:15px 26px;}
+.scan-gate-back{background:none;border:0;color:#8a8b95;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.05em;transition:color .2s;padding:8px 6px;}
+.scan-gate-back:hover{color:#ff4d1a;}
+.scan-gate-error{color:#ff5c56;font-size:13.5px;background:rgba(255,92,86,.08);border:1px solid rgba(255,92,86,.3);border-radius:8px;padding:10px 14px;margin-top:6px;}

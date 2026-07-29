@@ -54,12 +54,55 @@
           </span>
           <input type="text" id="scanUrl" placeholder="jouwbedrijf.nl" autocomplete="off" spellcheck="false" required>
           <button type="submit" class="scan-submit" id="scanSubmit">
-            Scan mijn site
+            Start scan
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
         <div class="scan-hint">Voorbeeld: <button type="button" class="scan-example" data-url="hartegrowth.com">hartegrowth.com</button> · <button type="button" class="scan-example" data-url="google.com">google.com</button></div>
       </form>
+    </div>
+  </section>
+
+  <!-- E-MAIL GATE -->
+  <section class="scan-gate-panel" id="scanGate" hidden>
+    <div class="wrap-wide">
+      <div class="scan-gate-box">
+        <div class="chapter"><span class="num">→</span><span>Voor we scannen</span><span class="line"></span></div>
+        <h2 class="scan-gate-title">Waar sturen we het <em class="serif">rapport</em> heen?</h2>
+        <p class="scan-gate-lede">De scan is gratis. We bewaren je gegevens alleen om het rapport te delen en, als je dat wilt, samen de uitkomsten door te nemen. Geen nieuwsbrieven, geen doorverkoop.</p>
+
+        <form id="gateForm" class="scan-gate-form">
+          <div class="scan-gate-fields">
+            <div class="gate-field">
+              <label for="gateName">Naam</label>
+              <input type="text" id="gateName" name="name" required autocomplete="name" placeholder="Voor- en achternaam">
+            </div>
+            <div class="gate-field">
+              <label for="gateEmail">E-mail</label>
+              <input type="email" id="gateEmail" name="email" required autocomplete="email" placeholder="jij@jouwbedrijf.nl">
+            </div>
+            <div class="gate-field">
+              <label for="gateCompany">Bedrijf <span class="opt">(optioneel)</span></label>
+              <input type="text" id="gateCompany" name="company" autocomplete="organization" placeholder="Bedrijfsnaam">
+            </div>
+          </div>
+
+          <label class="scan-gate-consent">
+            <input type="checkbox" id="gateConsent" required>
+            <span>Ik ga akkoord dat Harte Growth mijn scan-resultaten mag bewaren en mij daarover mag contacteren.</span>
+          </label>
+
+          <div class="scan-gate-actions">
+            <button type="submit" class="scan-submit" id="gateSubmit">
+              Scan starten
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="scan-gate-back" id="gateBack">← andere URL</button>
+          </div>
+
+          <div class="scan-gate-error" id="gateError" hidden></div>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -214,6 +257,17 @@
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
   WhatsApp
 </a>
+
+<!-- Hidden form voor Netlify build-time detectie. Wordt nooit getoond, dient alleen om Netlify Forms te activeren. -->
+<form name="scan-leads" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name">
+  <input type="email" name="email">
+  <input type="text" name="company">
+  <input type="text" name="url">
+  <input type="text" name="consent">
+  <input type="text" name="referrer">
+  <input type="text" name="bot-field">
+</form>
 
 <script src="script.js"></script>
 </body>

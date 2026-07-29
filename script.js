@@ -407,6 +407,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const scanForm = document.getElementById('scanForm');
   if(!scanForm) return;
 
+  // Leads worden verzonden via Netlify Forms. Notificatie-e-mail wordt ingesteld in Netlify dashboard.
+  function encodeForm(data){
+    return Object.keys(data).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k] == null ? '' : data[k])).join('&');
+  }
+
   const scanUrl = document.getElementById('scanUrl');
   const scanSubmit = document.getElementById('scanSubmit');
   const scanPanel = document.getElementById('scanPanel');
@@ -426,6 +431,29 @@ document.addEventListener('DOMContentLoaded', () => {
   const scanWhatsapp = document.getElementById('scanWhatsapp');
   const scanRestart = document.getElementById('scanRestart');
 
+  // Gate elements
+  const scanGate = document.getElementById('scanGate');
+  const gateForm = document.getElementById('gateForm');
+  const gateName = document.getElementById('gateName');
+  const gateEmail = document.getElementById('gateEmail');
+  const gateCompany = document.getElementById('gateCompany');
+  const gateConsent = document.getElementById('gateConsent');
+  const gateSubmit = document.getElementById('gateSubmit');
+  const gateBack = document.getElementById('gateBack');
+  const gateError = document.getElementById('gateError');
+
+  const LEAD_KEY = 'hg_scan_lead_v1';
+  function getSavedLead(){
+    try { return JSON.parse(localStorage.getItem(LEAD_KEY) || 'null'); } catch(_) { return null; }
+  }
+  function saveLead(lead){
+    try { localStorage.setItem(LEAD_KEY, JSON.stringify(lead)); } catch(_){}
+  }
+  function validEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((e||'').trim()); }
+
+  let pendingUrl = null;
+  let currentLead = getSavedLead();
+
   // Example clicks
   document.querySelectorAll('.scan-example').forEach(b => {
     b.addEventListener('click', () => { scanUrl.value = b.dataset.url; scanForm.dispatchEvent(new Event('submit', {cancelable:true})); });
@@ -443,7 +471,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
   scanForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    runScan(scanUrl.value);
+    const url = normalizeUrl(scanUrl.value);
+    if(!url){ scanUrl.focus(); return; }
+    // Als lead al bekend: direct scannen
+    if(currentLead && currentLead.email){
+      runScan(url);
+    } else {
+      pendingUrl = url;
+      showGate();
+    }
+  });
+
+  function showGate(){
+    scanPanel.hidden = true;
+    scanGate.hidden = false;
+    gateError.hidden = true;
+    setTimeout(() => scanGate.scrollIntoView({behavior:'smooth', block:'start'}), 80);
+    setTimeout(() => gateName.focus(), 350);
+  }
+  function hideGate(){
+    scanGate.hidden = true;
+  }
+
+  gateBack && gateBack.addEventListener('click', () => {
+    hideGate();
+    pendingUrl = null;
+    scanUrl.focus();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  gateForm && gateForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    gateError.hidden = true;
+    const lead = {
+      name: gateName.value.trim(),
+      email: gateEmail.value.trim(),
+      company: gateCompany.value.trim() || null,
+      url: pendingUrl,
+      consent: !!gateConsent.checked,
+      ts: new Date().toISOString()
+    };
+    if(!lead.name || !validEmail(lead.email) || !lead.consent){
+      gateError.hidden = false;
+      gateError.textContent = 'Vul je naam en een geldig e-mailadres in, en vink de toestemming aan.';
+      return;
+    }
+    gateSubmit.disabled = true;
+    // Verstuur naar Netlify Forms (non-blocking: als het faalt gaat scan door)
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: encodeForm({
+          'form-name': 'scan-leads',
+          name: lead.name,
+          email: lead.email,
+          company: lead.company || '',
+          url: lead.url,
+          consent: lead.consent ? 'ja' : 'nee',
+          referrer: document.referrer || '',
+          'bot-field': ''
+        })
+      });
+    } catch(err){
+      console.warn('[netlify-forms] verzenden mislukt:', err);
+    }
+    saveLead(lead);
+    currentLead = lead;
+    gateSubmit.disabled = false;
+    hideGate();
+    runScan(pendingUrl);
   });
 
   function normalizeUrl(raw){
@@ -687,15 +784,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function buildWhatsappMsg(host, url, scores, avg){
-    const scoreLines = scores.map(s => `${s.label}: ${s.score === null ? 'n.v.t.' : Math.round(s.score*100) + '/100'}`).join('%0A');
-    return `Hallo Harte Growth, ik heb net de gratis groeiscan gedaan voor ${host}.
+    const scoreLines = scores.map(s => `${s.label}: ${s.score === null ? 'n.v.t.' : Math.round(s.score*100) + '/100'}`).join('\n');
+    const who = currentLead ? `${currentLead.name}${currentLead.company ? ' van ' + currentLead.company : ''}` : 'ik';
+    const contactLine = currentLead ? `\n(bereikbaar via ${currentLead.email})` : '';
+    return `Hallo Harte Growth, ${who} heeft net de gratis groeiscan gedaan voor ${host}.
 
 Overall score: ${avg}/100
 
-${scoreLines.replace(/%0A/g,'\n')}
+${scoreLines}
 
 Kunnen we bespreken wat de eerste stappen zouden zijn?
 
-(URL: ${url})`;
+(URL: ${url})${contactLine}`;
   }
 })();
