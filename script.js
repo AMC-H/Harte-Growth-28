@@ -470,21 +470,29 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const url = normalizeUrl(scanUrl.value);
     if(!url){ scanUrl.focus(); return; }
-    // Als lead al bekend: direct scannen
-    if(currentLead && currentLead.email){
-      runScan(url);
-    } else {
-      pendingUrl = url;
-      showGate();
-    }
+    // Gate wordt ALTIJD getoond zodat we bij elke scan een lead-notificatie krijgen.
+    pendingUrl = url;
+    showGate();
   });
 
   function showGate(){
     scanPanel.hidden = true;
     scanGate.hidden = false;
     gateError.hidden = true;
+    // Pre-fill bekende gegevens voor terugkerende bezoekers (consent moeten ze wel opnieuw geven)
+    if(currentLead){
+      if(currentLead.name && !gateName.value) gateName.value = currentLead.name;
+      if(currentLead.email && !gateEmail.value) gateEmail.value = currentLead.email;
+      if(currentLead.company && !gateCompany.value) gateCompany.value = currentLead.company;
+    }
+    gateConsent.checked = false;
     setTimeout(() => scanGate.scrollIntoView({behavior:'smooth', block:'start'}), 80);
-    setTimeout(() => gateName.focus(), 350);
+    setTimeout(() => {
+      // Focus eerste lege veld
+      if(!gateName.value) gateName.focus();
+      else if(!gateEmail.value) gateEmail.focus();
+      else gateConsent.focus();
+    }, 350);
   }
   function hideGate(){
     scanGate.hidden = true;
