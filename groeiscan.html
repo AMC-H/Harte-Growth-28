@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gratis groeiscan · Live rapport in 30 seconden | Harte Growth</title>
+<meta name="description" content="Plak je website URL. Krijg direct een rapport: SEO, snelheid, mobiel, techniek en concrete tips. Geen inlog, geen wachten.">
+<link rel="canonical" href="https://hartegrowth.com/groeiscan.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<canvas class="bg-canvas"></canvas>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo" aria-label="Harte Growth"><img src="logo-nav.svg" alt="Harte Growth"></a>
+    <nav class="navlinks"><a href="diensten.html">Diensten</a><a href="cases.html">Cases</a><a href="blog.html">Blog</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
+    <div class="nav-right">
+      <a href="groeiscan.html" class="btn btn-primary magnetic">Gratis groeiscan</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8"/></svg></button>
+    </div>
+  </div>
+  <div class="progress-line"></div>
+</header>
+
+<div class="mnav" id="mnav">
+  <div class="mnav-top"><span class="logo" aria-label="Harte Growth"><img src="logo-nav.svg" alt="Harte Growth"></span><button class="menu-btn" id="closeBtn" style="display:block" aria-label="Sluit"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8"/></svg></button></div>
+  <a href="diensten.html">Diensten</a><a href="cases.html">Cases</a><a href="blog.html">Blog</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a>
+  <a href="groeiscan.html" class="btn btn-primary">Gratis groeiscan</a>
+</div>
+
+<main>
+
+  <!-- HERO + INPUT -->
+  <section class="scan-hero">
+    <div class="wrap-wide">
+      <div class="chapter reveal in"><span class="num">→</span><span>Live groeiscan</span><span class="line"></span></div>
+      <h1 class="reveal in" style="font-size:clamp(38px,6vw,72px);font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:16px;">
+        In <em class="serif">30 seconden</em> weet je<br>waar je site lekt.
+      </h1>
+      <p class="reveal in" style="font-size:19px;color:var(--text-dim);max-width:600px;line-height:1.55;margin-bottom:36px;">
+        Plak je URL. Onze scanner haalt live je site op, checkt SEO, snelheid, mobiel en techniek, en zet er een verdict onder. Geen mailadres nodig.
+      </p>
+
+      <form class="scan-form reveal in" id="scanForm">
+        <div class="scan-input-wrap">
+          <span class="scan-globe">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18" stroke="currentColor" stroke-width="1.6"/></svg>
+          </span>
+          <input type="text" id="scanUrl" placeholder="jouwbedrijf.nl" autocomplete="off" spellcheck="false" required>
+          <button type="submit" class="scan-submit" id="scanSubmit">
+            Scan mijn site
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="scan-hint">Voorbeeld: <button type="button" class="scan-example" data-url="hartegrowth.com">hartegrowth.com</button> · <button type="button" class="scan-example" data-url="google.com">google.com</button></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- LIVE SCAN OUTPUT -->
+  <section class="scan-panel" id="scanPanel" hidden>
+    <div class="wrap-wide">
+
+      <!-- Running state -->
+      <div class="scan-running" id="scanRunning">
+        <div class="scan-terminal">
+          <div class="scan-term-head">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="term-title" id="termTitle">scanning...</span>
+          </div>
+          <div class="scan-log" id="scanLog"></div>
+        </div>
+      </div>
+
+      <!-- Results state -->
+      <div class="scan-results" id="scanResults" hidden>
+        <div class="chapter reveal in"><span class="num">01</span><span>Rapport</span><span class="line"></span></div>
+        <h2 style="font-size:clamp(30px,4vw,48px);font-weight:800;letter-spacing:-.03em;margin-bottom:8px;">Resultaten voor <em class="serif" id="resultDomain">jouwsite.nl</em></h2>
+        <p style="color:var(--text-dim);font-size:15px;margin-bottom:36px;">Bron: Google Lighthouse + eigen checks · scan uitgevoerd <span id="resultTime">nu</span></p>
+
+        <!-- Scores -->
+        <div class="scan-scores" id="scanScores"></div>
+
+        <!-- Verdict -->
+        <div class="scan-verdict" id="scanVerdict"></div>
+
+        <!-- Findings -->
+        <div class="scan-findings">
+          <div class="chapter"><span class="num">02</span><span>Wat we zagen</span><span class="line"></span></div>
+          <div class="scan-finding-list" id="scanFindings"></div>
+        </div>
+
+        <!-- CTA -->
+        <div class="scan-cta">
+          <div>
+            <h3>Wil je dat wij dit met je doornemen?</h3>
+            <p>Wij lezen mee, prioriteren de fixes en zeggen wat we zelf zouden doen (en wat je zelf makkelijk kunt aanpakken). Zonder verplichting.</p>
+          </div>
+          <a href="#" id="scanWhatsapp" class="btn btn-primary magnetic" target="_blank" rel="noopener">
+            Stuur scan naar Harte Growth
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+          </a>
+        </div>
+
+        <button type="button" class="scan-restart" id="scanRestart">↺ Scan een andere site</button>
+      </div>
+
+      <!-- Error state -->
+      <div class="scan-error" id="scanError" hidden>
+        <h3>Er ging iets mis met de scan.</h3>
+        <p id="scanErrorMsg">De site kon niet worden opgehaald. Controleer of de URL klopt en probeer opnieuw.</p>
+        <button type="button" class="btn btn-ghost" id="scanErrorRetry">Probeer opnieuw</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HOE HET WERKT -->
+  <section class="sec-tight" id="how">
+    <div class="wrap-wide">
+      <div class="chapter reveal"><span class="num">03</span><span>Wat de scan checkt</span><span class="line"></span></div>
+      <div class="scan-what-grid">
+        <div class="scan-what reveal">
+          <div class="scan-what-num">01</div>
+          <h3>SEO fundament</h3>
+          <p>Title, meta description, canonical, headings, taalcode, structured data. Alles dat Google nodig heeft om je goed te tonen.</p>
+        </div>
+        <div class="scan-what reveal">
+          <div class="scan-what-num">02</div>
+          <h3>Snelheid</h3>
+          <p>Laadtijd, grootte, blocking scripts. Elke seconde vertraging kost je 7% conversie. Google weet dat ook.</p>
+        </div>
+        <div class="scan-what reveal">
+          <div class="scan-what-num">03</div>
+          <h3>Mobiel</h3>
+          <p>60% van je bezoekers zit op mobiel. We checken viewport, tekstgrootte, tap-targets en of alles fatsoenlijk past.</p>
+        </div>
+        <div class="scan-what reveal">
+          <div class="scan-what-num">04</div>
+          <h3>Toegankelijkheid</h3>
+          <p>Alt-teksten, contrast, focus-states, ARIA. Belangrijk voor iedereen die niet met de muis werkt, en voor Google.</p>
+        </div>
+      </div>
+      <p class="scan-disclaimer">De scan gebruikt Google Lighthouse (dezelfde technologie als Google Search Console) en enkele eigen aanvullingen. Data komt live van jouw URL. Er wordt niets opgeslagen.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- CTA -->
+<section class="cta-full">
+  <div class="wrap-wide">
+    <div class="chapter reveal"><span class="num">→</span><span>Volgende stap</span><span class="line"></span></div>
+    <h2 class="reveal">Meer nodig dan een scan?<br>Plan een <em>gesprek</em>.</h2>
+    <p class="reveal">Twintig minuten, geen verkooppraatje. Wij hebben je site voor het gesprek al bekeken.</p>
+    <a href="contact.html" class="btn btn-primary magnetic reveal">Plan een gesprek
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap-wide">
+    <div class="foot-grid">
+      <div class="foot-brand"><h3>Harte<em> Growth.</em></h3><p>Groeimarketing voor bedrijven die serieus door willen groeien. Website en funnel als fundament, content, SEO, video en ads als motor. Werkzaam vanuit Nederland en Spanje, remote door heel Europa.</p></div>
+      <div><h4>Diensten</h4><ul class="foot-links"><li><a href="diensten.html">Website &amp; funnel</a></li><li><a href="diensten.html">Google &amp; SEO</a></li><li><a href="diensten.html">Content &amp; video</a></li><li><a href="diensten.html">AI &amp; automatisering</a></li></ul></div>
+      <div><h4>Studio</h4><ul class="foot-links"><li><a href="cases.html">Cases</a></li><li><a href="blog.html">Blog</a></li><li><a href="over-ons.html">Over ons</a></li><li><a href="index.html#faq">FAQ</a></li></ul></div>
+      <div><h4>Contact</h4><ul class="foot-links"><li><a href="tel:+31634455762">+31 6 3445 5762</a></li><li><a href="mailto:hello@hartegrowth.com">hello@hartegrowth.com</a></li><li><a href="https://wa.me/31634455762">WhatsApp</a></li></ul><h4 style="margin-top:22px;">Social</h4><ul class="foot-links"><li><a href="https://www.linkedin.com/company/hartegrowth" rel="me">LinkedIn</a></li><li><a href="https://www.instagram.com/hartegrowth" rel="me">Instagram</a></li><li><a href="https://www.facebook.com/hartegrowth" rel="me">Facebook</a></li><li><a href="https://www.tiktok.com/@hartegrowth" rel="me">TikTok</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Harte Growth</span><span>Nederland · Costa Blanca · Remote</span></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/31634455762?text=Hallo%20Harte%20Growth%2C%20ik%20wil%20graag%20een%20gratis%20groeiscan%20aanvragen." class="wa-float" aria-label="WhatsApp">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+  WhatsApp
+</a>
+
+<script src="script.js"></script>
+</body>
+</html>

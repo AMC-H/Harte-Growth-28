@@ -401,3 +401,259 @@ document.addEventListener('DOMContentLoaded', () => {
     resize(); loop();
   }
 });
+
+// =============== GROEISCAN ===============
+(function(){
+  const scanForm = document.getElementById('scanForm');
+  if(!scanForm) return;
+
+  const scanUrl = document.getElementById('scanUrl');
+  const scanSubmit = document.getElementById('scanSubmit');
+  const scanPanel = document.getElementById('scanPanel');
+  const scanRunning = document.getElementById('scanRunning');
+  const scanResults = document.getElementById('scanResults');
+  const scanError = document.getElementById('scanError');
+  const scanErrorMsg = document.getElementById('scanErrorMsg');
+  const scanErrorRetry = document.getElementById('scanErrorRetry');
+  const scanLog = document.getElementById('scanLog');
+  const termTitle = document.getElementById('termTitle');
+  const resultDomain = document.getElementById('resultDomain');
+  const resultTime = document.getElementById('resultTime');
+  const scanScores = document.getElementById('scanScores');
+  const scanVerdict = document.getElementById('scanVerdict');
+  const scanFindings = document.getElementById('scanFindings');
+  const scanWhatsapp = document.getElementById('scanWhatsapp');
+  const scanRestart = document.getElementById('scanRestart');
+
+  // Example clicks
+  document.querySelectorAll('.scan-example').forEach(b => {
+    b.addEventListener('click', () => { scanUrl.value = b.dataset.url; scanForm.dispatchEvent(new Event('submit', {cancelable:true})); });
+  });
+
+  scanErrorRetry && scanErrorRetry.addEventListener('click', () => runScan(scanUrl.value));
+  scanRestart && scanRestart.addEventListener('click', () => {
+    scanPanel.hidden = true;
+    scanResults.hidden = true;
+    scanRunning.hidden = false;
+    scanUrl.value = '';
+    scanUrl.focus();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  scanForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    runScan(scanUrl.value);
+  });
+
+  function normalizeUrl(raw){
+    let u = (raw || '').trim();
+    if(!u) return null;
+    if(!/^https?:\/\//i.test(u)) u = 'https://' + u;
+    try { new URL(u); return u; } catch(_) { return null; }
+  }
+
+  function log(text, type){
+    const l = document.createElement('span');
+    l.className = 'l ' + (type || '');
+    l.textContent = text;
+    scanLog.appendChild(l);
+    scanLog.scrollTop = scanLog.scrollHeight;
+  }
+
+  async function runScan(rawUrl){
+    const url = normalizeUrl(rawUrl);
+    if(!url){
+      scanUrl.focus();
+      return;
+    }
+
+    // UI reset
+    scanPanel.hidden = false;
+    scanRunning.hidden = false;
+    scanResults.hidden = true;
+    scanError.hidden = true;
+    scanLog.innerHTML = '';
+    scanSubmit.disabled = true;
+    const host = new URL(url).host.replace(/^www\./,'');
+    termTitle.textContent = `scan · ${host}`;
+
+    // Scroll naar panel
+    setTimeout(() => scanPanel.scrollIntoView({behavior:'smooth', block:'start'}), 100);
+
+    log(`site: ${url}`, 'run');
+    await wait(300);
+    log('verbinden met Google Lighthouse...', 'run');
+    await wait(400);
+    log('SEO audit starten', 'run');
+    await wait(200);
+    log('snelheid meten', 'run');
+    await wait(200);
+    log('mobiel check', 'run');
+    await wait(200);
+    log('toegankelijkheid analyseren', 'run');
+
+    const endpoint = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance&category=seo&category=accessibility&category=best-practices&strategy=mobile`;
+
+    try {
+      const res = await fetch(endpoint);
+      if(!res.ok) throw new Error(`API antwoordde ${res.status}`);
+      const data = await res.json();
+      const lh = data.lighthouseResult;
+      if(!lh) throw new Error('geen resultaten ontvangen');
+
+      log('resultaten binnen, samenvatten...', 'ok');
+      await wait(500);
+      log('rapport klaar', 'ok');
+      await wait(400);
+
+      renderResults(url, host, lh);
+    } catch(err){
+      scanError.hidden = false;
+      scanRunning.hidden = true;
+      scanErrorMsg.textContent = 'De scan lukte niet: ' + (err.message || 'onbekende fout') + '. Vaak helpt: check of de URL bereikbaar is (open in een tab), of probeer over 30 seconden opnieuw (Google beperkt scans per minuut).';
+    } finally {
+      scanSubmit.disabled = false;
+    }
+  }
+
+  function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+  function renderResults(url, host, lh){
+    scanRunning.hidden = true;
+    scanResults.hidden = false;
+
+    resultDomain.textContent = host;
+    resultTime.textContent = new Date().toLocaleTimeString('nl-NL', {hour:'2-digit', minute:'2-digit'});
+
+    // Scores
+    const cats = lh.categories;
+    const scores = [
+      { key:'seo', label:'SEO', score: cats.seo ? cats.seo.score : null },
+      { key:'performance', label:'Snelheid', score: cats.performance ? cats.performance.score : null },
+      { key:'accessibility', label:'Mobiel + toegankelijk', score: cats.accessibility ? cats.accessibility.score : null },
+      { key:'best-practices', label:'Techniek', score: cats['best-practices'] ? cats['best-practices'].score : null }
+    ];
+
+    scanScores.innerHTML = scores.map(s => scoreCard(s)).join('');
+    // Anim rings
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.score-card').forEach(card => {
+        const fg = card.querySelector('.fg');
+        const pct = parseFloat(card.dataset.pct);
+        const c = 2 * Math.PI * 40;
+        fg.style.strokeDasharray = c;
+        fg.style.strokeDashoffset = c;
+        setTimeout(() => { fg.style.strokeDashoffset = c * (1 - pct/100); }, 100);
+      });
+    });
+
+    // Verdict
+    const avg = Math.round(scores.filter(s => s.score !== null).reduce((a,s) => a + s.score, 0) / scores.filter(s => s.score !== null).length * 100);
+    scanVerdict.innerHTML = verdictText(avg, host);
+
+    // Findings
+    scanFindings.innerHTML = extractFindings(lh).map(findingCard).join('');
+
+    // WhatsApp handoff
+    const waMsg = buildWhatsappMsg(host, url, scores, avg);
+    scanWhatsapp.href = `https://wa.me/31634455762?text=${encodeURIComponent(waMsg)}`;
+  }
+
+  function scoreCard(s){
+    const pct = s.score === null ? 0 : Math.round(s.score * 100);
+    const cls = pct >= 90 ? 'good' : pct >= 50 ? 'mid' : 'bad';
+    return `<div class="score-card ${cls}" data-pct="${pct}">
+      <div class="score-ring">
+        <svg viewBox="0 0 100 100">
+          <circle class="bg" cx="50" cy="50" r="40"/>
+          <circle class="fg" cx="50" cy="50" r="40"/>
+        </svg>
+        <div class="score-num">${pct}</div>
+      </div>
+      <div class="score-label">${s.label}</div>
+    </div>`;
+  }
+
+  function verdictText(avg, host){
+    let head, body;
+    if(avg >= 85){
+      head = `<h3><em>${host}</em> staat er sterk voor.</h3>`;
+      body = `<p>Score ${avg}/100. Weinig laaghangend fruit meer, wat wij zouden doen: focus verleggen naar content en zichtbaarheid buiten je eigen site (links, reviews, lokale rankings, ads op koopintentie).</p>`;
+    } else if(avg >= 65){
+      head = `<h3>Redelijk fundament, <em>ruimte om te winnen</em>.</h3>`;
+      body = `<p>Score ${avg}/100. De basis staat, maar er zit rek in. Onze inschatting: 2 tot 4 gerichte fixes brengen je naar 85+, en dat merkt Google. Zie de bevindingen hieronder voor waar we zouden beginnen.</p>`;
+    } else if(avg >= 40){
+      head = `<h3>Er lekt <em>meer</em> dan je denkt.</h3>`;
+      body = `<p>Score ${avg}/100. Je site werkt technisch, maar Google én bezoekers krijgen niet wat ze nodig hebben. Meestal is dit binnen 2 tot 3 weken te fixen zonder complete herbouw. Grote impact op vindbaarheid en conversie.</p>`;
+    } else {
+      head = `<h3>Deze site kost je nu <em>omzet</em>.</h3>`;
+      body = `<p>Score ${avg}/100. Fundamentele issues met SEO, snelheid of mobiel. In deze staat is elke euro die je nu aan ads besteedt half weggegooid. We zouden starten bij een nieuwe basis, niet bij lappenwerk.</p>`;
+    }
+    return head + body;
+  }
+
+  function extractFindings(lh){
+    const audits = lh.audits || {};
+    const items = [
+      { id:'document-title', label:'Titel-tag', hint:'De <title> is wat Google in de zoekresultaten toont en zwaar meeweegt.' },
+      { id:'meta-description', label:'Meta beschrijving', hint:'De omschrijving onder je titel in Google. Overtuigt bezoekers om te klikken.' },
+      { id:'html-has-lang', label:'Taalcode', hint:'Google weet dan zeker in welke taal je site is (belangrijk voor NL/ES).' },
+      { id:'viewport', label:'Mobiele viewport', hint:'Zonder dit toont je site op mobiel te breed of onleesbaar.' },
+      { id:'image-alt', label:'Alt-teksten bij afbeeldingen', hint:'Voor Google en voor bezoekers die geen beelden zien.' },
+      { id:'link-text', label:'Klikbare linkteksten', hint:'"Klik hier" of "meer info" vertelt Google niets. Beschrijvende linkteksten wel.' },
+      { id:'is-on-https', label:'HTTPS beveiliging', hint:'Zonder slotje in de browser waarschuwt Google én verlies je vertrouwen.' },
+      { id:'first-contentful-paint', label:'Eerste zichtbaar', hint:'Hoe snel je bezoeker iets ziet gebeuren op je site.' },
+      { id:'largest-contentful-paint', label:'Grootste element geladen', hint:'Wanneer het belangrijkste element (heldenafbeelding/heading) staat.' },
+      { id:'cumulative-layout-shift', label:'Layout-verspringing', hint:'Als knoppen tijdens laden verspringen, verlies je clicks en vertrouwen.' },
+      { id:'total-blocking-time', label:'Blokkeertijd', hint:'Hoe lang je site niet reageert op tikken/klikken tijdens laden.' },
+      { id:'structured-data', label:'Structured data', hint:'Vertelt Google exact wat voor bedrijf je bent (bedrijf, product, review, etc.).' },
+      { id:'color-contrast', label:'Kleurcontrast', hint:'Tekst moet leesbaar zijn voor iedereen, ook slechtziend of buiten in de zon.' },
+      { id:'tap-targets', label:'Tik-doelen op mobiel', hint:'Knoppen te klein of te dicht op elkaar = mobiele bezoekers klikken verkeerd.' },
+      { id:'font-size', label:'Tekstgrootte mobiel', hint:'Als tekst zoom-in nodig heeft, verlies je 60% van je bezoek.' }
+    ];
+
+    const out = [];
+    for(const it of items){
+      const a = audits[it.id];
+      if(!a) continue;
+      let cls, icon, value;
+      if(a.score === null){
+        // score-less audit → skip unless it has displayValue
+        if(!a.displayValue) continue;
+        cls = 'good'; icon = 'i'; value = a.displayValue;
+      } else if(a.score >= 0.9){
+        cls = 'good'; icon = '✓'; value = a.displayValue || 'ok';
+      } else if(a.score >= 0.5){
+        cls = 'warn'; icon = '!'; value = a.displayValue || 'kan beter';
+      } else {
+        cls = 'bad'; icon = '✕'; value = a.displayValue || 'fix nodig';
+      }
+      out.push({cls, icon, label: it.label, hint: it.hint, value, priority: a.score === null ? 3 : (a.score < 0.5 ? 0 : a.score < 0.9 ? 1 : 2)});
+    }
+
+    // Sorteer: slechtste eerst
+    out.sort((a,b) => a.priority - b.priority);
+    return out.slice(0, 10);
+  }
+
+  function findingCard(f){
+    return `<div class="finding ${f.cls}">
+      <div class="finding-icon">${f.icon}</div>
+      <div><h4>${f.label}</h4><p>${f.hint}</p></div>
+      <div class="finding-value">${f.value}</div>
+    </div>`;
+  }
+
+  function buildWhatsappMsg(host, url, scores, avg){
+    const scoreLines = scores.map(s => `${s.label}: ${s.score === null ? 'n.v.t.' : Math.round(s.score*100) + '/100'}`).join('%0A');
+    return `Hallo Harte Growth, ik heb net de gratis groeiscan gedaan voor ${host}.
+
+Overall score: ${avg}/100
+
+${scoreLines.replace(/%0A/g,'\n')}
+
+Kunnen we bespreken wat de eerste stappen zouden zijn?
+
+(URL: ${url})`;
+  }
+})();
