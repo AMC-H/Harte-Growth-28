@@ -258,8 +258,9 @@
   WhatsApp
 </a>
 
-<!-- Hidden form voor Netlify build-time detectie. Wordt nooit getoond, dient alleen om Netlify Forms te activeren. -->
-<form name="scan-leads" netlify netlify-honeypot="bot-field" hidden>
+<!-- Hidden form voor Netlify build-time detectie. Nooit zichtbaar, dient alleen om Netlify Forms te activeren. -->
+<form name="scan-leads" data-netlify="true" data-netlify-honeypot="bot-field" style="display:none;">
+  <input type="hidden" name="form-name" value="scan-leads">
   <input type="text" name="name">
   <input type="email" name="email">
   <input type="text" name="company">
