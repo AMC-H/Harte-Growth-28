@@ -415,8 +415,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const scanError = document.getElementById('scanError');
   const scanErrorMsg = document.getElementById('scanErrorMsg');
   const scanErrorRetry = document.getElementById('scanErrorRetry');
-  const scanLog = document.getElementById('scanLog');
-  const termTitle = document.getElementById('termTitle');
+  const vizDomain = document.getElementById('vizDomain');
+  const vizStatus = document.getElementById('vizStatus');
+  const radarLabels = document.querySelectorAll('.rl');
   const resultDomain = document.getElementById('resultDomain');
   const resultTime = document.getElementById('resultTime');
   const scanScores = document.getElementById('scanScores');
@@ -452,12 +453,44 @@ document.addEventListener('DOMContentLoaded', () => {
     try { new URL(u); return u; } catch(_) { return null; }
   }
 
-  function log(text, type){
-    const l = document.createElement('span');
-    l.className = 'l ' + (type || '');
-    l.textContent = text;
-    scanLog.appendChild(l);
-    scanLog.scrollTop = scanLog.scrollHeight;
+  function setStatus(text){ if(vizStatus) vizStatus.textContent = text; }
+  function activateLabel(cat){
+    radarLabels.forEach(l => {
+      if(l.dataset.cat === cat){ l.classList.remove('done'); l.classList.add('active'); }
+      else if(l.classList.contains('active')){ l.classList.remove('active'); l.classList.add('done'); }
+    });
+  }
+  function finishAllLabels(){
+    radarLabels.forEach(l => { l.classList.remove('active'); l.classList.add('done'); });
+  }
+  function resetLabels(){
+    radarLabels.forEach(l => l.classList.remove('active','done'));
+  }
+
+  // Statussen die roteren tijdens de wacht op de API
+  const statusCycle = [
+    { cat:'seo',    text:'SEO-signalen ophalen...' },
+    { cat:'seo',    text:'Titel, meta en headings uitlezen' },
+    { cat:'perf',   text:'Snelheid meten in echte browser' },
+    { cat:'perf',   text:'Grootste elementen doorlopen' },
+    { cat:'mobile', text:'Mobiele viewport testen' },
+    { cat:'mobile', text:'Tik-doelen en tekstgrootte checken' },
+    { cat:'tech',   text:'Technische audits draaien' },
+    { cat:'tech',   text:'Structured data lezen' }
+  ];
+  let cycleTimer = null;
+  function startStatusCycle(){
+    let i = 0;
+    setStatus(statusCycle[0].text);
+    activateLabel(statusCycle[0].cat);
+    cycleTimer = setInterval(() => {
+      i = (i + 1) % statusCycle.length;
+      setStatus(statusCycle[i].text);
+      activateLabel(statusCycle[i].cat);
+    }, 2400);
+  }
+  function stopStatusCycle(){
+    if(cycleTimer){ clearInterval(cycleTimer); cycleTimer = null; }
   }
 
   async function runScan(rawUrl){
@@ -472,25 +505,17 @@ document.addEventListener('DOMContentLoaded', () => {
     scanRunning.hidden = false;
     scanResults.hidden = true;
     scanError.hidden = true;
-    scanLog.innerHTML = '';
     scanSubmit.disabled = true;
     const host = new URL(url).host.replace(/^www\./,'');
-    termTitle.textContent = `scan · ${host}`;
+    if(vizDomain) vizDomain.textContent = host;
+    resetLabels();
+    setStatus('Verbinden met Google Lighthouse...');
 
     // Scroll naar panel
     setTimeout(() => scanPanel.scrollIntoView({behavior:'smooth', block:'start'}), 100);
 
-    log(`site: ${url}`, 'run');
-    await wait(300);
-    log('verbinden met Google Lighthouse...', 'run');
-    await wait(400);
-    log('SEO audit starten', 'run');
-    await wait(200);
-    log('snelheid meten', 'run');
-    await wait(200);
-    log('mobiel check', 'run');
-    await wait(200);
-    log('toegankelijkheid analyseren', 'run');
+    await wait(600);
+    startStatusCycle();
 
     // Google PageSpeed API-key. Beperkt tot hartegrowth.netlify.app + hartegrowth.com via HTTP-referrer restrictions in Google Cloud Console.
     const API_KEY = 'AIzaSyCX90ioFgQaID9Ek2BflrcsrDrroQ7odss';
@@ -507,13 +532,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const lh = data.lighthouseResult;
       if(!lh) throw new Error('NO_RESULT');
 
-      log('resultaten binnen, samenvatten...', 'ok');
-      await wait(500);
-      log('rapport klaar', 'ok');
-      await wait(400);
+      stopStatusCycle();
+      finishAllLabels();
+      setStatus('Rapport klaar.');
+      await wait(700);
 
       renderResults(url, host, lh);
     } catch(err){
+      stopStatusCycle();
       scanError.hidden = false;
       scanRunning.hidden = true;
       let msg;

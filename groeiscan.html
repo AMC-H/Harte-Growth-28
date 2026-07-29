@@ -69,12 +69,45 @@
 
       <!-- Running state -->
       <div class="scan-running" id="scanRunning">
-        <div class="scan-terminal">
-          <div class="scan-term-head">
-            <span class="dots"><i></i><i></i><i></i></span>
-            <span class="term-title" id="termTitle">scanning...</span>
+        <div class="scan-viz">
+          <div class="scan-radar">
+            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#ff4d1a" stop-opacity="0"/>
+                  <stop offset="1" stop-color="#ff4d1a" stop-opacity=".7"/>
+                </linearGradient>
+                <radialGradient id="pulseGrad">
+                  <stop offset="0" stop-color="#ff4d1a" stop-opacity=".35"/>
+                  <stop offset="1" stop-color="#ff4d1a" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <circle cx="200" cy="200" r="180" fill="none" stroke="#22252f" stroke-width="1"/>
+              <circle cx="200" cy="200" r="140" fill="none" stroke="#22252f" stroke-width="1" stroke-dasharray="2 5"/>
+              <circle cx="200" cy="200" r="100" fill="none" stroke="#22252f" stroke-width="1" stroke-dasharray="2 5"/>
+              <circle cx="200" cy="200" r="60" fill="none" stroke="#22252f" stroke-width="1" stroke-dasharray="2 5"/>
+              <line x1="200" y1="20" x2="200" y2="380" stroke="#1a1c24" stroke-width="1"/>
+              <line x1="20" y1="200" x2="380" y2="200" stroke="#1a1c24" stroke-width="1"/>
+              <circle cx="200" cy="200" r="180" fill="url(#pulseGrad)" class="radar-pulse"/>
+              <g class="radar-sweep">
+                <path d="M200 200 L200 20 A180 180 0 0 1 380 200 Z" fill="url(#sweepGrad)" opacity=".55"/>
+                <line x1="200" y1="200" x2="200" y2="20" stroke="#ff4d1a" stroke-width="1.5"/>
+              </g>
+              <circle cx="200" cy="200" r="4" fill="#ff4d1a"/>
+              <circle cx="200" cy="200" r="10" fill="none" stroke="#ff4d1a" stroke-width="1" opacity=".4" class="radar-ping"/>
+            </svg>
+            <div class="scan-radar-labels">
+              <div class="rl rl-top" data-cat="seo"><span class="rl-dot"></span><span>SEO</span></div>
+              <div class="rl rl-right" data-cat="perf"><span class="rl-dot"></span><span>Snelheid</span></div>
+              <div class="rl rl-bottom" data-cat="mobile"><span class="rl-dot"></span><span>Mobiel</span></div>
+              <div class="rl rl-left" data-cat="tech"><span class="rl-dot"></span><span>Techniek</span></div>
+            </div>
           </div>
-          <div class="scan-log" id="scanLog"></div>
+          <div class="scan-viz-info">
+            <div class="scan-viz-domain" id="vizDomain">jouwsite.nl</div>
+            <div class="scan-viz-status" id="vizStatus">Verbinden...</div>
+            <div class="scan-viz-hint">Dit duurt meestal 15 tot 30 seconden. Google haalt je pagina live op en analyseert 'm laag voor laag.</div>
+          </div>
         </div>
       </div>
 
