@@ -698,6 +698,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // WhatsApp handoff
     const waMsg = buildWhatsappMsg(host, url, scores, avg);
     scanWhatsapp.href = `https://wa.me/31634455762?text=${encodeURIComponent(waMsg)}`;
+
+    // Rapport-mail naar klant (met kopie naar Alain). Non-blocking.
+    if(currentLead && currentLead.email){
+      const findings = extractFindings(lh).slice(0, 6);
+      fetch('/.netlify/functions/send-report', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          name: currentLead.name,
+          email: currentLead.email,
+          company: currentLead.company || '',
+          url,
+          scores,
+          avg,
+          findings
+        })
+      }).catch(err => console.warn('[send-report] failed:', err));
+    }
   }
 
   function scoreCard(s){
