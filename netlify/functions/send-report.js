@@ -65,16 +65,33 @@ exports.handler = async (event) => {
     </tr>`;
   }).join('');
 
+  const findingBg = (cls) => cls === 'good' ? 'rgba(74,222,128,.12)' : cls === 'warn' ? 'rgba(255,189,46,.12)' : 'rgba(255,92,86,.12)';
+  const findingFg = (cls) => cls === 'good' ? '#4ade80' : cls === 'warn' ? '#ffbd2e' : '#ff5c56';
+  const findingBadge = (f) => {
+    if(f.value && f.value !== 'ok' && f.value !== 'kan beter' && f.value !== 'fix nodig') return escape(f.value);
+    if(f.cls === 'good') return 'ok';
+    if(f.cls === 'warn') return 'kan beter';
+    return 'fix nodig';
+  };
+
   const findingsHtml = (findings && findings.length) ? `
-    <div style="margin-top:24px;">
+    <div style="margin-top:8px;">
       <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a8b95;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;">Wat we zagen</div>
-      ${findings.slice(0, 6).map(f => `
-        <div style="padding:12px 0;border-top:1px solid #25262e;">
-          <div style="color:#f5f5f7;font-size:14.5px;font-weight:600;margin-bottom:2px;">
-            <span style="color:${f.cls === 'good' ? '#4ade80' : f.cls === 'warn' ? '#ffbd2e' : '#ff5c56'};margin-right:6px;">${escape(f.icon)}</span>${escape(f.label)}
-          </div>
-          <div style="color:#8a8b95;font-size:13px;line-height:1.5;">${escape(f.hint)}</div>
-        </div>
+      ${findings.slice(0, 8).map(f => `
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f1015;border:1px solid #25262e;border-radius:10px;margin-bottom:10px;">
+          <tr>
+            <td width="42" valign="top" style="padding:16px 0 16px 16px;">
+              <div style="width:26px;height:26px;border-radius:7px;background:${findingBg(f.cls)};color:${findingFg(f.cls)};text-align:center;line-height:26px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;">${escape(f.icon)}</div>
+            </td>
+            <td valign="top" style="padding:14px 16px 14px 12px;">
+              <div style="color:#f5f5f7;font-size:15px;font-weight:600;letter-spacing:-.01em;margin-bottom:3px;">${escape(f.label)}</div>
+              <div style="color:#8a8b95;font-size:13px;line-height:1.5;">${escape(f.hint)}</div>
+            </td>
+            <td valign="middle" align="right" style="padding:14px 16px 14px 8px;white-space:nowrap;">
+              <span style="display:inline-block;background:#0a0a0c;border:1px solid #25262e;color:#8a8b95;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.02em;padding:6px 12px;border-radius:6px;">${findingBadge(f)}</span>
+            </td>
+          </tr>
+        </table>
       `).join('')}
     </div>
   ` : '';
@@ -106,12 +123,19 @@ exports.handler = async (event) => {
 
         ${findingsHtml ? `<tr><td style="padding:0 36px 24px;">${findingsHtml}</td></tr>` : ''}
 
-        <tr><td style="padding:8px 36px 32px;">
-          <div style="background:linear-gradient(135deg,#1a0f0a 0%,#0f1015 100%);border:1px solid #ff4d1a;border-radius:12px;padding:24px 26px;">
-            <h3 style="color:#fff;font-size:18px;letter-spacing:-.02em;margin:0 0 6px;">Wil je deze uitkomsten samen doornemen?</h3>
-            <p style="color:#a5a7b0;font-size:14px;line-height:1.55;margin:0 0 18px;">In 20 minuten prioriteren we de fixes en zeggen we wat we zelf zouden aanpakken (en wat je zelf makkelijk kunt). Zonder verplichting.</p>
-            <a href="https://hartegrowth.eu/landing.html#book" style="display:inline-block;background:#ff4d1a;color:#fff;text-decoration:none;padding:13px 24px;border-radius:8px;font-weight:600;font-size:14.5px;margin-right:8px;margin-bottom:8px;">Plan direct een gesprek →</a>
-            <a href="https://wa.me/31634455762?text=Hoi%20Harte%20Growth%2C%20ik%20heb%20net%20de%20scan%20gedaan%20voor%20${encodeURIComponent(domain)}%20en%20wil%20de%20uitkomsten%20graag%20bespreken." style="display:inline-block;background:transparent;color:#8a8b95;text-decoration:none;padding:13px 20px;border-radius:8px;border:1px solid #25262e;font-weight:500;font-size:14px;">Of app via WhatsApp</a>
+        <tr><td style="padding:16px 36px 32px;">
+          <div style="background:linear-gradient(135deg,#1f0e08 0%,#0f1015 100%);border:1px solid #ff4d1a;border-radius:14px;padding:30px 28px;">
+            <div style="font-family:'Georgia',serif;font-size:12px;color:#ff4d1a;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">Volgende stap</div>
+            <h3 style="color:#fff;font-size:22px;line-height:1.25;letter-spacing:-.02em;margin:0 0 10px;font-weight:800;">Deze punten zijn <span style="font-family:'Georgia',serif;font-style:italic;color:#ff4d1a;font-weight:400;">op te lossen</span>. Meestal in weken, niet maanden.</h3>
+            <p style="color:#c4c6cf;font-size:15px;line-height:1.55;margin:0 0 8px;">In een gesprek van 20 minuten:</p>
+            <ul style="color:#a5a7b0;font-size:14px;line-height:1.65;margin:0 0 22px;padding-left:20px;">
+              <li>We wijzen aan waar de meeste winst zit, in jouw markt</li>
+              <li>Je hoort wat je zelf makkelijk kunt fixen (en wat niet)</li>
+              <li>Je weet daarna of wij passen bij jouw bedrijf, of niet</li>
+            </ul>
+            <p style="color:#8a8b95;font-size:13px;line-height:1.55;margin:0 0 20px;font-style:italic;">Geen verkoopscript. Geen druk. Ook als we niet gaan samenwerken krijg je bruikbaar advies mee.</p>
+            <a href="https://hartegrowth.eu/landing.html#book" style="display:inline-block;background:#ff4d1a;color:#fff;text-decoration:none;padding:15px 28px;border-radius:9px;font-weight:700;font-size:15px;letter-spacing:-.01em;margin-right:6px;margin-bottom:8px;">Plan mijn gesprek →</a>
+            <a href="https://wa.me/31634455762?text=Hoi%20Harte%20Growth%2C%20ik%20heb%20net%20de%20scan%20gedaan%20voor%20${encodeURIComponent(domain)}%20en%20wil%20de%20uitkomsten%20graag%20bespreken." style="display:inline-block;background:transparent;color:#8a8b95;text-decoration:none;padding:15px 22px;border-radius:9px;border:1px solid #25262e;font-weight:500;font-size:14px;">Of direct via WhatsApp</a>
           </div>
         </td></tr>
 
@@ -138,9 +162,17 @@ Overall: ${avg}/100
 ${verdictTitle}
 ${verdictBody}
 
-Wil je deze uitkomsten samen doornemen in 20 minuten?
-- Plan direct een gesprek: https://hartegrowth.eu/landing.html#book
-- Of app via WhatsApp: https://wa.me/31634455762
+Deze punten zijn op te lossen, meestal in weken.
+
+In 20 minuten:
+- We wijzen aan waar de meeste winst zit in jouw markt
+- Je hoort wat je zelf makkelijk kunt fixen (en wat niet)
+- Je weet daarna of wij passen bij jouw bedrijf, of niet
+
+Geen verkoopscript. Ook als we niet samenwerken krijg je bruikbaar advies mee.
+
+Plan je gesprek: https://hartegrowth.eu/landing.html#book
+Of direct via WhatsApp: https://wa.me/31634455762
 
 Harte Growth
 hartegrowth.eu`;
