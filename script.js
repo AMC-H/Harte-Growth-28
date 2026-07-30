@@ -885,3 +885,46 @@ Kunnen we bespreken wat de eerste stappen zouden zijn?
 (URL: ${url})${contactLine}`;
   }
 })();
+
+// =============== CONTACT FORM → send-contact function ===============
+(function(){
+  const form = document.getElementById('contactForm');
+  if(!form) return;
+  const submitBtn = document.getElementById('contactSubmit');
+  const status = document.getElementById('contactStatus');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Versturen...';
+    status.textContent = 'Wij ontvangen je bericht en reageren binnen 1 werkdag.';
+    status.style.color = '';
+
+    const data = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      company: form.company.value.trim(),
+      url: form.url.value.trim(),
+      message: form.message.value.trim()
+    };
+
+    try {
+      const res = await fetch('/.netlify/functions/send-contact', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
+      if(!res.ok) throw new Error('send failed');
+      // Success state
+      form.reset();
+      submitBtn.textContent = 'Bericht verzonden ✓';
+      status.textContent = 'Bedankt! We reageren binnen 1 werkdag op ' + data.email + '.';
+      status.style.color = '#4ade80';
+    } catch(err){
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Verstuur bericht <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      status.textContent = 'Verzenden lukte niet. Probeer opnieuw of app ons via de knop rechtsonder.';
+      status.style.color = '#ff5c56';
+    }
+  });
+})();
