@@ -123,7 +123,7 @@ exports.handler = async (event) => {
         <tr><td style="padding:36px 36px 24px;">
           <div style="font-family:'Georgia',serif;font-size:14px;color:#ff4d1a;letter-spacing:.05em;text-transform:uppercase;">Harte Growth · Groeiscan</div>
           <h1 style="color:#fff;font-size:26px;line-height:1.2;margin:10px 0 6px;font-weight:800;letter-spacing:-.03em;">Hoi ${escape(firstName)},<br>hier je scan voor <span style="font-family:'Georgia',serif;font-style:italic;color:#ff4d1a;font-weight:400;">${escape(domain)}</span></h1>
-          <p style="color:#8a8b95;font-size:14.5px;line-height:1.6;margin:0;">Deze scan is uitgevoerd met Google Lighthouse, dezelfde technologie die Google zelf gebruikt om je site te beoordelen.</p>
+          <p style="color:#8a8b95;font-size:14.5px;line-height:1.6;margin:0;">Deze scan is uitgevoerd met Google Lighthouse, de officiële audit-tool die Google publiceert voor sites. Getest op mobiel, want dat is Google's ranking-model.</p>
         </td></tr>
 
         <tr><td style="padding:0 36px 24px;">
@@ -168,7 +168,7 @@ exports.handler = async (event) => {
 
 Hier je groeiscan voor ${domain}.
 
-Uitgevoerd met Google Lighthouse (dezelfde technologie die Google zelf gebruikt).
+Uitgevoerd met Google Lighthouse, Google's officiële audit-tool voor sites. Getest op mobiel.
 
 Scores:
 ${scores.map(s => `- ${s.label}: ${s.score === null ? 'n.v.t.' : Math.round(s.score*100) + '/100'}`).join('\n')}

@@ -2,5 +2,64 @@
   publish = "."
   functions = "netlify/functions"
 
+[build.processing.html]
+  pretty_urls = true
+
 [functions]
   node_bundler = "esbuild"
+
+# Elke .html URL 301 redirecten naar de schone versie, zodat er één canonieke URL is
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/diensten.html"
+  to = "/diensten"
+  status = 301
+
+[[redirects]]
+  from = "/cases.html"
+  to = "/cases"
+  status = 301
+
+[[redirects]]
+  from = "/groeiscan.html"
+  to = "/groeiscan"
+  status = 301
+
+[[redirects]]
+  from = "/landing.html"
+  to = "/landing"
+  status = 301
+
+[[redirects]]
+  from = "/over-ons.html"
+  to = "/over-ons"
+  status = 301
+
+[[redirects]]
+  from = "/blog.html"
+  to = "/blog"
+  status = 301
+
+[[redirects]]
+  from = "/contact.html"
+  to = "/contact"
+  status = 301
+
+[[redirects]]
+  from = "/blog-waarom-website-geen-aanvragen.html"
+  to = "/blog-waarom-website-geen-aanvragen"
+  status = 301
+
+[[redirects]]
+  from = "/blog-lokale-seo.html"
+  to = "/blog-lokale-seo"
+  status = 301
+
+[[redirects]]
+  from = "/blog-ai-whatsapp.html"
+  to = "/blog-ai-whatsapp"
+  status = 301
