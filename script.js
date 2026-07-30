@@ -691,9 +691,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Verdict
+    // Verdict (dynamisch op basis van scores per categorie)
     const avg = Math.round(scores.filter(s => s.score !== null).reduce((a,s) => a + s.score, 0) / scores.filter(s => s.score !== null).length * 100);
-    scanVerdict.innerHTML = verdictText(avg, host);
+    const verdict = buildVerdict(avg, host, scores);
+    scanVerdict.innerHTML = verdict.html;
 
     // Findings
     scanFindings.innerHTML = extractFindings(lh).map(findingCard).join('');
@@ -715,7 +716,13 @@ document.addEventListener('DOMContentLoaded', () => {
           url,
           scores,
           avg,
-          findings
+          findings,
+          verdict: {
+            head: verdict.headText,
+            body: verdict.bodyText,
+            ctaLabel: verdict.ctaLabel,
+            ctaMode: verdict.ctaMode
+          }
         })
       }).catch(err => console.warn('[send-report] failed:', err));
     }
@@ -736,22 +743,78 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>`;
   }
 
-  function verdictText(avg, host){
-    let head, body;
-    if(avg >= 85){
-      head = `<h3><em>${host}</em> staat er sterk voor.</h3>`;
-      body = `<p>Score ${avg}/100. Weinig laaghangend fruit meer, wat wij zouden doen: focus verleggen naar content en zichtbaarheid buiten je eigen site (links, reviews, lokale rankings, ads op koopintentie).</p>`;
-    } else if(avg >= 65){
-      head = `<h3>Redelijk fundament, <em>ruimte om te winnen</em>.</h3>`;
-      body = `<p>Score ${avg}/100. De basis staat, maar er zit rek in. Onze inschatting: 2 tot 4 gerichte fixes brengen je naar 85+, en dat merkt Google. Zie de bevindingen hieronder voor waar we zouden beginnen.</p>`;
-    } else if(avg >= 40){
-      head = `<h3>Er lekt <em>meer</em> dan je denkt.</h3>`;
-      body = `<p>Score ${avg}/100. Je site werkt technisch, maar Google én bezoekers krijgen niet wat ze nodig hebben. Meestal is dit binnen 2 tot 3 weken te fixen zonder complete herbouw. Grote impact op vindbaarheid en conversie.</p>`;
-    } else {
-      head = `<h3>Deze site kost je nu <em>omzet</em>.</h3>`;
-      body = `<p>Score ${avg}/100. Fundamentele issues met SEO, snelheid of mobiel. In deze staat is elke euro die je nu aan ads besteedt half weggegooid. We zouden starten bij een nieuwe basis, niet bij lappenwerk.</p>`;
+  // Genereer een dynamische verdict-tekst op basis van de daadwerkelijke scores per categorie.
+  // Return {html, headText, bodyText, ctaLabel, ctaMode}
+  function buildVerdict(avg, host, scores){
+    const s = (k) => {
+      const item = scores.find(x => x.key === k);
+      return item && item.score !== null ? Math.round(item.score * 100) : null;
+    };
+    const seo = s('seo'), perf = s('performance'), acc = s('accessibility'), bp = s('best-practices');
+
+    // Zoek zwakste categorie
+    const cats = [
+      { key:'seo', label:'SEO', value:seo, weakSay:'Google snapt onvoldoende waar je site over gaat', strongSay:'SEO staat' },
+      { key:'perf', label:'snelheid', value:perf, weakSay:'je site is te langzaam en verliest bezoekers voor Google je heeft geplaatst', strongSay:'snelheid is in orde' },
+      { key:'acc', label:'mobiel + toegankelijkheid', value:acc, weakSay:'mobiele bezoekers en Google botsen tegen hindernissen', strongSay:'mobiel werkt' },
+      { key:'bp', label:'techniek', value:bp, weakSay:'onder de motorkap missen basale zaken', strongSay:'technisch klopt het' }
+    ].filter(c => c.value !== null);
+
+    const weakest = cats.slice().sort((a,b) => a.value - b.value)[0];
+    const strongCount = cats.filter(c => c.value >= 85).length;
+    const weakCount = cats.filter(c => c.value < 50).length;
+    const scoresLine = cats.map(c => `${c.label} ${c.value}`).join(', ');
+
+    let head, body, ctaLabel, ctaMode;
+
+    // GROEI-MODE — fundament staat, tijd om verkeer te brengen
+    if(avg >= 85 && weakCount === 0){
+      head = `<em>${host}</em> staat er sterk voor. Nu is de vraag: <em>waar zijn de bezoekers?</em>`;
+      body = `Score ${avg}/100 (${scoresLine}). Fundamenteel klopt het. Google kan je vinden, mobiel is goed, techniek is op orde. Dat betekent dat elke euro die je nu aan verkeer besteedt, wél rendeert. Wat wij zouden doen: content, social en gerichte ads inzetten om structureel meer bezoekers naar deze site te sturen. Dat is een ander vak dan sitebouw en wat wij dagelijks doen.`;
+      ctaLabel = 'Bespreek hoe we jullie groei versnellen';
+      ctaMode = 'growth';
     }
-    return head + body;
+    // FOCUS-MODE — basis staat maar één categorie loopt duidelijk achter
+    else if(avg >= 70 && strongCount >= 2 && weakest.value < 65){
+      head = `Fundament staat, <em>${weakest.label}</em> is de flessenhals.`;
+      body = `Score ${avg}/100 (${scoresLine}). Drie van de vier categorieën zijn in orde, maar ${weakest.weakSay}. Dat kost je bezoek en conversie voordat je uberhaupt aan verkeer werkt. Onze inschatting: dit is met 2 gerichte ingrepen te fixen. Daarna heeft investeren in content, social of ads pas echt zin.`;
+      ctaLabel = 'Bespreek de fix';
+      ctaMode = 'fix';
+    }
+    // BALANCED FIX — meerdere kleine winsten
+    else if(avg >= 60){
+      head = `Redelijk fundament, <em>ruimte om te winnen</em>.`;
+      body = `Score ${avg}/100 (${scoresLine}). Geen van de categorieën is echt slecht, maar op meerdere fronten zit rek. Vooral ${weakest.label} (${weakest.value}) trekt het gemiddelde omlaag. Onze inschatting: 3 tot 5 gerichte fixes brengen je naar 85+. Daarna is de site klaar om verkeer te ontvangen zonder te lekken.`;
+      ctaLabel = 'Plan een gesprek over de prioriteiten';
+      ctaMode = 'fix';
+    }
+    // LEAK-MODE — meerdere problemen, geld gaat verloren
+    else if(avg >= 40){
+      const weakList = cats.filter(c => c.value < 60).map(c => c.label).join(', ');
+      head = `Er lekt <em>meer</em> dan je denkt op ${host}.`;
+      body = `Score ${avg}/100 (${scoresLine}). Meerdere fronten hebben werk nodig, vooral ${weakList}. In deze staat is elke euro die je nu aan ads of promotie besteedt half weggegooid. Bezoekers komen, maar Google en jouw site samen laten ze weer weglopen. Wij starten bij de basis, in de juiste volgorde.`;
+      ctaLabel = 'Vraag advies over de aanpak';
+      ctaMode = 'fix';
+    }
+    // REBUILD-MODE — fundament niet af
+    else {
+      head = `${host} kost je nu <em>omzet</em>.`;
+      body = `Score ${avg}/100 (${scoresLine}). Fundamentele issues op meerdere plekken. In deze staat is elke euro die je nu aan verkeer besteedt half weggegooid. Wij zouden starten bij een nieuw fundament (site + techniek) en pas dan naar verkeer kijken. Lappenwerk kost meer dan opnieuw beginnen.`;
+      ctaLabel = 'Bespreek een nieuw fundament';
+      ctaMode = 'rebuild';
+    }
+
+    return {
+      html: `<h3>${head}</h3><p>${body}</p>`,
+      headText: head.replace(/<[^>]+>/g,''),
+      bodyText: body.replace(/<[^>]+>/g,''),
+      ctaLabel,
+      ctaMode
+    };
+  }
+
+  function verdictText(avg, host, scores){
+    return buildVerdict(avg, host, scores).html;
   }
 
   function extractFindings(lh){

@@ -18,7 +18,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'invalid json' }) };
   }
 
-  const { name, email, company, url, scores, avg, findings } = data;
+  const { name, email, company, url, scores, avg, findings, verdict } = data;
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'valid email required' }) };
@@ -40,20 +40,38 @@ exports.handler = async (event) => {
   const domain = (() => { try { return new URL(url).host.replace(/^www\./, ''); } catch (_) { return url || ''; } })();
   const firstName = (name || '').split(' ')[0] || 'daar';
 
-  // Verdict-tekst gelijk aan wat de site toont
-  let verdictTitle, verdictBody;
-  if (avg >= 85) {
-    verdictTitle = `${domain} staat er sterk voor.`;
-    verdictBody = `Score ${avg}/100. Weinig laaghangend fruit meer. Wat wij zouden doen: focus verleggen naar content en zichtbaarheid buiten je eigen site (links, reviews, lokale rankings, ads op koopintentie).`;
-  } else if (avg >= 65) {
-    verdictTitle = `Redelijk fundament, ruimte om te winnen.`;
-    verdictBody = `Score ${avg}/100. De basis staat, maar er zit rek in. Onze inschatting: 2 tot 4 gerichte fixes brengen je naar 85+, en dat merkt Google.`;
-  } else if (avg >= 40) {
-    verdictTitle = `Er lekt meer dan je denkt.`;
-    verdictBody = `Score ${avg}/100. Je site werkt technisch, maar Google en bezoekers krijgen niet wat ze nodig hebben. Meestal binnen 2 tot 3 weken te fixen zonder complete herbouw.`;
+  // Dynamische verdict (komt van frontend, matched wat op de site staat)
+  const verdictTitle = (verdict && verdict.head) || `Je scan voor ${domain}`;
+  const verdictBody = (verdict && verdict.body) || `Score ${avg}/100.`;
+  const ctaMode = (verdict && verdict.ctaMode) || 'fix';
+  const ctaLabel = (verdict && verdict.ctaLabel) || 'Plan mijn gesprek';
+
+  // CTA-tekst boven de knoppen past bij de score
+  let ctaHead, ctaSub;
+  if (ctaMode === 'growth') {
+    ctaHead = 'Je fundament staat. Nu <span style="font-family:\'Georgia\',serif;font-style:italic;color:#ff4d1a;font-weight:400;">verkeer</span> erheen.';
+    ctaSub = 'In 20 minuten:';
+    var ctaBullets = [
+      'We laten zien welke content, welke kanalen en welke ads bij jouw markt werken',
+      'Je hoort waar de meeste groei zit, gebaseerd op je huidige score',
+      'Je weet daarna of wij passen als groeipartner, of niet'
+    ];
+  } else if (ctaMode === 'rebuild') {
+    ctaHead = 'Deze site verdient een <span style="font-family:\'Georgia\',serif;font-style:italic;color:#ff4d1a;font-weight:400;">nieuw fundament</span>.';
+    ctaSub = 'In 20 minuten:';
+    var ctaBullets = [
+      'We laten zien wat er nu écht mis is, in gewone taal',
+      'Je hoort wat een nieuwe basis kost en wat het waarschijnlijk gaat opleveren',
+      'Je krijgt een eerlijk oordeel: wel of niet doen, en waarom'
+    ];
   } else {
-    verdictTitle = `Deze site kost je nu omzet.`;
-    verdictBody = `Score ${avg}/100. Fundamentele issues met SEO, snelheid of mobiel. In deze staat is elke euro die je nu aan ads besteedt half weggegooid.`;
+    ctaHead = 'Deze punten zijn <span style="font-family:\'Georgia\',serif;font-style:italic;color:#ff4d1a;font-weight:400;">op te lossen</span>. Meestal in weken.';
+    ctaSub = 'In 20 minuten:';
+    var ctaBullets = [
+      'We prioriteren welke fix het meeste oplevert voor jouw markt',
+      'Je hoort wat je zelf makkelijk kunt fixen (en wat niet)',
+      'Je weet daarna of wij passen bij jouw bedrijf, of niet'
+    ];
   }
 
   const scoreColor = (s) => s >= 90 ? '#4ade80' : s >= 50 ? '#ffbd2e' : '#ff5c56';
@@ -126,15 +144,13 @@ exports.handler = async (event) => {
         <tr><td style="padding:16px 36px 32px;">
           <div style="background:linear-gradient(135deg,#1f0e08 0%,#0f1015 100%);border:1px solid #ff4d1a;border-radius:14px;padding:30px 28px;">
             <div style="font-family:'Georgia',serif;font-size:12px;color:#ff4d1a;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">Volgende stap</div>
-            <h3 style="color:#fff;font-size:22px;line-height:1.25;letter-spacing:-.02em;margin:0 0 10px;font-weight:800;">Deze punten zijn <span style="font-family:'Georgia',serif;font-style:italic;color:#ff4d1a;font-weight:400;">op te lossen</span>. Meestal in weken, niet maanden.</h3>
-            <p style="color:#c4c6cf;font-size:15px;line-height:1.55;margin:0 0 8px;">In een gesprek van 20 minuten:</p>
+            <h3 style="color:#fff;font-size:22px;line-height:1.25;letter-spacing:-.02em;margin:0 0 10px;font-weight:800;">${ctaHead}</h3>
+            <p style="color:#c4c6cf;font-size:15px;line-height:1.55;margin:0 0 8px;">${escape(ctaSub)}</p>
             <ul style="color:#a5a7b0;font-size:14px;line-height:1.65;margin:0 0 22px;padding-left:20px;">
-              <li>We wijzen aan waar de meeste winst zit, in jouw markt</li>
-              <li>Je hoort wat je zelf makkelijk kunt fixen (en wat niet)</li>
-              <li>Je weet daarna of wij passen bij jouw bedrijf, of niet</li>
+              ${ctaBullets.map(b => `<li>${escape(b)}</li>`).join('')}
             </ul>
             <p style="color:#8a8b95;font-size:13px;line-height:1.55;margin:0 0 20px;font-style:italic;">Geen verkoopscript. Geen druk. Ook als we niet gaan samenwerken krijg je bruikbaar advies mee.</p>
-            <a href="https://hartegrowth.eu/landing.html#book" style="display:inline-block;background:#ff4d1a;color:#fff;text-decoration:none;padding:15px 28px;border-radius:9px;font-weight:700;font-size:15px;letter-spacing:-.01em;margin-right:6px;margin-bottom:8px;">Plan mijn gesprek →</a>
+            <a href="https://hartegrowth.eu/landing.html#book" style="display:inline-block;background:#ff4d1a;color:#fff;text-decoration:none;padding:15px 28px;border-radius:9px;font-weight:700;font-size:15px;letter-spacing:-.01em;margin-right:6px;margin-bottom:8px;">${escape(ctaLabel)} →</a>
             <a href="https://wa.me/31634455762?text=Hoi%20Harte%20Growth%2C%20ik%20heb%20net%20de%20scan%20gedaan%20voor%20${encodeURIComponent(domain)}%20en%20wil%20de%20uitkomsten%20graag%20bespreken." style="display:inline-block;background:transparent;color:#8a8b95;text-decoration:none;padding:15px 22px;border-radius:9px;border:1px solid #25262e;font-weight:500;font-size:14px;">Of direct via WhatsApp</a>
           </div>
         </td></tr>
@@ -162,16 +178,12 @@ Overall: ${avg}/100
 ${verdictTitle}
 ${verdictBody}
 
-Deze punten zijn op te lossen, meestal in weken.
-
-In 20 minuten:
-- We wijzen aan waar de meeste winst zit in jouw markt
-- Je hoort wat je zelf makkelijk kunt fixen (en wat niet)
-- Je weet daarna of wij passen bij jouw bedrijf, of niet
+${ctaSub}
+${ctaBullets.map(b => '- ' + b).join('\n')}
 
 Geen verkoopscript. Ook als we niet samenwerken krijg je bruikbaar advies mee.
 
-Plan je gesprek: https://hartegrowth.eu/landing.html#book
+${ctaLabel}: https://hartegrowth.eu/landing.html#book
 Of direct via WhatsApp: https://wa.me/31634455762
 
 Harte Growth
