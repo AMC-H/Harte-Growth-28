@@ -49,28 +49,28 @@ exports.handler = async (event) => {
   // CTA-tekst boven de knoppen past bij de score
   let ctaHead, ctaSub;
   if (ctaMode === 'growth') {
-    ctaHead = 'Je fundament staat. Nu <span style="font-family:\'Georgia\',serif;font-style:italic;color:#ff4d1a;font-weight:400;">verkeer</span> erheen.';
-    ctaSub = 'In 20 minuten:';
+    ctaHead = 'Hoe zien Google, Instagram en TikTok <span style="font-family:\'Georgia\',serif;font-style:italic;color:#ff4d1a;font-weight:400;">jouw markt</span>?';
+    ctaSub = 'In 20 minuten hoor je:';
     var ctaBullets = [
-      'We laten zien welke content, welke kanalen en welke ads bij jouw markt werken',
-      'Je hoort waar de meeste groei zit, gebaseerd op je huidige score',
-      'Je weet daarna of wij passen als groeipartner, of niet'
+      'Waar Google op let bij bedrijven in jouw sector, en waar Instagram en TikTok anders naar kijken',
+      'Wat de platforms van jou als ondernemer verwachten om je verder te tonen',
+      'Waarom sommige concurrenten meer bereik krijgen ondanks minder content'
     ];
   } else if (ctaMode === 'rebuild') {
-    ctaHead = 'Deze site verdient een <span style="font-family:\'Georgia\',serif;font-style:italic;color:#ff4d1a;font-weight:400;">nieuw fundament</span>.';
-    ctaSub = 'In 20 minuten:';
+    ctaHead = 'Waarom de <span style="font-family:\'Georgia\',serif;font-style:italic;color:#ff4d1a;font-weight:400;">platforms</span> je nu blokkeren.';
+    ctaSub = 'In 20 minuten hoor je:';
     var ctaBullets = [
-      'We laten zien wat er nu écht mis is, in gewone taal',
-      'Je hoort wat een nieuwe basis kost en wat het waarschijnlijk gaat opleveren',
-      'Je krijgt een eerlijk oordeel: wel of niet doen, en waarom'
+      'Wat Google en de socials zien op deze site en waarom ze je nu op afstand houden',
+      'Wat er nodig is om die signalen om te draaien, in de volgorde die werkt',
+      'Hoe je onderscheidt wie het écht kan bouwen en wie alleen mooi kan praten'
     ];
   } else {
-    ctaHead = 'Deze punten zijn <span style="font-family:\'Georgia\',serif;font-style:italic;color:#ff4d1a;font-weight:400;">op te lossen</span>. Meestal in weken.';
-    ctaSub = 'In 20 minuten:';
+    ctaHead = 'Wat <span style="font-family:\'Georgia\',serif;font-style:italic;color:#ff4d1a;font-weight:400;">jouw markt</span> nu van je verwacht.';
+    ctaSub = 'In 20 minuten hoor je:';
     var ctaBullets = [
-      'We prioriteren welke fix het meeste oplevert voor jouw markt',
-      'Je hoort wat je zelf makkelijk kunt fixen (en wat niet)',
-      'Je weet daarna of wij passen bij jouw bedrijf, of niet'
+      'Welke van deze punten de meeste ranking-invloed heeft voor jouw sector',
+      'Welke platforms in jouw markt het meest opleveren (en welke tijd kosten)',
+      'Wat je zelf kunt aanpakken zonder tech-kennis, en wat beter uit handen kan'
     ];
   }
 

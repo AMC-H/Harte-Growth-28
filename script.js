@@ -767,40 +767,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let head, body, ctaLabel, ctaMode;
 
-    // GROEI-MODE — fundament staat, tijd om verkeer te brengen
+    // GROEI-MODE — fundament staat, focus verschuift naar hoe platforms je zien
     if(avg >= 85 && weakCount === 0){
-      head = `<em>${host}</em> staat er sterk voor. Nu is de vraag: <em>waar zijn de bezoekers?</em>`;
-      body = `Score ${avg}/100 (${scoresLine}). Fundamenteel klopt het. Google kan je vinden, mobiel is goed, techniek is op orde. Dat betekent dat elke euro die je nu aan verkeer besteedt, wél rendeert. Wat wij zouden doen: content, social en gerichte ads inzetten om structureel meer bezoekers naar deze site te sturen. Dat is een ander vak dan sitebouw en wat wij dagelijks doen.`;
-      ctaLabel = 'Bespreek hoe we jullie groei versnellen';
+      head = `Google vertrouwt <em>${host}</em>. Maar dat is nog geen bereik.`;
+      body = `Score ${avg}/100 (${scoresLine}). Technisch is er weinig aan te merken. Vanaf hier speelt een andere vraag: geef je Google, Instagram en TikTok genoeg om je aan de juiste mensen te tonen? Elk platform kijkt naar andere signalen. Google beloont diepte en versheid van content, Instagram beloont bewijs dat er iemand achter zit, TikTok beslist in de eerste drie seconden of een video verder mag. Wie hier consequent op inspeelt groeit. Wie dat aan het toeval overlaat blijft op dezelfde plek staan.`;
+      ctaLabel = 'Vraag hoe wij hier naar kijken';
       ctaMode = 'growth';
     }
     // FOCUS-MODE — basis staat maar één categorie loopt duidelijk achter
     else if(avg >= 70 && strongCount >= 2 && weakest.value < 65){
-      head = `Fundament staat, <em>${weakest.label}</em> is de flessenhals.`;
-      body = `Score ${avg}/100 (${scoresLine}). Drie van de vier categorieën zijn in orde, maar ${weakest.weakSay}. Dat kost je bezoek en conversie voordat je uberhaupt aan verkeer werkt. Onze inschatting: dit is met 2 gerichte ingrepen te fixen. Daarna heeft investeren in content, social of ads pas echt zin.`;
-      ctaLabel = 'Bespreek de fix';
+      head = `Fundament staat. Op <em>${weakest.label}</em> houden de platforms je tegen.`;
+      body = `Score ${avg}/100 (${scoresLine}). Drie van de vier categorieën zijn in orde. Maar ${weakest.weakSay}. En juist daar letten Google en de socials op voordat ze je verder tonen. Alle content die je hierna maakt vecht tegen die ene rem. De vraag is niet meer of dit gefixt moet worden, maar wat de meest logische eerste stap is voor jouw markt.`;
+      ctaLabel = 'Vraag wat de eerste stap is';
       ctaMode = 'fix';
     }
     // BALANCED FIX — meerdere kleine winsten
     else if(avg >= 60){
-      head = `Redelijk fundament, <em>ruimte om te winnen</em>.`;
-      body = `Score ${avg}/100 (${scoresLine}). Geen van de categorieën is echt slecht, maar op meerdere fronten zit rek. Vooral ${weakest.label} (${weakest.value}) trekt het gemiddelde omlaag. Onze inschatting: 3 tot 5 gerichte fixes brengen je naar 85+. Daarna is de site klaar om verkeer te ontvangen zonder te lekken.`;
-      ctaLabel = 'Plan een gesprek over de prioriteiten';
+      head = `Meerdere kleine gaten, die <em>samen bezoek kosten</em>.`;
+      body = `Score ${avg}/100 (${scoresLine}). Geen enkele categorie is een ramp, maar Google, Instagram en TikTok werken met optellingen van signalen. Als op meerdere fronten iets net niet klopt (vooral ${weakest.label} op ${weakest.value}) telt dat op tot een lagere ranking of minder bereik. Wat Google positief scoort ziet Instagram niet, en andersom. Weten waar elk platform op let is precies waar wij dagelijks mee bezig zijn.`;
+      ctaLabel = 'Vraag onze lezing van dit rapport';
       ctaMode = 'fix';
     }
-    // LEAK-MODE — meerdere problemen, geld gaat verloren
+    // LEAK-MODE — meerdere problemen
     else if(avg >= 40){
       const weakList = cats.filter(c => c.value < 60).map(c => c.label).join(', ');
-      head = `Er lekt <em>meer</em> dan je denkt op ${host}.`;
-      body = `Score ${avg}/100 (${scoresLine}). Meerdere fronten hebben werk nodig, vooral ${weakList}. In deze staat is elke euro die je nu aan ads of promotie besteedt half weggegooid. Bezoekers komen, maar Google en jouw site samen laten ze weer weglopen. Wij starten bij de basis, in de juiste volgorde.`;
-      ctaLabel = 'Vraag advies over de aanpak';
+      head = `De platforms staan nu <em>tegen</em> ${host}, niet met.`;
+      body = `Score ${avg}/100 (${scoresLine}). Op meerdere fronten (${weakList}) missen basale signalen die Google en de socials verwachten. Bezoekers komen wel, maar de platforms zien dat mensen snel wegklikken en concluderen: deze site geeft niet wat mensen zoeken. Dat maakt elke euro aan promotie duurder dan nodig. De volgorde waarin je dit aanpakt bepaalt of het over 3 weken beter gaat of over 3 maanden.`;
+      ctaLabel = 'Vraag advies over de volgorde';
       ctaMode = 'fix';
     }
     // REBUILD-MODE — fundament niet af
     else {
-      head = `${host} kost je nu <em>omzet</em>.`;
-      body = `Score ${avg}/100 (${scoresLine}). Fundamentele issues op meerdere plekken. In deze staat is elke euro die je nu aan verkeer besteedt half weggegooid. Wij zouden starten bij een nieuw fundament (site + techniek) en pas dan naar verkeer kijken. Lappenwerk kost meer dan opnieuw beginnen.`;
-      ctaLabel = 'Bespreek een nieuw fundament';
+      head = `Dit kan niet met méér verkeer worden opgelost.`;
+      body = `Score ${avg}/100 (${scoresLine}). Fundamentele issues op meerdere plekken. Elk platform, van Google tot TikTok, kijkt of een bezoeker een fatsoenlijke ervaring krijgt. Ze houden niet van sites die traag laden, crashen, of onleesbaar zijn op mobiel. Zolang dit fundament niet klopt, houden de algorithms je op afstand — hoeveel content je ook maakt of hoeveel ads je ook draait. De vraag is niet óf dit opnieuw moet, maar hoe je onderscheidt wie het écht kan bouwen en wie niet.`;
+      ctaLabel = 'Vraag onze eerlijke lezing';
       ctaMode = 'rebuild';
     }
 
