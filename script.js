@@ -522,24 +522,9 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     gateSubmit.disabled = true;
-    // Verstuur naar Netlify Function → Resend (non-blocking: als het faalt gaat scan door)
-    try {
-      await fetch('/.netlify/functions/send-lead', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          name: lead.name,
-          email: lead.email,
-          company: lead.company || '',
-          url: lead.url,
-          consent: lead.consent,
-          referrer: document.referrer || '',
-          'bot-field': ''
-        })
-      });
-    } catch(err){
-      console.warn('[lead-mail] verzenden mislukt:', err);
-    }
+    // Lead-mail wordt niet meer bij gate-submit verzonden.
+    // De definitieve mail (lead-info + scan-scores) volgt via send-report bij scan-success,
+    // of via send-lead als fallback bij scan-fail.
     saveLead(lead);
     currentLead = lead;
     gateSubmit.disabled = false;
@@ -652,6 +637,22 @@ document.addEventListener('DOMContentLoaded', () => {
         msg = 'De scan kon niet worden uitgevoerd: ' + (err.message || 'onbekende fout') + '. Check of de URL klopt en probeer opnieuw.';
       }
       scanErrorMsg.textContent = msg;
+      // Fallback: als de scan crashed maar we hebben wel een lead, stuur toch een notificatie naar Alain
+      if(currentLead && currentLead.email){
+        fetch('/.netlify/functions/send-lead', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            name: currentLead.name,
+            email: currentLead.email,
+            company: currentLead.company || '',
+            url,
+            consent: currentLead.consent,
+            referrer: document.referrer || '',
+            'bot-field': ''
+          })
+        }).catch(e => console.warn('[lead-fallback] failed:', e));
+      }
     } finally {
       scanSubmit.disabled = false;
     }

@@ -178,7 +178,8 @@ Harte Growth
 hartegrowth.eu`;
 
   try {
-    const res = await fetch('https://api.resend.com/emails', {
+    // Mail naar klant
+    const clientRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + RESEND_API_KEY,
@@ -187,7 +188,6 @@ hartegrowth.eu`;
       body: JSON.stringify({
         from: FROM,
         to: [email],
-        cc: [CC],
         reply_to: 'hello@hartegrowth.eu',
         subject: `Je groeiscan voor ${domain} · score ${avg}/100`,
         html: clientHtml,
@@ -195,10 +195,58 @@ hartegrowth.eu`;
       })
     });
 
-    if (!res.ok) {
-      const errText = await res.text();
-      console.error('Resend send-report error', res.status, errText);
-      return { statusCode: 502, headers: cors, body: JSON.stringify({ error: 'send failed', detail: errText }) };
+    if (!clientRes.ok) {
+      const errText = await clientRes.text();
+      console.error('Resend send-report (client) error', clientRes.status, errText);
+    }
+
+    // Aparte, uitgebreidere mail naar Alain met lead-info + scan-scores
+    const alainLeadBlock = `
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#101014;border:1px solid #25262e;border-left:3px solid #ff4d1a;border-radius:10px;padding:20px 22px;color:#f5f5f7;font-size:15px;line-height:1.6;margin-bottom:24px;">
+        <tr><td colspan="2" style="padding-bottom:12px;">
+          <div style="font-family:'Georgia',serif;font-size:12px;color:#ff4d1a;letter-spacing:.08em;text-transform:uppercase;">Nieuwe lead</div>
+        </td></tr>
+        <tr><td style="padding:6px 0;color:#8a8b95;width:110px;">Naam</td><td style="padding:6px 0;font-weight:600;">${escape(name)}</td></tr>
+        <tr><td style="padding:6px 0;color:#8a8b95;">E-mail</td><td style="padding:6px 0;"><a href="mailto:${escape(email)}" style="color:#ff4d1a;text-decoration:none;">${escape(email)}</a></td></tr>
+        ${company ? `<tr><td style="padding:6px 0;color:#8a8b95;">Bedrijf</td><td style="padding:6px 0;">${escape(company)}</td></tr>` : ''}
+        <tr><td style="padding:6px 0;color:#8a8b95;">Score</td><td style="padding:6px 0;font-weight:700;color:${avg >= 65 ? '#4ade80' : avg >= 40 ? '#ffbd2e' : '#ff5c56'};">${avg}/100</td></tr>
+        <tr><td style="padding:6px 0;color:#8a8b95;">Tijdstip</td><td style="padding:6px 0;font-size:13px;color:#8a8b95;">${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}</td></tr>
+      </table>`;
+
+    const alainHtml = clientHtml.replace(
+      '<tr><td style="padding:36px 36px 24px;">',
+      `<tr><td style="padding:32px 36px 8px;">${alainLeadBlock}</td></tr>
+       <tr><td style="padding:8px 36px 24px;">`
+    );
+
+    const alainRes = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + RESEND_API_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: FROM,
+        to: [CC],
+        reply_to: email,
+        subject: `Nieuwe lead: ${name}${company ? ' (' + company + ')' : ''} · ${domain} · ${avg}/100`,
+        html: alainHtml,
+        text: `Nieuwe lead
+Naam: ${name}
+Email: ${email}
+${company ? 'Bedrijf: ' + company + '\n' : ''}Score: ${avg}/100
+Domein: ${domain}
+Tijd: ${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}
+
+--- ONDER: de mail die de klant zelf ontving ---
+
+${clientText}`
+      })
+    });
+
+    if (!alainRes.ok) {
+      const errText = await alainRes.text();
+      console.error('Resend send-report (alain) error', alainRes.status, errText);
     }
 
     return { statusCode: 200, headers: cors, body: JSON.stringify({ ok: true }) };
