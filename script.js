@@ -902,21 +902,122 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>`;
   }
 
+  // Verdict-templates per taal
+  const V = {
+    nl: {
+      cats: {
+        seo:{label:'SEO', weak:'Google snapt onvoldoende waar je site over gaat'},
+        perf:{label:'snelheid', weak:'je site is te langzaam en verliest bezoekers voor Google je heeft geplaatst'},
+        acc:{label:'mobiel + toegankelijkheid', weak:'mobiele bezoekers en Google botsen tegen hindernissen'},
+        bp:{label:'techniek', weak:'onder de motorkap missen basale zaken'}
+      },
+      growth: {
+        head: (h) => `Google vertrouwt <em>${h}</em>. Maar dat is nog geen bereik.`,
+        body: (avg, sl) => `Score ${avg}/100 (${sl}). Technisch is er weinig aan te merken. Vanaf hier speelt een andere vraag: geef je Google, Instagram en TikTok genoeg om je aan de juiste mensen te tonen? Elk platform kijkt naar andere signalen. Google beloont diepte en versheid van content, Instagram beloont bewijs dat er iemand achter zit, TikTok beslist in de eerste drie seconden of een video verder mag. Wie hier consequent op inspeelt groeit. Wie dat aan het toeval overlaat blijft op dezelfde plek staan.`,
+        cta: 'Vraag hoe wij hier naar kijken'
+      },
+      focus: {
+        head: (w) => `Fundament staat. Op <em>${w.label}</em> houden de platforms je tegen.`,
+        body: (avg, sl, w) => `Score ${avg}/100 (${sl}). Drie van de vier categorieën zijn in orde. Maar ${w.weak}. En juist daar letten Google en de socials op voordat ze je verder tonen. Alle content die je hierna maakt vecht tegen die ene rem. De vraag is niet meer of dit gefixt moet worden, maar wat de meest logische eerste stap is voor jouw markt.`,
+        cta: 'Vraag wat de eerste stap is'
+      },
+      balanced: {
+        head: () => `Meerdere kleine gaten, die <em>samen bezoek kosten</em>.`,
+        body: (avg, sl, w) => `Score ${avg}/100 (${sl}). Geen enkele categorie is een ramp, maar Google, Instagram en TikTok werken met optellingen van signalen. Als op meerdere fronten iets net niet klopt (vooral ${w.label} op ${w.value}) telt dat op tot een lagere ranking of minder bereik. Wat Google positief scoort ziet Instagram niet, en andersom. Weten waar elk platform op let is precies waar wij dagelijks mee bezig zijn.`,
+        cta: 'Vraag onze lezing van dit rapport'
+      },
+      leak: {
+        head: (h) => `De platforms staan nu <em>tegen</em> ${h}, niet met.`,
+        body: (avg, sl, weakList) => `Score ${avg}/100 (${sl}). Op meerdere fronten (${weakList}) missen basale signalen die Google en de socials verwachten. Bezoekers komen wel, maar de platforms zien dat mensen snel wegklikken en concluderen: deze site geeft niet wat mensen zoeken. Dat maakt elke euro aan promotie duurder dan nodig. De volgorde waarin je dit aanpakt bepaalt of het over 3 weken beter gaat of over 3 maanden.`,
+        cta: 'Vraag advies over de volgorde'
+      },
+      rebuild: {
+        head: () => `Dit kan niet met méér verkeer worden opgelost.`,
+        body: (avg, sl) => `Score ${avg}/100 (${sl}). Fundamentele issues op meerdere plekken. Elk platform, van Google tot TikTok, kijkt of een bezoeker een fatsoenlijke ervaring krijgt. Ze houden niet van sites die traag laden, crashen, of onleesbaar zijn op mobiel. Zolang dit fundament niet klopt, houden de algorithms je op afstand, hoeveel content je ook maakt of hoeveel ads je ook draait. De vraag is niet óf dit opnieuw moet, maar hoe je onderscheidt wie het écht kan bouwen en wie niet.`,
+        cta: 'Vraag onze eerlijke lezing'
+      }
+    },
+    en: {
+      cats: {
+        seo:{label:'SEO', weak:'Google does not understand what your site is about'},
+        perf:{label:'speed', weak:'your site is too slow and loses visitors before Google places you'},
+        acc:{label:'mobile + accessibility', weak:'mobile visitors and Google hit obstacles'},
+        bp:{label:'tech', weak:'basic things are missing under the hood'}
+      },
+      growth: {
+        head: (h) => `Google trusts <em>${h}</em>. But that is not yet reach.`,
+        body: (avg, sl) => `Score ${avg}/100 (${sl}). Technically there is little to complain about. From here a different question matters: are you giving Google, Instagram and TikTok enough to show you to the right people? Each platform looks at different signals. Google rewards depth and freshness of content, Instagram rewards proof that a real person is behind it, TikTok decides in the first three seconds whether a video goes further. Those who consistently play into this grow. Those who leave it to chance stay in the same place.`,
+        cta: 'Ask how we look at this'
+      },
+      focus: {
+        head: (w) => `Foundation is solid. On <em>${w.label}</em> the platforms hold you back.`,
+        body: (avg, sl, w) => `Score ${avg}/100 (${sl}). Three of the four categories are in order. But ${w.weak}. And that is exactly what Google and the socials watch before showing you further. All content you make from now on fights against that one brake. The question is no longer whether this needs fixing, but what the most logical first step is for your market.`,
+        cta: 'Ask what the first step is'
+      },
+      balanced: {
+        head: () => `Multiple small gaps that <em>together cost visits</em>.`,
+        body: (avg, sl, w) => `Score ${avg}/100 (${sl}). No single category is a disaster, but Google, Instagram and TikTok work with sums of signals. If things are just not right on multiple fronts (especially ${w.label} at ${w.value}) it adds up to a lower ranking or less reach. What Google scores positively Instagram does not see, and vice versa. Knowing what each platform looks at is exactly what we do every day.`,
+        cta: 'Ask for our reading of this report'
+      },
+      leak: {
+        head: (h) => `The platforms are currently <em>against</em> ${h}, not with.`,
+        body: (avg, sl, weakList) => `Score ${avg}/100 (${sl}). On multiple fronts (${weakList}) basic signals Google and the socials expect are missing. Visitors do come in, but the platforms see that people quickly click away and conclude: this site does not give what people are looking for. That makes every euro in promotion more expensive than needed. The order in which you tackle this determines whether it is better in 3 weeks or in 3 months.`,
+        cta: 'Ask for advice on the order'
+      },
+      rebuild: {
+        head: () => `More traffic will not solve this.`,
+        body: (avg, sl) => `Score ${avg}/100 (${sl}). Fundamental issues on multiple fronts. Every platform, from Google to TikTok, checks whether a visitor gets a decent experience. They do not like sites that load slowly, crash, or are unreadable on mobile. As long as this foundation is not right, the algorithms keep you at a distance, no matter how much content you make or how many ads you run. The question is not whether this needs a rebuild, but how you distinguish who can really build it from who cannot.`,
+        cta: 'Ask for our honest reading'
+      }
+    },
+    es: {
+      cats: {
+        seo:{label:'SEO', weak:'Google no entiende bien de qué trata tu web'},
+        perf:{label:'velocidad', weak:'tu web es demasiado lenta y pierde visitas antes de que Google te posicione'},
+        acc:{label:'móvil + accesibilidad', weak:'los visitantes móviles y Google chocan con obstáculos'},
+        bp:{label:'técnica', weak:'faltan cosas básicas bajo el capó'}
+      },
+      growth: {
+        head: (h) => `Google confía en <em>${h}</em>. Pero eso todavía no es alcance.`,
+        body: (avg, sl) => `Puntuación ${avg}/100 (${sl}). Técnicamente hay poco que objetar. A partir de aquí importa otra pregunta: ¿das a Google, Instagram y TikTok suficiente para mostrarte a las personas adecuadas? Cada plataforma mira señales distintas. Google premia la profundidad y la frescura del contenido, Instagram premia la prueba de que hay alguien detrás, TikTok decide en los primeros tres segundos si un vídeo sigue. Quien juega esto con constancia crece. Quien lo deja al azar se queda en el mismo sitio.`,
+        cta: 'Pregunta cómo lo vemos'
+      },
+      focus: {
+        head: (w) => `La base está. En <em>${w.label}</em> las plataformas te frenan.`,
+        body: (avg, sl, w) => `Puntuación ${avg}/100 (${sl}). Tres de las cuatro categorías están bien. Pero ${w.weak}. Y justamente ahí miran Google y las redes antes de mostrarte más. Todo el contenido que hagas desde ahora lucha contra ese freno. La pregunta ya no es si hay que arreglarlo, sino cuál es el primer paso más lógico para tu mercado.`,
+        cta: 'Pregunta cuál es el primer paso'
+      },
+      balanced: {
+        head: () => `Varios huecos pequeños que <em>juntos cuestan visitas</em>.`,
+        body: (avg, sl, w) => `Puntuación ${avg}/100 (${sl}). Ninguna categoría es un desastre, pero Google, Instagram y TikTok trabajan con sumas de señales. Si en varios frentes algo no está del todo bien (especialmente ${w.label} en ${w.value}) suma a un ranking más bajo o menos alcance. Lo que Google puntúa bien Instagram no lo ve, y al revés. Saber qué mira cada plataforma es exactamente lo que hacemos a diario.`,
+        cta: 'Pide nuestra lectura del informe'
+      },
+      leak: {
+        head: (h) => `Las plataformas ahora están <em>en contra</em> de ${h}, no a favor.`,
+        body: (avg, sl, weakList) => `Puntuación ${avg}/100 (${sl}). En varios frentes (${weakList}) faltan señales básicas que Google y las redes esperan. Los visitantes llegan, pero las plataformas ven que la gente se va rápido y concluyen: esta web no da lo que buscan. Eso hace que cada euro en promoción cueste más de lo necesario. El orden en que abordas esto decide si mejora en 3 semanas o en 3 meses.`,
+        cta: 'Pide consejo sobre el orden'
+      },
+      rebuild: {
+        head: () => `Más tráfico no resolverá esto.`,
+        body: (avg, sl) => `Puntuación ${avg}/100 (${sl}). Problemas fundamentales en varios frentes. Cada plataforma, desde Google hasta TikTok, comprueba si un visitante tiene una experiencia decente. No les gustan las webs lentas, que se caen o ilegibles en móvil. Mientras esta base no esté bien, los algoritmos te mantienen a distancia, por mucho contenido que hagas o anuncios que pongas. La pregunta no es si hay que rehacer esto, sino cómo distinguir a quien puede construirlo bien de quien no.`,
+        cta: 'Pide nuestra lectura honesta'
+      }
+    }
+  }[L];
+
   // Genereer een dynamische verdict-tekst op basis van de daadwerkelijke scores per categorie.
-  // Return {html, headText, bodyText, ctaLabel, ctaMode}
   function buildVerdict(avg, host, scores){
     const s = (k) => {
       const item = scores.find(x => x.key === k);
       return item && item.score !== null ? Math.round(item.score * 100) : null;
     };
-    const seo = s('seo'), perf = s('performance'), acc = s('accessibility'), bp = s('best-practices');
+    const seoV = s('seo'), perfV = s('performance'), accV = s('accessibility'), bpV = s('best-practices');
 
-    // Zoek zwakste categorie
     const cats = [
-      { key:'seo', label:'SEO', value:seo, weakSay:'Google snapt onvoldoende waar je site over gaat', strongSay:'SEO staat' },
-      { key:'perf', label:'snelheid', value:perf, weakSay:'je site is te langzaam en verliest bezoekers voor Google je heeft geplaatst', strongSay:'snelheid is in orde' },
-      { key:'acc', label:'mobiel + toegankelijkheid', value:acc, weakSay:'mobiele bezoekers en Google botsen tegen hindernissen', strongSay:'mobiel werkt' },
-      { key:'bp', label:'techniek', value:bp, weakSay:'onder de motorkap missen basale zaken', strongSay:'technisch klopt het' }
+      { key:'seo', label:V.cats.seo.label, value:seoV, weak:V.cats.seo.weak },
+      { key:'perf', label:V.cats.perf.label, value:perfV, weak:V.cats.perf.weak },
+      { key:'acc', label:V.cats.acc.label, value:accV, weak:V.cats.acc.weak },
+      { key:'bp', label:V.cats.bp.label, value:bpV, weak:V.cats.bp.weak }
     ].filter(c => c.value !== null);
 
     const weakest = cats.slice().sort((a,b) => a.value - b.value)[0];
@@ -926,40 +1027,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let head, body, ctaLabel, ctaMode;
 
-    // GROEI-MODE — fundament staat, focus verschuift naar hoe platforms je zien
     if(avg >= 85 && weakCount === 0){
-      head = `Google vertrouwt <em>${host}</em>. Maar dat is nog geen bereik.`;
-      body = `Score ${avg}/100 (${scoresLine}). Technisch is er weinig aan te merken. Vanaf hier speelt een andere vraag: geef je Google, Instagram en TikTok genoeg om je aan de juiste mensen te tonen? Elk platform kijkt naar andere signalen. Google beloont diepte en versheid van content, Instagram beloont bewijs dat er iemand achter zit, TikTok beslist in de eerste drie seconden of een video verder mag. Wie hier consequent op inspeelt groeit. Wie dat aan het toeval overlaat blijft op dezelfde plek staan.`;
-      ctaLabel = 'Vraag hoe wij hier naar kijken';
+      head = V.growth.head(host);
+      body = V.growth.body(avg, scoresLine);
+      ctaLabel = V.growth.cta;
       ctaMode = 'growth';
-    }
-    // FOCUS-MODE — basis staat maar één categorie loopt duidelijk achter
-    else if(avg >= 70 && strongCount >= 2 && weakest.value < 65){
-      head = `Fundament staat. Op <em>${weakest.label}</em> houden de platforms je tegen.`;
-      body = `Score ${avg}/100 (${scoresLine}). Drie van de vier categorieën zijn in orde. Maar ${weakest.weakSay}. En juist daar letten Google en de socials op voordat ze je verder tonen. Alle content die je hierna maakt vecht tegen die ene rem. De vraag is niet meer of dit gefixt moet worden, maar wat de meest logische eerste stap is voor jouw markt.`;
-      ctaLabel = 'Vraag wat de eerste stap is';
+    } else if(avg >= 70 && strongCount >= 2 && weakest.value < 65){
+      head = V.focus.head(weakest);
+      body = V.focus.body(avg, scoresLine, weakest);
+      ctaLabel = V.focus.cta;
       ctaMode = 'fix';
-    }
-    // BALANCED FIX — meerdere kleine winsten
-    else if(avg >= 60){
-      head = `Meerdere kleine gaten, die <em>samen bezoek kosten</em>.`;
-      body = `Score ${avg}/100 (${scoresLine}). Geen enkele categorie is een ramp, maar Google, Instagram en TikTok werken met optellingen van signalen. Als op meerdere fronten iets net niet klopt (vooral ${weakest.label} op ${weakest.value}) telt dat op tot een lagere ranking of minder bereik. Wat Google positief scoort ziet Instagram niet, en andersom. Weten waar elk platform op let is precies waar wij dagelijks mee bezig zijn.`;
-      ctaLabel = 'Vraag onze lezing van dit rapport';
+    } else if(avg >= 60){
+      head = V.balanced.head();
+      body = V.balanced.body(avg, scoresLine, weakest);
+      ctaLabel = V.balanced.cta;
       ctaMode = 'fix';
-    }
-    // LEAK-MODE — meerdere problemen
-    else if(avg >= 40){
+    } else if(avg >= 40){
       const weakList = cats.filter(c => c.value < 60).map(c => c.label).join(', ');
-      head = `De platforms staan nu <em>tegen</em> ${host}, niet met.`;
-      body = `Score ${avg}/100 (${scoresLine}). Op meerdere fronten (${weakList}) missen basale signalen die Google en de socials verwachten. Bezoekers komen wel, maar de platforms zien dat mensen snel wegklikken en concluderen: deze site geeft niet wat mensen zoeken. Dat maakt elke euro aan promotie duurder dan nodig. De volgorde waarin je dit aanpakt bepaalt of het over 3 weken beter gaat of over 3 maanden.`;
-      ctaLabel = 'Vraag advies over de volgorde';
+      head = V.leak.head(host);
+      body = V.leak.body(avg, scoresLine, weakList);
+      ctaLabel = V.leak.cta;
       ctaMode = 'fix';
-    }
-    // REBUILD-MODE — fundament niet af
-    else {
-      head = `Dit kan niet met méér verkeer worden opgelost.`;
-      body = `Score ${avg}/100 (${scoresLine}). Fundamentele issues op meerdere plekken. Elk platform, van Google tot TikTok, kijkt of een bezoeker een fatsoenlijke ervaring krijgt. Ze houden niet van sites die traag laden, crashen, of onleesbaar zijn op mobiel. Zolang dit fundament niet klopt, houden de algorithms je op afstand — hoeveel content je ook maakt of hoeveel ads je ook draait. De vraag is niet óf dit opnieuw moet, maar hoe je onderscheidt wie het écht kan bouwen en wie niet.`;
-      ctaLabel = 'Vraag onze eerlijke lezing';
+    } else {
+      head = V.rebuild.head();
+      body = V.rebuild.body(avg, scoresLine);
+      ctaLabel = V.rebuild.cta;
       ctaMode = 'rebuild';
     }
 
