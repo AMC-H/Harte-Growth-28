@@ -755,7 +755,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function extractFindings(lh){
     const audits = lh.audits || {};
     const items = [
-      { id:'document-title', label:'Titel-tag', hint:'De <title> is wat Google in de zoekresultaten toont en zwaar meeweegt.' },
+      { id:'document-title', label:'Titel-tag', hint:'De titel-tag is wat Google in de zoekresultaten toont en zwaar meeweegt.' },
       { id:'meta-description', label:'Meta beschrijving', hint:'De omschrijving onder je titel in Google. Overtuigt bezoekers om te klikken.' },
       { id:'html-has-lang', label:'Taalcode', hint:'Google weet dan zeker in welke taal je site is (belangrijk voor NL/ES).' },
       { id:'viewport', label:'Mobiele viewport', hint:'Zonder dit toont je site op mobiel te breed of onleesbaar.' },
@@ -796,11 +796,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return out.slice(0, 10);
   }
 
+  function escapeHtml(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
   function findingCard(f){
-    return `<div class="finding ${f.cls}">
-      <div class="finding-icon">${f.icon}</div>
-      <div><h4>${f.label}</h4><p>${f.hint}</p></div>
-      <div class="finding-value">${f.value}</div>
+    return `<div class="finding ${escapeHtml(f.cls)}">
+      <div class="finding-icon">${escapeHtml(f.icon)}</div>
+      <div><h4>${escapeHtml(f.label)}</h4><p>${escapeHtml(f.hint)}</p></div>
+      <div class="finding-value">${escapeHtml(f.value)}</div>
     </div>`;
   }
 

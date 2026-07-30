@@ -597,3 +597,32 @@ footer .foot-links a:hover{color:var(--accent);}
 .scan-gate-back{background:none;border:0;color:#8a8b95;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.05em;transition:color .2s;padding:8px 6px;}
 .scan-gate-back:hover{color:#ff4d1a;}
 .scan-gate-error{color:#ff5c56;font-size:13.5px;background:rgba(255,92,86,.08);border:1px solid rgba(255,92,86,.3);border-radius:8px;padding:10px 14px;margin-top:6px;}
+
+/* =============== SCAN MOBIEL FIX =============== */
+@media(max-width:600px){
+  .scan-hero{padding:100px 0 32px;}
+  .scan-input-wrap{flex-direction:column;align-items:stretch;padding:8px;gap:6px;border-radius:12px;}
+  .scan-globe{display:none;}
+  #scanUrl{padding:14px 12px;font-size:16px;text-align:center;}
+  .scan-submit{width:100%;justify-content:center;padding:15px 22px;font-size:15px;}
+  .scan-hint{text-align:center;padding-left:0;}
+  .scan-example{padding:6px 4px;}
+  .scan-gate-box{padding:26px 20px;border-radius:14px;}
+  .scan-gate-actions{flex-direction:column;align-items:stretch;}
+  .scan-gate-actions .scan-submit{width:100%;}
+  .scan-gate-back{text-align:center;padding:12px;}
+  .scan-cta{padding:24px 22px;border-radius:14px;}
+  .scan-cta h3{font-size:19px;}
+  .scan-verdict{padding:22px 22px;}
+  .scan-verdict h3{font-size:20px;}
+  .finding{grid-template-columns:auto 1fr;padding:16px 18px;gap:12px;}
+  .finding-value{grid-column:2;justify-self:start;margin-top:2px;}
+  .scan-viz-status{font-size:26px;min-height:auto;text-align:center;}
+  .scan-viz-domain{text-align:center;}
+  .scan-viz-hint{text-align:center;}
+  .rl{font-size:10px;padding:5px 10px 5px 8px;}
+  .rl-top{top:-8px;}
+  .rl-right{right:-8px;}
+  .rl-bottom{bottom:-8px;}
+  .rl-left{left:-8px;}
+}
