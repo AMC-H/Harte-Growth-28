@@ -446,6 +446,134 @@ document.addEventListener('DOMContentLoaded', () => {
   const scanForm = document.getElementById('scanForm');
   if(!scanForm) return;
 
+  // Taal detecteren via <html lang>
+  const LANG = (document.documentElement.lang || 'nl').slice(0,2).toLowerCase();
+  const L = ['nl','en','es'].includes(LANG) ? LANG : 'nl';
+
+  // i18n dictionary voor alle scan-strings
+  const T = {
+    nl: {
+      statusConnecting: 'Verbinden met Google Lighthouse...',
+      statusReady: 'Rapport klaar.',
+      cycle: [
+        {cat:'seo', text:'SEO-signalen ophalen...'},
+        {cat:'seo', text:'Titel, meta en headings uitlezen'},
+        {cat:'perf', text:'Snelheid meten in echte browser'},
+        {cat:'perf', text:'Grootste elementen doorlopen'},
+        {cat:'mobile', text:'Mobiele viewport testen'},
+        {cat:'mobile', text:'Tik-doelen en tekstgrootte checken'},
+        {cat:'tech', text:'Technische audits draaien'},
+        {cat:'tech', text:'Structured data lezen'}
+      ],
+      errRate: 'Even geduld: er zijn nu net veel scans tegelijk. Wacht 30 seconden en probeer opnieuw.',
+      errNoResult: 'Deze URL kon niet worden gescand. Meestal betekent dit dat de site niet bereikbaar is vanaf Google, of dat er een IP-blokkade staat. Probeer een andere URL.',
+      errCrash: 'De scan crashte op deze specifieke site. Vaak helpt: probeer een dieper-liggende pagina (bijv. /diensten in plaats van alleen jouwsite.nl), of probeer over 2 minuten opnieuw. Sommige sites zijn zwaarder om te scannen.',
+      errApi: (code) => 'Google gaf een fout terug (' + code + '). Probeer over een minuut opnieuw.',
+      errGeneric: (msg) => 'De scan kon niet worden uitgevoerd: ' + msg + '. Check of de URL klopt en probeer opnieuw.',
+      gateError: 'Vul je naam en een geldig e-mailadres in, en vink de toestemming aan.',
+      scoreLabels: { seo:'SEO', performance:'Snelheid', accessibility:'Mobiel + toegankelijk', 'best-practices':'Techniek' },
+      findingItems: {
+        'document-title': {label:'Titel-tag', hint:'De titel-tag is wat Google in de zoekresultaten toont en zwaar meeweegt.'},
+        'meta-description': {label:'Meta beschrijving', hint:'De omschrijving onder je titel in Google. Overtuigt bezoekers om te klikken.'},
+        'html-has-lang': {label:'Taalcode', hint:'Google weet dan zeker in welke taal je site is (belangrijk voor NL/ES).'},
+        'viewport': {label:'Mobiele viewport', hint:'Zonder dit toont je site op mobiel te breed of onleesbaar.'},
+        'image-alt': {label:'Alt-teksten bij afbeeldingen', hint:'Voor Google en voor bezoekers die geen beelden zien.'},
+        'link-text': {label:'Klikbare linkteksten', hint:'"Klik hier" of "meer info" vertelt Google niets. Beschrijvende linkteksten wel.'},
+        'is-on-https': {label:'HTTPS beveiliging', hint:'Zonder slotje in de browser waarschuwt Google én verlies je vertrouwen.'},
+        'first-contentful-paint': {label:'Eerste zichtbaar', hint:'Hoe snel je bezoeker iets ziet gebeuren op je site.'},
+        'largest-contentful-paint': {label:'Grootste element geladen', hint:'Wanneer het belangrijkste element (heldenafbeelding/heading) staat.'},
+        'cumulative-layout-shift': {label:'Layout-verspringing', hint:'Als knoppen tijdens laden verspringen, verlies je clicks en vertrouwen.'},
+        'total-blocking-time': {label:'Blokkeertijd', hint:'Hoe lang je site niet reageert op tikken/klikken tijdens laden.'},
+        'structured-data': {label:'Structured data', hint:'Vertelt Google exact wat voor bedrijf je bent (bedrijf, product, review, etc.).'},
+        'color-contrast': {label:'Kleurcontrast', hint:'Tekst moet leesbaar zijn voor iedereen, ook slechtziend of buiten in de zon.'},
+        'tap-targets': {label:'Tik-doelen op mobiel', hint:'Knoppen te klein of te dicht op elkaar = mobiele bezoekers klikken verkeerd.'},
+        'font-size': {label:'Tekstgrootte mobiel', hint:'Als tekst zoom-in nodig heeft, verlies je 60% van je bezoek.'}
+      },
+      findingBadges: { ok:'ok', warn:'kan beter', bad:'fix nodig' },
+      whatWeSaw: 'Wat we zagen'
+    },
+    en: {
+      statusConnecting: 'Connecting to Google Lighthouse...',
+      statusReady: 'Report ready.',
+      cycle: [
+        {cat:'seo', text:'Fetching SEO signals...'},
+        {cat:'seo', text:'Reading title, meta and headings'},
+        {cat:'perf', text:'Measuring speed in a real browser'},
+        {cat:'perf', text:'Analysing largest elements'},
+        {cat:'mobile', text:'Testing mobile viewport'},
+        {cat:'mobile', text:'Checking tap targets and text size'},
+        {cat:'tech', text:'Running technical audits'},
+        {cat:'tech', text:'Reading structured data'}
+      ],
+      errRate: 'Please wait: many scans are running right now. Wait 30 seconds and try again.',
+      errNoResult: 'This URL could not be scanned. Usually this means the site is not reachable from Google, or there is an IP block. Try a different URL.',
+      errCrash: 'The scan crashed on this specific site. Often helps: try a deeper page (e.g. /services instead of just yoursite.com), or try again in 2 minutes. Some sites are heavier to scan.',
+      errApi: (code) => 'Google returned an error (' + code + '). Try again in a minute.',
+      errGeneric: (msg) => 'The scan could not be completed: ' + msg + '. Check the URL and try again.',
+      gateError: 'Fill in your name and a valid email, and tick the consent box.',
+      scoreLabels: { seo:'SEO', performance:'Speed', accessibility:'Mobile + accessible', 'best-practices':'Tech' },
+      findingItems: {
+        'document-title': {label:'Title tag', hint:'The title tag is what Google shows in search results and weighs heavily.'},
+        'meta-description': {label:'Meta description', hint:'The description below your title in Google. Convinces visitors to click.'},
+        'html-has-lang': {label:'Language code', hint:'Google knows for sure what language your site is in (important for multiple markets).'},
+        'viewport': {label:'Mobile viewport', hint:'Without this, your site shows too wide or unreadable on mobile.'},
+        'image-alt': {label:'Alt text on images', hint:'For Google and for visitors who cannot see images.'},
+        'link-text': {label:'Clickable link text', hint:'"Click here" or "more info" tells Google nothing. Descriptive link text does.'},
+        'is-on-https': {label:'HTTPS security', hint:'Without the padlock in the browser, Google warns visitors and you lose trust.'},
+        'first-contentful-paint': {label:'First paint', hint:'How quickly your visitor sees something happen on your site.'},
+        'largest-contentful-paint': {label:'Largest element loaded', hint:'When the most important element (hero image/heading) is in place.'},
+        'cumulative-layout-shift': {label:'Layout shift', hint:'If buttons jump during load, you lose clicks and trust.'},
+        'total-blocking-time': {label:'Blocking time', hint:'How long your site does not respond to taps/clicks during load.'},
+        'structured-data': {label:'Structured data', hint:'Tells Google exactly what kind of business you are (company, product, review, etc.).'},
+        'color-contrast': {label:'Colour contrast', hint:'Text must be readable for everyone, also visually impaired or in bright sun.'},
+        'tap-targets': {label:'Mobile tap targets', hint:'Buttons too small or too close together = mobile visitors mis-tap.'},
+        'font-size': {label:'Mobile font size', hint:'If text needs zoom-in, you lose 60% of your mobile traffic.'}
+      },
+      findingBadges: { ok:'ok', warn:'could be better', bad:'needs fix' },
+      whatWeSaw: 'What we saw'
+    },
+    es: {
+      statusConnecting: 'Conectando con Google Lighthouse...',
+      statusReady: 'Informe listo.',
+      cycle: [
+        {cat:'seo', text:'Obteniendo señales SEO...'},
+        {cat:'seo', text:'Leyendo título, meta y encabezados'},
+        {cat:'perf', text:'Midiendo velocidad en navegador real'},
+        {cat:'perf', text:'Analizando elementos más grandes'},
+        {cat:'mobile', text:'Probando viewport móvil'},
+        {cat:'mobile', text:'Comprobando objetivos táctiles y tamaño de texto'},
+        {cat:'tech', text:'Ejecutando auditorías técnicas'},
+        {cat:'tech', text:'Leyendo datos estructurados'}
+      ],
+      errRate: 'Un momento: hay muchos escaneos a la vez. Espera 30 segundos e inténtalo de nuevo.',
+      errNoResult: 'No se pudo escanear esta URL. Normalmente significa que Google no puede alcanzar la web, o que hay un bloqueo por IP. Prueba con otra URL.',
+      errCrash: 'El escaneo falló en esta web específica. Suele ayudar: prueba una página más profunda (p.ej. /servicios en lugar de solo tuweb.es), o inténtalo dentro de 2 minutos. Algunas webs son más pesadas.',
+      errApi: (code) => 'Google devolvió un error (' + code + '). Inténtalo dentro de un minuto.',
+      errGeneric: (msg) => 'No se pudo completar el escaneo: ' + msg + '. Comprueba la URL e inténtalo de nuevo.',
+      gateError: 'Rellena tu nombre y un email válido, y marca la casilla de consentimiento.',
+      scoreLabels: { seo:'SEO', performance:'Velocidad', accessibility:'Móvil + accesible', 'best-practices':'Técnica' },
+      findingItems: {
+        'document-title': {label:'Etiqueta title', hint:'La etiqueta title es lo que Google muestra en los resultados y pondera mucho.'},
+        'meta-description': {label:'Meta descripción', hint:'La descripción bajo tu título en Google. Convence a los visitantes para hacer clic.'},
+        'html-has-lang': {label:'Código de idioma', hint:'Google sabe con certeza en qué idioma está tu web (importante para varios mercados).'},
+        'viewport': {label:'Viewport móvil', hint:'Sin esto, tu web se muestra demasiado ancha o ilegible en móvil.'},
+        'image-alt': {label:'Alt-texts en imágenes', hint:'Para Google y para quienes no pueden ver imágenes.'},
+        'link-text': {label:'Textos de enlace descriptivos', hint:'"Haz clic aquí" o "más info" no dice nada a Google. Textos descriptivos sí.'},
+        'is-on-https': {label:'Seguridad HTTPS', hint:'Sin el candado en el navegador, Google avisa y pierdes confianza.'},
+        'first-contentful-paint': {label:'Primer pintado', hint:'Con qué rapidez tu visitante ve algo suceder en tu web.'},
+        'largest-contentful-paint': {label:'Elemento más grande cargado', hint:'Cuándo aparece el elemento más importante (imagen hero/encabezado).'},
+        'cumulative-layout-shift': {label:'Cambio de diseño', hint:'Si los botones saltan al cargar, pierdes clics y confianza.'},
+        'total-blocking-time': {label:'Tiempo de bloqueo', hint:'Cuánto tiempo tu web no responde a toques/clics durante la carga.'},
+        'structured-data': {label:'Datos estructurados', hint:'Le dice a Google exactamente qué tipo de negocio eres (empresa, producto, reseña, etc.).'},
+        'color-contrast': {label:'Contraste de color', hint:'El texto debe ser legible para todos, también con baja visión o al sol.'},
+        'tap-targets': {label:'Objetivos táctiles móvil', hint:'Botones demasiado pequeños o juntos = los visitantes móviles se equivocan.'},
+        'font-size': {label:'Tamaño de fuente móvil', hint:'Si hace falta zoom, pierdes el 60% del tráfico móvil.'}
+      },
+      findingBadges: { ok:'ok', warn:'mejorable', bad:'a corregir' },
+      whatWeSaw: 'Lo que vimos'
+    }
+  }[L];
+
   // Leads worden verzonden via Netlify Function (/.netlify/functions/send-lead) die Resend gebruikt.
 
   const scanUrl = document.getElementById('scanUrl');
@@ -557,7 +685,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     if(!lead.name || !validEmail(lead.email) || !lead.consent){
       gateError.hidden = false;
-      gateError.textContent = 'Vul je naam en een geldig e-mailadres in, en vink de toestemming aan.';
+      gateError.textContent = T.gateError;
       return;
     }
     gateSubmit.disabled = true;
@@ -593,16 +721,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Statussen die roteren tijdens de wacht op de API
-  const statusCycle = [
-    { cat:'seo',    text:'SEO-signalen ophalen...' },
-    { cat:'seo',    text:'Titel, meta en headings uitlezen' },
-    { cat:'perf',   text:'Snelheid meten in echte browser' },
-    { cat:'perf',   text:'Grootste elementen doorlopen' },
-    { cat:'mobile', text:'Mobiele viewport testen' },
-    { cat:'mobile', text:'Tik-doelen en tekstgrootte checken' },
-    { cat:'tech',   text:'Technische audits draaien' },
-    { cat:'tech',   text:'Structured data lezen' }
-  ];
+  const statusCycle = T.cycle;
   let cycleTimer = null;
   function startStatusCycle(){
     let i = 0;
@@ -634,7 +753,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const host = new URL(url).host.replace(/^www\./,'');
     if(vizDomain) vizDomain.textContent = host;
     resetLabels();
-    setStatus('Verbinden met Google Lighthouse...');
+    setStatus(T.statusConnecting);
 
     // Scroll naar panel
     setTimeout(() => scanPanel.scrollIntoView({behavior:'smooth', block:'start'}), 100);
@@ -657,7 +776,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       stopStatusCycle();
       finishAllLabels();
-      setStatus('Rapport klaar.');
+      setStatus(T.statusReady);
       await wait(700);
 
       renderResults(url, host, lh);
@@ -667,15 +786,15 @@ document.addEventListener('DOMContentLoaded', () => {
       scanRunning.hidden = true;
       let msg;
       if(err.message === 'RATE_LIMIT'){
-        msg = 'Even geduld: er zijn nu net veel scans tegelijk. Wacht 30 seconden en probeer opnieuw.';
+        msg = T.errRate;
       } else if(err.message === 'NO_RESULT' || (err.message && err.message.startsWith('API_400'))){
-        msg = 'Deze URL kon niet worden gescand. Meestal betekent dit dat de site niet bereikbaar is vanaf Google, of dat er een IP-blokkade staat. Probeer een andere URL.';
+        msg = T.errNoResult;
       } else if(err.message && (err.message.startsWith('API_5') || err.message.startsWith('API_502'))){
-        msg = 'De scan crashte op deze specifieke site. Vaak helpt: probeer een dieper-liggende pagina (bijv. /diensten in plaats van alleen jouwsite.nl), of probeer over 2 minuten opnieuw. Sommige sites zijn zwaarder om te scannen.';
+        msg = T.errCrash;
       } else if(err.message && err.message.startsWith('API_')){
-        msg = 'Google gaf een fout terug (' + err.message.replace('API_','code ') + '). Probeer over een minuut opnieuw.';
+        msg = T.errApi(err.message.replace('API_','code '));
       } else {
-        msg = 'De scan kon niet worden uitgevoerd: ' + (err.message || 'onbekende fout') + '. Check of de URL klopt en probeer opnieuw.';
+        msg = T.errGeneric(err.message || 'unknown');
       }
       scanErrorMsg.textContent = msg;
       // Fallback: als de scan crashed maar we hebben wel een lead, stuur toch een notificatie naar Alain
@@ -711,10 +830,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Scores
     const cats = lh.categories;
     const scores = [
-      { key:'seo', label:'SEO', score: cats.seo ? cats.seo.score : null },
-      { key:'performance', label:'Snelheid', score: cats.performance ? cats.performance.score : null },
-      { key:'accessibility', label:'Mobiel + toegankelijk', score: cats.accessibility ? cats.accessibility.score : null },
-      { key:'best-practices', label:'Techniek', score: cats['best-practices'] ? cats['best-practices'].score : null }
+      { key:'seo', label:T.scoreLabels.seo, score: cats.seo ? cats.seo.score : null },
+      { key:'performance', label:T.scoreLabels.performance, score: cats.performance ? cats.performance.score : null },
+      { key:'accessibility', label:T.scoreLabels.accessibility, score: cats.accessibility ? cats.accessibility.score : null },
+      { key:'best-practices', label:T.scoreLabels['best-practices'], score: cats['best-practices'] ? cats['best-practices'].score : null }
     ];
 
     scanScores.innerHTML = scores.map(s => scoreCard(s)).join('');
@@ -742,13 +861,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const waMsg = buildWhatsappMsg(host, url, scores, avg);
     scanWhatsapp.href = `https://wa.me/31634455762?text=${encodeURIComponent(waMsg)}`;
 
-    // Rapport-mail naar klant (met kopie naar Alain). Non-blocking.
+    // Rapport-mail naar klant (met kopie naar Alain). Non-blocking. Taal wordt meegestuurd.
     if(currentLead && currentLead.email){
       const findings = extractFindings(lh).slice(0, 6);
       fetch('/.netlify/functions/send-report', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
+          lang: L,
           name: currentLead.name,
           email: currentLead.email,
           company: currentLead.company || '',
@@ -858,23 +978,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function extractFindings(lh){
     const audits = lh.audits || {};
-    const items = [
-      { id:'document-title', label:'Titel-tag', hint:'De titel-tag is wat Google in de zoekresultaten toont en zwaar meeweegt.' },
-      { id:'meta-description', label:'Meta beschrijving', hint:'De omschrijving onder je titel in Google. Overtuigt bezoekers om te klikken.' },
-      { id:'html-has-lang', label:'Taalcode', hint:'Google weet dan zeker in welke taal je site is (belangrijk voor NL/ES).' },
-      { id:'viewport', label:'Mobiele viewport', hint:'Zonder dit toont je site op mobiel te breed of onleesbaar.' },
-      { id:'image-alt', label:'Alt-teksten bij afbeeldingen', hint:'Voor Google en voor bezoekers die geen beelden zien.' },
-      { id:'link-text', label:'Klikbare linkteksten', hint:'"Klik hier" of "meer info" vertelt Google niets. Beschrijvende linkteksten wel.' },
-      { id:'is-on-https', label:'HTTPS beveiliging', hint:'Zonder slotje in de browser waarschuwt Google én verlies je vertrouwen.' },
-      { id:'first-contentful-paint', label:'Eerste zichtbaar', hint:'Hoe snel je bezoeker iets ziet gebeuren op je site.' },
-      { id:'largest-contentful-paint', label:'Grootste element geladen', hint:'Wanneer het belangrijkste element (heldenafbeelding/heading) staat.' },
-      { id:'cumulative-layout-shift', label:'Layout-verspringing', hint:'Als knoppen tijdens laden verspringen, verlies je clicks en vertrouwen.' },
-      { id:'total-blocking-time', label:'Blokkeertijd', hint:'Hoe lang je site niet reageert op tikken/klikken tijdens laden.' },
-      { id:'structured-data', label:'Structured data', hint:'Vertelt Google exact wat voor bedrijf je bent (bedrijf, product, review, etc.).' },
-      { id:'color-contrast', label:'Kleurcontrast', hint:'Tekst moet leesbaar zijn voor iedereen, ook slechtziend of buiten in de zon.' },
-      { id:'tap-targets', label:'Tik-doelen op mobiel', hint:'Knoppen te klein of te dicht op elkaar = mobiele bezoekers klikken verkeerd.' },
-      { id:'font-size', label:'Tekstgrootte mobiel', hint:'Als tekst zoom-in nodig heeft, verlies je 60% van je bezoek.' }
-    ];
+    const items = Object.keys(T.findingItems).map(id => ({ id, label: T.findingItems[id].label, hint: T.findingItems[id].hint }));
 
     const out = [];
     for(const it of items){
@@ -882,20 +986,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if(!a) continue;
       let cls, icon, value;
       if(a.score === null){
-        // score-less audit → skip unless it has displayValue
         if(!a.displayValue) continue;
         cls = 'good'; icon = 'i'; value = a.displayValue;
       } else if(a.score >= 0.9){
-        cls = 'good'; icon = '✓'; value = a.displayValue || 'ok';
+        cls = 'good'; icon = '✓'; value = a.displayValue || T.findingBadges.ok;
       } else if(a.score >= 0.5){
-        cls = 'warn'; icon = '!'; value = a.displayValue || 'kan beter';
+        cls = 'warn'; icon = '!'; value = a.displayValue || T.findingBadges.warn;
       } else {
-        cls = 'bad'; icon = '✕'; value = a.displayValue || 'fix nodig';
+        cls = 'bad'; icon = '✕'; value = a.displayValue || T.findingBadges.bad;
       }
       out.push({cls, icon, label: it.label, hint: it.hint, value, priority: a.score === null ? 3 : (a.score < 0.5 ? 0 : a.score < 0.9 ? 1 : 2)});
     }
-
-    // Sorteer: slechtste eerst
     out.sort((a,b) => a.priority - b.priority);
     return out.slice(0, 10);
   }
