@@ -37,15 +37,31 @@ exports.handler = async (event) => {
     return { statusCode: 500, headers: cors, body: JSON.stringify({ error: 'server misconfigured' }) };
   }
 
-  const endpoint = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance&category=seo&category=accessibility&category=best-practices&strategy=mobile&key=${API_KEY}`;
+  const build = (strategy) => `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance&category=seo&category=accessibility&category=best-practices&strategy=${strategy}&key=${API_KEY}`;
+
+  async function tryScan(strategy){
+    const res = await fetch(build(strategy));
+    const text = await res.text();
+    return { status: res.status, text };
+  }
 
   try {
-    const res = await fetch(endpoint);
-    const text = await res.text();
+    // Eerste poging: mobile (Google's ranking-model)
+    let r = await tryScan('mobile');
+
+    // Als 500/502/503 van Google's kant: retry met desktop-strategy, soms werkt dat wel
+    if (r.status >= 500 && r.status < 600) {
+      console.warn('mobile scan failed with', r.status, '- retrying with desktop');
+      const desktop = await tryScan('desktop');
+      if (desktop.status >= 200 && desktop.status < 300) {
+        r = desktop;
+      }
+    }
+
     return {
-      statusCode: res.status,
+      statusCode: r.status,
       headers: { ...cors, 'Content-Type': 'application/json' },
-      body: text
+      body: r.text
     };
   } catch (err) {
     console.error('scan proxy error', err);
