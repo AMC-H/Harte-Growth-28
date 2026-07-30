@@ -651,3 +651,11 @@ footer .foot-links a:hover{color:var(--accent);}
 .day-btn.full{opacity:.5;cursor:not-allowed;position:relative;background:repeating-linear-gradient(-45deg,transparent,transparent 6px,rgba(255,255,255,.02) 6px,rgba(255,255,255,.02) 8px);}
 .day-btn.full:hover{transform:none;border-color:var(--border);}
 .day-btn .dfull{position:absolute;top:6px;right:8px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#ff5c56;background:rgba(255,92,86,.14);border:1px solid rgba(255,92,86,.3);border-radius:4px;padding:2px 6px;line-height:1;}
+
+/* =============== LANGUAGE SWITCHER =============== */
+.lang-switch{display:inline-flex;align-items:center;gap:2px;background:#0f1015;border:1px solid #25262e;border-radius:8px;padding:2px;margin-right:12px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;font-weight:600;}
+.lang-switch a{padding:6px 10px;color:#8a8b95;text-decoration:none;border-radius:6px;transition:all .2s;text-transform:uppercase;}
+.lang-switch a:hover{color:#f5f5f7;}
+.lang-switch a.active{background:#ff4d1a;color:#fff;}
+@media(max-width:900px){.lang-switch{display:none;}}
+.mnav .lang-switch{display:inline-flex;margin:20px 0;}

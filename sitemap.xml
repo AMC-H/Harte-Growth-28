@@ -4,6 +4,19 @@
     <loc>https://hartegrowth.eu/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://hartegrowth.eu/" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hartegrowth.eu/en/" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://hartegrowth.eu/es/" xmlns:xhtml="http://www.w3.org/1999/xhtml"/>
+  </url>
+  <url>
+    <loc>https://hartegrowth.eu/en/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://hartegrowth.eu/es/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://hartegrowth.eu/diensten.html</loc>
