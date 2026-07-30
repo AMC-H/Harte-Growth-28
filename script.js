@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateGrowth();
   }
 
-  // BOOKING WIDGET — day + time picker → WhatsApp
+  // BOOKING WIDGET — day + time picker → e-mail via Netlify Function
   const bookDays = document.getElementById('bookDays');
   const bookTimes = document.getElementById('bookTimes');
   const bookForm = document.getElementById('bookForm');
@@ -290,13 +290,21 @@ document.addEventListener('DOMContentLoaded', () => {
   if(bookDays && bookTimes && bookForm){
     const dayNames = ['Zo','Ma','Di','Wo','Do','Vr','Za'];
     const monthNames = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+    // Weekdagen die als 'vol' worden getoond (0=zo, 1=ma, ... 6=za)
+    const FULL_WEEKDAYS = new Set([4, 5]); // donderdag en vrijdag
     const days = [];
     const cur = new Date();
     cur.setDate(cur.getDate() + 1);
-    while(days.length < 6){
+    // Toon 8 werkdagen (inclusief 'vol'-dagen); weekenden altijd overslaan
+    while(days.length < 8){
       const d = cur.getDay();
       if(d !== 0 && d !== 6){
-        days.push({ label: dayNames[d], num: cur.getDate(), mon: monthNames[cur.getMonth()] });
+        days.push({
+          label: dayNames[d],
+          num: cur.getDate(),
+          mon: monthNames[cur.getMonth()],
+          full: FULL_WEEKDAYS.has(d)
+        });
       }
       cur.setDate(cur.getDate() + 1);
     }
@@ -305,16 +313,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     days.forEach(d => {
       const btn = document.createElement('button');
-      btn.className = 'day-btn';
+      btn.className = 'day-btn' + (d.full ? ' full' : '');
       btn.type = 'button';
-      btn.innerHTML = '<span class="dname">'+d.label+'</span><span class="dnum">'+d.num+'</span><span class="dmon">'+d.mon+'</span>';
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.day-btn.active').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        selDay = d;
-        bookTimes.classList.add('active');
-        updateBookStatus();
-      });
+      btn.disabled = d.full;
+      const badge = d.full ? '<span class="dfull">vol</span>' : '';
+      btn.innerHTML = '<span class="dname">'+d.label+'</span><span class="dnum">'+d.num+'</span><span class="dmon">'+d.mon+'</span>'+badge;
+      if(!d.full){
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.day-btn.active').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selDay = d;
+          bookTimes.classList.add('active');
+          updateBookStatus();
+        });
+      }
       bookDays.appendChild(btn);
     });
 
@@ -343,14 +355,41 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    bookForm.addEventListener('submit', (e) => {
+    bookForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       if(!selDay || !selTime){ return; }
-      const name = bookForm.querySelector('[name=name]').value;
-      const company = bookForm.querySelector('[name=company]').value;
-      const contact = bookForm.querySelector('[name=contact]').value;
-      const msg = 'Hallo Harte Growth, ik wil graag een kennismakingscall plannen op ' + selDay.label + ' ' + selDay.num + ' ' + selDay.mon + ' om ' + selTime + '. Ik ben ' + name + ' van ' + company + '. Bereikbaar via ' + contact + '.';
-      window.location = 'https://wa.me/31634455762?text=' + encodeURIComponent(msg);
+      const submitBtn = bookForm.querySelector('button[type=submit]');
+      const originalHtml = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Versturen...';
+
+      const payload = {
+        name: bookForm.querySelector('[name=name]').value.trim(),
+        company: bookForm.querySelector('[name=company]').value.trim(),
+        contact: bookForm.querySelector('[name=contact]').value.trim(),
+        day: selDay.label + ' ' + selDay.num + ' ' + selDay.mon,
+        time: selTime
+      };
+
+      try {
+        const res = await fetch('/.netlify/functions/send-booking', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(payload)
+        });
+        if(!res.ok) throw new Error('send failed');
+        bookForm.reset();
+        submitBtn.innerHTML = 'Verzonden ✓';
+        if(bookStatus){
+          bookStatus.innerHTML = '<b style="color:#4ade80;">Bedankt!</b> We bevestigen je gesprek zo snel mogelijk via ' + payload.contact.replace(/</g,'&lt;');
+        }
+      } catch(err){
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHtml;
+        if(bookStatus){
+          bookStatus.innerHTML = '<b style="color:#ff5c56;">Verzenden lukte niet.</b> Probeer opnieuw of app ons via de knop rechtsonder.';
+        }
+      }
     });
   }
 
