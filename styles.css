@@ -632,3 +632,17 @@ footer .foot-links a:hover{color:var(--accent);}
   .rl-bottom{bottom:-8px;}
   .rl-left{left:-8px;}
 }
+
+/* =============== CASE DETAILS (uitklapbaar) =============== */
+.case-details{margin-top:24px;border-top:1px solid var(--border);padding-top:20px;}
+.case-details summary{cursor:pointer;list-style:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-dim);letter-spacing:.06em;text-transform:uppercase;padding:8px 0;display:inline-flex;align-items:center;gap:8px;transition:color .2s;}
+.case-details summary::-webkit-details-marker{display:none;}
+.case-details summary::before{content:"+";display:inline-block;color:var(--accent);font-family:'Inter',sans-serif;font-size:16px;font-weight:600;transition:transform .3s;}
+.case-details[open] summary::before{content:"−";}
+.case-details summary:hover{color:var(--accent);}
+.case-details-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px;}
+@media(max-width:760px){.case-details-grid{grid-template-columns:1fr;}}
+.case-details-grid > div{background:#0f1015;border:1px solid var(--border);border-radius:10px;padding:20px 22px;}
+.cd-num{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--accent);letter-spacing:.1em;font-weight:600;}
+.case-details-grid h4{font-size:15.5px;letter-spacing:-.01em;margin:6px 0 8px;line-height:1.25;}
+.case-details-grid p{color:var(--text-dim);font-size:13.5px;line-height:1.55;margin:0;}
