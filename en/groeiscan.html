@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free growth scan · Live report in 30 seconds | Harte Growth</title>
+<meta name="description" content="Paste your website URL. Get an instant report: SEO, speed, mobile, technical and concrete tips. No login, no waiting.">
+<link rel="canonical" href="https://hartegrowth.eu/en/groeiscan.html">
+<link rel="alternate" hreflang="nl" href="https://hartegrowth.eu/groeiscan">
+<link rel="alternate" hreflang="en" href="https://hartegrowth.eu/en/groeiscan.html">
+<link rel="alternate" hreflang="es" href="https://hartegrowth.eu/es/groeiscan.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<canvas class="bg-canvas"></canvas>
+
+<header>
+  <div class="nav">
+    <a href="/en/" class="logo" aria-label="Harte Growth"><img src="/logo-nav.svg" alt="Harte Growth"></a>
+    <nav class="navlinks"><a href="/diensten.html">Services</a><a href="/cases.html">Cases</a><a href="/blog.html">Blog</a><a href="/over-ons.html">About</a><a href="/contact.html">Contact</a></nav>
+    <div class="nav-right">
+      <div class="lang-switch" role="navigation" aria-label="Language"><a href="/groeiscan" hreflang="nl">NL</a><a href="/en/groeiscan.html" class="active" hreflang="en">EN</a><a href="/es/groeiscan.html" hreflang="es">ES</a></div>
+      <a href="/en/groeiscan.html" class="btn btn-primary magnetic">Free growth scan</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8"/></svg></button>
+    </div>
+  </div>
+  <div class="progress-line"></div>
+</header>
+
+<div class="mnav" id="mnav">
+  <div class="mnav-top"><span class="logo" aria-label="Harte Growth"><img src="/logo-nav.svg" alt="Harte Growth"></span><button class="menu-btn" id="closeBtn" style="display:block" aria-label="Close"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8"/></svg></button></div>
+  <a href="/diensten.html">Services</a><a href="/cases.html">Cases</a><a href="/blog.html">Blog</a><a href="/over-ons.html">About</a><a href="/contact.html">Contact</a>
+  <a href="/en/groeiscan.html" class="btn btn-primary">Free growth scan</a>
+</div>
+
+<main>
+
+  <section class="scan-hero">
+    <div class="wrap-wide">
+      <div class="chapter reveal in"><span class="num">→</span><span>Live growth scan</span><span class="line"></span></div>
+      <h1 class="reveal in" style="font-size:clamp(38px,6vw,72px);font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:16px;">
+        In <em class="serif">30 seconds</em> you know<br>where your site leaks.
+      </h1>
+      <p class="reveal in" style="font-size:19px;color:var(--text-dim);max-width:600px;line-height:1.55;margin-bottom:36px;">
+        Paste your URL. Our scanner fetches your site live, checks SEO, speed, mobile and technical basics, and puts a verdict under it. For the report we ask your name and email so we can send it to you and go through it together.
+      </p>
+
+      <form class="scan-form reveal in" id="scanForm">
+        <div class="scan-input-wrap">
+          <span class="scan-globe">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18" stroke="currentColor" stroke-width="1.6"/></svg>
+          </span>
+          <input type="text" inputmode="url" id="scanUrl" placeholder="yourbusiness.com" autocomplete="off" spellcheck="false" autocapitalize="off" autocorrect="off" required>
+          <button type="submit" class="scan-submit" id="scanSubmit">
+            Start scan
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="scan-hint">Example: <button type="button" class="scan-example" data-url="hartegrowth.eu">hartegrowth.eu</button> · <button type="button" class="scan-example" data-url="google.com">google.com</button></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="scan-gate-panel" id="scanGate" hidden>
+    <div class="wrap-wide">
+      <div class="scan-gate-box">
+        <div class="chapter"><span class="num">→</span><span>Before we scan</span><span class="line"></span></div>
+        <h2 class="scan-gate-title">Where should we send the <em class="serif">report</em>?</h2>
+        <p class="scan-gate-lede">The scan is free. We keep your details only to share the report and, if you wish, to go through the results together. No newsletters, no reselling.</p>
+
+        <form id="gateForm" class="scan-gate-form">
+          <div class="scan-gate-fields">
+            <div class="gate-field">
+              <label for="gateName">Name</label>
+              <input type="text" id="gateName" name="name" required autocomplete="name" placeholder="First and last name">
+            </div>
+            <div class="gate-field">
+              <label for="gateEmail">Email</label>
+              <input type="email" id="gateEmail" name="email" required autocomplete="email" placeholder="you@yourbusiness.com">
+            </div>
+            <div class="gate-field">
+              <label for="gateCompany">Company <span class="opt">(optional)</span></label>
+              <input type="text" id="gateCompany" name="company" autocomplete="organization" placeholder="Company name">
+            </div>
+          </div>
+
+          <label class="scan-gate-consent">
+            <input type="checkbox" id="gateConsent" required>
+            <span>I agree that Harte Growth may store my scan results and contact me about them.</span>
+          </label>
+
+          <div class="scan-gate-actions">
+            <button type="submit" class="scan-submit" id="gateSubmit">
+              Start scan
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="scan-gate-back" id="gateBack">← different URL</button>
+          </div>
+
+          <div class="scan-gate-error" id="gateError" hidden></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="scan-panel" id="scanPanel" hidden>
+    <div class="wrap-wide">
+
+      <div class="scan-running" id="scanRunning">
+        <div class="scan-viz">
+          <div class="scan-radar">
+            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff4d1a" stop-opacity="0"/><stop offset="1" stop-color="#ff4d1a" stop-opacity=".7"/></linearGradient>
+                <radialGradient id="pulseGrad"><stop offset="0" stop-color="#ff4d1a" stop-opacity=".35"/><stop offset="1" stop-color="#ff4d1a" stop-opacity="0"/></radialGradient>
+              </defs>
+              <circle cx="200" cy="200" r="180" fill="none" stroke="#22252f" stroke-width="1"/>
+              <circle cx="200" cy="200" r="140" fill="none" stroke="#22252f" stroke-width="1" stroke-dasharray="2 5"/>
+              <circle cx="200" cy="200" r="100" fill="none" stroke="#22252f" stroke-width="1" stroke-dasharray="2 5"/>
+              <circle cx="200" cy="200" r="60" fill="none" stroke="#22252f" stroke-width="1" stroke-dasharray="2 5"/>
+              <line x1="200" y1="20" x2="200" y2="380" stroke="#1a1c24" stroke-width="1"/>
+              <line x1="20" y1="200" x2="380" y2="200" stroke="#1a1c24" stroke-width="1"/>
+              <circle cx="200" cy="200" r="180" fill="url(#pulseGrad)" class="radar-pulse"/>
+              <g class="radar-sweep">
+                <path d="M200 200 L200 20 A180 180 0 0 1 380 200 Z" fill="url(#sweepGrad)" opacity=".55"/>
+                <line x1="200" y1="200" x2="200" y2="20" stroke="#ff4d1a" stroke-width="1.5"/>
+              </g>
+              <circle cx="200" cy="200" r="4" fill="#ff4d1a"/>
+              <circle cx="200" cy="200" r="10" fill="none" stroke="#ff4d1a" stroke-width="1" opacity=".4" class="radar-ping"/>
+            </svg>
+            <div class="scan-radar-labels">
+              <div class="rl rl-top" data-cat="seo"><span class="rl-dot"></span><span>SEO</span></div>
+              <div class="rl rl-right" data-cat="perf"><span class="rl-dot"></span><span>Speed</span></div>
+              <div class="rl rl-bottom" data-cat="mobile"><span class="rl-dot"></span><span>Mobile</span></div>
+              <div class="rl rl-left" data-cat="tech"><span class="rl-dot"></span><span>Tech</span></div>
+            </div>
+          </div>
+          <div class="scan-viz-info">
+            <div class="scan-viz-domain" id="vizDomain">yoursite.com</div>
+            <div class="scan-viz-status" id="vizStatus">Connecting...</div>
+            <div class="scan-viz-hint">Usually takes 15 to 30 seconds. Google fetches your page live and analyses it layer by layer.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scan-results" id="scanResults" hidden>
+        <div class="chapter reveal in"><span class="num">01</span><span>Report</span><span class="line"></span></div>
+        <h2 style="font-size:clamp(30px,4vw,48px);font-weight:800;letter-spacing:-.03em;margin-bottom:8px;">Results for <em class="serif" id="resultDomain">yoursite.com</em></h2>
+        <p style="color:var(--text-dim);font-size:15px;margin-bottom:36px;">Source: Google Lighthouse + own checks · scan completed <span id="resultTime">now</span></p>
+
+        <div class="scan-scores" id="scanScores"></div>
+        <div class="scan-verdict" id="scanVerdict"></div>
+
+        <div class="scan-findings">
+          <div class="chapter"><span class="num">02</span><span>What we saw</span><span class="line"></span></div>
+          <div class="scan-finding-list" id="scanFindings"></div>
+        </div>
+
+        <div class="scan-cta">
+          <div>
+            <h3>Want us to go through this with you?</h3>
+            <p>We read along, prioritise the fixes and tell you what we would do (and what you can easily do yourself). No obligation.</p>
+          </div>
+          <a href="#" id="scanWhatsapp" class="btn btn-primary magnetic" target="_blank" rel="noopener">
+            Send scan to Harte Growth
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+          </a>
+        </div>
+
+        <button type="button" class="scan-restart" id="scanRestart">↺ Scan another site</button>
+      </div>
+
+      <div class="scan-error" id="scanError" hidden>
+        <h3>Something went wrong with the scan.</h3>
+        <p id="scanErrorMsg">The site could not be fetched. Check the URL and try again.</p>
+        <button type="button" class="btn btn-ghost" id="scanErrorRetry">Try again</button>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="sec-tight" id="how">
+    <div class="wrap-wide">
+      <div class="chapter reveal"><span class="num">03</span><span>What the scan checks</span><span class="line"></span></div>
+      <div class="scan-what-grid">
+        <div class="scan-what reveal"><div class="scan-what-num">01</div><h3>SEO fundamentals</h3><p>Title, meta description, canonical, headings, language code, structured data. Everything Google needs to display you well.</p></div>
+        <div class="scan-what reveal"><div class="scan-what-num">02</div><h3>Speed</h3><p>Load time, size, blocking scripts. Every second of delay costs you 7% conversion. Google knows that too.</p></div>
+        <div class="scan-what reveal"><div class="scan-what-num">03</div><h3>Mobile</h3><p>60% of your visitors are on mobile. We check viewport, text size, tap targets and whether everything fits properly.</p></div>
+        <div class="scan-what reveal"><div class="scan-what-num">04</div><h3>Accessibility</h3><p>Alt text, contrast, focus states, ARIA. Important for everyone who does not use a mouse, and for Google.</p></div>
+      </div>
+      <p class="scan-disclaimer">The scan uses Google Lighthouse, the official audit tool Google publishes for sites. We store name and email only to send you the report and, if you like, go through it together. No newsletters, no reselling.</p>
+    </div>
+  </section>
+
+</main>
+
+<section class="cta-full">
+  <div class="wrap-wide">
+    <div class="chapter reveal"><span class="num">→</span><span>Next step</span><span class="line"></span></div>
+    <h2 class="reveal">Need more than a scan?<br>Book a <em>call</em>.</h2>
+    <p class="reveal">Twenty minutes, no sales pitch. We have already looked at your site before the call.</p>
+    <a href="/contact.html" class="btn btn-primary magnetic reveal">Book a call
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap-wide">
+    <div class="foot-grid">
+      <div class="foot-brand"><h3>Harte<em> Growth.</em></h3><p>Growth marketing for businesses ready to grow. Website and funnel as foundation, content, SEO, video and ads as engine. Working from the Netherlands and Spain, remote across Europe.</p></div>
+      <div><h4>Services</h4><ul class="foot-links"><li><a href="/diensten.html">Website &amp; funnel</a></li><li><a href="/diensten.html">Google &amp; SEO</a></li><li><a href="/diensten.html">Content &amp; video</a></li><li><a href="/diensten.html">AI &amp; automation</a></li></ul></div>
+      <div><h4>Studio</h4><ul class="foot-links"><li><a href="/cases.html">Cases</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/over-ons.html">About</a></li></ul></div>
+      <div><h4>Contact</h4><ul class="foot-links"><li><a href="/contact.html">Contact form</a></li><li><a href="https://wa.me/31634455762">WhatsApp</a></li></ul><h4 style="margin-top:22px;">Social</h4><ul class="foot-links"><li><a href="https://www.instagram.com/hartegrowth" rel="me">Instagram</a></li><li><a href="https://www.facebook.com/profile.php?id=61592600399432" rel="me">Facebook</a></li><li><a href="https://www.tiktok.com/@hartegrowth" rel="me">TikTok</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Harte Growth</span><span>Netherlands · Costa Blanca · Remote</span></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/31634455762?text=Hi%20Harte%20Growth%2C%20I%27d%20like%20to%20request%20a%20free%20growth%20scan." class="wa-float" aria-label="WhatsApp">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+  WhatsApp
+</a>
+
+<script src="/script.js"></script>
+</body>
+</html>

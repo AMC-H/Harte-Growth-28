@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escaneo gratis · Informe en vivo en 30 segundos | Harte Growth</title>
+<meta name="description" content="Pega la URL de tu web. Recibe un informe al instante: SEO, velocidad, móvil, técnico y consejos concretos. Sin registro, sin esperas.">
+<link rel="canonical" href="https://hartegrowth.eu/es/groeiscan.html">
+<link rel="alternate" hreflang="nl" href="https://hartegrowth.eu/groeiscan">
+<link rel="alternate" hreflang="en" href="https://hartegrowth.eu/en/groeiscan.html">
+<link rel="alternate" hreflang="es" href="https://hartegrowth.eu/es/groeiscan.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<canvas class="bg-canvas"></canvas>
+
+<header>
+  <div class="nav">
+    <a href="/es/" class="logo" aria-label="Harte Growth"><img src="/logo-nav.svg" alt="Harte Growth"></a>
+    <nav class="navlinks"><a href="/diensten.html">Servicios</a><a href="/cases.html">Casos</a><a href="/blog.html">Blog</a><a href="/over-ons.html">Nosotros</a><a href="/contact.html">Contacto</a></nav>
+    <div class="nav-right">
+      <div class="lang-switch" role="navigation" aria-label="Idioma"><a href="/groeiscan" hreflang="nl">NL</a><a href="/en/groeiscan.html" hreflang="en">EN</a><a href="/es/groeiscan.html" class="active" hreflang="es">ES</a></div>
+      <a href="/es/groeiscan.html" class="btn btn-primary magnetic">Escaneo gratis</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menú"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8"/></svg></button>
+    </div>
+  </div>
+  <div class="progress-line"></div>
+</header>
+
+<div class="mnav" id="mnav">
+  <div class="mnav-top"><span class="logo" aria-label="Harte Growth"><img src="/logo-nav.svg" alt="Harte Growth"></span><button class="menu-btn" id="closeBtn" style="display:block" aria-label="Cerrar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8"/></svg></button></div>
+  <a href="/diensten.html">Servicios</a><a href="/cases.html">Casos</a><a href="/blog.html">Blog</a><a href="/over-ons.html">Nosotros</a><a href="/contact.html">Contacto</a>
+  <a href="/es/groeiscan.html" class="btn btn-primary">Escaneo gratis</a>
+</div>
+
+<main>
+
+  <section class="scan-hero">
+    <div class="wrap-wide">
+      <div class="chapter reveal in"><span class="num">→</span><span>Escaneo en vivo</span><span class="line"></span></div>
+      <h1 class="reveal in" style="font-size:clamp(38px,6vw,72px);font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:16px;">
+        En <em class="serif">30 segundos</em> sabes<br>por dónde pierde tu web.
+      </h1>
+      <p class="reveal in" style="font-size:19px;color:var(--text-dim);max-width:600px;line-height:1.55;margin-bottom:36px;">
+        Pega tu URL. Nuestro escáner obtiene tu web en vivo, revisa SEO, velocidad, móvil y técnica, y pone un veredicto debajo. Para el informe te pedimos nombre y email, para poder enviártelo y comentarlo contigo.
+      </p>
+
+      <form class="scan-form reveal in" id="scanForm">
+        <div class="scan-input-wrap">
+          <span class="scan-globe">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18" stroke="currentColor" stroke-width="1.6"/></svg>
+          </span>
+          <input type="text" inputmode="url" id="scanUrl" placeholder="tuempresa.es" autocomplete="off" spellcheck="false" autocapitalize="off" autocorrect="off" required>
+          <button type="submit" class="scan-submit" id="scanSubmit">
+            Iniciar escaneo
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="scan-hint">Ejemplo: <button type="button" class="scan-example" data-url="hartegrowth.eu">hartegrowth.eu</button> · <button type="button" class="scan-example" data-url="google.com">google.com</button></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="scan-gate-panel" id="scanGate" hidden>
+    <div class="wrap-wide">
+      <div class="scan-gate-box">
+        <div class="chapter"><span class="num">→</span><span>Antes de escanear</span><span class="line"></span></div>
+        <h2 class="scan-gate-title">¿A dónde enviamos el <em class="serif">informe</em>?</h2>
+        <p class="scan-gate-lede">El escaneo es gratis. Guardamos tus datos solo para compartirte el informe y, si quieres, comentarlo contigo. Sin newsletters, sin reventa.</p>
+
+        <form id="gateForm" class="scan-gate-form">
+          <div class="scan-gate-fields">
+            <div class="gate-field">
+              <label for="gateName">Nombre</label>
+              <input type="text" id="gateName" name="name" required autocomplete="name" placeholder="Nombre y apellidos">
+            </div>
+            <div class="gate-field">
+              <label for="gateEmail">Email</label>
+              <input type="email" id="gateEmail" name="email" required autocomplete="email" placeholder="tu@tuempresa.es">
+            </div>
+            <div class="gate-field">
+              <label for="gateCompany">Empresa <span class="opt">(opcional)</span></label>
+              <input type="text" id="gateCompany" name="company" autocomplete="organization" placeholder="Nombre de la empresa">
+            </div>
+          </div>
+
+          <label class="scan-gate-consent">
+            <input type="checkbox" id="gateConsent" required>
+            <span>Acepto que Harte Growth guarde los resultados de mi escaneo y me contacte al respecto.</span>
+          </label>
+
+          <div class="scan-gate-actions">
+            <button type="submit" class="scan-submit" id="gateSubmit">
+              Iniciar escaneo
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="scan-gate-back" id="gateBack">← otra URL</button>
+          </div>
+
+          <div class="scan-gate-error" id="gateError" hidden></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="scan-panel" id="scanPanel" hidden>
+    <div class="wrap-wide">
+
+      <div class="scan-running" id="scanRunning">
+        <div class="scan-viz">
+          <div class="scan-radar">
+            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff4d1a" stop-opacity="0"/><stop offset="1" stop-color="#ff4d1a" stop-opacity=".7"/></linearGradient>
+                <radialGradient id="pulseGrad"><stop offset="0" stop-color="#ff4d1a" stop-opacity=".35"/><stop offset="1" stop-color="#ff4d1a" stop-opacity="0"/></radialGradient>
+              </defs>
+              <circle cx="200" cy="200" r="180" fill="none" stroke="#22252f" stroke-width="1"/>
+              <circle cx="200" cy="200" r="140" fill="none" stroke="#22252f" stroke-width="1" stroke-dasharray="2 5"/>
+              <circle cx="200" cy="200" r="100" fill="none" stroke="#22252f" stroke-width="1" stroke-dasharray="2 5"/>
+              <circle cx="200" cy="200" r="60" fill="none" stroke="#22252f" stroke-width="1" stroke-dasharray="2 5"/>
+              <line x1="200" y1="20" x2="200" y2="380" stroke="#1a1c24" stroke-width="1"/>
+              <line x1="20" y1="200" x2="380" y2="200" stroke="#1a1c24" stroke-width="1"/>
+              <circle cx="200" cy="200" r="180" fill="url(#pulseGrad)" class="radar-pulse"/>
+              <g class="radar-sweep">
+                <path d="M200 200 L200 20 A180 180 0 0 1 380 200 Z" fill="url(#sweepGrad)" opacity=".55"/>
+                <line x1="200" y1="200" x2="200" y2="20" stroke="#ff4d1a" stroke-width="1.5"/>
+              </g>
+              <circle cx="200" cy="200" r="4" fill="#ff4d1a"/>
+              <circle cx="200" cy="200" r="10" fill="none" stroke="#ff4d1a" stroke-width="1" opacity=".4" class="radar-ping"/>
+            </svg>
+            <div class="scan-radar-labels">
+              <div class="rl rl-top" data-cat="seo"><span class="rl-dot"></span><span>SEO</span></div>
+              <div class="rl rl-right" data-cat="perf"><span class="rl-dot"></span><span>Velocidad</span></div>
+              <div class="rl rl-bottom" data-cat="mobile"><span class="rl-dot"></span><span>Móvil</span></div>
+              <div class="rl rl-left" data-cat="tech"><span class="rl-dot"></span><span>Técnica</span></div>
+            </div>
+          </div>
+          <div class="scan-viz-info">
+            <div class="scan-viz-domain" id="vizDomain">tusite.es</div>
+            <div class="scan-viz-status" id="vizStatus">Conectando...</div>
+            <div class="scan-viz-hint">Suele tardar de 15 a 30 segundos. Google obtiene tu página en vivo y la analiza capa por capa.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scan-results" id="scanResults" hidden>
+        <div class="chapter reveal in"><span class="num">01</span><span>Informe</span><span class="line"></span></div>
+        <h2 style="font-size:clamp(30px,4vw,48px);font-weight:800;letter-spacing:-.03em;margin-bottom:8px;">Resultados para <em class="serif" id="resultDomain">tusite.es</em></h2>
+        <p style="color:var(--text-dim);font-size:15px;margin-bottom:36px;">Fuente: Google Lighthouse + comprobaciones propias · escaneo hecho <span id="resultTime">ahora</span></p>
+
+        <div class="scan-scores" id="scanScores"></div>
+        <div class="scan-verdict" id="scanVerdict"></div>
+
+        <div class="scan-findings">
+          <div class="chapter"><span class="num">02</span><span>Lo que vimos</span><span class="line"></span></div>
+          <div class="scan-finding-list" id="scanFindings"></div>
+        </div>
+
+        <div class="scan-cta">
+          <div>
+            <h3>¿Quieres que lo revisemos contigo?</h3>
+            <p>Lo leemos con detalle, priorizamos las correcciones y te decimos qué haríamos (y qué puedes hacer tú fácilmente). Sin compromiso.</p>
+          </div>
+          <a href="#" id="scanWhatsapp" class="btn btn-primary magnetic" target="_blank" rel="noopener">
+            Enviar escaneo a Harte Growth
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+          </a>
+        </div>
+
+        <button type="button" class="scan-restart" id="scanRestart">↺ Escanear otra web</button>
+      </div>
+
+      <div class="scan-error" id="scanError" hidden>
+        <h3>Algo ha ido mal con el escaneo.</h3>
+        <p id="scanErrorMsg">No se pudo obtener la web. Comprueba la URL e inténtalo de nuevo.</p>
+        <button type="button" class="btn btn-ghost" id="scanErrorRetry">Reintentar</button>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="sec-tight" id="how">
+    <div class="wrap-wide">
+      <div class="chapter reveal"><span class="num">03</span><span>Qué comprueba el escaneo</span><span class="line"></span></div>
+      <div class="scan-what-grid">
+        <div class="scan-what reveal"><div class="scan-what-num">01</div><h3>Fundamentos SEO</h3><p>Título, meta description, canonical, encabezados, código de idioma, datos estructurados. Todo lo que Google necesita para mostrarte bien.</p></div>
+        <div class="scan-what reveal"><div class="scan-what-num">02</div><h3>Velocidad</h3><p>Tiempo de carga, tamaño, scripts que bloquean. Cada segundo de retraso te cuesta un 7% de conversión. Google también lo sabe.</p></div>
+        <div class="scan-what reveal"><div class="scan-what-num">03</div><h3>Móvil</h3><p>El 60% de tus visitas están en móvil. Comprobamos viewport, tamaño de texto, objetivos táctiles y que todo encaja.</p></div>
+        <div class="scan-what reveal"><div class="scan-what-num">04</div><h3>Accesibilidad</h3><p>Alt-texts, contraste, estados de foco, ARIA. Importante para todo el que no usa el ratón, y para Google.</p></div>
+      </div>
+      <p class="scan-disclaimer">El escaneo usa Google Lighthouse, la herramienta oficial de auditoría que Google publica para sitios. Guardamos nombre y email solo para enviarte el informe y, si quieres, comentarlo contigo. Sin newsletters, sin reventa.</p>
+    </div>
+  </section>
+
+</main>
+
+<section class="cta-full">
+  <div class="wrap-wide">
+    <div class="chapter reveal"><span class="num">→</span><span>Siguiente paso</span><span class="line"></span></div>
+    <h2 class="reveal">¿Necesitas más que un escaneo?<br>Reserva una <em>llamada</em>.</h2>
+    <p class="reveal">Veinte minutos, sin argumentos de venta. Ya hemos mirado tu web antes de la llamada.</p>
+    <a href="/contact.html" class="btn btn-primary magnetic reveal">Reservar llamada
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap-wide">
+    <div class="foot-grid">
+      <div class="foot-brand"><h3>Harte<em> Growth.</em></h3><p>Marketing de crecimiento para empresas que quieren crecer de verdad. Web y embudo como base, contenido, SEO, vídeo y anuncios como motor. Trabajando desde España y Países Bajos, remoto en toda Europa.</p></div>
+      <div><h4>Servicios</h4><ul class="foot-links"><li><a href="/diensten.html">Web &amp; embudo</a></li><li><a href="/diensten.html">Google &amp; SEO</a></li><li><a href="/diensten.html">Contenido &amp; vídeo</a></li><li><a href="/diensten.html">IA &amp; automatización</a></li></ul></div>
+      <div><h4>Estudio</h4><ul class="foot-links"><li><a href="/cases.html">Casos</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/over-ons.html">Nosotros</a></li></ul></div>
+      <div><h4>Contacto</h4><ul class="foot-links"><li><a href="/contact.html">Formulario</a></li><li><a href="https://wa.me/31634455762">WhatsApp</a></li></ul><h4 style="margin-top:22px;">Redes</h4><ul class="foot-links"><li><a href="https://www.instagram.com/hartegrowth" rel="me">Instagram</a></li><li><a href="https://www.facebook.com/profile.php?id=61592600399432" rel="me">Facebook</a></li><li><a href="https://www.tiktok.com/@hartegrowth" rel="me">TikTok</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Harte Growth</span><span>España · Costa Blanca · Remoto</span></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/31634455762?text=Hola%20Harte%20Growth%2C%20me%20gustar%C3%ADa%20solicitar%20un%20escaneo%20de%20crecimiento%20gratis." class="wa-float" aria-label="WhatsApp">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+  WhatsApp
+</a>
+
+<script src="/script.js"></script>
+</body>
+</html>
