@@ -351,7 +351,7 @@ footer .foot-links a:hover{color:var(--accent);}
 /* GROWTH STORY (scroll-driven chart) */
 .growth-story{position:relative;padding:60px 0 100px;}
 .growth-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
-@media(max-width:900px){.growth-grid{grid-template-columns:1fr;gap:32px;}}
+@media(max-width:900px){.growth-grid{grid-template-columns:1fr;gap:0;}}
 .growth-sticky{position:sticky;top:100px;}
 .growth-chart-wrap{background:#0f1015;border:1px solid #25262e;border-radius:14px;padding:26px;}
 .growth-chart-wrap svg{width:100%;height:auto;}
@@ -360,7 +360,16 @@ footer .foot-links a:hover{color:var(--accent);}
 .growth-metrics .mn{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:32px;color:#ff4d1a;display:block;line-height:1;letter-spacing:-.02em;}
 .growth-metrics .mlbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#8a8b95;text-transform:uppercase;letter-spacing:.06em;margin-top:6px;display:block;}
 .growth-scroller{display:flex;flex-direction:column;gap:32vh;padding:20vh 0 40vh;}
-@media(max-width:900px){.growth-scroller{gap:20px;padding:0;}}
+@media(max-width:900px){
+  /* Mobiel: grafiek plakt bovenaan, kaarten scrollen eronder door achter de grafiek langs */
+  .growth-sticky{position:sticky;top:60px;z-index:20;background:#0a0a0c;padding:10px 0 12px;margin:0 -18px 14px;padding-left:18px;padding-right:18px;box-shadow:0 8px 20px -6px rgba(0,0,0,.75);}
+  .growth-chart-wrap{padding:14px;}
+  .growth-metrics{grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;}
+  .growth-metrics .m{padding:8px 8px;}
+  .growth-metrics .mn{font-size:22px;}
+  .growth-metrics .mlbl{font-size:9.5px;margin-top:2px;}
+  .growth-scroller{gap:45vh;padding:12px 0 30vh;position:relative;z-index:1;}
+}
 .gs-step{padding:26px 28px;background:#0f1015;border:1px solid #25262e;border-radius:12px;transition:border-color .3s,transform .3s;}
 .gs-step.reached{border-color:#ff4d1a;transform:translateX(-6px);}
 .gs-step .when{font-family:'JetBrains Mono',monospace;font-size:11px;color:#ff4d1a;letter-spacing:.08em;font-weight:600;text-transform:uppercase;}
