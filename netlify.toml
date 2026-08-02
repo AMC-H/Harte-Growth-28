@@ -63,3 +63,34 @@
   from = "/blog-ai-whatsapp.html"
   to = "/blog-ai-whatsapp"
   status = 301
+
+# Aliases voor 'gratis-groeiscan' (Google Search Console + oude links)
+[[redirects]]
+  from = "/gratis-groeiscan"
+  to = "/groeiscan"
+  status = 301
+
+[[redirects]]
+  from = "/gratis-groeiscan.html"
+  to = "/groeiscan"
+  status = 301
+
+[[redirects]]
+  from = "/en/gratis-groeiscan"
+  to = "/en/groeiscan.html"
+  status = 301
+
+[[redirects]]
+  from = "/en/gratis-groeiscan.html"
+  to = "/en/groeiscan.html"
+  status = 301
+
+[[redirects]]
+  from = "/es/gratis-groeiscan"
+  to = "/es/groeiscan.html"
+  status = 301
+
+[[redirects]]
+  from = "/es/gratis-groeiscan.html"
+  to = "/es/groeiscan.html"
+  status = 301
