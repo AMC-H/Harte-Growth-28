@@ -861,6 +861,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const waMsg = buildWhatsappMsg(host, url, scores, avg);
     scanWhatsapp.href = `https://wa.me/31634455762?text=${encodeURIComponent(waMsg)}`;
 
+    // GA4 conversie: succesvolle groeiscan (geen persoonsgegevens meegegeven)
+    if(window.hgTrack){ window.hgTrack('growth_scan_submit', { page_path: location.pathname, form_name: 'growth_scan', lang: L }); }
+
     // Rapport-mail naar klant (met kopie naar Alain). Non-blocking. Taal wordt meegestuurd.
     if(currentLead && currentLead.email){
       const findings = extractFindings(lh).slice(0, 6);
@@ -1152,6 +1155,8 @@ Kunnen we bespreken wat de eerste stappen zouden zijn?
       submitBtn.textContent = 'Bericht verzonden ✓';
       status.textContent = 'Bedankt! We reageren binnen 1 werkdag op ' + data.email + '.';
       status.style.color = '#4ade80';
+      // GA4 conversie: succesvol contactformulier (geen persoonsgegevens meegegeven)
+      if(window.hgTrack){ window.hgTrack('contact_form_submit', { page_path: location.pathname, form_name: 'contact' }); }
     } catch(err){
       submitBtn.disabled = false;
       submitBtn.innerHTML = 'Verstuur bericht <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
