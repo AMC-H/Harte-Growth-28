@@ -625,6 +625,10 @@ footer .foot-links a:hover{color:var(--accent);}
 .hg-cc-toggle.hg-cc-disabled{color:#6d6f7a;cursor:not-allowed;}
 .hg-cc-toggle.hg-cc-disabled input{cursor:not-allowed;}
 .hg-cc-prefs .hg-cc-btn-primary{align-self:flex-end;}
+/* Cookie-instellingen link in de footer (past bij foot-bottom stijl) */
+.hg-cookie-link{background:none;border:none;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;text-decoration-color:rgba(255,255,255,.25);transition:color .18s,text-decoration-color .18s;}
+.hg-cookie-link:hover,.hg-cookie-link:focus-visible{color:#ff4d1a;text-decoration-color:#ff4d1a;outline:none;}
+.hg-cookie-link:focus-visible{outline:2px solid #ff4d1a;outline-offset:3px;border-radius:2px;}
 @media(max-width:600px){
   #hg-cookie-banner{left:10px;right:10px;bottom:10px;border-radius:12px;}
   .hg-cc-inner{padding:16px 16px;}
