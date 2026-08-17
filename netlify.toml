@@ -94,3 +94,29 @@
   from = "/es/gratis-groeiscan.html"
   to = "/es/groeiscan.html"
   status = 301
+
+# Costa Blanca lokale pagina's — schone URLs
+[[redirects]]
+  from = "/costa-blanca/moraira.html"
+  to = "/costa-blanca/moraira"
+  status = 301
+
+[[redirects]]
+  from = "/costa-blanca/javea.html"
+  to = "/costa-blanca/javea"
+  status = 301
+
+[[redirects]]
+  from = "/costa-blanca/altea.html"
+  to = "/costa-blanca/altea"
+  status = 301
+
+[[redirects]]
+  from = "/costa-blanca/denia.html"
+  to = "/costa-blanca/denia"
+  status = 301
+
+[[redirects]]
+  from = "/costa-blanca/benidorm.html"
+  to = "/costa-blanca/benidorm"
+  status = 301
