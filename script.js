@@ -574,6 +574,134 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }[L];
 
+  // === Deep-SEO strings (los van T om edits klein te houden) ===
+  const TD = ({
+    nl: {
+      section: 'Diepere SEO-check (live-parse van je HTML)',
+      badges: { ok:'ok', warn:'kan beter', bad:'fix nodig', missing:'ontbreekt' },
+      items: {
+        titleLen:      { label:'Titel-lengte',            hint:'Titel moet 30–60 tekens zijn voor optimale weergave in Google.' },
+        descLen:       { label:'Meta-beschrijving lengte',hint:'120–160 tekens werkt het best in de zoekresultaten.' },
+        canonical:     { label:'Canonical URL',           hint:'Vertelt Google welke URL de originele is (voorkomt duplicate content).' },
+        hreflang:      { label:'Hreflang tags',           hint:'Nodig als je meerdere talen hebt (NL/EN/ES). Anders concurreren je vertalingen met elkaar.' },
+        og:            { label:'Open Graph (social)',     hint:'Zorgt dat je site er goed uitziet als iemand hem deelt op WhatsApp, LinkedIn of Facebook.' },
+        jsonld:        { label:'Structured data (JSON-LD)', hint:'Vertelt Google exact wat voor bedrijf, product of dienst dit is. Verhoogt kans op rich results.' },
+        h1:            { label:'H1 hoofdkop',             hint:'Precies één H1 per pagina. Vertelt Google én bezoeker waar de pagina over gaat.' },
+        imgAlt:        { label:'Alt-teksten op afbeeldingen', hint:'Beschrijvende alt-teksten helpen Google Images en toegankelijkheid.' },
+        wordCount:     { label:'Content-omvang',          hint:'Onder de 300 woorden ziet Google als "dunne content". Hoe meer relevante uitleg, hoe beter.' },
+        robots:        { label:'robots.txt aanwezig',     hint:'Standaard bestand dat zoekmachines eerst opzoeken. Ontbreekt: minder professioneel signaal.' },
+        sitemap:       { label:'sitemap.xml aanwezig',    hint:'Kaart van alle pagina\'s. Zonder sitemap moet Google alles zelf ontdekken.' }
+      }
+    },
+    en: {
+      section: 'Deeper SEO check (live parse of your HTML)',
+      badges: { ok:'ok', warn:'could be better', bad:'needs fix', missing:'missing' },
+      items: {
+        titleLen:      { label:'Title length',            hint:'Title should be 30–60 characters for optimal display in Google.' },
+        descLen:       { label:'Meta description length', hint:'120–160 characters works best in search results.' },
+        canonical:     { label:'Canonical URL',           hint:'Tells Google which URL is the original (prevents duplicate content).' },
+        hreflang:      { label:'Hreflang tags',           hint:'Required if you have multiple languages (NL/EN/ES). Otherwise your translations compete.' },
+        og:            { label:'Open Graph (social)',     hint:'Makes your site look right when shared on WhatsApp, LinkedIn or Facebook.' },
+        jsonld:        { label:'Structured data (JSON-LD)', hint:'Tells Google exactly what business, product or service this is. Increases rich results chance.' },
+        h1:            { label:'H1 heading',              hint:'Exactly one H1 per page. Tells Google and visitors what the page is about.' },
+        imgAlt:        { label:'Image alt text',          hint:'Descriptive alt text helps Google Images and accessibility.' },
+        wordCount:     { label:'Content depth',           hint:'Under 300 words Google considers "thin content". More relevant explanation is better.' },
+        robots:        { label:'robots.txt present',      hint:'Standard file search engines look for first. Missing = less professional signal.' },
+        sitemap:       { label:'sitemap.xml present',     hint:'Map of all your pages. Without a sitemap Google has to discover everything itself.' }
+      }
+    },
+    es: {
+      section: 'Análisis SEO profundo (parseo en vivo de tu HTML)',
+      badges: { ok:'ok', warn:'mejorable', bad:'a corregir', missing:'falta' },
+      items: {
+        titleLen:      { label:'Longitud del título',     hint:'El título debe tener 30–60 caracteres para mostrarse bien en Google.' },
+        descLen:       { label:'Longitud meta descripción', hint:'120–160 caracteres funciona mejor en resultados.' },
+        canonical:     { label:'URL canónica',            hint:'Indica a Google cuál es la URL original (evita contenido duplicado).' },
+        hreflang:      { label:'Etiquetas hreflang',      hint:'Necesarias si tienes varios idiomas (NL/EN/ES). Sin ellas tus traducciones compiten entre sí.' },
+        og:            { label:'Open Graph (social)',     hint:'Hace que tu web se vea bien cuando se comparte en WhatsApp, LinkedIn o Facebook.' },
+        jsonld:        { label:'Datos estructurados (JSON-LD)', hint:'Indica a Google exactamente qué tipo de negocio, producto o servicio es. Aumenta rich results.' },
+        h1:            { label:'Encabezado H1',           hint:'Exactamente un H1 por página. Dice a Google y visitantes de qué trata la página.' },
+        imgAlt:        { label:'Alt-text en imágenes',    hint:'Alt descriptivo ayuda a Google Images y a accesibilidad.' },
+        wordCount:     { label:'Profundidad de contenido', hint:'Por debajo de 300 palabras Google lo ve como "contenido pobre". Más explicación relevante es mejor.' },
+        robots:        { label:'robots.txt presente',     hint:'Archivo estándar que buscan los buscadores. Falta = señal menos profesional.' },
+        sitemap:       { label:'sitemap.xml presente',    hint:'Mapa de todas tus páginas. Sin él, Google tiene que descubrirlo todo por su cuenta.' }
+      }
+    }
+  })[L];
+
+  // Zet de HTML-analyse van seo-deep om in dezelfde finding-vorm als de Lighthouse-findings
+  function extractDeepFindings(d){
+    const B = TD.badges;
+    const I = TD.items;
+    const out = [];
+    const push = (key, cls, value) => {
+      const it = I[key];
+      if(!it) return;
+      const icon = cls === 'good' ? '✓' : cls === 'warn' ? '!' : cls === 'bad' ? '✕' : 'i';
+      const priority = cls === 'bad' ? 0 : cls === 'warn' ? 1 : 2;
+      out.push({ cls, icon, label: it.label, hint: it.hint, value, priority });
+    };
+
+    // Titel
+    if(!d.title) push('titleLen', 'bad', B.missing);
+    else if(d.titleLen < 30 || d.titleLen > 60) push('titleLen', 'warn', d.titleLen + ' ' + (L==='es'?'car.':'chars'));
+    else push('titleLen', 'good', d.titleLen + ' ' + (L==='es'?'car.':'chars'));
+
+    // Meta description
+    if(!d.description) push('descLen', 'bad', B.missing);
+    else if(d.descLen < 80 || d.descLen > 170) push('descLen', 'warn', d.descLen + ' ' + (L==='es'?'car.':'chars'));
+    else push('descLen', 'good', d.descLen + ' ' + (L==='es'?'car.':'chars'));
+
+    // Canonical
+    push('canonical', d.canonicalOk ? 'good' : 'warn', d.canonicalOk ? B.ok : B.missing);
+
+    // Hreflang — alleen tonen als er meerdere talen zijn (>1 taal-versie op site)
+    // We tonen dit altijd om multilingual awareness te wekken
+    if(d.hreflangCount >= 2) push('hreflang', 'good', d.hreflangCount + ' ' + (L==='nl'?'talen':L==='es'?'idiomas':'languages'));
+    else if(d.hreflangCount === 1) push('hreflang', 'warn', '1 ' + (L==='nl'?'taal':L==='es'?'idioma':'language'));
+    else push('hreflang', 'warn', B.missing);
+
+    // Open Graph
+    push('og', d.ogOk ? 'good' : 'warn', d.ogOk ? B.ok : (L==='nl'?'incompleet':L==='es'?'incompleto':'incomplete'));
+
+    // JSON-LD
+    if(d.jsonldTypes && d.jsonldTypes.length){
+      const uniq = [...new Set(d.jsonldTypes)].slice(0,3).join(', ');
+      push('jsonld', 'good', uniq);
+    } else {
+      push('jsonld', 'warn', B.missing);
+    }
+
+    // H1
+    if(d.h1Count === 1) push('h1', 'good', '1 H1');
+    else if(d.h1Count === 0) push('h1', 'bad', B.missing);
+    else push('h1', 'warn', d.h1Count + ' H1s');
+
+    // Image alt
+    if(d.imgTotal === 0) { /* niks tonen als geen images */ }
+    else if(d.imgNoAlt === 0) push('imgAlt', 'good', d.imgTotal + ' ok');
+    else {
+      const ratio = d.imgNoAlt / d.imgTotal;
+      const cls = ratio > 0.3 ? 'bad' : 'warn';
+      push('imgAlt', cls, d.imgNoAlt + '/' + d.imgTotal + ' ' + (L==='nl'?'zonder alt':L==='es'?'sin alt':'no alt'));
+    }
+
+    // Word count
+    if(d.wordCount < 200) push('wordCount', 'bad', d.wordCount + ' ' + (L==='nl'?'woorden':L==='es'?'palabras':'words'));
+    else if(d.wordCount < 400) push('wordCount', 'warn', d.wordCount + ' ' + (L==='nl'?'woorden':L==='es'?'palabras':'words'));
+    else push('wordCount', 'good', d.wordCount + ' ' + (L==='nl'?'woorden':L==='es'?'palabras':'words'));
+
+    // robots.txt
+    push('robots', d.robotsOk ? 'good' : 'warn', d.robotsOk ? B.ok : B.missing);
+
+    // sitemap.xml (in robots gedeclareerd of gevonden op /sitemap.xml)
+    const sitemapPresent = d.sitemapOk || !!d.robotsSitemap;
+    push('sitemap', sitemapPresent ? 'good' : 'warn', sitemapPresent ? B.ok : B.missing);
+
+    out.sort((a,b) => a.priority - b.priority);
+    return out;
+  }
+
   // Leads worden verzonden via Netlify Function (/.netlify/functions/send-lead) die Resend gebruikt.
 
   const scanUrl = document.getElementById('scanUrl');
@@ -856,6 +984,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Findings
     scanFindings.innerHTML = extractFindings(lh).map(findingCard).join('');
+
+    // Diepere SEO-check (parallel, non-blocking) — voegt hreflang/JSON-LD/OG/alt/robots-checks toe.
+    fetch('/.netlify/functions/seo-deep?url=' + encodeURIComponent(url))
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if(!data || data.error || !data.ok) return;
+        const extra = extractDeepFindings(data);
+        if(!extra.length) return;
+        scanFindings.insertAdjacentHTML('beforeend',
+          `<div class="finding-section-label">${TD.section}</div>` + extra.map(findingCard).join('')
+        );
+      })
+      .catch(err => console.warn('[seo-deep] failed:', err));
 
     // WhatsApp handoff
     const waMsg = buildWhatsappMsg(host, url, scores, avg);

@@ -524,6 +524,7 @@ footer .foot-links a:hover{color:var(--accent);}
 
 .scan-findings{margin-bottom:44px;}
 .scan-finding-list{display:flex;flex-direction:column;gap:14px;margin-top:20px;}
+.finding-section-label{margin-top:18px;padding-top:18px;border-top:1px dashed #25262e;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a8b95;text-transform:uppercase;letter-spacing:.08em;}
 .finding{background:#0f1015;border:1px solid #25262e;border-radius:12px;padding:20px 22px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start;}
 .finding-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;flex-shrink:0;}
 .finding.good .finding-icon{background:rgba(74,222,128,.12);color:#4ade80;}
