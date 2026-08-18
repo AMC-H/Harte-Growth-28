@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concurrent-scan · vergelijk jouw site met een concurrent | Harte Growth</title>
+<meta name="description" content="Twee URL's naast elkaar. Zie waar je concurrent wint en waar jij wint. Gratis, direct rapport met concrete actiepunten.">
+<link rel="canonical" href="https://hartegrowth.eu/tools/concurrent-scan">
+<link rel="alternate" hreflang="nl" href="https://hartegrowth.eu/tools/concurrent-scan">
+<link rel="alternate" hreflang="en" href="https://hartegrowth.eu/en/tools/concurrent-scan.html">
+<link rel="alternate" hreflang="es" href="https://hartegrowth.eu/es/tools/concurrent-scan.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Harte Growth">
+<meta property="og:image" content="https://hartegrowth.eu/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:title" content="Concurrent-scan · vergelijk jouw site met een concurrent | Harte Growth">
+<meta property="og:description" content="Twee URL's naast elkaar. Zie waar je concurrent wint en waar jij wint.">
+<meta property="og:url" content="https://hartegrowth.eu/tools/concurrent-scan">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://hartegrowth.eu/og-image.png">
+<script src="/analytics.js" defer></script>
+<style>
+.comp-form{margin-top:36px;display:grid;grid-template-columns:1fr 1fr auto;gap:12px;max-width:900px;}
+.comp-form input{background:#0f1015;border:1px solid #25262e;border-radius:12px;padding:16px 18px;color:var(--text);font:inherit;}
+.comp-form input:focus{outline:none;border-color:var(--accent);}
+.comp-form button{background:var(--accent);color:#fff;border:none;border-radius:12px;padding:0 26px;font-weight:600;cursor:pointer;font-family:inherit;font-size:15px;}
+.comp-form button:disabled{opacity:.6;cursor:not-allowed;}
+.comp-hint{margin-top:10px;font-size:13px;color:#565968;font-family:'JetBrains Mono',monospace;}
+.comp-panel{display:none;margin-top:48px;}
+.comp-panel.on{display:block;}
+.comp-loading{text-align:center;padding:60px 0;color:#8a8b95;}
+.comp-loading .dot{display:inline-block;width:8px;height:8px;background:var(--accent);border-radius:50%;margin:0 4px;animation:cdot 1.4s infinite ease-in-out;}
+.comp-loading .dot:nth-child(2){animation-delay:.2s;}
+.comp-loading .dot:nth-child(3){animation-delay:.4s;}
+@keyframes cdot{0%,80%,100%{opacity:.3;transform:scale(.8);}40%{opacity:1;transform:scale(1.2);}}
+.comp-heads{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;}
+.comp-head{background:#0f1015;border:1px solid #25262e;border-radius:16px;padding:24px;}
+.comp-head.you{border-color:var(--accent);}
+.comp-head .comp-role{font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a8b95;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.comp-head.you .comp-role{color:var(--accent);}
+.comp-head h3{font-size:22px;letter-spacing:-.02em;margin-bottom:6px;word-break:break-all;}
+.comp-head p{color:#8a8b95;font-size:14px;line-height:1.5;}
+.comp-table{background:#0f1015;border:1px solid #25262e;border-radius:16px;overflow:hidden;margin-bottom:32px;}
+.comp-row{display:grid;grid-template-columns:1.4fr 1fr 1fr;padding:14px 22px;border-top:1px solid #1c1d24;font-size:14px;align-items:center;}
+.comp-row:first-child{border-top:none;background:#0a0a0c;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a8b95;text-transform:uppercase;letter-spacing:.08em;padding:12px 22px;}
+.comp-row .m-label{color:#c8c9d0;}
+.comp-row .m-val{font-family:'JetBrains Mono',monospace;color:#c8c9d0;}
+.comp-row .m-val.win{color:#4ade80;}
+.comp-row .m-val.lose{color:#ff5c56;}
+.gap-list, .win-list{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+.gap-item, .win-item{background:#0f1015;border:1px solid #25262e;border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;}
+.gap-item .g-icon, .win-item .w-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;}
+.gap-item .g-icon{background:rgba(255,92,86,.12);color:#ff5c56;}
+.win-item .w-icon{background:rgba(74,222,128,.12);color:#4ade80;}
+.gap-item h4, .win-item h4{font-size:15px;margin-bottom:4px;}
+.gap-item p, .win-item p{color:#8a8b95;font-size:13px;line-height:1.5;}
+.gap-item .m-diff, .win-item .m-diff{font-family:'JetBrains Mono',monospace;font-size:12px;color:#565968;margin-top:6px;}
+.comp-error{background:#1a0d0d;border:1px solid rgba(255,92,86,.35);border-radius:12px;padding:20px 22px;color:#ffb0ac;margin-top:20px;}
+@media(max-width:700px){
+  .comp-form{grid-template-columns:1fr;}
+  .comp-heads{grid-template-columns:1fr;}
+  .comp-row{grid-template-columns:1fr;gap:4px;padding:12px 18px;}
+  .comp-row:first-child{display:none;}
+  .comp-row .m-label{color:#8a8b95;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;}
+}
+</style>
+</head>
+<body>
+<canvas class="bg-canvas"></canvas>
+
+<header>
+  <div class="nav">
+    <a href="/" class="logo" aria-label="Harte Growth"><img src="/logo-nav.svg" alt="Harte Growth"></a>
+    <nav class="navlinks"><a href="/diensten">Diensten</a><a href="/cases">Cases</a><a href="/tools/" class="active">Tools</a><a href="/blog">Blog</a><a href="/over-ons">Over ons</a><a href="/contact">Contact</a></nav>
+    <div class="nav-right">
+      <div class="lang-switch" role="navigation" aria-label="Taal"><a href="/tools/concurrent-scan" class="active" hreflang="nl">NL</a><a href="/en/tools/concurrent-scan.html" hreflang="en">EN</a><a href="/es/tools/concurrent-scan.html" hreflang="es">ES</a></div>
+      <a href="/groeiscan" class="btn btn-primary magnetic">Gratis groeiscan</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8"/></svg></button>
+    </div>
+  </div>
+  <div class="progress-line"></div>
+</header>
+
+<div class="mnav" id="mnav">
+  <div class="mnav-top"><span class="logo" aria-label="Harte Growth"><img src="/logo-nav.svg" alt="Harte Growth"></span><button class="menu-btn" id="closeBtn" style="display:block" aria-label="Sluit"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8"/></svg></button></div>
+  <div class="lang-switch" role="navigation" aria-label="Taal"><a href="/tools/concurrent-scan" class="active" hreflang="nl">NL</a><a href="/en/tools/concurrent-scan.html" hreflang="en">EN</a><a href="/es/tools/concurrent-scan.html" hreflang="es">ES</a></div>
+  <a href="/diensten">Diensten</a><a href="/cases">Cases</a><a href="/tools/">Tools</a><a href="/blog">Blog</a><a href="/over-ons">Over ons</a><a href="/contact">Contact</a>
+  <a href="/groeiscan" class="btn btn-primary">Gratis groeiscan</a>
+</div>
+
+<main>
+  <section class="hero" style="padding-bottom:40px;">
+    <div class="wrap-wide">
+      <div class="chapter reveal in"><span class="num">02</span><span>Concurrent-scan</span><span class="line"></span></div>
+      <h1 style="font-size:clamp(38px,6vw,68px);font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:16px;">
+        Waar wint <em class="serif">zij</em>.<br>Waar win jij.
+      </h1>
+      <p style="font-size:19px;color:var(--text-dim);max-width:600px;line-height:1.55;">Twee URL's. Wij halen ze allebei live op, parseren HTML naar HTML en zetten ze naast elkaar op de dingen die Google écht meeweegt.</p>
+
+      <form class="comp-form" id="compForm">
+        <input type="text" inputmode="url" id="youUrl" placeholder="jouwbedrijf.nl" autocomplete="off" spellcheck="false" required>
+        <input type="text" inputmode="url" id="themUrl" placeholder="concurrent.nl" autocomplete="off" spellcheck="false" required>
+        <button type="submit" id="compSubmit">Vergelijk →</button>
+      </form>
+      <div class="comp-hint">Voorbeeld: hartegrowth.eu vs. eenconcurrent.nl</div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap-wide">
+      <div class="comp-panel" id="compPanel">
+
+        <div class="comp-loading" id="compLoading">
+          <div><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div style="margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8a8b95;">Beide sites live ophalen en analyseren...</div>
+        </div>
+
+        <div id="compResults" hidden>
+          <div class="chapter"><span class="num">01</span><span>Resultaat</span><span class="line"></span></div>
+          <h2 style="font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.03em;margin-bottom:20px;">Vergelijking</h2>
+
+          <div class="comp-heads">
+            <div class="comp-head you">
+              <div class="comp-role">Jouw site</div>
+              <h3 id="youHost">—</h3>
+              <p id="youTitle">—</p>
+            </div>
+            <div class="comp-head">
+              <div class="comp-role">Concurrent</div>
+              <h3 id="themHost">—</h3>
+              <p id="themTitle">—</p>
+            </div>
+          </div>
+
+          <div class="comp-table" id="compTable"></div>
+
+          <div class="chapter"><span class="num">02</span><span>Waar zij winnen (gaps)</span><span class="line"></span></div>
+          <div class="gap-list" id="gapList"></div>
+
+          <div class="chapter" style="margin-top:40px;"><span class="num">03</span><span>Waar jij wint</span><span class="line"></span></div>
+          <div class="win-list" id="winList"></div>
+
+          <div class="scan-cta" style="margin-top:40px;">
+            <div>
+              <h3>Wil je dat wij deze gaps voor je dichten?</h3>
+              <p>Wij lezen mee, prioriteren de fixes en zeggen wat wij zelf zouden doen. Zonder verplichting.</p>
+            </div>
+            <a href="/groeiscan" class="btn btn-primary magnetic">Doe de gratis groeiscan
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="comp-error" id="compError" hidden></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap-wide">
+    <div class="foot-grid">
+      <div class="foot-brand"><h3>Harte<em> Growth.</em></h3><p>Groeimarketing voor bedrijven die serieus door willen groeien. Website en funnel als fundament, content, SEO, video en ads als motor.</p></div>
+      <div><h4>Diensten</h4><ul class="foot-links"><li><a href="/diensten">Website &amp; funnel</a></li><li><a href="/diensten">Google &amp; SEO</a></li><li><a href="/diensten">Content &amp; video</a></li><li><a href="/diensten">AI &amp; automatisering</a></li></ul></div>
+      <div><h4>Studio</h4><ul class="foot-links"><li><a href="/cases">Cases</a></li><li><a href="/tools/">Gratis tools</a></li><li><a href="/blog">Blog</a></li><li><a href="/over-ons">Over ons</a></li><li><a href="/costa-blanca/">Costa Blanca</a></li></ul></div>
+      <div><h4>Contact</h4><ul class="foot-links"><li><a href="/contact">Contactformulier</a></li><li><a href="https://wa.me/31634455762">WhatsApp</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Harte Growth</span><span>Nederland · Costa Blanca · Remote</span><span><button type="button" class="hg-cookie-link" onclick="hgOpenCookiePrefs()">Cookie-instellingen</button></span></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/31634455762?text=Hallo%20Harte%20Growth%2C%20ik%20heb%20een%20vraag%20over%20de%20concurrent-scan." class="wa-float" aria-label="WhatsApp">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+  WhatsApp
+</a>
+
+<script src="/script.js"></script>
+<script>
+(function(){
+  const LANG = (document.documentElement.lang || 'nl').slice(0,2).toLowerCase();
+  const L = ['nl','en','es'].includes(LANG) ? LANG : 'nl';
+  const T = {
+    nl: { yes:'ja', no:'nee', metrics:['Metric','Jouw site','Concurrent'], noGaps:'Geen significante gaps — je staat er sterk voor.', noWins:'Nog geen duidelijke wins tegenover deze concurrent.', errBoth:'Kon een of beide sites niet ophalen. Check de URL en probeer opnieuw.', words:'woorden' },
+    en: { yes:'yes', no:'no', metrics:['Metric','Your site','Competitor'], noGaps:'No significant gaps — you\'re in strong shape.', noWins:'No clear wins yet against this competitor.', errBoth:'Could not fetch one or both sites. Check the URL and try again.', words:'words' },
+    es: { yes:'sí', no:'no', metrics:['Métrica','Tu web','Competidor'], noGaps:'Sin gaps significativos — estás fuerte.', noWins:'Aún sin victorias claras frente a este competidor.', errBoth:'No se pudo cargar una o ambas webs. Comprueba la URL e inténtalo de nuevo.', words:'palabras' }
+  }[L];
+
+  const form = document.getElementById('compForm');
+  const submit = document.getElementById('compSubmit');
+  const panel = document.getElementById('compPanel');
+  const loading = document.getElementById('compLoading');
+  const results = document.getElementById('compResults');
+  const errBox = document.getElementById('compError');
+
+  function normalize(u){ u=(u||'').trim(); if(!u) return null; if(!/^https?:\/\//i.test(u)) u='https://'+u; try{ new URL(u); return u; }catch(_){ return null; } }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const you = normalize(document.getElementById('youUrl').value);
+    const them = normalize(document.getElementById('themUrl').value);
+    if(!you || !them) return;
+
+    panel.classList.add('on');
+    loading.style.display = 'block';
+    results.hidden = true;
+    errBox.hidden = true;
+    submit.disabled = true;
+
+    try {
+      const res = await fetch(`/.netlify/functions/competitor-scan?url=${encodeURIComponent(you)}&competitor=${encodeURIComponent(them)}`);
+      const data = await res.json();
+      loading.style.display = 'none';
+
+      if(data.error || !data.ok){
+        errBox.hidden = false;
+        errBox.textContent = T.errBoth;
+        return;
+      }
+
+      document.getElementById('youHost').textContent = data.you.host;
+      document.getElementById('themHost').textContent = data.them.host;
+      document.getElementById('youTitle').textContent = data.you.title || '—';
+      document.getElementById('themTitle').textContent = data.them.title || '—';
+
+      // Metrics-tabel
+      const rows = [
+        ['Content-omvang', data.you.wordCount + ' ' + T.words, data.them.wordCount + ' ' + T.words, data.you.wordCount, data.them.wordCount, 'higher'],
+        ['Secties (H2)', data.you.h2Count, data.them.h2Count, data.you.h2Count, data.them.h2Count, 'higher'],
+        ['Interne links', data.you.linkInt, data.them.linkInt, data.you.linkInt, data.them.linkInt, 'higher'],
+        ['Talen (hreflang)', data.you.hreflangCount, data.them.hreflangCount, data.you.hreflangCount, data.them.hreflangCount, 'higher'],
+        ['Structured data', (data.you.jsonldTypes||[]).length + ' types', (data.them.jsonldTypes||[]).length + ' types', (data.you.jsonldTypes||[]).length, (data.them.jsonldTypes||[]).length, 'higher'],
+        ['Images (zonder alt)', data.you.imgNoAlt + '/' + data.you.imgTotal, data.them.imgNoAlt + '/' + data.them.imgTotal, data.you.imgNoAlt, data.them.imgNoAlt, 'lower'],
+        ['HTTPS', data.you.isHttps ? T.yes : T.no, data.them.isHttps ? T.yes : T.no, data.you.isHttps?1:0, data.them.isHttps?1:0, 'higher'],
+        ['Canonical', data.you.canonicalOk ? T.yes : T.no, data.them.canonicalOk ? T.yes : T.no, data.you.canonicalOk?1:0, data.them.canonicalOk?1:0, 'higher'],
+        ['Open Graph', data.you.ogOk ? T.yes : T.no, data.them.ogOk ? T.yes : T.no, data.you.ogOk?1:0, data.them.ogOk?1:0, 'higher'],
+        ['robots.txt', data.you.robotsOk ? T.yes : T.no, data.them.robotsOk ? T.yes : T.no, data.you.robotsOk?1:0, data.them.robotsOk?1:0, 'higher'],
+        ['sitemap.xml', data.you.sitemapOk ? T.yes : T.no, data.them.sitemapOk ? T.yes : T.no, data.you.sitemapOk?1:0, data.them.sitemapOk?1:0, 'higher']
+      ];
+      let html = `<div class="comp-row"><div class="m-label">${T.metrics[0]}</div><div class="m-val">${T.metrics[1]}</div><div class="m-val">${T.metrics[2]}</div></div>`;
+      rows.forEach(r => {
+        const [label, youD, themD, youN, themN, dir] = r;
+        let youCls='', themCls='';
+        if(youN !== themN){
+          if(dir==='higher'){ if(youN>themN) youCls='win'; else themCls='win'; }
+          else { if(youN<themN) youCls='win'; else themCls='win'; }
+        }
+        html += `<div class="comp-row"><div class="m-label">${esc(label)}</div><div class="m-val ${youCls}">${esc(youD)}</div><div class="m-val ${themCls}">${esc(themD)}</div></div>`;
+      });
+      document.getElementById('compTable').innerHTML = html;
+
+      // Gaps
+      const gapList = document.getElementById('gapList');
+      if(data.gaps && data.gaps.length){
+        gapList.innerHTML = data.gaps.map(g => `
+          <div class="gap-item">
+            <div class="g-icon">↑</div>
+            <div>
+              <h4>${esc(g.label)}</h4>
+              <p>Zij: <strong>${esc(g.them)}</strong> · Jij: ${esc(g.you)}</p>
+              ${g.extra ? `<div class="m-diff">${esc(g.extra)}</div>` : ''}
+            </div>
+          </div>
+        `).join('');
+      } else {
+        gapList.innerHTML = `<div class="win-item"><div class="w-icon">✓</div><div><h4>${esc(T.noGaps)}</h4></div></div>`;
+      }
+
+      // Wins
+      const winList = document.getElementById('winList');
+      if(data.wins && data.wins.length){
+        winList.innerHTML = data.wins.map(w => `
+          <div class="win-item">
+            <div class="w-icon">✓</div>
+            <div>
+              <h4>${esc(w.label)}</h4>
+              <p>Jij: <strong>${esc(w.you)}</strong> · Zij: ${esc(w.them)}</p>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        winList.innerHTML = `<div class="gap-item"><div class="g-icon">—</div><div><h4>${esc(T.noWins)}</h4></div></div>`;
+      }
+
+      results.hidden = false;
+
+      if(window.hgTrack){ window.hgTrack('competitor_scan_submit', { page_path: location.pathname, lang: L }); }
+
+    } catch(err){
+      loading.style.display = 'none';
+      errBox.hidden = false;
+      errBox.textContent = T.errBoth + ' (' + err.message + ')';
+    } finally {
+      submit.disabled = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>

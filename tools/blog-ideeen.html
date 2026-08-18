@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog-ideeën generator · 10 SEO-onderwerpen voor jouw site | Harte Growth</title>
+<meta name="description" content="Geef ons je URL. We lezen wat je verkoopt en genereren 10 blog-onderwerpen die Google zoekt, met H2-structuur en zoekintentie erbij. Gratis.">
+<link rel="canonical" href="https://hartegrowth.eu/tools/blog-ideeen">
+<link rel="alternate" hreflang="nl" href="https://hartegrowth.eu/tools/blog-ideeen">
+<link rel="alternate" hreflang="en" href="https://hartegrowth.eu/en/tools/blog-ideeen.html">
+<link rel="alternate" hreflang="es" href="https://hartegrowth.eu/es/tools/blog-ideeen.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Harte Growth">
+<meta property="og:image" content="https://hartegrowth.eu/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:title" content="Blog-ideeën generator · 10 SEO-onderwerpen voor jouw site | Harte Growth">
+<meta property="og:description" content="Geef ons je URL. We lezen wat je verkoopt en genereren 10 blog-onderwerpen die Google zoekt.">
+<meta property="og:url" content="https://hartegrowth.eu/tools/blog-ideeen">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://hartegrowth.eu/og-image.png">
+<script src="/analytics.js" defer></script>
+<style>
+.idea-form{margin-top:36px;display:grid;grid-template-columns:1fr auto auto;gap:12px;max-width:820px;}
+.idea-form input, .idea-form select{background:#0f1015;border:1px solid #25262e;border-radius:12px;padding:16px 18px;color:var(--text);font:inherit;}
+.idea-form input:focus, .idea-form select:focus{outline:none;border-color:var(--accent);}
+.idea-form button{background:var(--accent);color:#fff;border:none;border-radius:12px;padding:0 26px;font-weight:600;cursor:pointer;font-family:inherit;font-size:15px;}
+.idea-form button:disabled{opacity:.6;cursor:not-allowed;}
+.idea-hint{margin-top:10px;font-size:13px;color:#565968;font-family:'JetBrains Mono',monospace;}
+.idea-panel{display:none;margin-top:48px;}
+.idea-panel.on{display:block;}
+.idea-loading{text-align:center;padding:60px 0;color:#8a8b95;}
+.idea-loading .dot{display:inline-block;width:8px;height:8px;background:var(--accent);border-radius:50%;margin:0 4px;animation:idot 1.4s infinite ease-in-out;}
+.idea-loading .dot:nth-child(2){animation-delay:.2s;}
+.idea-loading .dot:nth-child(3){animation-delay:.4s;}
+@keyframes idot{0%,80%,100%{opacity:.3;transform:scale(.8);}40%{opacity:1;transform:scale(1.2);}}
+.idea-context{background:#0f1015;border:1px solid #25262e;border-radius:16px;padding:24px;margin-bottom:32px;}
+.idea-context .ctx-meta{font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a8b95;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.idea-context h3{font-size:20px;letter-spacing:-.02em;margin-bottom:6px;}
+.idea-context p{color:#8a8b95;font-size:14px;line-height:1.55;}
+.idea-list{display:flex;flex-direction:column;gap:18px;}
+.idea-item{background:#0f1015;border:1px solid #25262e;border-radius:16px;padding:24px 26px;transition:border-color .18s;}
+.idea-item:hover{border-color:#33343e;}
+.idea-num{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:.08em;margin-bottom:8px;}
+.idea-title{font-size:22px;letter-spacing:-.02em;font-weight:700;margin-bottom:6px;line-height:1.3;}
+.idea-intent{font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a8b95;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;display:inline-block;background:#0a0a0c;border:1px solid #25262e;border-radius:6px;padding:3px 8px;}
+.idea-h2{margin-top:10px;padding-left:18px;border-left:2px solid #25262e;}
+.idea-h2 li{color:#c8c9d0;font-size:14px;line-height:1.6;margin-bottom:4px;list-style:none;position:relative;padding-left:14px;}
+.idea-h2 li::before{content:'H2';position:absolute;left:-2px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#565968;top:2px;}
+.idea-copy{margin-top:14px;background:none;border:1px solid #25262e;color:#8a8b95;padding:8px 14px;border-radius:8px;font:inherit;font-size:12px;cursor:pointer;transition:color .18s,border-color .18s;}
+.idea-copy:hover{color:var(--accent);border-color:var(--accent);}
+.idea-copy.copied{color:#4ade80;border-color:#4ade80;}
+.idea-error{background:#1a0d0d;border:1px solid rgba(255,92,86,.35);border-radius:12px;padding:20px 22px;color:#ffb0ac;margin-top:20px;}
+@media(max-width:700px){
+  .idea-form{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<canvas class="bg-canvas"></canvas>
+
+<header>
+  <div class="nav">
+    <a href="/" class="logo" aria-label="Harte Growth"><img src="/logo-nav.svg" alt="Harte Growth"></a>
+    <nav class="navlinks"><a href="/diensten">Diensten</a><a href="/cases">Cases</a><a href="/tools/" class="active">Tools</a><a href="/blog">Blog</a><a href="/over-ons">Over ons</a><a href="/contact">Contact</a></nav>
+    <div class="nav-right">
+      <div class="lang-switch" role="navigation" aria-label="Taal"><a href="/tools/blog-ideeen" class="active" hreflang="nl">NL</a><a href="/en/tools/blog-ideeen.html" hreflang="en">EN</a><a href="/es/tools/blog-ideeen.html" hreflang="es">ES</a></div>
+      <a href="/groeiscan" class="btn btn-primary magnetic">Gratis groeiscan</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8"/></svg></button>
+    </div>
+  </div>
+  <div class="progress-line"></div>
+</header>
+
+<div class="mnav" id="mnav">
+  <div class="mnav-top"><span class="logo" aria-label="Harte Growth"><img src="/logo-nav.svg" alt="Harte Growth"></span><button class="menu-btn" id="closeBtn" style="display:block" aria-label="Sluit"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8"/></svg></button></div>
+  <div class="lang-switch" role="navigation" aria-label="Taal"><a href="/tools/blog-ideeen" class="active" hreflang="nl">NL</a><a href="/en/tools/blog-ideeen.html" hreflang="en">EN</a><a href="/es/tools/blog-ideeen.html" hreflang="es">ES</a></div>
+  <a href="/diensten">Diensten</a><a href="/cases">Cases</a><a href="/tools/">Tools</a><a href="/blog">Blog</a><a href="/over-ons">Over ons</a><a href="/contact">Contact</a>
+  <a href="/groeiscan" class="btn btn-primary">Gratis groeiscan</a>
+</div>
+
+<main>
+  <section class="hero" style="padding-bottom:40px;">
+    <div class="wrap-wide">
+      <div class="chapter reveal in"><span class="num">03</span><span>Blog-onderwerp generator</span><span class="line"></span></div>
+      <h1 style="font-size:clamp(38px,6vw,68px);font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:16px;">
+        Nooit meer <em class="serif">"waarover schrijf ik?"</em>
+      </h1>
+      <p style="font-size:19px;color:var(--text-dim);max-width:620px;line-height:1.55;">Plak je URL en geef je doelgroep aan. Wij lezen wat je verkoopt en genereren 10 blog-onderwerpen die Google zoekt, met complete H2-structuur en zoekintentie.</p>
+
+      <form class="idea-form" id="ideaForm">
+        <input type="text" inputmode="url" id="ideaUrl" placeholder="jouwbedrijf.nl" autocomplete="off" spellcheck="false" required>
+        <select id="ideaAudience">
+          <option value="local">Lokale klanten (b2c)</option>
+          <option value="business">Zakelijke klanten (b2b)</option>
+          <option value="expat">Expats / meertalig</option>
+          <option value="ecom">Webshop / e-commerce</option>
+        </select>
+        <button type="submit" id="ideaSubmit">Genereer →</button>
+      </form>
+      <div class="idea-hint">Voorbeeld: hartegrowth.eu · zakelijk. Ideeën verschijnen binnen 5 seconden.</div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap-wide">
+      <div class="idea-panel" id="ideaPanel">
+
+        <div class="idea-loading" id="ideaLoading">
+          <div><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div style="margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8a8b95;">Site lezen en onderwerpen genereren...</div>
+        </div>
+
+        <div id="ideaResults" hidden>
+          <div class="idea-context" id="ideaContext"></div>
+          <div class="chapter"><span class="num">→</span><span>10 blog-onderwerpen</span><span class="line"></span></div>
+          <div class="idea-list" id="ideaList" style="margin-top:24px;"></div>
+
+          <div class="scan-cta" style="margin-top:40px;">
+            <div>
+              <h3>Wil je dat wij deze blogs voor je <em>schrijven</em>?</h3>
+              <p>Wij nemen 2 onderwerpen per maand, schrijven ze in jouw stem, en publiceren ze zo dat Google en socials meebewegen.</p>
+            </div>
+            <a href="/diensten" class="btn btn-primary magnetic">Bekijk content-service
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="idea-error" id="ideaError" hidden></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap-wide">
+    <div class="foot-grid">
+      <div class="foot-brand"><h3>Harte<em> Growth.</em></h3><p>Groeimarketing voor bedrijven die serieus door willen groeien. Website en funnel als fundament, content, SEO, video en ads als motor.</p></div>
+      <div><h4>Diensten</h4><ul class="foot-links"><li><a href="/diensten">Website &amp; funnel</a></li><li><a href="/diensten">Google &amp; SEO</a></li><li><a href="/diensten">Content &amp; video</a></li><li><a href="/diensten">AI &amp; automatisering</a></li></ul></div>
+      <div><h4>Studio</h4><ul class="foot-links"><li><a href="/cases">Cases</a></li><li><a href="/tools/">Gratis tools</a></li><li><a href="/blog">Blog</a></li><li><a href="/over-ons">Over ons</a></li><li><a href="/costa-blanca/">Costa Blanca</a></li></ul></div>
+      <div><h4>Contact</h4><ul class="foot-links"><li><a href="/contact">Contactformulier</a></li><li><a href="https://wa.me/31634455762">WhatsApp</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Harte Growth</span><span>Nederland · Costa Blanca · Remote</span><span><button type="button" class="hg-cookie-link" onclick="hgOpenCookiePrefs()">Cookie-instellingen</button></span></div>
+  </div>
+</footer>
+
+<a href="https://wa.me/31634455762?text=Hallo%20Harte%20Growth%2C%20ik%20heb%20een%20vraag%20over%20de%20blog-generator." class="wa-float" aria-label="WhatsApp">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+  WhatsApp
+</a>
+
+<script src="/script.js"></script>
+<script>
+(function(){
+  const LANG = (document.documentElement.lang || 'nl').slice(0,2).toLowerCase();
+  const L = ['nl','en','es'].includes(LANG) ? LANG : 'nl';
+
+  // Templates per taal, met placeholder {topic} en {audience-context}
+  // Elk template heeft: {title, intent, h2s[]}
+  const TEMPLATES = {
+    nl: [
+      { intent:'Informatief · top-funnel',   title: 'Wat kost {topic} in 2026? Reële prijzen en waar de verschillen zitten', h2s:['Waar het prijsverschil vandaan komt','Wat je minimaal kwijt bent','Wat je krijgt in het middensegment','Wanneer je duurder uit bent (en waarom dat kan lonen)','Hoe je een offerte vergelijkt zonder appels/peren'] },
+      { intent:'Informatief · top-funnel',   title: 'Hoe werkt {topic}? Uitleg zonder marketing-praat', h2s:['Wat het letterlijk is','Wanneer het wel/niet werkt voor jou','Wat er misgaat als je het overslaat','Wat het van je vraagt','Wanneer beginnen'] },
+      { intent:'Vergelijk · mid-funnel',     title: '{topic} zelf doen of uitbesteden? De eerlijke vergelijking', h2s:['Wat het je aan tijd kost als je het zelf doet','Wat het je aan geld kost als je het uitbesteedt','Waar zelf-doen bijna altijd faalt','Waar uitbesteden bijna altijd te duur wordt','Welke tussenweg meestal werkt'] },
+      { intent:'Hoe-doe-je · mid-funnel',    title: '{topic}: 7 fouten die 80% van de {audience} maakt', h2s:['Fout 1: te vroeg beginnen zonder plan','Fout 2: te veel platforms tegelijk','Fout 3: geen meetbaar doel','Fout 4: bezuinigen op het verkeerde stuk','Fout 5: doorgaan met wat niet werkt','Fout 6: te weinig geduld','Fout 7: geen tweede blik erop'] },
+      { intent:'Case · social proof',        title: 'Hoe wij {topic} deden voor een {audience-context}', h2s:['De situatie waar we mee begonnen','Wat we in de eerste 30 dagen deden','Wat daar wel/niet uit kwam','Wat we in maand 2 aanpasten','Wat het uiteindelijk opleverde'] },
+      { intent:'Lokaal · high-intent',       title: '{topic} in [jouw stad/regio]: waar op te letten', h2s:['Wat lokale spelers anders doen','Waar je op moet letten in de omgeving','Wie je moet vermijden en waarom','Vraag deze 5 dingen bij een offerte','Wanneer wél een landelijke partij'] },
+      { intent:'Update · vers signaal',      title: 'Wat verandert er in 2026 op het gebied van {topic}?', h2s:['Wat blijft hetzelfde (en waarom mensen dat over het hoofd zien)','Wat écht anders wordt','Waar je nu al op moet inspelen','Wat je pas hoeft aan te pakken in Q3','Onze voorspelling voor 2027'] },
+      { intent:'Uitleg · long-tail SEO',     title: 'Wanneer heb je écht {topic} nodig (en wanneer niet)?', h2s:['3 signalen dat je het nu nodig hebt','2 signalen dat je nog kunt wachten','Wat er gebeurt als je te lang wacht','Wat er gebeurt als je te vroeg begint','De check die je zelf kunt doen'] },
+      { intent:'FAQ · voice-search',         title: 'Alles over {topic}: 10 vragen die {audience} echt stelt', h2s:['1. Hoe lang duurt het voor je iets ziet?','2. Wat als het niet werkt?','3. Wat kost het per maand?','4. Kan ik het later stoppen?','5. Wie krijgt het eigendom?','6. Werkt het ook voor kleine bedrijven?','7. Wat als mijn markt te klein is?','8. Doen jullie ook alleen consult?','9. Hoe meten jullie resultaat?','10. Kan ik met een lopende partij overstappen?'] },
+      { intent:'Actie · high-intent',        title: 'Checklist: is jouw {topic} klaar voor 2026?', h2s:['5 minimums die op orde moeten zijn','3 dingen die je maandelijks moet checken','Wat een moderne {topic} nu kan (en 2 jaar geleden nog niet)','Wanneer opnieuw beginnen goedkoper is dan repareren','Waar je begint als het overweldigend voelt'] }
+    ],
+    en: [
+      { intent:'Informational · top-funnel', title: 'What does {topic} cost in 2026? Real prices and why they differ', h2s:['Where the price difference comes from','What you\'ll spend at minimum','What you get in the middle range','When paying more pays off','How to compare quotes without apples/oranges'] },
+      { intent:'Informational · top-funnel', title: 'How does {topic} work? Explained without marketing speak', h2s:['What it literally is','When it does and doesn\'t work for you','What goes wrong if you skip it','What it asks of you','When to start'] },
+      { intent:'Compare · mid-funnel',       title: '{topic}: do it yourself or outsource? The honest comparison', h2s:['What it costs you in time to DIY','What it costs you in money to outsource','Where DIY almost always fails','Where outsourcing almost always gets too expensive','The middle path that usually works'] },
+      { intent:'How-to · mid-funnel',        title: '{topic}: 7 mistakes 80% of {audience} make', h2s:['Mistake 1: starting too early without a plan','Mistake 2: too many platforms at once','Mistake 3: no measurable goal','Mistake 4: cutting the wrong part','Mistake 5: continuing with what doesn\'t work','Mistake 6: too little patience','Mistake 7: no second opinion'] },
+      { intent:'Case · social proof',        title: 'How we did {topic} for a {audience-context}', h2s:['The situation we started with','What we did in the first 30 days','What worked and what didn\'t','What we adjusted in month 2','What it eventually delivered'] },
+      { intent:'Local · high-intent',        title: '{topic} in [your city/region]: what to watch for', h2s:['What local players do differently','What to watch for in the area','Who to avoid and why','Ask these 5 things when getting a quote','When to hire a national party instead'] },
+      { intent:'Update · fresh signal',      title: 'What changes in 2026 around {topic}?', h2s:['What stays the same (and why people miss that)','What actually changes','What to act on right now','What can wait until Q3','Our prediction for 2027'] },
+      { intent:'Explainer · long-tail SEO',  title: 'When do you actually need {topic} (and when not)?', h2s:['3 signs you need it now','2 signs you can still wait','What happens if you wait too long','What happens if you start too early','The check you can do yourself'] },
+      { intent:'FAQ · voice-search',         title: 'Everything about {topic}: 10 real questions {audience} ask', h2s:['1. How long before you see results?','2. What if it doesn\'t work?','3. What does it cost per month?','4. Can I stop later?','5. Who owns what we build?','6. Does it work for small companies?','7. What if my market is too small?','8. Do you also do consult only?','9. How do you measure results?','10. Can I switch from a current supplier?'] },
+      { intent:'Action · high-intent',       title: 'Checklist: is your {topic} ready for 2026?', h2s:['5 minimums that must be in place','3 things you should check monthly','What modern {topic} can do now (and couldn\'t 2 years ago)','When restarting is cheaper than fixing','Where to start when it feels overwhelming'] }
+    ],
+    es: [
+      { intent:'Informativo · top-funnel',   title: '¿Cuánto cuesta {topic} en 2026? Precios reales y por qué varían', h2s:['De dónde viene la diferencia de precio','El mínimo que vas a gastar','Lo que obtienes en el rango medio','Cuándo compensa pagar más','Cómo comparar presupuestos sin confundir peras con manzanas'] },
+      { intent:'Informativo · top-funnel',   title: '¿Cómo funciona {topic}? Explicado sin lenguaje de marketing', h2s:['Qué es literalmente','Cuándo funciona y cuándo no para ti','Qué sale mal si lo saltas','Qué te va a pedir','Cuándo empezar'] },
+      { intent:'Comparar · mid-funnel',      title: '{topic}: ¿hacerlo tú o externalizar? La comparación honesta', h2s:['Qué te cuesta en tiempo hacerlo tú','Qué te cuesta en dinero externalizar','Donde el DIY casi siempre falla','Donde externalizar casi siempre se vuelve caro','La vía media que suele funcionar'] },
+      { intent:'Cómo hacer · mid-funnel',    title: '{topic}: 7 errores que comete el 80% de los {audience}', h2s:['Error 1: empezar demasiado pronto sin plan','Error 2: demasiadas plataformas a la vez','Error 3: sin objetivo medible','Error 4: recortar en lo equivocado','Error 5: seguir con lo que no funciona','Error 6: poca paciencia','Error 7: sin una segunda opinión'] },
+      { intent:'Caso · prueba social',       title: 'Cómo hicimos {topic} para un {audience-context}', h2s:['La situación con la que empezamos','Qué hicimos los primeros 30 días','Qué funcionó y qué no','Qué ajustamos en el mes 2','Qué acabó dando'] },
+      { intent:'Local · alta intención',     title: '{topic} en [tu ciudad/región]: en qué fijarte', h2s:['Qué hacen distinto los locales','En qué fijarte en la zona','A quién evitar y por qué','Pregunta estas 5 cosas al pedir presupuesto','Cuándo sí una empresa nacional'] },
+      { intent:'Actualización · señal fresca', title: '¿Qué cambia en 2026 en torno a {topic}?', h2s:['Qué sigue igual (y por qué la gente lo pasa por alto)','Qué cambia de verdad','Qué debes accionar ya','Qué puede esperar hasta Q3','Nuestra predicción para 2027'] },
+      { intent:'Explicativo · long-tail SEO', title: '¿Cuándo necesitas de verdad {topic} (y cuándo no)?', h2s:['3 señales de que lo necesitas ahora','2 señales de que puedes esperar','Qué pasa si esperas demasiado','Qué pasa si empiezas demasiado pronto','El chequeo que puedes hacer tú mismo'] },
+      { intent:'FAQ · voice-search',         title: 'Todo sobre {topic}: 10 preguntas reales de {audience}', h2s:['1. ¿Cuánto tardo en ver resultados?','2. ¿Y si no funciona?','3. ¿Cuánto cuesta al mes?','4. ¿Puedo parar después?','5. ¿De quién es lo que construimos?','6. ¿Funciona para empresas pequeñas?','7. ¿Y si mi mercado es pequeño?','8. ¿También hacéis solo consultoría?','9. ¿Cómo medís resultados?','10. ¿Puedo cambiarme desde un proveedor actual?'] },
+      { intent:'Acción · alta intención',    title: 'Checklist: ¿tu {topic} está listo para 2026?', h2s:['5 mínimos que deben estar','3 cosas a revisar cada mes','Lo que {topic} moderno puede hacer ahora (y no hace 2 años)','Cuándo reiniciar es más barato que arreglar','Por dónde empezar cuando abruma'] }
+    ]
+  }[L] || null;
+
+  const AUD = {
+    nl: { local:'lokale klanten', business:'ondernemer', expat:'expats', ecom:'webshop-eigenaar' },
+    en: { local:'local clients',  business:'business owners', expat:'expats', ecom:'shop owners' },
+    es: { local:'clientes locales', business:'empresarios', expat:'expats', ecom:'dueños de tienda' }
+  }[L];
+
+  const AUD_CTX = {
+    nl: { local:'lokaal familiebedrijf', business:'B2B-dienstverlener', expat:'meertalige ondernemer aan de kust', ecom:'kleine webshop' },
+    en: { local:'local family business', business:'B2B service firm', expat:'multilingual coastal business', ecom:'small webshop' },
+    es: { local:'negocio familiar local', business:'empresa B2B de servicios', expat:'negocio multilingüe en la costa', ecom:'pequeña tienda online' }
+  }[L];
+
+  const COPY = {
+    nl: { copied:'✓ gekopieerd', copy:'Kopieer als brief', ctxTitle:'We hebben je site gelezen', ctxMeta:'Wat we vonden', errFetch:'Kon deze site niet ophalen. Klopt de URL?', errNoTopic:'We konden geen kern-onderwerp uit je site halen. Probeer een dieper-liggende pagina.' },
+    en: { copied:'✓ copied', copy:'Copy as brief', ctxTitle:'We read your site', ctxMeta:'What we found', errFetch:'Could not fetch this site. Is the URL correct?', errNoTopic:'We couldn\'t extract a core topic from your site. Try a deeper page.' },
+    es: { copied:'✓ copiado', copy:'Copiar como brief', ctxTitle:'Hemos leído tu web', ctxMeta:'Lo que encontramos', errFetch:'No pudimos cargar esta web. ¿La URL es correcta?', errNoTopic:'No pudimos extraer un tema central de tu web. Prueba con una página más específica.' }
+  }[L];
+
+  // === UI ===
+  const form = document.getElementById('ideaForm');
+  const submit = document.getElementById('ideaSubmit');
+  const panel = document.getElementById('ideaPanel');
+  const loading = document.getElementById('ideaLoading');
+  const results = document.getElementById('ideaResults');
+  const errBox = document.getElementById('ideaError');
+
+  function normalize(u){ u=(u||'').trim(); if(!u) return null; if(!/^https?:\/\//i.test(u)) u='https://'+u; try{ new URL(u); return u; }catch(_){ return null; } }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  // Kern-onderwerp uit de titel of h1 halen
+  function extractTopic(data){
+    const src = (data.h1First || data.title || '').replace(/[|·—–\-]+.*$/,'').trim();
+    if(!src) return null;
+    // Verwijder generieke woorden aan het begin/eind
+    const stop = /^(home|welkom|welcome|bienvenido|inicio|start|de|het|een|the|a|el|la|los|las)\s+/i;
+    let s = src.replace(stop, '').trim();
+    // Kap na eerste bullet/split
+    s = s.split(/\s*[·|]\s*/)[0].trim();
+    // Als het te lang is, pak eerste 6 woorden
+    const words = s.split(/\s+/);
+    if(words.length > 6) s = words.slice(0,6).join(' ');
+    return s || null;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const url = normalize(document.getElementById('ideaUrl').value);
+    const aud = document.getElementById('ideaAudience').value;
+    if(!url) return;
+
+    panel.classList.add('on');
+    loading.style.display = 'block';
+    results.hidden = true;
+    errBox.hidden = true;
+    submit.disabled = true;
+
+    try {
+      const res = await fetch('/.netlify/functions/seo-deep?url=' + encodeURIComponent(url));
+      const data = await res.json();
+      loading.style.display = 'none';
+
+      if(!data || !data.ok || data.error){
+        errBox.hidden = false;
+        errBox.textContent = COPY.errFetch;
+        return;
+      }
+
+      const topic = extractTopic(data);
+      if(!topic){
+        errBox.hidden = false;
+        errBox.textContent = COPY.errNoTopic;
+        return;
+      }
+
+      const audLabel = AUD[aud] || AUD.business;
+      const audCtx = AUD_CTX[aud] || AUD_CTX.business;
+
+      // Render context
+      document.getElementById('ideaContext').innerHTML = `
+        <div class="ctx-meta">${esc(COPY.ctxMeta)}</div>
+        <h3>${esc(COPY.ctxTitle)}: ${esc(data.host)}</h3>
+        <p><strong>${L==='es'?'Tema central detectado':L==='en'?'Core topic detected':'Kernonderwerp gevonden'}:</strong> ${esc(topic)}</p>
+        <p style="margin-top:6px;"><strong>${L==='es'?'Título':L==='en'?'Title':'Titel'}:</strong> ${esc(data.title || '—')}</p>
+      `;
+
+      // Genereer ideeën
+      const list = document.getElementById('ideaList');
+      const items = TEMPLATES.map((tpl, i) => {
+        const title = tpl.title.replace(/\{topic\}/g, topic).replace(/\{audience\}/g, audLabel).replace(/\{audience-context\}/g, audCtx);
+        const h2s = tpl.h2s.map(h => h.replace(/\{topic\}/g, topic));
+        return { num: String(i+1).padStart(2,'0'), title, intent: tpl.intent, h2s };
+      });
+
+      list.innerHTML = items.map((it, i) => `
+        <div class="idea-item">
+          <div class="idea-num">${it.num}</div>
+          <div class="idea-title">${esc(it.title)}</div>
+          <div class="idea-intent">${esc(it.intent)}</div>
+          <ul class="idea-h2">
+            ${it.h2s.map(h => `<li>${esc(h)}</li>`).join('')}
+          </ul>
+          <button type="button" class="idea-copy" data-idx="${i}">${esc(COPY.copy)}</button>
+        </div>
+      `).join('');
+
+      // Copy-buttons
+      list.querySelectorAll('.idea-copy').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = +btn.dataset.idx;
+          const it = items[idx];
+          const brief = `${it.title}\n\n${it.h2s.map(h => 'H2: ' + h).join('\n')}\n\nZoekintentie: ${it.intent}`;
+          navigator.clipboard.writeText(brief).then(() => {
+            btn.textContent = COPY.copied;
+            btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = COPY.copy; btn.classList.remove('copied'); }, 2000);
+          });
+        });
+      });
+
+      results.hidden = false;
+
+      if(window.hgTrack){ window.hgTrack('blog_ideas_generate', { page_path: location.pathname, lang: L, audience: aud }); }
+
+    } catch(err){
+      loading.style.display = 'none';
+      errBox.hidden = false;
+      errBox.textContent = COPY.errFetch + ' (' + err.message + ')';
+    } finally {
+      submit.disabled = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>

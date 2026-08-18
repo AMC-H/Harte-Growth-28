@@ -17,6 +17,10 @@
   <url><loc>https://hartegrowth.eu/blog-waarom-website-geen-aanvragen</loc><priority>0.6</priority></url>
   <url><loc>https://hartegrowth.eu/blog-lokale-seo</loc><priority>0.6</priority></url>
   <url><loc>https://hartegrowth.eu/blog-ai-whatsapp</loc><priority>0.6</priority></url>
+  <!-- Gratis tools -->
+  <url><loc>https://hartegrowth.eu/tools/</loc><priority>0.9</priority></url>
+  <url><loc>https://hartegrowth.eu/tools/concurrent-scan</loc><priority>0.8</priority></url>
+  <url><loc>https://hartegrowth.eu/tools/blog-ideeen</loc><priority>0.8</priority></url>
   <!-- Costa Blanca lokale pagina's -->
   <url><loc>https://hartegrowth.eu/costa-blanca/</loc><priority>0.8</priority></url>
   <url><loc>https://hartegrowth.eu/costa-blanca/moraira</loc><priority>0.7</priority></url>
@@ -33,6 +37,9 @@
   <url><loc>https://hartegrowth.eu/en/over-ons.html</loc><priority>0.6</priority></url>
   <url><loc>https://hartegrowth.eu/en/blog.html</loc><priority>0.7</priority></url>
   <url><loc>https://hartegrowth.eu/en/contact.html</loc><priority>0.6</priority></url>
+  <url><loc>https://hartegrowth.eu/en/tools/</loc><priority>0.8</priority></url>
+  <url><loc>https://hartegrowth.eu/en/tools/concurrent-scan.html</loc><priority>0.7</priority></url>
+  <url><loc>https://hartegrowth.eu/en/tools/blog-ideeen.html</loc><priority>0.7</priority></url>
   <!-- ES -->
   <url><loc>https://hartegrowth.eu/es/</loc><priority>0.9</priority></url>
   <url><loc>https://hartegrowth.eu/es/diensten.html</loc><priority>0.8</priority></url>
@@ -42,4 +49,7 @@
   <url><loc>https://hartegrowth.eu/es/over-ons.html</loc><priority>0.6</priority></url>
   <url><loc>https://hartegrowth.eu/es/blog.html</loc><priority>0.7</priority></url>
   <url><loc>https://hartegrowth.eu/es/contact.html</loc><priority>0.6</priority></url>
+  <url><loc>https://hartegrowth.eu/es/tools/</loc><priority>0.8</priority></url>
+  <url><loc>https://hartegrowth.eu/es/tools/concurrent-scan.html</loc><priority>0.7</priority></url>
+  <url><loc>https://hartegrowth.eu/es/tools/blog-ideeen.html</loc><priority>0.7</priority></url>
 </urlset>
