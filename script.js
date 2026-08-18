@@ -1010,7 +1010,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Rapport-mail naar klant (met kopie naar Alain). Wacht max 7s op deep-scan zodat mail == site.
     if(currentLead && currentLead.email){
       const findings = extractFindings(lh).slice(0, 8);
-      const deepTimeout = new Promise(r => setTimeout(() => r(null), 7000));
+      const deepTimeout = new Promise(r => setTimeout(() => r(null), 3500));
       Promise.race([deepPromise, deepTimeout]).then(deepData => {
         const deepFindings = (deepData && deepData.ok) ? extractDeepFindings(deepData) : [];
         fetch('/.netlify/functions/send-report', {
