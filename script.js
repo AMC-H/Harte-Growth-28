@@ -985,18 +985,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Findings
     scanFindings.innerHTML = extractFindings(lh).map(findingCard).join('');
 
-    // Diepere SEO-check (parallel, non-blocking) — voegt hreflang/JSON-LD/OG/alt/robots-checks toe.
-    fetch('/.netlify/functions/seo-deep?url=' + encodeURIComponent(url))
+    // Diepere SEO-check — parallel opgevraagd, uiterlijk 7s wachten voor mail (zodat mail 1:1 match maakt met site).
+    const deepPromise = fetch('/.netlify/functions/seo-deep?url=' + encodeURIComponent(url))
       .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if(!data || data.error || !data.ok) return;
-        const extra = extractDeepFindings(data);
-        if(!extra.length) return;
-        scanFindings.insertAdjacentHTML('beforeend',
-          `<div class="finding-section-label">${TD.section}</div>` + extra.map(findingCard).join('')
-        );
-      })
-      .catch(err => console.warn('[seo-deep] failed:', err));
+      .catch(err => { console.warn('[seo-deep] failed:', err); return null; });
+
+    // Render deep-findings zodra ze binnen zijn (UI blijft snappy).
+    deepPromise.then(data => {
+      if(!data || data.error || !data.ok) return;
+      const extra = extractDeepFindings(data);
+      if(!extra.length) return;
+      scanFindings.insertAdjacentHTML('beforeend',
+        `<div class="finding-section-label">${TD.section}</div>` + extra.map(findingCard).join('')
+      );
+    });
 
     // WhatsApp handoff
     const waMsg = buildWhatsappMsg(host, url, scores, avg);
@@ -1005,29 +1007,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // GA4 conversie: succesvolle groeiscan (geen persoonsgegevens meegegeven)
     if(window.hgTrack){ window.hgTrack('growth_scan_submit', { page_path: location.pathname, form_name: 'growth_scan', lang: L }); }
 
-    // Rapport-mail naar klant (met kopie naar Alain). Non-blocking. Taal wordt meegestuurd.
+    // Rapport-mail naar klant (met kopie naar Alain). Wacht max 7s op deep-scan zodat mail == site.
     if(currentLead && currentLead.email){
-      const findings = extractFindings(lh).slice(0, 6);
-      fetch('/.netlify/functions/send-report', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          lang: L,
-          name: currentLead.name,
-          email: currentLead.email,
-          company: currentLead.company || '',
-          url,
-          scores,
-          avg,
-          findings,
-          verdict: {
-            head: verdict.headText,
-            body: verdict.bodyText,
-            ctaLabel: verdict.ctaLabel,
-            ctaMode: verdict.ctaMode
-          }
-        })
-      }).catch(err => console.warn('[send-report] failed:', err));
+      const findings = extractFindings(lh).slice(0, 8);
+      const deepTimeout = new Promise(r => setTimeout(() => r(null), 7000));
+      Promise.race([deepPromise, deepTimeout]).then(deepData => {
+        const deepFindings = (deepData && deepData.ok) ? extractDeepFindings(deepData) : [];
+        fetch('/.netlify/functions/send-report', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            lang: L,
+            name: currentLead.name,
+            email: currentLead.email,
+            company: currentLead.company || '',
+            url,
+            scores,
+            avg,
+            findings,
+            deepFindings,
+            deepSectionLabel: TD.section,
+            verdict: {
+              head: verdict.headText,
+              body: verdict.bodyText,
+              ctaLabel: verdict.ctaLabel,
+              ctaMode: verdict.ctaMode
+            }
+          })
+        }).catch(err => console.warn('[send-report] failed:', err));
+      });
     }
   }
 

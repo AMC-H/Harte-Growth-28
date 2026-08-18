@@ -18,7 +18,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'invalid json' }) };
   }
 
-  const { name, email, company, url, scores, avg, findings, verdict, lang: rawLang } = data;
+  const { name, email, company, url, scores, avg, findings, deepFindings, deepSectionLabel, verdict, lang: rawLang } = data;
   const LANG = (['nl','en','es'].includes(rawLang) ? rawLang : 'nl');
 
   // i18n strings voor mail-framing
@@ -143,25 +143,38 @@ exports.handler = async (event) => {
     return badges.bad;
   };
 
-  const findingsHtml = (findings && findings.length) ? `
+  // Herbruikbare renderer voor 1 finding-blok
+  const renderFinding = (f) => `
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f1015;border:1px solid #25262e;border-radius:10px;margin-bottom:10px;">
+      <tr>
+        <td width="42" valign="top" style="padding:16px 0 16px 16px;">
+          <div style="width:26px;height:26px;border-radius:7px;background:${findingBg(f.cls)};color:${findingFg(f.cls)};text-align:center;line-height:26px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;">${escape(f.icon)}</div>
+        </td>
+        <td valign="top" style="padding:14px 16px 14px 12px;">
+          <div style="color:#f5f5f7;font-size:15px;font-weight:600;letter-spacing:-.01em;margin-bottom:3px;">${escape(f.label)}</div>
+          <div style="color:#8a8b95;font-size:13px;line-height:1.5;">${escape(f.hint)}</div>
+        </td>
+        <td valign="middle" align="right" style="padding:14px 16px 14px 8px;white-space:nowrap;">
+          <span style="display:inline-block;background:#0a0a0c;border:1px solid #25262e;color:#8a8b95;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.02em;padding:6px 12px;border-radius:6px;">${findingBadge(f)}</span>
+        </td>
+      </tr>
+    </table>`;
+
+  const sectionLabel = (txt) => `<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a8b95;letter-spacing:.08em;text-transform:uppercase;margin:22px 0 14px;padding-top:18px;border-top:1px dashed #25262e;">${escape(txt)}</div>`;
+
+  // Lighthouse-findings + deep-SEO findings (exact zelfde layout als op de site)
+  const hasLh = (findings && findings.length);
+  const hasDeep = (deepFindings && deepFindings.length);
+  const findingsHtml = (hasLh || hasDeep) ? `
     <div style="margin-top:8px;">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a8b95;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;">${escape(t.whatWeSaw)}</div>
-      ${findings.slice(0, 8).map(f => `
-        <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f1015;border:1px solid #25262e;border-radius:10px;margin-bottom:10px;">
-          <tr>
-            <td width="42" valign="top" style="padding:16px 0 16px 16px;">
-              <div style="width:26px;height:26px;border-radius:7px;background:${findingBg(f.cls)};color:${findingFg(f.cls)};text-align:center;line-height:26px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;">${escape(f.icon)}</div>
-            </td>
-            <td valign="top" style="padding:14px 16px 14px 12px;">
-              <div style="color:#f5f5f7;font-size:15px;font-weight:600;letter-spacing:-.01em;margin-bottom:3px;">${escape(f.label)}</div>
-              <div style="color:#8a8b95;font-size:13px;line-height:1.5;">${escape(f.hint)}</div>
-            </td>
-            <td valign="middle" align="right" style="padding:14px 16px 14px 8px;white-space:nowrap;">
-              <span style="display:inline-block;background:#0a0a0c;border:1px solid #25262e;color:#8a8b95;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.02em;padding:6px 12px;border-radius:6px;">${findingBadge(f)}</span>
-            </td>
-          </tr>
-        </table>
-      `).join('')}
+      ${hasLh ? `
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a8b95;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;">${escape(t.whatWeSaw)}</div>
+        ${findings.slice(0, 8).map(renderFinding).join('')}
+      ` : ''}
+      ${hasDeep ? `
+        ${sectionLabel(deepSectionLabel || (LANG==='en'?'Deeper SEO check (live parse of your HTML)':LANG==='es'?'Análisis SEO profundo (parseo en vivo de tu HTML)':'Diepere SEO-check (live-parse van je HTML)'))}
+        ${deepFindings.slice(0, 12).map(renderFinding).join('')}
+      ` : ''}
     </div>
   ` : '';
 
@@ -229,6 +242,8 @@ Overall: ${avg}/100
 ${verdictTitle}
 ${verdictBody}
 
+${(findings && findings.length) ? t.whatWeSaw + ':\n' + findings.slice(0,8).map(f => `- ${f.label}: ${f.value || ''}`).join('\n') + '\n' : ''}
+${(deepFindings && deepFindings.length) ? (deepSectionLabel || 'Deeper SEO check') + ':\n' + deepFindings.slice(0,12).map(f => `- ${f.label}: ${f.value || ''}`).join('\n') + '\n' : ''}
 ${ctaSub}
 ${ctaBullets.map(b => '- ' + b).join('\n')}
 
