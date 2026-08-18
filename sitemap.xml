@@ -17,6 +17,13 @@
   <url><loc>https://hartegrowth.eu/blog-waarom-website-geen-aanvragen</loc><priority>0.6</priority></url>
   <url><loc>https://hartegrowth.eu/blog-lokale-seo</loc><priority>0.6</priority></url>
   <url><loc>https://hartegrowth.eu/blog-ai-whatsapp</loc><priority>0.6</priority></url>
+  <!-- Juridisch -->
+  <url><loc>https://hartegrowth.eu/privacy</loc><priority>0.4</priority></url>
+  <url><loc>https://hartegrowth.eu/cookies</loc><priority>0.4</priority></url>
+  <url><loc>https://hartegrowth.eu/en/privacy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://hartegrowth.eu/en/cookies.html</loc><priority>0.3</priority></url>
+  <url><loc>https://hartegrowth.eu/es/privacy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://hartegrowth.eu/es/cookies.html</loc><priority>0.3</priority></url>
   <!-- Gratis tools -->
   <url><loc>https://hartegrowth.eu/tools/</loc><priority>0.9</priority></url>
   <url><loc>https://hartegrowth.eu/tools/concurrent-scan</loc><priority>0.8</priority></url>

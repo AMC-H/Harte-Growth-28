@@ -95,6 +95,17 @@
   to = "/es/groeiscan.html"
   status = 301
 
+# Juridische pagina's — schone URLs (NL)
+[[redirects]]
+  from = "/privacy.html"
+  to = "/privacy"
+  status = 301
+
+[[redirects]]
+  from = "/cookies.html"
+  to = "/cookies"
+  status = 301
+
 # Gratis tools — schone URLs (NL)
 [[redirects]]
   from = "/tools/concurrent-scan.html"
