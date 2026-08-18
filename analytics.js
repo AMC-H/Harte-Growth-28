@@ -121,37 +121,28 @@
   var LANG = (document.documentElement.lang || 'nl').slice(0,2).toLowerCase();
   var T = {
     nl: {
-      title: 'Cookies & privacy',
-      body: 'We laden Google Analytics en Microsoft Clarity <strong>alleen als je hieronder akkoord gaat</strong>. Weiger je? Dan gebeurt er niets, geen enkele externe tracker wordt geladen. Zie ook onze <a href="/privacy" style="color:#ff4d1a;">privacyverklaring</a> en <a href="/cookies" style="color:#ff4d1a;">cookieverklaring</a>.',
-      accept: 'Alles accepteren',
-      decline: 'Alles weigeren',
-      prefs: 'Voorkeuren',
-      analytics_label: 'Analyse (GA4 + Clarity) — meten wat werkt op de site',
-      marketing_label: 'Marketing (uit — we gebruiken dit niet)',
-      save: 'Bewaar keuze',
-      manage: 'Cookies beheren'
+      body: 'We plaatsen alleen analytische cookies (GA4 + Clarity), en alleen als jij dat wilt. <a href="/privacy" style="color:#ff4d1a;">Privacy</a> · <a href="/cookies" style="color:#ff4d1a;">Cookies</a>',
+      accept: 'Accepteren',
+      decline: 'Weigeren',
+      prefs: 'Meer opties',
+      analytics_label: 'Analyse (GA4 + Clarity)',
+      save: 'Bewaar'
     },
     en: {
-      title: 'Cookies & privacy',
-      body: 'We load Google Analytics and Microsoft Clarity <strong>only if you agree below</strong>. If you decline, nothing happens — no external tracker gets loaded. See our <a href="/privacy" style="color:#ff4d1a;">privacy statement</a> and <a href="/cookies" style="color:#ff4d1a;">cookie statement</a>.',
-      accept: 'Accept all',
-      decline: 'Decline all',
-      prefs: 'Preferences',
-      analytics_label: 'Analytics (GA4 + Clarity) — measure what works on the site',
-      marketing_label: 'Marketing (off — we do not use this)',
-      save: 'Save choice',
-      manage: 'Manage cookies'
+      body: 'We use analytics cookies only (GA4 + Clarity), and only if you say yes. <a href="/privacy" style="color:#ff4d1a;">Privacy</a> · <a href="/cookies" style="color:#ff4d1a;">Cookies</a>',
+      accept: 'Accept',
+      decline: 'Decline',
+      prefs: 'More options',
+      analytics_label: 'Analytics (GA4 + Clarity)',
+      save: 'Save'
     },
     es: {
-      title: 'Cookies y privacidad',
-      body: 'Cargamos Google Analytics y Microsoft Clarity <strong>solo si aceptas abajo</strong>. Si rechazas, no pasa nada — ningún tracker externo se carga. Consulta nuestra <a href="/privacy" style="color:#ff4d1a;">política de privacidad</a> y <a href="/cookies" style="color:#ff4d1a;">política de cookies</a>.',
-      accept: 'Aceptar todo',
-      decline: 'Rechazar todo',
-      prefs: 'Preferencias',
-      analytics_label: 'Analítica (GA4 + Clarity) — medir qué funciona en el sitio',
-      marketing_label: 'Marketing (desactivado — no lo usamos)',
-      save: 'Guardar elección',
-      manage: 'Gestionar cookies'
+      body: 'Usamos solo cookies analíticas (GA4 + Clarity), y solo si tú aceptas. <a href="/privacy" style="color:#ff4d1a;">Privacidad</a> · <a href="/cookies" style="color:#ff4d1a;">Cookies</a>',
+      accept: 'Aceptar',
+      decline: 'Rechazar',
+      prefs: 'Más opciones',
+      analytics_label: 'Analítica (GA4 + Clarity)',
+      save: 'Guardar'
     }
   }[LANG] || null;
   if (!T) return;
@@ -161,27 +152,20 @@
     var wrap = document.createElement('div');
     wrap.id = 'hg-cookie-banner';
     wrap.setAttribute('role', 'dialog');
-    wrap.setAttribute('aria-label', T.title);
+    wrap.setAttribute('aria-label', 'Cookies');
     wrap.innerHTML =
       '<div class="hg-cc-inner">' +
-        '<div class="hg-cc-text">' +
-          '<div class="hg-cc-title">' + T.title + '</div>' +
-          '<p class="hg-cc-body">' + T.body + '</p>' +
-        '</div>' +
+        '<p class="hg-cc-body">' + T.body + '</p>' +
         '<div class="hg-cc-actions">' +
-          '<button type="button" class="hg-cc-btn hg-cc-btn-ghost" data-hg="prefs">' + T.prefs + '</button>' +
           '<button type="button" class="hg-cc-btn hg-cc-btn-ghost" data-hg="decline">' + T.decline + '</button>' +
           '<button type="button" class="hg-cc-btn hg-cc-btn-primary" data-hg="accept">' + T.accept + '</button>' +
         '</div>' +
+        '<button type="button" class="hg-cc-more" data-hg="prefs">' + T.prefs + '</button>' +
         '<div class="hg-cc-prefs" hidden>' +
           '<label class="hg-cc-toggle">' +
-            /* GDPR: default unchecked, gebruiker moet actief toestemmen */
+            /* GDPR: default unchecked */
             '<input type="checkbox" id="hg-cc-analytics">' +
             '<span>' + T.analytics_label + '</span>' +
-          '</label>' +
-          '<label class="hg-cc-toggle hg-cc-disabled">' +
-            '<input type="checkbox" id="hg-cc-marketing" disabled>' +
-            '<span>' + T.marketing_label + '</span>' +
           '</label>' +
           '<button type="button" class="hg-cc-btn hg-cc-btn-primary" data-hg="save">' + T.save + '</button>' +
         '</div>' +
@@ -193,7 +177,10 @@
       var action = b.getAttribute('data-hg');
       if (action === 'accept') decide({ analytics: true, marketing: false });
       else if (action === 'decline') decide({ analytics: false, marketing: false });
-      else if (action === 'prefs') wrap.querySelector('.hg-cc-prefs').hidden = false;
+      else if (action === 'prefs') {
+        wrap.querySelector('.hg-cc-prefs').hidden = false;
+        b.style.display = 'none';
+      }
       else if (action === 'save') decide({
         analytics: !!wrap.querySelector('#hg-cc-analytics').checked,
         marketing: false
