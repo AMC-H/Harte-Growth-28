@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 · deze pagina bestaat niet | Harte Growth</title>
+<meta name="description" content="Deze pagina bestaat niet meer of is verplaatst. Ga terug naar home of gebruik de zoekopties hieronder.">
+<meta name="robots" content="noindex,follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<script src="/analytics.js" defer></script>
+<style>
+.err-hero{min-height:70vh;display:flex;align-items:center;padding:80px 0;}
+.err-code{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);letter-spacing:.2em;margin-bottom:24px;text-transform:uppercase;}
+.err-head{font-size:clamp(48px,8vw,96px);font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:20px;}
+.err-lede{font-size:19px;color:var(--text-dim);max-width:560px;line-height:1.55;margin-bottom:36px;}
+.err-actions{display:flex;gap:14px;flex-wrap:wrap;}
+.err-links{margin-top:56px;padding-top:32px;border-top:1px solid #22252f;}
+.err-links h3{font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a8b95;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;}
+.err-links ul{display:flex;flex-wrap:wrap;gap:12px 20px;list-style:none;padding:0;}
+.err-links a{color:#c8c9d0;font-size:15px;text-decoration:none;border-bottom:1px solid #33343e;padding-bottom:2px;transition:color .18s,border-color .18s;}
+.err-links a:hover{color:var(--accent);border-color:var(--accent);}
+.err-lang{position:absolute;top:22px;right:22px;display:flex;gap:4px;font-family:'JetBrains Mono',monospace;font-size:12px;}
+.err-lang button{background:none;border:1px solid #22252f;color:#8a8b95;padding:6px 10px;border-radius:6px;cursor:pointer;font:inherit;transition:color .18s,border-color .18s;}
+.err-lang button:hover, .err-lang button.on{color:var(--accent);border-color:var(--accent);}
+</style>
+</head>
+<body>
+<canvas class="bg-canvas"></canvas>
+
+<div class="err-lang" role="navigation" aria-label="Taal">
+  <button type="button" data-lang="nl" class="on">NL</button>
+  <button type="button" data-lang="en">EN</button>
+  <button type="button" data-lang="es">ES</button>
+</div>
+
+<main>
+  <section class="err-hero">
+    <div class="wrap-wide">
+      <div class="err-code" id="errCode">Error 404 · deze pagina bestaat niet</div>
+      <h1 class="err-head" id="errHead">Verkeerde afslag.</h1>
+      <p class="err-lede" id="errLede">De pagina die je zocht is verplaatst of nooit gemaakt. Geen zorgen — hieronder de snelste weg terug.</p>
+      <div class="err-actions">
+        <a href="/" class="btn btn-primary magnetic" id="errHome">Terug naar home
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="/groeiscan" class="btn btn-ghost" id="errScan">Doe de gratis groeiscan</a>
+      </div>
+
+      <div class="err-links">
+        <h3 id="errLinksLabel">Veelbezochte pagina's</h3>
+        <ul id="errList">
+          <li><a href="/diensten">Diensten</a></li>
+          <li><a href="/cases">Cases</a></li>
+          <li><a href="/tools/">Gratis tools</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/costa-blanca/">Costa Blanca</a></li>
+          <li><a href="/over-ons">Over ons</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  // Detecteer browser-taal
+  const T = {
+    nl: {
+      lang:'nl',
+      code:'Error 404 · deze pagina bestaat niet',
+      head:'Verkeerde afslag.',
+      lede:'De pagina die je zocht is verplaatst of nooit gemaakt. Geen zorgen — hieronder de snelste weg terug.',
+      home:'Terug naar home',
+      scan:'Doe de gratis groeiscan',
+      links:'Veelbezochte pagina\'s',
+      title:'404 · deze pagina bestaat niet | Harte Growth',
+      list: [
+        ['/diensten','Diensten'],
+        ['/cases','Cases'],
+        ['/tools/','Gratis tools'],
+        ['/blog','Blog'],
+        ['/costa-blanca/','Costa Blanca'],
+        ['/over-ons','Over ons'],
+        ['/contact','Contact']
+      ],
+      home_href:'/', scan_href:'/groeiscan'
+    },
+    en: {
+      lang:'en',
+      code:'Error 404 · this page doesn\'t exist',
+      head:'Wrong turn.',
+      lede:'The page you were looking for was moved or never made. No worries — here\'s the fastest way back.',
+      home:'Back to home',
+      scan:'Do the free growth scan',
+      links:'Popular pages',
+      title:'404 · this page doesn\'t exist | Harte Growth',
+      list: [
+        ['/en/diensten.html','Services'],
+        ['/en/cases.html','Cases'],
+        ['/en/tools/','Free tools'],
+        ['/en/blog.html','Blog'],
+        ['/costa-blanca/','Costa Blanca'],
+        ['/en/over-ons.html','About'],
+        ['/en/contact.html','Contact']
+      ],
+      home_href:'/en/', scan_href:'/en/groeiscan.html'
+    },
+    es: {
+      lang:'es',
+      code:'Error 404 · esta página no existe',
+      head:'Camino equivocado.',
+      lede:'La página que buscabas fue movida o nunca se creó. Tranquilo — abajo el camino más rápido de vuelta.',
+      home:'Volver al inicio',
+      scan:'Haz el escaneo gratis',
+      links:'Páginas populares',
+      title:'404 · esta página no existe | Harte Growth',
+      list: [
+        ['/es/diensten.html','Servicios'],
+        ['/es/cases.html','Casos'],
+        ['/es/tools/','Herramientas gratis'],
+        ['/es/blog.html','Blog'],
+        ['/costa-blanca/','Costa Blanca'],
+        ['/es/over-ons.html','Nosotros'],
+        ['/es/contact.html','Contacto']
+      ],
+      home_href:'/es/', scan_href:'/es/groeiscan.html'
+    }
+  };
+
+  function pickLang(){
+    // 1. URL-pad start met /en/ of /es/
+    if(location.pathname.startsWith('/en/')) return 'en';
+    if(location.pathname.startsWith('/es/')) return 'es';
+    // 2. Browser-taal
+    const b = (navigator.language || 'nl').slice(0,2).toLowerCase();
+    if(b === 'en' || b === 'es') return b;
+    return 'nl';
+  }
+
+  function apply(lang){
+    const t = T[lang];
+    document.documentElement.lang = t.lang;
+    document.title = t.title;
+    document.getElementById('errCode').textContent = t.code;
+    document.getElementById('errHead').textContent = t.head;
+    document.getElementById('errLede').textContent = t.lede;
+    const homeBtn = document.getElementById('errHome');
+    homeBtn.href = t.home_href;
+    homeBtn.childNodes[0].textContent = t.home + ' ';
+    const scanBtn = document.getElementById('errScan');
+    scanBtn.href = t.scan_href;
+    scanBtn.textContent = t.scan;
+    document.getElementById('errLinksLabel').textContent = t.links;
+    document.getElementById('errList').innerHTML = t.list.map(x => `<li><a href="${x[0]}">${x[1]}</a></li>`).join('');
+    document.querySelectorAll('.err-lang button').forEach(b => {
+      b.classList.toggle('on', b.dataset.lang === lang);
+    });
+  }
+
+  apply(pickLang());
+  document.querySelectorAll('.err-lang button').forEach(b => {
+    b.addEventListener('click', () => apply(b.dataset.lang));
+  });
+})();
+</script>
+</body>
+</html>
