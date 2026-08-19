@@ -978,6 +978,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Statussen die roteren tijdens de wacht op de API
   const statusCycle = T.cycle;
   let cycleTimer = null;
+  // Elk scan krijgt een uniek ID zodat late responses van oude scans niet over nieuwe heen renderen
+  let currentScanId = 0;
   function startStatusCycle(){
     let i = 0;
     setStatus(statusCycle[0].text);
@@ -998,6 +1000,15 @@ document.addEventListener('DOMContentLoaded', () => {
       scanUrl.focus();
       return;
     }
+
+    // Nieuwe scan = nieuw token. Alle .then handlers checken dit voor ze DOM aanraken.
+    const scanId = ++currentScanId;
+
+    // Wis oude render-containers zodat er geen stale content blijft staan
+    ['scanPreview','scanCrux','scanTopics'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.innerHTML = '';
+    });
 
     // UI reset
     scanPanel.hidden = false;
@@ -1034,7 +1045,10 @@ document.addEventListener('DOMContentLoaded', () => {
       setStatus(T.statusReady);
       await wait(700);
 
-      renderResults(url, host, lh);
+      // Alleen renderen als deze scan nog de actieve is
+      if(scanId === currentScanId){
+        renderResults(url, host, lh, scanId);
+      }
     } catch(err){
       stopStatusCycle();
       scanError.hidden = false;
@@ -1075,7 +1089,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function wait(ms){ return new Promise(r => setTimeout(r, ms)); }
 
-  function renderResults(url, host, lh){
+  function renderResults(url, host, lh, scanId){
     scanRunning.hidden = true;
     scanResults.hidden = false;
 
@@ -1134,8 +1148,16 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => { console.warn('[seo-deep] failed:', err); return null; });
 
     // Render deep-findings + Google-preview + topic-cloud zodra deep-data binnen is.
+    // scanId-guard: als de user ondertussen een nieuwe scan startte, doe NIETS.
     deepPromise.then(data => {
+      if(scanId !== currentScanId) return; // stale scan → negeren
       if(!data || data.error || !data.ok) return;
+      // Sanity check: host van deep-scan moet matchen met de gescande URL
+      const expectedHost = (function(){ try { return new URL(url).host.replace(/^www\./,''); } catch(_){ return ''; } })();
+      if(data.host && expectedHost && data.host !== expectedHost){
+        console.warn('[deep-scan] host mismatch:', data.host, 'vs', expectedHost, '— skipping render');
+        return;
+      }
       // 1. Google search-preview bovenaan
       renderGooglePreview(data, url);
       // 2. Deep-findings onder Lighthouse-findings
@@ -1161,6 +1183,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const findings = extractFindings(lh).slice(0, 8);
       const deepTimeout = new Promise(r => setTimeout(() => r(null), 3500));
       Promise.race([deepPromise, deepTimeout]).then(deepData => {
+        if(scanId !== currentScanId) return; // stale scan → geen mail sturen
         const deepFindings = (deepData && deepData.ok) ? extractDeepFindings(deepData) : [];
         fetch('/.netlify/functions/send-report', {
           method: 'POST',
