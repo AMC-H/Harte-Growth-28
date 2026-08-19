@@ -629,6 +629,133 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })[L];
 
+  // === Extra i18n voor Google-preview / CrUX / topic-cloud ===
+  const TX = ({
+    nl: {
+      previewLabel:'Zo verschijn je nu in Google',
+      previewHint:'De echte title, meta-beschrijving en URL van jouw site — precies zoals bezoekers ze in de zoekresultaten zien.',
+      cruxLabel:'Echte gebruikers, laatste 28 dagen',
+      cruxHint:'Data uit het Chrome UX Report — geen lab-test, maar wat écht bezoekers ervaren.',
+      cruxNoData:'Nog geen echte-gebruiker-data. Google verzamelt dit voor grotere sites (~1000 bezoekers/mnd).',
+      cruxFast:'snel', cruxAvg:'gemiddeld', cruxSlow:'traag',
+      cruxLCP:'Grootste element geladen', cruxCLS:'Layout-verspringing', cruxINP:'Reactie op klik/tik', cruxFCP:'Eerste zichtbaar',
+      topicLabel:'Waar Google denkt dat jouw site over gaat',
+      topicHint:'Top-woorden uit jouw pagina-tekst. Als dit niet matcht wat je verkoopt, weet je waarom je niet rankt voor de juiste zoektermen.',
+      topicNone:'Te weinig tekst om topics te bepalen (voeg meer content toe).'
+    },
+    en: {
+      previewLabel:'How you appear in Google right now',
+      previewHint:'The real title, meta description and URL of your site — exactly as visitors see them in search results.',
+      cruxLabel:'Real users, last 28 days',
+      cruxHint:'Data from the Chrome UX Report — no lab test, this is what actual visitors experience.',
+      cruxNoData:'No real-user data yet. Google collects this for larger sites (~1000 visitors/month).',
+      cruxFast:'fast', cruxAvg:'average', cruxSlow:'slow',
+      cruxLCP:'Largest element loaded', cruxCLS:'Layout shift', cruxINP:'Response to click/tap', cruxFCP:'First paint',
+      topicLabel:'What Google thinks your site is about',
+      topicHint:'Top words from your page text. If this does not match what you sell, that is why you are not ranking for the right terms.',
+      topicNone:'Too little text to detect topics (add more content).'
+    },
+    es: {
+      previewLabel:'Así apareces ahora en Google',
+      previewHint:'El título, meta descripción y URL reales de tu web — exactamente como los ven los visitantes en los resultados.',
+      cruxLabel:'Usuarios reales, últimos 28 días',
+      cruxHint:'Datos del Chrome UX Report — no una prueba de laboratorio, lo que experimentan los visitantes reales.',
+      cruxNoData:'Aún sin datos de usuarios reales. Google los recoge para webs mayores (~1000 visitas/mes).',
+      cruxFast:'rápido', cruxAvg:'medio', cruxSlow:'lento',
+      cruxLCP:'Elemento más grande cargado', cruxCLS:'Cambio de diseño', cruxINP:'Respuesta a clic/toque', cruxFCP:'Primer pintado',
+      topicLabel:'De qué cree Google que va tu web',
+      topicHint:'Palabras más frecuentes de tu texto. Si no coincide con lo que vendes, por eso no rankeas para los términos correctos.',
+      topicNone:'Poco texto para detectar temas (añade más contenido).'
+    }
+  })[L] || null;
+
+  // Render Google zoek-preview met echte title/desc/url
+  function renderGooglePreview(data, url){
+    const el = document.getElementById('scanPreview');
+    if(!el) return;
+    const host = data.host || '';
+    const displayUrl = 'https://' + host + '/';
+    const title = data.title || host;
+    const desc = data.description || (L==='es'?'(sin meta descripción — Google genera un fragmento del texto de la página)':L==='en'?'(no meta description — Google will generate a snippet from page text)':'(geen meta-beschrijving — Google genereert een fragment uit de paginatekst)');
+    el.innerHTML = `
+      <div class="chapter reveal in"><span class="num">→</span><span>${escapeHtml(TX.previewLabel)}</span><span class="line"></span></div>
+      <div class="gp-mock">
+        <div class="gp-topline"><span class="gp-favicon"></span><div><div class="gp-site">${escapeHtml(host)}</div><div class="gp-url">${escapeHtml(displayUrl)}</div></div></div>
+        <div class="gp-title">${escapeHtml(title)}</div>
+        <div class="gp-desc">${escapeHtml(desc)}</div>
+      </div>
+      <p class="gp-hint">${escapeHtml(TX.previewHint)}</p>
+    `;
+  }
+
+  // Render CrUX (Chrome User Experience Report) real-user data uit PageSpeed response
+  function renderCrux(lh){
+    const el = document.getElementById('scanCrux');
+    if(!el) return;
+    const cx = lh.loadingExperience || lh.originLoadingExperience;
+    if(!cx || !cx.metrics || Object.keys(cx.metrics).length === 0){
+      el.innerHTML = `
+        <div class="chapter reveal"><span class="num">↺</span><span>${escapeHtml(TX.cruxLabel)}</span><span class="line"></span></div>
+        <div class="crux-empty">${escapeHtml(TX.cruxNoData)}</div>
+      `;
+      return;
+    }
+    const m = cx.metrics;
+    const rows = [
+      ['LARGEST_CONTENTFUL_PAINT_MS', TX.cruxLCP, 's', ms => (ms/1000).toFixed(1) + 's'],
+      ['CUMULATIVE_LAYOUT_SHIFT_SCORE', TX.cruxCLS, '', v => (v/100).toFixed(2)],
+      ['INTERACTION_TO_NEXT_PAINT', TX.cruxINP, 'ms', ms => ms + 'ms'],
+      ['FIRST_CONTENTFUL_PAINT_MS', TX.cruxFCP, 's', ms => (ms/1000).toFixed(1) + 's']
+    ];
+    const cards = rows.filter(r => m[r[0]]).map(r => {
+      const metric = m[r[0]];
+      const cat = metric.category; // FAST / AVERAGE / SLOW
+      const cls = cat === 'FAST' ? 'good' : cat === 'AVERAGE' ? 'warn' : 'bad';
+      const label = cat === 'FAST' ? TX.cruxFast : cat === 'AVERAGE' ? TX.cruxAvg : TX.cruxSlow;
+      return `
+        <div class="crux-card ${cls}">
+          <div class="crux-value">${r[3](metric.percentile)}</div>
+          <div class="crux-name">${escapeHtml(r[1])}</div>
+          <div class="crux-badge">${escapeHtml(label)}</div>
+        </div>
+      `;
+    }).join('');
+    el.innerHTML = `
+      <div class="chapter reveal"><span class="num">↺</span><span>${escapeHtml(TX.cruxLabel)}</span><span class="line"></span></div>
+      <div class="crux-grid">${cards}</div>
+      <p class="crux-hint">${escapeHtml(TX.cruxHint)}</p>
+    `;
+  }
+
+  // Render topic-cloud met top-woorden uit body text
+  function renderTopicCloud(data){
+    if(!data.topWords || data.topWords.length === 0){
+      scanFindings.insertAdjacentHTML('afterend', `
+        <div id="scanTopics" class="scan-topics">
+          <div class="chapter reveal"><span class="num">✎</span><span>${escapeHtml(TX.topicLabel)}</span><span class="line"></span></div>
+          <p class="topic-empty">${escapeHtml(TX.topicNone)}</p>
+        </div>
+      `);
+      return;
+    }
+    // Bepaal grootte per woord op basis van count relatief tot max
+    const max = data.topWords[0].count;
+    const bubbles = data.topWords.map(w => {
+      const scale = Math.max(0.85, Math.min(1.8, 0.85 + (w.count / max) * 0.95));
+      return `<span class="topic-bubble" style="font-size:${(scale*14).toFixed(1)}px;">${escapeHtml(w.word)}<em>${w.count}</em></span>`;
+    }).join('');
+    // Verwijder oude versie (bij restart)
+    const existing = document.getElementById('scanTopics');
+    if(existing) existing.remove();
+    scanFindings.insertAdjacentHTML('afterend', `
+      <div id="scanTopics" class="scan-topics">
+        <div class="chapter reveal"><span class="num">✎</span><span>${escapeHtml(TX.topicLabel)}</span><span class="line"></span></div>
+        <div class="topic-cloud">${bubbles}</div>
+        <p class="topic-hint">${escapeHtml(TX.topicHint)}</p>
+      </div>
+    `);
+  }
+
   // Zet de HTML-analyse van seo-deep om in dezelfde finding-vorm als de Lighthouse-findings
   function extractDeepFindings(d){
     const B = TD.badges;
@@ -964,6 +1091,22 @@ document.addEventListener('DOMContentLoaded', () => {
       { key:'best-practices', label:T.scoreLabels['best-practices'], score: cats['best-practices'] ? cats['best-practices'].score : null }
     ];
 
+    // Google-preview: zo verschijnt de site NU in Google (echte title + meta + URL)
+    // Placeholder — wordt gevuld zodra deep-scan binnen is (title/meta zitten daar in).
+    if(!document.getElementById('scanPreview')){
+      scanScores.insertAdjacentHTML('beforebegin', '<div id="scanPreview" class="scan-preview-wrap"></div>');
+    } else {
+      document.getElementById('scanPreview').innerHTML = '';
+    }
+
+    // CrUX real-user metrics uit PageSpeed response
+    if(!document.getElementById('scanCrux')){
+      scanScores.insertAdjacentHTML('afterend', '<div id="scanCrux" class="scan-crux-wrap"></div>');
+    } else {
+      document.getElementById('scanCrux').innerHTML = '';
+    }
+    renderCrux(lh);
+
     scanScores.innerHTML = scores.map(s => scoreCard(s)).join('');
     // Anim rings
     requestAnimationFrame(() => {
@@ -990,14 +1133,20 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(r => r.ok ? r.json() : null)
       .catch(err => { console.warn('[seo-deep] failed:', err); return null; });
 
-    // Render deep-findings zodra ze binnen zijn (UI blijft snappy).
+    // Render deep-findings + Google-preview + topic-cloud zodra deep-data binnen is.
     deepPromise.then(data => {
       if(!data || data.error || !data.ok) return;
+      // 1. Google search-preview bovenaan
+      renderGooglePreview(data, url);
+      // 2. Deep-findings onder Lighthouse-findings
       const extra = extractDeepFindings(data);
-      if(!extra.length) return;
-      scanFindings.insertAdjacentHTML('beforeend',
-        `<div class="finding-section-label">${TD.section}</div>` + extra.map(findingCard).join('')
-      );
+      if(extra.length){
+        scanFindings.insertAdjacentHTML('beforeend',
+          `<div class="finding-section-label">${TD.section}</div>` + extra.map(findingCard).join('')
+        );
+      }
+      // 3. Topic-cloud onderaan (waarover denkt Google dat je site gaat)
+      renderTopicCloud(data);
     });
 
     // WhatsApp handoff

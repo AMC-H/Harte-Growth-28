@@ -153,6 +153,27 @@ async function analyzeSite(rawUrl) {
     .trim();
   const wordCount = bodyText ? bodyText.split(/\s+/).filter(Boolean).length : 0;
 
+  // Top-woorden (voor content topic analyse — laat zien waarover Google denkt dat de site gaat)
+  const STOP = new Set([
+    // NL
+    'de','het','een','en','van','in','op','met','voor','aan','bij','uit','over','naar','als','ook','maar','dan','die','dat','wat','wie','waar','hoe','waarom','wij','we','je','jij','jou','jouw','uw','u','ik','mijn','ons','onze','zijn','was','is','ben','bent','wordt','worden','word','zou','heeft','heb','had','doen','doet','deed','kan','kunt','kunnen','moet','moeten','wil','willen','ga','gaat','gaan','er','deze','dit','zo','nog','al','wel','niet','geen','meer','veel','heel','elke','elk','ieder','iedere','ja','nee','nu','toch','soms','vaak','altijd','nooit','tot','naar','sinds','tijdens',
+    // EN
+    'the','a','an','and','or','but','of','in','on','at','to','for','with','by','from','as','is','are','was','were','be','been','being','has','have','had','do','does','did','can','could','will','would','should','may','might','must','shall','this','that','these','those','it','its','they','them','their','you','your','we','our','us','i','my','me','all','any','some','no','not','if','so','than','then','there','here','when','where','why','how','what','who','which','also','more','most','many','much','very',
+    // ES
+    'el','la','los','las','un','una','unos','unas','y','o','de','del','en','con','por','para','a','al','sin','sobre','entre','hasta','desde','como','pero','cuando','donde','porque','si','no','sí','ya','muy','más','menos','mucho','poco','todo','todos','toda','todas','este','esta','estos','estas','ese','esa','esos','esas','yo','tú','él','ella','nosotros','vosotros','ellos','ellas','me','te','se','nos','os','les','le','lo','mi','tu','su','sus','nuestro','vuestro','ser','es','son','soy','eres','somos','sois','fue','fueron','será','haber','ha','han','hay','hacer','hace','hacen','ir','va','van','tener','tiene','tienen','poder','puede','pueden','así','entonces','también','solo','sólo','ni','que','cual','quién','qué'
+  ]);
+  const words = bodyText.toLowerCase()
+    .replace(/[^a-zàáâäãåæçèéêëìíîïñòóôöõùúûüýÿ\s]/g, ' ')
+    .split(/\s+/)
+    .filter(w => w.length >= 4 && !STOP.has(w) && !/^\d+$/.test(w));
+  const freq = {};
+  for (const w of words) freq[w] = (freq[w] || 0) + 1;
+  const topWords = Object.entries(freq)
+    .filter(([, c]) => c >= 2)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)
+    .map(([word, count]) => ({ word, count }));
+
   const isHttps = /^https:$/.test(new URL(finalUrl).protocol);
 
   // robots + sitemap best-effort
@@ -203,6 +224,7 @@ async function analyzeSite(rawUrl) {
     linkExt,
     jsonldTypes,
     wordCount,
+    topWords,
     isHttps,
     robotsOk,
     robotsSitemap,

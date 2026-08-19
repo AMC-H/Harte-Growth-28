@@ -525,6 +525,48 @@ footer .foot-links a:hover{color:var(--accent);}
 .scan-findings{margin-bottom:44px;}
 .scan-finding-list{display:flex;flex-direction:column;gap:14px;margin-top:20px;}
 .finding-section-label{margin-top:18px;padding-top:18px;border-top:1px dashed #25262e;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a8b95;text-transform:uppercase;letter-spacing:.08em;}
+
+/* === Google zoek-preview (visueel: zo verschijn je nu in Google) === */
+.scan-preview-wrap{margin:0 0 36px;}
+.gp-mock{background:#fff;border-radius:14px;padding:22px 26px;color:#202124;font-family:arial,sans-serif;max-width:640px;box-shadow:0 8px 28px -12px rgba(0,0,0,.6);}
+.gp-topline{display:flex;gap:12px;align-items:center;margin-bottom:8px;}
+.gp-favicon{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#ff4d1a 0%,#ff8f1a 100%);display:inline-block;flex-shrink:0;}
+.gp-site{font-size:14px;color:#202124;line-height:1.2;}
+.gp-url{font-size:12px;color:#4d5156;line-height:1.2;margin-top:2px;}
+.gp-title{color:#1a0dab;font-size:20px;font-weight:400;line-height:1.3;margin:4px 0;cursor:pointer;text-decoration:underline;text-underline-offset:2px;text-decoration-color:transparent;transition:text-decoration-color .18s;}
+.gp-mock:hover .gp-title{text-decoration-color:#1a0dab;}
+.gp-desc{font-size:14px;color:#4d5156;line-height:1.58;}
+.gp-hint{margin-top:14px;font-size:13px;color:#8a8b95;line-height:1.5;}
+
+/* === CrUX real-user metrics === */
+.scan-crux-wrap{margin:32px 0 40px;}
+.crux-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px;}
+.crux-card{background:#0f1015;border:1px solid #25262e;border-radius:12px;padding:20px 18px;display:flex;flex-direction:column;gap:6px;}
+.crux-card.good{border-color:rgba(74,222,128,.35);}
+.crux-card.warn{border-color:rgba(255,189,46,.35);}
+.crux-card.bad{border-color:rgba(255,92,86,.35);}
+.crux-value{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:32px;letter-spacing:-.02em;color:#f5f5f7;line-height:1;}
+.crux-card.good .crux-value{color:#4ade80;}
+.crux-card.warn .crux-value{color:#ffbd2e;}
+.crux-card.bad .crux-value{color:#ff5c56;}
+.crux-name{font-size:13px;color:#8a8b95;line-height:1.35;}
+.crux-badge{align-self:flex-start;margin-top:auto;background:#0a0a0c;border:1px solid #25262e;font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a8b95;padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.06em;}
+.crux-hint{margin-top:14px;font-size:13px;color:#565968;line-height:1.5;}
+.crux-empty{margin-top:20px;padding:22px 24px;background:#0f1015;border:1px dashed #25262e;border-radius:12px;color:#8a8b95;font-size:14px;line-height:1.55;}
+
+/* === Topic-cloud (top-woorden op je site) === */
+.scan-topics{margin:40px 0 20px;}
+.topic-cloud{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:24px;align-items:center;}
+.topic-bubble{background:#0f1015;border:1px solid #25262e;border-radius:999px;padding:8px 16px 8px 18px;color:#c8c9d0;font-weight:600;letter-spacing:-.01em;display:inline-flex;align-items:center;gap:8px;transition:border-color .18s,color .18s;}
+.topic-bubble em{font-style:normal;font-family:'JetBrains Mono',monospace;font-size:11px;color:#565968;background:#0a0a0c;padding:2px 6px;border-radius:4px;font-weight:400;}
+.topic-bubble:hover{border-color:var(--accent,#ff4d1a);color:var(--accent,#ff4d1a);}
+.topic-hint,.topic-empty{margin-top:18px;font-size:13px;color:#565968;line-height:1.5;}
+
+@media(max-width:700px){
+  .crux-grid{grid-template-columns:repeat(2,1fr);}
+  .gp-mock{padding:18px 20px;}
+  .gp-title{font-size:18px;}
+}
 .finding{background:#0f1015;border:1px solid #25262e;border-radius:12px;padding:20px 22px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start;}
 .finding-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;flex-shrink:0;}
 .finding.good .finding-icon{background:rgba(74,222,128,.12);color:#4ade80;}
