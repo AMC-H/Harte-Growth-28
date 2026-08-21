@@ -20,6 +20,7 @@
   <!-- Juridisch -->
   <url><loc>https://hartegrowth.eu/privacy</loc><priority>0.4</priority></url>
   <url><loc>https://hartegrowth.eu/cookies</loc><priority>0.4</priority></url>
+  <url><loc>https://hartegrowth.eu/llms.txt</loc><priority>0.3</priority></url>
   <url><loc>https://hartegrowth.eu/en/privacy.html</loc><priority>0.3</priority></url>
   <url><loc>https://hartegrowth.eu/en/cookies.html</loc><priority>0.3</priority></url>
   <url><loc>https://hartegrowth.eu/es/privacy.html</loc><priority>0.3</priority></url>
