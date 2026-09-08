@@ -11,6 +11,9 @@
   --accent:#ff4d1a;
   --accent-dim:#3a1a0e;
   --accent-glow:rgba(255,77,26,.35);
+  --accent-ai:#5e72ff;
+  --accent-ai-dim:#161a3a;
+  --accent-ai-glow:rgba(94,114,255,.35);
   --cream:#f2ede2;
   --green:#22c55e;
   --radius:6px;
@@ -748,3 +751,29 @@ footer .foot-links a:hover{color:var(--accent);}
 .lang-switch a.active{background:#ff4d1a;color:#fff;}
 @media(max-width:900px){.lang-switch{display:none;}}
 .mnav .lang-switch{display:inline-flex;margin:20px 0;}
+
+/* ============================================================
+   REDESIGN v2 — stap 1: dual-accent systeem (homepage)
+   Oranje (--accent) = social/content/verkeer, blijft leidend (logo-kleur).
+   Indigo (--accent-ai) = AI & automatisering, nieuw t.o.v. huidig systeem.
+   Vangnet-diensten (website) krijgen bewust een stillere, secundaire stijl.
+   ============================================================ */
+
+.marquee > span{position:relative;padding-left:16px;}
+.marquee > span::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:7px;height:7px;border-radius:50%;background:var(--text-mute);}
+.marquee > span[data-cat="social"]::before{background:var(--accent);box-shadow:0 0 7px var(--accent-glow);}
+.marquee > span[data-cat="ai"]::before{background:var(--accent-ai);box-shadow:0 0 7px var(--accent-ai-glow);}
+.marquee > span[data-cat="seo"]::before{background:var(--cream);}
+.marquee > span[data-cat="site"]::before{background:var(--text-mute);}
+
+.h-svc.svc-ai{border-color:rgba(94,114,255,.3);background:linear-gradient(160deg,rgba(94,114,255,.08),var(--panel) 65%);}
+.h-svc.svc-ai:hover{border-color:var(--accent-ai);}
+.h-svc.svc-ai .n{color:var(--accent-ai);}
+.h-svc.svc-ai h3 em{color:var(--accent-ai);}
+.h-svc.svc-ai ul li::before{color:var(--accent-ai);}
+
+.h-svc.svc-vangnet{border-style:dashed;border-color:var(--border);background:transparent;}
+.h-svc.svc-vangnet:hover{border-color:var(--border-2);}
+.h-svc.svc-vangnet .n{color:var(--text-mute);}
+.h-svc.svc-vangnet h3 em{color:var(--text-dim);}
+.h-svc.svc-vangnet ul li::before{color:var(--text-mute);}
