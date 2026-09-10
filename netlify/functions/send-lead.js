@@ -50,26 +50,26 @@ exports.handler = async (event) => {
 
   const html = `<!DOCTYPE html>
 <html>
-<body style="margin:0;padding:0;background:#f5f5f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f7;padding:40px 20px;">
+<body style="margin:0;padding:0;background:#f6f1e7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f6f1e7;padding:40px 20px;">
     <tr><td align="center">
-      <table width="580" cellpadding="0" cellspacing="0" style="background:#0a0a0c;border-radius:14px;overflow:hidden;max-width:100%;">
+      <table width="580" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #e9e1d1;border-radius:14px;overflow:hidden;max-width:100%;">
         <tr><td style="padding:32px 32px 20px;">
           <div style="font-family:'Georgia',serif;font-size:14px;color:#ff4d1a;letter-spacing:.05em;text-transform:uppercase;">Harte Growth</div>
-          <h1 style="color:#fff;font-size:24px;line-height:1.25;margin:8px 0 4px;font-weight:800;letter-spacing:-.02em;">Nieuwe groeiscan-lead</h1>
-          <p style="color:#8a8b95;font-size:14px;margin:0 0 24px;">Iemand heeft net de scan gestart via de site.</p>
+          <h1 style="color:#17140f;font-size:24px;line-height:1.25;margin:8px 0 4px;font-weight:800;letter-spacing:-.02em;">Nieuwe groeiscan-lead</h1>
+          <p style="color:#6b6a63;font-size:14px;margin:0 0 24px;">Iemand heeft net de scan gestart via de site.</p>
 
-          <table width="100%" cellpadding="0" cellspacing="0" style="background:#101014;border:1px solid #25262e;border-radius:10px;padding:20px 22px;color:#f5f5f7;font-size:15px;line-height:1.6;">
-            <tr><td style="padding:6px 0;color:#8a8b95;width:110px;">Naam</td><td style="padding:6px 0;font-weight:600;">${escape(name)}</td></tr>
-            <tr><td style="padding:6px 0;color:#8a8b95;">E-mail</td><td style="padding:6px 0;"><a href="mailto:${escape(email)}" style="color:#ff4d1a;text-decoration:none;">${escape(email)}</a></td></tr>
-            ${company ? `<tr><td style="padding:6px 0;color:#8a8b95;">Bedrijf</td><td style="padding:6px 0;">${escape(company)}</td></tr>` : ''}
-            <tr><td style="padding:6px 0;color:#8a8b95;">Gescande URL</td><td style="padding:6px 0;"><a href="${escape(url)}" style="color:#ff4d1a;text-decoration:none;">${escape(domain)}</a></td></tr>
-            <tr><td style="padding:6px 0;color:#8a8b95;">Toestemming</td><td style="padding:6px 0;">${consent ? 'ja' : 'nee'}</td></tr>
-            ${referrer ? `<tr><td style="padding:6px 0;color:#8a8b95;">Referrer</td><td style="padding:6px 0;font-size:12px;color:#8a8b95;">${escape(referrer)}</td></tr>` : ''}
-            <tr><td style="padding:6px 0;color:#8a8b95;">Tijdstip</td><td style="padding:6px 0;font-size:13px;color:#8a8b95;">${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}</td></tr>
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#f6f1e7;border:1px solid #e9e1d1;border-radius:10px;padding:20px 22px;color:#17140f;font-size:15px;line-height:1.6;">
+            <tr><td style="padding:6px 0;color:#6b6a63;width:110px;">Naam</td><td style="padding:6px 0;font-weight:600;">${escape(name)}</td></tr>
+            <tr><td style="padding:6px 0;color:#6b6a63;">E-mail</td><td style="padding:6px 0;"><a href="mailto:${escape(email)}" style="color:#ff4d1a;text-decoration:none;">${escape(email)}</a></td></tr>
+            ${company ? `<tr><td style="padding:6px 0;color:#6b6a63;">Bedrijf</td><td style="padding:6px 0;">${escape(company)}</td></tr>` : ''}
+            <tr><td style="padding:6px 0;color:#6b6a63;">Gescande URL</td><td style="padding:6px 0;"><a href="${escape(url)}" style="color:#ff4d1a;text-decoration:none;">${escape(domain)}</a></td></tr>
+            <tr><td style="padding:6px 0;color:#6b6a63;">Toestemming</td><td style="padding:6px 0;">${consent ? 'ja' : 'nee'}</td></tr>
+            ${referrer ? `<tr><td style="padding:6px 0;color:#6b6a63;">Referrer</td><td style="padding:6px 0;font-size:12px;color:#6b6a63;">${escape(referrer)}</td></tr>` : ''}
+            <tr><td style="padding:6px 0;color:#6b6a63;">Tijdstip</td><td style="padding:6px 0;font-size:13px;color:#6b6a63;">${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}</td></tr>
           </table>
 
-          <div style="margin-top:24px;padding:16px 20px;background:#1a0f0a;border-left:3px solid #ff4d1a;border-radius:8px;color:#a5a7b0;font-size:13.5px;line-height:1.55;">
+          <div style="margin-top:24px;padding:16px 20px;background:#fff6f0;border-left:3px solid #ff4d1a;border-radius:8px;color:#6b6a63;font-size:13.5px;line-height:1.55;">
             Tip: pak deze binnen 1 werkdag op. Wie een scan doet is actief aan het vergelijken.
           </div>
 
@@ -77,7 +77,7 @@ exports.handler = async (event) => {
             <a href="https://wa.me/${escape(email).replace(/[^\d]/g, '') || '31634455762'}" style="display:inline-block;background:#ff4d1a;color:#fff;text-decoration:none;padding:12px 22px;border-radius:8px;font-weight:600;font-size:14px;">Mail direct terug →</a>
           </div>
         </td></tr>
-        <tr><td style="padding:14px 32px;background:#0f1015;border-top:1px solid #25262e;color:#565968;font-size:12px;font-family:'SF Mono',Consolas,monospace;">
+        <tr><td style="padding:14px 32px;background:#f6f1e7;border-top:1px solid #e9e1d1;color:#8f897c;font-size:12px;font-family:'SF Mono',Consolas,monospace;">
           Automatische notificatie van hartegrowth.eu/groeiscan
         </td></tr>
       </table>

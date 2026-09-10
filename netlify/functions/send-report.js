@@ -124,17 +124,17 @@ exports.handler = async (event) => {
   const ctaSub = t.ctaSub;
   const ctaBullets = t.ctaBullets[modeKey];
 
-  const scoreColor = (s) => s >= 90 ? '#4ade80' : s >= 50 ? '#ffbd2e' : '#ff5c56';
+  const scoreColor = (s) => s >= 90 ? '#16a34a' : s >= 50 ? '#b45309' : '#ff5c56';
   const scoreRows = scores.map(s => {
     const pct = s.score === null ? 0 : Math.round(s.score * 100);
     return `<tr>
-      <td style="padding:10px 0;color:#8a8b95;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;">${escape(s.label)}</td>
+      <td style="padding:10px 0;color:#6b6a63;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;">${escape(s.label)}</td>
       <td style="padding:10px 0;text-align:right;color:${scoreColor(pct)};font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:28px;letter-spacing:-.02em;">${pct}<span style="font-size:14px;opacity:.5;">/100</span></td>
     </tr>`;
   }).join('');
 
-  const findingBg = (cls) => cls === 'good' ? 'rgba(74,222,128,.12)' : cls === 'warn' ? 'rgba(255,189,46,.12)' : 'rgba(255,92,86,.12)';
-  const findingFg = (cls) => cls === 'good' ? '#4ade80' : cls === 'warn' ? '#ffbd2e' : '#ff5c56';
+  const findingBg = (cls) => cls === 'good' ? 'rgba(22,163,74,.1)' : cls === 'warn' ? 'rgba(180,83,9,.1)' : 'rgba(255,92,86,.12)';
+  const findingFg = (cls) => cls === 'good' ? '#16a34a' : cls === 'warn' ? '#b45309' : '#ff5c56';
   const findingBadge = (f) => {
     if(f.value && f.value !== 'ok' && f.value !== 'kan beter' && f.value !== 'fix nodig') return escape(f.value);
     const badges = { nl:{ok:'ok', warn:'kan beter', bad:'fix nodig'}, en:{ok:'ok', warn:'could be better', bad:'needs fix'}, es:{ok:'ok', warn:'mejorable', bad:'a corregir'} }[LANG];
@@ -145,22 +145,22 @@ exports.handler = async (event) => {
 
   // Herbruikbare renderer voor 1 finding-blok
   const renderFinding = (f) => `
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f1015;border:1px solid #25262e;border-radius:10px;margin-bottom:10px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f6f1e7;border:1px solid #e9e1d1;border-radius:10px;margin-bottom:10px;">
       <tr>
         <td width="42" valign="top" style="padding:16px 0 16px 16px;">
           <div style="width:26px;height:26px;border-radius:7px;background:${findingBg(f.cls)};color:${findingFg(f.cls)};text-align:center;line-height:26px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;">${escape(f.icon)}</div>
         </td>
         <td valign="top" style="padding:14px 16px 14px 12px;">
-          <div style="color:#f5f5f7;font-size:15px;font-weight:600;letter-spacing:-.01em;margin-bottom:3px;">${escape(f.label)}</div>
-          <div style="color:#8a8b95;font-size:13px;line-height:1.5;">${escape(f.hint)}</div>
+          <div style="color:#17140f;font-size:15px;font-weight:600;letter-spacing:-.01em;margin-bottom:3px;">${escape(f.label)}</div>
+          <div style="color:#6b6a63;font-size:13px;line-height:1.5;">${escape(f.hint)}</div>
         </td>
         <td valign="middle" align="right" style="padding:14px 16px 14px 8px;white-space:nowrap;">
-          <span style="display:inline-block;background:#0a0a0c;border:1px solid #25262e;color:#8a8b95;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.02em;padding:6px 12px;border-radius:6px;">${findingBadge(f)}</span>
+          <span style="display:inline-block;background:#ffffff;border:1px solid #e9e1d1;color:#6b6a63;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.02em;padding:6px 12px;border-radius:6px;">${findingBadge(f)}</span>
         </td>
       </tr>
     </table>`;
 
-  const sectionLabel = (txt) => `<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a8b95;letter-spacing:.08em;text-transform:uppercase;margin:22px 0 14px;padding-top:18px;border-top:1px dashed #25262e;">${escape(txt)}</div>`;
+  const sectionLabel = (txt) => `<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6b6a63;letter-spacing:.08em;text-transform:uppercase;margin:22px 0 14px;padding-top:18px;border-top:1px dashed #e9e1d1;">${escape(txt)}</div>`;
 
   // Lighthouse-findings + deep-SEO findings (exact zelfde layout als op de site)
   const hasLh = (findings && findings.length);
@@ -168,7 +168,7 @@ exports.handler = async (event) => {
   const findingsHtml = (hasLh || hasDeep) ? `
     <div style="margin-top:8px;">
       ${hasLh ? `
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8a8b95;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;">${escape(t.whatWeSaw)}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6b6a63;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;">${escape(t.whatWeSaw)}</div>
         ${findings.slice(0, 8).map(renderFinding).join('')}
       ` : ''}
       ${hasDeep ? `
@@ -180,46 +180,46 @@ exports.handler = async (event) => {
 
   const clientHtml = `<!DOCTYPE html>
 <html>
-<body style="margin:0;padding:0;background:#f5f5f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f7;padding:40px 20px;">
+<body style="margin:0;padding:0;background:#f6f1e7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f6f1e7;padding:40px 20px;">
     <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#0a0a0c;border-radius:14px;overflow:hidden;max-width:100%;">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #e9e1d1;border-radius:14px;overflow:hidden;max-width:100%;">
         <tr><td style="padding:36px 36px 24px;">
           <div style="font-family:'Georgia',serif;font-size:14px;color:#ff4d1a;letter-spacing:.05em;text-transform:uppercase;">Harte Growth · ${LANG === 'es' ? 'Escaneo' : LANG === 'en' ? 'Growth scan' : 'Groeiscan'}</div>
-          <h1 style="color:#fff;font-size:26px;line-height:1.2;margin:10px 0 6px;font-weight:800;letter-spacing:-.03em;">${escape(t.hi(firstName))}<br>${escape(t.hereReport(''))} <span style="font-family:'Georgia',serif;font-style:italic;color:#ff4d1a;font-weight:400;">${escape(dom)}</span></h1>
-          <p style="color:#8a8b95;font-size:14.5px;line-height:1.6;margin:0;">${escape(t.intro)}</p>
+          <h1 style="color:#17140f;font-size:26px;line-height:1.2;margin:10px 0 6px;font-weight:800;letter-spacing:-.03em;">${escape(t.hi(firstName))}<br>${escape(t.hereReport(''))} <span style="font-family:'Georgia',serif;font-style:italic;color:#ff4d1a;font-weight:400;">${escape(dom)}</span></h1>
+          <p style="color:#6b6a63;font-size:14.5px;line-height:1.6;margin:0;">${escape(t.intro)}</p>
         </td></tr>
 
         <tr><td style="padding:0 36px 24px;">
-          <table width="100%" cellpadding="0" cellspacing="0" style="background:#101014;border:1px solid #25262e;border-radius:12px;padding:22px 26px;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#f6f1e7;border:1px solid #e9e1d1;border-radius:12px;padding:22px 26px;">
             ${scoreRows}
           </table>
         </td></tr>
 
         <tr><td style="padding:0 36px 24px;">
-          <div style="background:#0f1015;border:1px solid #25262e;border-left:3px solid #ff4d1a;border-radius:10px;padding:22px 24px;">
-            <h2 style="color:#fff;font-size:20px;letter-spacing:-.02em;margin:0 0 8px;font-weight:700;">${escape(verdictTitle)}</h2>
-            <p style="color:#a5a7b0;font-size:14.5px;line-height:1.6;margin:0;">${escape(verdictBody)}</p>
+          <div style="background:#f6f1e7;border:1px solid #e9e1d1;border-left:3px solid #ff4d1a;border-radius:10px;padding:22px 24px;">
+            <h2 style="color:#17140f;font-size:20px;letter-spacing:-.02em;margin:0 0 8px;font-weight:700;">${escape(verdictTitle)}</h2>
+            <p style="color:#6b6a63;font-size:14.5px;line-height:1.6;margin:0;">${escape(verdictBody)}</p>
           </div>
         </td></tr>
 
         ${findingsHtml ? `<tr><td style="padding:0 36px 24px;">${findingsHtml}</td></tr>` : ''}
 
         <tr><td style="padding:16px 36px 32px;">
-          <div style="background:linear-gradient(135deg,#1f0e08 0%,#0f1015 100%);border:1px solid #ff4d1a;border-radius:14px;padding:30px 28px;">
+          <div style="background:linear-gradient(135deg,#ffe6d8 0%,#ffffff 100%);border:1px solid #ff4d1a;border-radius:14px;padding:30px 28px;">
             <div style="font-family:'Georgia',serif;font-size:12px;color:#ff4d1a;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">${escape(t.nextStep)}</div>
-            <h3 style="color:#fff;font-size:22px;line-height:1.25;letter-spacing:-.02em;margin:0 0 10px;font-weight:800;">${ctaHead}</h3>
-            <p style="color:#c4c6cf;font-size:15px;line-height:1.55;margin:0 0 8px;">${escape(ctaSub)}</p>
-            <ul style="color:#a5a7b0;font-size:14px;line-height:1.65;margin:0 0 22px;padding-left:20px;">
+            <h3 style="color:#17140f;font-size:22px;line-height:1.25;letter-spacing:-.02em;margin:0 0 10px;font-weight:800;">${ctaHead}</h3>
+            <p style="color:#3f3b32;font-size:15px;line-height:1.55;margin:0 0 8px;">${escape(ctaSub)}</p>
+            <ul style="color:#4a4740;font-size:14px;line-height:1.65;margin:0 0 22px;padding-left:20px;">
               ${ctaBullets.map(b => `<li>${escape(b)}</li>`).join('')}
             </ul>
-            <p style="color:#8a8b95;font-size:13px;line-height:1.55;margin:0 0 20px;font-style:italic;">${escape(t.reassure)}</p>
+            <p style="color:#6b6a63;font-size:13px;line-height:1.55;margin:0 0 20px;font-style:italic;">${escape(t.reassure)}</p>
             <a href="https://hartegrowth.eu/${LANG === 'nl' ? '' : LANG + '/'}landing.html#book" style="display:inline-block;background:#ff4d1a;color:#fff;text-decoration:none;padding:15px 28px;border-radius:9px;font-weight:700;font-size:15px;letter-spacing:-.01em;margin-right:6px;margin-bottom:8px;">${escape(ctaLabel)} →</a>
-            <a href="https://wa.me/31634455762?text=${encodeURIComponent((LANG === 'es' ? 'Hola Harte Growth, acabo de hacer el escaneo para ' : LANG === 'en' ? 'Hi Harte Growth, I just did the scan for ' : 'Hoi Harte Growth, ik heb net de scan gedaan voor ') + dom)}" style="display:inline-block;background:transparent;color:#8a8b95;text-decoration:none;padding:15px 22px;border-radius:9px;border:1px solid #25262e;font-weight:500;font-size:14px;">${escape(t.or)}</a>
+            <a href="https://wa.me/31634455762?text=${encodeURIComponent((LANG === 'es' ? 'Hola Harte Growth, acabo de hacer el escaneo para ' : LANG === 'en' ? 'Hi Harte Growth, I just did the scan for ' : 'Hoi Harte Growth, ik heb net de scan gedaan voor ') + dom)}" style="display:inline-block;background:#ffffff;color:#6b6a63;text-decoration:none;padding:15px 22px;border-radius:9px;border:1px solid #e9e1d1;font-weight:500;font-size:14px;">${escape(t.or)}</a>
           </div>
         </td></tr>
 
-        <tr><td style="padding:16px 36px;background:#0f1015;border-top:1px solid #25262e;color:#565968;font-size:12px;font-family:'SF Mono',Consolas,monospace;">
+        <tr><td style="padding:16px 36px;background:#f6f1e7;border-top:1px solid #e9e1d1;color:#8f897c;font-size:12px;font-family:'SF Mono',Consolas,monospace;">
           ${escape(t.footer)}
         </td></tr>
       </table>
@@ -280,15 +280,15 @@ hartegrowth.eu`;
 
     // Aparte, uitgebreidere mail naar Alain met lead-info + scan-scores
     const alainLeadBlock = `
-      <table width="100%" cellpadding="0" cellspacing="0" style="background:#101014;border:1px solid #25262e;border-left:3px solid #ff4d1a;border-radius:10px;padding:20px 22px;color:#f5f5f7;font-size:15px;line-height:1.6;margin-bottom:24px;">
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#f6f1e7;border:1px solid #e9e1d1;border-left:3px solid #ff4d1a;border-radius:10px;padding:20px 22px;color:#17140f;font-size:15px;line-height:1.6;margin-bottom:24px;">
         <tr><td colspan="2" style="padding-bottom:12px;">
           <div style="font-family:'Georgia',serif;font-size:12px;color:#ff4d1a;letter-spacing:.08em;text-transform:uppercase;">${escape(t.newLead)}</div>
         </td></tr>
-        <tr><td style="padding:6px 0;color:#8a8b95;width:110px;">${escape(t.labels.name)}</td><td style="padding:6px 0;font-weight:600;">${escape(name)}</td></tr>
-        <tr><td style="padding:6px 0;color:#8a8b95;">${escape(t.labels.email)}</td><td style="padding:6px 0;"><a href="mailto:${escape(email)}" style="color:#ff4d1a;text-decoration:none;">${escape(email)}</a></td></tr>
-        ${company ? `<tr><td style="padding:6px 0;color:#8a8b95;">${escape(t.labels.company)}</td><td style="padding:6px 0;">${escape(company)}</td></tr>` : ''}
-        <tr><td style="padding:6px 0;color:#8a8b95;">${escape(t.labels.score)}</td><td style="padding:6px 0;font-weight:700;color:${avg >= 65 ? '#4ade80' : avg >= 40 ? '#ffbd2e' : '#ff5c56'};">${avg}/100</td></tr>
-        <tr><td style="padding:6px 0;color:#8a8b95;">${escape(t.labels.time)}</td><td style="padding:6px 0;font-size:13px;color:#8a8b95;">${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}</td></tr>
+        <tr><td style="padding:6px 0;color:#6b6a63;width:110px;">${escape(t.labels.name)}</td><td style="padding:6px 0;font-weight:600;">${escape(name)}</td></tr>
+        <tr><td style="padding:6px 0;color:#6b6a63;">${escape(t.labels.email)}</td><td style="padding:6px 0;"><a href="mailto:${escape(email)}" style="color:#ff4d1a;text-decoration:none;">${escape(email)}</a></td></tr>
+        ${company ? `<tr><td style="padding:6px 0;color:#6b6a63;">${escape(t.labels.company)}</td><td style="padding:6px 0;">${escape(company)}</td></tr>` : ''}
+        <tr><td style="padding:6px 0;color:#6b6a63;">${escape(t.labels.score)}</td><td style="padding:6px 0;font-weight:700;color:${avg >= 65 ? '#16a34a' : avg >= 40 ? '#b45309' : '#ff5c56'};">${avg}/100</td></tr>
+        <tr><td style="padding:6px 0;color:#6b6a63;">${escape(t.labels.time)}</td><td style="padding:6px 0;font-size:13px;color:#6b6a63;">${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}</td></tr>
       </table>`;
 
     const alainHtml = clientHtml.replace(

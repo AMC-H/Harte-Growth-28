@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
         d.x += d.vx; d.y += d.vy;
         if(d.x < 0) d.x = W; if(d.x > W) d.x = 0;
         if(d.y < 0) d.y = H; if(d.y > H) d.y = 0;
-        ctx.fillStyle = 'rgba(180,180,190,.35)';
+        ctx.fillStyle = 'rgba(23,20,15,.22)';
         ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,Math.PI*2); ctx.fill();
       });
       requestAnimationFrame(loop);
