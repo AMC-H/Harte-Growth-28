@@ -19,6 +19,10 @@
   --radius:6px;
   --ease:cubic-bezier(.22,1,.36,1);
   --maxw:1280px;
+  --glass-bg:rgba(255,255,255,.55);
+  --glass-bg-strong:rgba(255,255,255,.78);
+  --glass-blur:blur(22px) saturate(1.7);
+  --glass-shadow:0 20px 50px -18px rgba(154,90,40,.22),inset 0 1px 0 rgba(255,255,255,.7);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -28,6 +32,15 @@ body{
   line-height:1.5;font-size:15.5px;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;
+  background:
+    radial-gradient(640px circle at 6% 12%, rgba(255,122,74,.24), transparent 62%),
+    radial-gradient(720px circle at 96% 22%, rgba(255,77,26,.16), transparent 58%),
+    radial-gradient(780px circle at 46% 96%, rgba(255,179,133,.22), transparent 60%),
+    radial-gradient(560px circle at 82% 74%, rgba(255,122,74,.14), transparent 58%);
+  filter:blur(10px);
 }
 img,svg{display:block;max-width:100%;}
 a{color:inherit;text-decoration:none;}
@@ -47,8 +60,8 @@ h1,h2,h3,h4{font-weight:700;letter-spacing:-.02em;line-height:1.04;}
 .bg-canvas{position:fixed;inset:0;z-index:-1;opacity:.4;pointer-events:none;}
 
 /* HEADER */
-header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,251,247,.7);backdrop-filter:blur(14px) saturate(1.1);border-bottom:1px solid transparent;transition:border-color .3s,background .3s;}
-header.scrolled{border-color:var(--border);background:rgba(253,251,247,.94);}
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,251,247,.55);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border-bottom:1px solid rgba(255,255,255,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.8);transition:border-color .3s,background .3s;}
+header.scrolled{border-color:rgba(255,255,255,.6);background:rgba(253,251,247,.78);}
 .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;max-width:var(--maxw);margin:0 auto;}
 .logo{display:flex;align-items:center;font-weight:700;font-size:15px;letter-spacing:-.01em;}
 .logo img{display:block;height:26px;width:auto;}
@@ -64,7 +77,7 @@ header.scrolled{border-color:var(--border);background:rgba(253,251,247,.94);}
 @media(max-width:920px){.navlinks{display:none;}.nav-right .btn:not(.wa-btn-nav){display:none;}.menu-btn{display:block;}.nav{padding:14px 22px;}}
 .progress-line{height:2px;background:var(--accent);width:0%;transition:width .08s linear;}
 
-.mnav{position:fixed;inset:0;background:var(--bg);z-index:150;display:flex;flex-direction:column;padding:22px;transform:translateX(100%);transition:transform .35s var(--ease);overflow-y:auto;}
+.mnav{position:fixed;inset:0;background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);z-index:150;display:flex;flex-direction:column;padding:22px;transform:translateX(100%);transition:transform .35s var(--ease);overflow-y:auto;}
 .mnav.open{transform:translateX(0);}
 .mnav-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px;}
 .mnav a{font-size:24px;font-weight:700;padding:14px 0;border-bottom:1px solid var(--border);}
@@ -781,3 +794,50 @@ footer .foot-links a:hover{color:var(--accent);}
 .h-svc.svc-vangnet .n{color:var(--text-mute);}
 .h-svc.svc-vangnet h3 em{color:var(--text-dim);}
 .h-svc.svc-vangnet ul li::before{color:var(--text-mute);}
+
+/* ============================================================
+   GLASS SURFACES — frosted cards over the ambient blob background
+   ============================================================ */
+.btn-ghost:hover,
+.story-item,
+.h-svc,
+.case-stat,
+.case-visual,
+.blog-card,
+.post-body p.callout,
+.post-cta,
+.cta-full,
+.contact-card,
+.growth-chart-wrap,
+.growth-metrics .m,
+.gs-step,
+.case-strip,
+.score-card,
+.crux-card,
+.crux-empty,
+.topic-bubble,
+.finding,
+.scan-error,
+.scan-what,
+.hg-cc-btn-ghost:hover,
+.case-details-grid > div,
+.lang-switch,
+.h-svc.svc-ai{
+  background:var(--glass-bg);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  box-shadow:var(--glass-shadow);
+}
+
+.booking,
+.scan-input-wrap,
+.scan-verdict,
+.scan-gate-box,
+#hg-cookie-banner{
+  background:var(--glass-bg-strong);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  box-shadow:var(--glass-shadow);
+}
+
+.btn-primary{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 14px 30px -12px rgba(255,77,26,.45);}
