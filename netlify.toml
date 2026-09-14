@@ -64,6 +64,16 @@
   to = "/blog-ai-whatsapp"
   status = 301
 
+[[redirects]]
+  from = "/blog-seo-mkb.html"
+  to = "/blog-seo-mkb"
+  status = 301
+
+[[redirects]]
+  from = "/blog-ai-automatisering-mkb.html"
+  to = "/blog-ai-automatisering-mkb"
+  status = 301
+
 # Aliases voor 'gratis-groeiscan' (Google Search Console + oude links)
 [[redirects]]
   from = "/gratis-groeiscan"
