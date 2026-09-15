@@ -19,7 +19,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'invalid json' }) };
   }
 
-  const { naam, contact, type, aantalFotos, bericht } = data;
+  const { naam, contact, materiaal, type, aantalFotos, bericht } = data;
 
   if (data['bot-field']) {
     return { statusCode: 200, headers: cors, body: JSON.stringify({ ok: true }) };
@@ -54,8 +54,9 @@ exports.handler = async (event) => {
           <table width="100%" cellpadding="0" cellspacing="0" style="background:#f6f1e7;border:1px solid #e9e1d1;border-radius:10px;padding:20px 22px;color:#17140f;font-size:15px;line-height:1.6;">
             <tr><td style="padding:6px 0;color:#6b6a63;width:130px;">Naam</td><td style="padding:6px 0;font-weight:600;">${escape(naam)}</td></tr>
             <tr><td style="padding:6px 0;color:#6b6a63;">WhatsApp / e-mail</td><td style="padding:6px 0;">${escape(contact)}</td></tr>
-            ${type ? `<tr><td style="padding:6px 0;color:#6b6a63;">Type foto's</td><td style="padding:6px 0;">${escape(type)}</td></tr>` : ''}
-            ${aantalFotos ? `<tr><td style="padding:6px 0;color:#6b6a63;">Aantal foto's</td><td style="padding:6px 0;">${escape(aantalFotos)}</td></tr>` : ''}
+            ${materiaal ? `<tr><td style="padding:6px 0;color:#6b6a63;">Wat stuurt hij/zij</td><td style="padding:6px 0;">${escape(materiaal)}</td></tr>` : ''}
+            ${type ? `<tr><td style="padding:6px 0;color:#6b6a63;">Waar van</td><td style="padding:6px 0;">${escape(type)}</td></tr>` : ''}
+            ${aantalFotos ? `<tr><td style="padding:6px 0;color:#6b6a63;">Hoeveelheid</td><td style="padding:6px 0;">${escape(aantalFotos)}</td></tr>` : ''}
             <tr><td style="padding:6px 0;color:#6b6a63;">Tijdstip</td><td style="padding:6px 0;font-size:13px;color:#6b6a63;">${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}</td></tr>
           </table>
 
@@ -74,7 +75,7 @@ exports.handler = async (event) => {
 
 Naam: ${naam}
 WhatsApp/e-mail: ${contact}
-${type ? 'Type foto\'s: ' + type + '\n' : ''}${aantalFotos ? 'Aantal foto\'s: ' + aantalFotos + '\n' : ''}Tijd: ${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}
+${materiaal ? 'Wat stuurt hij/zij: ' + materiaal + '\n' : ''}${type ? 'Waar van: ' + type + '\n' : ''}${aantalFotos ? 'Hoeveelheid: ' + aantalFotos + '\n' : ''}Tijd: ${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}
 ${bericht ? '\nOpmerking:\n' + bericht : ''}`;
 
   try {
