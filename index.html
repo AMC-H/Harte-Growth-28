@@ -14,49 +14,60 @@
 </style>
 <script>
 (function(){
-  function playVideo(el,id){
-    var label=el.querySelector('.yt-label');
-    el.innerHTML='';
+  var heroCard=null;
+  function playInHero(id,isShort){
+    if(!heroCard)return;
+    heroCard.style.aspectRatio=isShort?'9/16':'16/9';
+    heroCard.style.maxHeight=isShort?'70vh':'none';
+    heroCard.style.margin=isShort?'0 auto':'';
+    heroCard.style.width=isShort?'auto':'';
+    heroCard.innerHTML='';
     var iframe=document.createElement('iframe');
     iframe.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3';
     iframe.allow='autoplay; encrypted-media';
     iframe.setAttribute('allowfullscreen','');
     iframe.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:none';
-    el.appendChild(iframe);
-    if(label){label.style.zIndex='2';label.style.pointerEvents='none';el.appendChild(label);}
+    heroCard.appendChild(iframe);
+  }
+  function setHeroThumb(id){
+    heroCard.style.aspectRatio='16/9';
+    heroCard.style.maxHeight='none';
+    heroCard.style.margin='';
+    heroCard.style.width='';
+    heroCard.innerHTML='<div class="yt-facade" style="position:relative;cursor:pointer;overflow:hidden;width:100%;height:100%"><img src="https://img.youtube.com/vi/'+id+'/hqdefault.jpg" alt="Harte Growth" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:#ff3b30;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 40px -8px rgba(255,59,48,0.5)"><svg viewBox="0 0 24 24" fill="none" style="width:24px;height:24px;margin-left:3px"><path d="M8 5v14l11-7z" fill="#fff"/></svg></div></div>';
+    heroCard.querySelector('.yt-facade').addEventListener('click',function(){playInHero(id,false);});
+  }
+  function makeThumbCard(vid){
+    var el=document.createElement('div');
+    el.className='flex-none rounded-lg overflow-hidden border border-hg-line bg-hg-surface cursor-pointer hover:border-hg-line-strong transition-all duration-300 group';
+    el.style.cssText=vid.short?'width:80px;':'width:100px;';
+    el.innerHTML='<div style="aspect-ratio:'+(vid.short?'9/16':'16/9')+';position:relative;background:#0a0a0a;overflow:hidden"><img src="https://img.youtube.com/vi/'+vid.id+'/hqdefault.jpg" alt="'+vid.name+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px;border-radius:50%;background:rgba(255,59,48,0.7);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px;margin-left:2px"><path d="M8 5v14l11-7z" fill="#fff"/></svg></div></div>';
+    el.addEventListener('click',function(){playInHero(vid.id,vid.short);});
+    return el;
   }
   function init(){
     var heroEl=document.querySelector('.animate-ping-slow');
     if(heroEl){
-      var heroCard=heroEl.closest('.aspect-video');
+      heroCard=heroEl.closest('.aspect-video');
       if(heroCard){
         heroCard.style.position='relative';
         heroCard.style.background='#0a0a0a';
-        heroCard.innerHTML='<div class="yt-facade" data-vid="2FF-lEMhZsw" style="position:relative;cursor:pointer;overflow:hidden;width:100%;height:100%"><img src="https://img.youtube.com/vi/2FF-lEMhZsw/hqdefault.jpg" alt="AC Men Costa Blanca" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:#ff3b30;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 40px -8px rgba(255,59,48,0.5)"><svg viewBox="0 0 24 24" fill="none" style="width:24px;height:24px;margin-left:3px"><path d="M8 5v14l11-7z" fill="#fff"/></svg></div><div class="yt-label" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);padding:12px 20px;z-index:2;pointer-events:none"><p style="font-family:JetBrains Mono,monospace;font-size:0.65rem;color:#9BA0A6;text-transform:uppercase;letter-spacing:0.05em">AC Men · Costa Blanca</p></div></div>';
-        heroCard.querySelector('.yt-facade').addEventListener('click',function(){playVideo(heroCard,'2FF-lEMhZsw');});
+        setHeroThumb('SGyXXd32mYc');
       }
     }
     var row=document.querySelector('.no-scrollbar');
-    if(row&&row.children.length===4){
+    if(row){
       var vids=[
-        {id:'WQypgLNB32g',name:'Vrachtwagen Beurs'},
-        {id:'A7Q9hQdtzko',name:'RENNTECH AMG 300CE'},
-        {id:'HD3JZEJ_O2M',name:'Costa Blanca Collective'},
-        {id:'32XqLJMN_m8',name:'KGM Actyon'}
+        {id:'OMA1SJH9g3M',name:'Harte Growth',short:false},
+        {id:'hDNp_qFBkdA',name:'Short 1',short:true},
+        {id:'GsN0zpo7Wzw',name:'Short 2',short:true},
+        {id:'MsnzwYn0FBE',name:'Short 3',short:true},
+        {id:'YK-yws56paA',name:'Short 4',short:true},
+        {id:'8wjNfPIgR2A',name:'Short 5',short:true}
       ];
-      for(var j=0;j<4;j++){
-        var card=row.children[j];
-        var aspectDiv=card.querySelector('[class*="aspect-"]');
-        if(aspectDiv){
-          var vid=vids[j];
-          aspectDiv.style.position='relative';
-          aspectDiv.style.background='#0a0a0a';
-          aspectDiv.setAttribute('data-vid',vid.id);
-          aspectDiv.innerHTML='<div class="yt-facade yt-facade-sm" style="position:relative;cursor:pointer;overflow:hidden;width:100%;height:100%"><img src="https://img.youtube.com/vi/'+vid.id+'/hqdefault.jpg" alt="'+vid.name+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px;border-radius:50%;background:#ff3b30;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px -4px rgba(255,59,48,0.4)"><svg viewBox="0 0 24 24" fill="none" style="width:12px;height:12px;margin-left:2px"><path d="M8 5v14l11-7z" fill="#fff"/></svg></div></div>';
-          (function(v,a){a.querySelector('.yt-facade').addEventListener('click',function(){playVideo(a,v.id);});})(vid,aspectDiv);
-        }
-        var labelDiv=card.querySelector('.truncate');
-        if(labelDiv){labelDiv.textContent=vids[j].name;}
+      row.innerHTML='';
+      for(var j=0;j<vids.length;j++){
+        row.appendChild(makeThumbCard(vids[j]));
       }
     }
   }
