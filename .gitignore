@@ -3,3 +3,6 @@ _check.js
 .vscode/
 node_modules/
 *.log
+.claude/
+.agents/
+skills-lock.json
