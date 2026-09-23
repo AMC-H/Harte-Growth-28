@@ -1,0 +1,259 @@
+/* Harte Growth, de film. Merkkleuren en fonts liggen vast; zie het ontwerpplan. */
+:root {
+  --bg: #0F1113;
+  --ink: #F2F0EC;
+  --mute: #9BA0A6;
+  --accent: #FF3B30;
+  --wa: #25D366;
+  --surface: #161A1D;
+  --surface-2: #1C2024;
+  --line: rgba(242, 240, 236, .08);
+  --line-2: rgba(242, 240, 236, .16);
+
+  --f-head: "Bricolage Grotesque", system-ui, sans-serif;
+  --f-body: "Instrument Sans", -apple-system, system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --gutter: clamp(16px, 4vw, 48px);
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --hdr: calc(84px + var(--safe-t));
+  --stage-h: 46svh; /* mobiel: hoogte van het beeld boven de tekst */
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 1.0625rem/1.55 var(--f-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+h1, h2, h3, p { margin: 0; }
+a { color: inherit; }
+img, video, svg { display: block; max-width: 100%; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+[tabindex="-1"]:focus { outline: none; }
+
+.skip {
+  position: fixed; left: 12px; top: 12px; z-index: 50;
+  padding: .6rem 1rem; background: var(--ink); color: var(--bg);
+  border-radius: 8px; font-weight: 600; text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip:focus { transform: none; }
+
+/* ---------- Header + tijdlijn ---------- */
+.hdr {
+  position: fixed; inset: 0 0 auto; z-index: 30;
+  padding-top: var(--safe-t);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.hdr-row {
+  height: 48px; padding-inline: var(--gutter);
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.logo { display: inline-flex; padding: 6px 0; }
+.hdr-back { color: var(--mute); font-size: .875rem; text-decoration: none; padding: .5rem 0; }
+.hdr-back:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+.tl {
+  height: 36px; padding-inline: var(--gutter);
+  display: flex; align-items: center; gap: 14px;
+  font-family: var(--f-mono); font-size: .75rem;
+}
+.tc {
+  display: flex; align-items: center; gap: 8px;
+  font-variant-numeric: tabular-nums; letter-spacing: .02em; white-space: nowrap;
+}
+.tc-rec { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.tl-track { position: relative; flex: 1; min-width: 0; height: 100%; }
+.tl-clips { list-style: none; margin: 0; padding: 0; display: flex; height: 100%; }
+.tl-clips li { flex: 1 1 0; min-width: 0; }
+.tl-clips a {
+  position: relative; display: flex; align-items: flex-start; height: 100%;
+  padding: 4px 6px 0; color: var(--mute); text-decoration: none; overflow: hidden;
+}
+/* de "clip" zelf: een blok op het spoor, 1px ruimte ertussen zoals in een montagetijdlijn */
+.tl-clips a::before {
+  content: ""; position: absolute; left: 0; right: 1px; bottom: 6px; height: 8px;
+  background: var(--line-2); border-radius: 2px;
+}
+.tl-clips a:hover { color: var(--ink); }
+.tl-clips a:hover::before { background: rgba(242, 240, 236, .28); }
+.tl-clips a[aria-current="location"] { color: var(--ink); }
+.tl-name { font-size: .6875rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tl-fill {
+  position: absolute; left: 0; right: 0; bottom: 6px; height: 8px; pointer-events: none;
+  background: rgba(255, 59, 48, .35); border-radius: 2px;
+  transform-origin: left center; transform: scaleX(0);
+}
+.tl-head { position: absolute; inset: 0; pointer-events: none; transform: translateX(0); }
+.tl-head span {
+  position: absolute; left: 0; top: 2px; bottom: 2px; width: 2px; margin-left: -1px;
+  background: var(--accent);
+}
+.tl-head span::before {
+  content: ""; position: absolute; top: -2px; left: -4px; width: 10px; height: 6px;
+  background: var(--accent); clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.tl-now { display: none; }
+
+@media (max-width: 767px) {
+  :root { --hdr: calc(92px + var(--safe-t)); }
+  .hdr-row { height: 48px; }
+  .tl { height: 44px; gap: 10px; }
+  .tl-clips a { padding: 0; }
+  .tl-clips a::before { bottom: 18px; }
+  .tl-fill { bottom: 18px; }
+  .tl-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .tl-now { display: block; color: var(--mute); white-space: nowrap; min-width: 5.5em; text-align: right; }
+  .hdr-back { font-size: .8125rem; }
+}
+
+/* ---------- Typografie ---------- */
+.h1, .h2 {
+  font-family: var(--f-head); font-weight: 800; letter-spacing: -.03em; line-height: .98;
+  font-size: clamp(2.1rem, 1.2rem + 3.4vw, 4.6rem);
+  text-wrap: balance;
+}
+.h2 { font-weight: 700; font-size: clamp(1.9rem, 1.1rem + 2.8vw, 3.8rem); }
+.lede { color: var(--mute); max-width: 44ch; margin-top: 1.1rem; text-wrap: pretty; }
+.lede strong { color: var(--ink); font-weight: 600; }
+
+.ctas { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; align-items: center; margin-top: 1.6rem; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 48px; padding: .75rem 1.3rem; border-radius: 999px; border: 0;
+  background: var(--accent); color: var(--bg);
+  font: 600 1rem/1.2 var(--f-body); text-decoration: none; cursor: pointer;
+  transition: transform .2s ease, background-color .2s ease;
+}
+.btn:hover { transform: translateY(-1px); background: #ff5147; }
+.link { color: var(--ink); font-weight: 500; text-underline-offset: 4px; }
+.link:hover { color: var(--accent); }
+
+.cue {
+  display: flex; align-items: center; gap: .6rem; margin-top: 2.2rem;
+  font: 400 .75rem/1 var(--f-mono); color: var(--mute);
+}
+.cue-line { width: 28px; height: 2px; background: var(--accent); }
+
+/* ---------- Hoofdstukken: statische basis (geen JS of reduced motion) ---------- */
+#film { padding-top: var(--hdr); }
+.chapter {
+  display: grid; gap: 2rem;
+  padding: clamp(3rem, 8vh, 6rem) var(--gutter);
+  border-bottom: 1px solid var(--line);
+}
+.chapter > .copy { max-width: 36rem; }
+.scene { position: relative; }
+.scene-in {
+  position: relative; width: 100%; aspect-ratio: 4 / 3;
+  container-type: size;
+  display: grid; place-items: center;
+}
+@media (min-width: 900px) {
+  .chapter { grid-template-columns: minmax(0, 36rem) minmax(0, 1fr); align-items: center; column-gap: 4vw; }
+  .chapter > .copy { grid-row: 1; grid-column: 1; }
+  .chapter > .scene { grid-row: 1; grid-column: 2; }
+}
+
+/* ---------- Filmmodus (JS zet .film-on als beweging is toegestaan) ---------- */
+.film-on #film { padding-top: 0; }
+.film-on .chapter {
+  display: block; padding: 0; border: 0;
+  height: calc(var(--len, 2) * 100svh);
+}
+.film-on .copy {
+  position: sticky; top: var(--hdr); z-index: 2;
+  height: calc(100svh - var(--hdr));
+  width: min(38rem, 40vw);
+  padding: 2rem 0 2rem var(--gutter);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.film-on .scene {
+  position: fixed; z-index: 1; pointer-events: none;
+  top: var(--hdr); bottom: 0; left: 42vw; right: 0;
+  padding: 3vh var(--gutter) 4vh 0;
+}
+.film-on .scene-in { height: 100%; aspect-ratio: auto; }
+
+@media (max-width: 767px) {
+  .film-on .scene { left: 0; bottom: auto; height: var(--stage-h); padding: 12px var(--gutter) 8px; }
+  .film-on .copy {
+    top: calc(var(--hdr) + var(--stage-h));
+    height: calc(100svh - var(--hdr) - var(--stage-h));
+    width: 100%;
+    padding: .75rem var(--gutter) calc(80px + var(--safe-b));
+    justify-content: flex-start;
+  }
+  .film-on .h1 { font-size: clamp(1.75rem, 7.4vw, 2.3rem); }
+  .film-on .h2 { font-size: clamp(1.6rem, 6.8vw, 2.1rem); }
+  .film-on .lede { margin-top: .7rem; font-size: 1rem; }
+  .film-on .ctas { margin-top: 1rem; }
+  .film-on .cue { display: none; }
+}
+
+/* ---------- Scène 1: opening ---------- */
+.monitor {
+  position: relative; overflow: hidden;
+  width: min(100cqw, 100cqh * 16 / 9); aspect-ratio: 16 / 9;
+  border-radius: 6px; background: #08090a;
+  box-shadow: 0 0 0 1px var(--line-2);
+}
+.room { position: absolute; inset: 0; width: 100%; height: 100%; transform-origin: 62% 55%; }
+.crop { position: absolute; inset: 0; }
+.crop-l, .crop-r {
+  position: absolute; top: 0; bottom: 0; width: var(--crop-side, 34.18%); /* 9:16-uitsnede binnen 16:9 */
+  background: rgba(8, 9, 10, .62);
+}
+.crop-l { left: 0; border-right: 1px dashed rgba(242, 240, 236, .5); }
+.crop-r { right: 0; border-left: 1px dashed rgba(242, 240, 236, .5); }
+.crop-label {
+  position: absolute; left: 50%; bottom: 6%; transform: translateX(-50%);
+  font: 500 .6875rem/1 var(--f-mono); color: var(--ink);
+  padding: 4px 6px; background: rgba(8, 9, 10, .7); border-radius: 3px;
+}
+.mon-meta {
+  position: absolute; left: 4%; top: 6%;
+  display: flex; align-items: center; gap: 6px;
+  font: 500 .6875rem/1 var(--f-mono); color: var(--ink);
+}
+.mon-rec { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.corner { position: absolute; width: 14px; height: 14px; border: 0 solid rgba(242, 240, 236, .55); }
+.c-tl { left: 2.5%; top: 4%; border-top-width: 1px; border-left-width: 1px; }
+.c-tr { right: 2.5%; top: 4%; border-top-width: 1px; border-right-width: 1px; }
+.c-bl { left: 2.5%; bottom: 4%; border-bottom-width: 1px; border-left-width: 1px; }
+.c-br { right: 2.5%; bottom: 4%; border-bottom-width: 1px; border-right-width: 1px; }
+@media (max-width: 767px) {
+  /* mobiel: vierkant beeld vult het podium beter; 9:16 binnen 1:1 laat 21,875% per kant over */
+  .monitor { width: min(100cqw, 100cqh); aspect-ratio: 1 / 1; --crop-side: 21.875%; }
+}
+/* sluiterbalken: standaard open (eindbeeld), JS zet ze dicht voor de intro */
+.bar { position: absolute; left: 0; right: 0; height: 50.5%; background: #050606; transform: scaleY(0); }
+.bar-top { top: 0; transform-origin: top; }
+.bar-bot { bottom: 0; transform-origin: bottom; }
+
+/* ---------- WhatsApp-knop ---------- */
+.wa-fab {
+  position: fixed; z-index: 40;
+  right: calc(16px + var(--safe-r)); bottom: calc(16px + var(--safe-b));
+  width: 56px; height: 56px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--wa);
+  box-shadow: 0 6px 20px -6px rgba(37, 211, 102, .55);
+  transition: transform .2s ease, opacity .2s ease;
+}
+.wa-fab:hover { transform: scale(1.06); }
+.wa-fab:focus-visible { outline-offset: 4px; border-radius: 50%; }
+.wa-fab.is-tucked { opacity: 0; transform: translateY(120%); pointer-events: none; }
+@media (min-width: 768px) {
+  .wa-fab { right: calc(24px + var(--safe-r)); bottom: calc(24px + var(--safe-b)); }
+}
