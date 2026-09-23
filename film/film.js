@@ -169,6 +169,26 @@
     });
   };
 
+  // 5. Opvolging: bericht komt binnen, 'typt...', automatisch antwoord, klant reageert, samenvatting schuift uit.
+  SCENES.opvolging = function (tl, s) {
+    var msgs = toArray(s.q('.msg'));
+    var typing = s.scene.querySelector('.typing');
+    var pop = function (el, at) {
+      tl.fromTo(el, { autoAlpha: 0, scale: 0.85, y: 10 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.06, ease: 'back.out(2)' }, at);
+    };
+
+    tl.fromTo(s.q('.phone'), { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.1, ease: 'power2.out' }, 0)
+      .fromTo(s.q('.ph-day'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.04 }, 0.06);
+    pop(msgs[0], 0.12);
+    tl.fromTo(typing, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.03 }, 0.22)
+      .to(typing.children, { y: -4, duration: 0.025, ease: 'sine.inOut', yoyo: true, repeat: 5, stagger: 0.012 }, 0.24)
+      .to(typing, { autoAlpha: 0, duration: 0.02 }, 0.4);
+    pop(msgs[1], 0.4);
+    pop(msgs[2], 0.58);
+    tl.fromTo(s.q('.summary'), { autoAlpha: 0, x: 40 }, { autoAlpha: 1, x: 0, duration: 0.1, ease: 'power3.out' }, 0.72)
+      .fromTo(s.q('.summary dl > div'), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.05, stagger: 0.03 }, 0.78);
+  };
+
   function loadMediaVideo() {
     var video = document.querySelector('video[data-slot="media-result"]');
     if (!video || !window.fetch) return;

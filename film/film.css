@@ -467,3 +467,62 @@ img, video, svg { display: block; max-width: 100%; }
   .chart { width: 58%; padding: 4cqw; }
   .chart-label { font-size: 3cqw; }
 }
+
+/* ---------- Scène 5: opvolging (WhatsApp-gesprek, in merkkleuren) ---------- */
+.chat-wrap { position: relative; width: min(100cqw, 100cqh * 1.1); height: 100cqh; }
+.phone {
+  container-type: inline-size;
+  position: absolute; left: 4%; top: 0; height: 100%; aspect-ratio: 9 / 18.5;
+  display: flex; flex-direction: column; overflow: hidden;
+  border-radius: 28px; background: #121518;
+  box-shadow: 0 0 0 6px #1d2125, 0 0 0 7px var(--line-2), 0 30px 80px -30px #000;
+}
+.ph-head { flex: none; display: flex; align-items: center; gap: 3.5cqw; padding: 9cqw 5cqw 4cqw; background: #181C20; border-bottom: 1px solid var(--line); }
+.ph-av { width: 10cqw; height: 10cqw; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line-2); font: 700 3.6cqw/1 var(--f-head); }
+.ph-name { display: flex; flex-direction: column; font: 600 4.6cqw/1.2 var(--f-body); }
+.ph-name small { font: 400 3.4cqw/1.2 var(--f-body); color: var(--wa); }
+.ph-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 3cqw; padding: 5cqw 4.5cqw; }
+.ph-day { align-self: center; font: 400 3cqw/1 var(--f-mono); color: var(--mute); padding: 1.4cqw 3cqw; border-radius: 99px; background: var(--surface); }
+.msg { position: relative; max-width: 82%; padding: 3cqw 3.6cqw 5.6cqw; border-radius: 4.5cqw; font: 400 4.1cqw/1.35 var(--f-body); }
+.msg time { position: absolute; right: 3.2cqw; bottom: 1.6cqw; font: 400 2.8cqw/1 var(--f-mono); color: var(--mute); }
+.msg.in { align-self: flex-start; background: var(--surface-2); border-bottom-left-radius: 1.2cqw; transform-origin: 0 100%; }
+.out-slot { position: relative; align-self: flex-end; max-width: 82%; display: flex; justify-content: flex-end; }
+.out-slot .msg { max-width: 100%; }
+.msg.out { background: #2A3A33; border-bottom-right-radius: 1.2cqw; transform-origin: 100% 100%; }
+.msg-ai { display: block; margin-bottom: 1.4cqw; font: 500 2.8cqw/1 var(--f-mono); color: var(--wa); }
+.typing { display: none; align-self: flex-end; gap: 1.4cqw; padding: 3.4cqw 4cqw; border-radius: 4.5cqw; background: #2A3A33; }
+.typing i { width: 1.8cqw; height: 1.8cqw; border-radius: 50%; background: var(--mute); }
+.film-on .typing { display: flex; position: absolute; right: 0; top: 0; opacity: 0; }
+
+.summary {
+  position: absolute; right: 0; bottom: 8%; width: min(52%, 22rem);
+  padding: 1.25rem; border-radius: 12px; background: var(--surface-2);
+  box-shadow: 0 0 0 1px var(--line-2), 0 24px 60px -20px #000;
+}
+.sum-title { font: 700 1.05rem/1.2 var(--f-head); letter-spacing: -.01em; }
+.summary dl { margin: .85rem 0 0; display: grid; gap: .55rem; }
+.summary dl div { display: grid; grid-template-columns: 6.6rem 1fr; gap: .75rem; padding-top: .55rem; border-top: 1px solid var(--line); }
+.summary dt { font: 400 .75rem/1.4 var(--f-mono); color: var(--mute); }
+.summary dd { margin: 0; font-size: .875rem; }
+
+@media (max-width: 767px) {
+  .chat-wrap { width: 100cqw; }
+  .phone { left: 0; width: 100%; aspect-ratio: auto; border-radius: 16px; box-shadow: 0 0 0 1px var(--line-2); }
+  .ph-head { padding: 3cqw 4cqw; gap: 2.4cqw; }
+  .ph-av { width: 7cqw; height: 7cqw; font-size: 2.6cqw; }
+  .ph-name { font-size: 3.6cqw; }
+  .ph-name small { font-size: 2.8cqw; }
+  .ph-body { padding: 3cqw 3.5cqw; gap: 2cqw; }
+  .ph-day { display: none; }
+  .msg { font-size: 3.6cqw; padding: 2.2cqw 3cqw 4.4cqw; border-radius: 3.6cqw; }
+  .msg time { font-size: 2.4cqw; }
+  .msg-ai { font-size: 2.4cqw; }
+  .typing { padding: 2.6cqw 3cqw; }
+  .typing i { width: 1.4cqw; height: 1.4cqw; }
+  .summary { right: 3%; bottom: 3%; width: 72%; padding: .75rem .85rem; }
+  .sum-title { font-size: .9rem; }
+  .summary dl { margin-top: .5rem; gap: .3rem; }
+  .summary dl div { padding-top: .3rem; grid-template-columns: 6.2rem 1fr; }
+  .summary dt { font-size: .6875rem; }
+  .summary dd { font-size: .8125rem; }
+}
