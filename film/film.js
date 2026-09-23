@@ -39,6 +39,124 @@
       .fromTo(s.q('.crop-label'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 0.5);
   };
 
+  // 2. Media: losse foto's vallen in de bak, schuiven op de tijdlijn, krijgen cuts, tekst en geluid,
+  //    en spelen af als afgewerkte 9:16-video in het programmascherm.
+  var media = { video: null, hasVideo: false, t0: 0.64, span: 0.3 };
+
+  SCENES.media = function (tl, s) {
+    var only = s.mobile ? ':not(.is-extra)' : '';
+    var shots = toArray(s.q('.shot' + only));
+    var clips = toArray(s.q('.clip' + only));
+    var frames = toArray(s.q('.pf' + only));
+    var edit = s.scene.querySelector('.edit');
+    var lane = s.scene.querySelector('.lane-v1');
+    var narrow = function () { return edit.offsetWidth < 600; };
+
+    // Doelpositie van elke foto: het miniatuurtje van zijn clip op V1, relatief aan .edit.
+    function delta(i) {
+      var from = offsetIn(shots[i], edit);
+      var to = offsetIn(clips[i].querySelector('.clip-thumb'), edit);
+      return { x: to.x - from.x, y: to.y - from.y, scale: to.h / from.h };
+    }
+
+    tl.fromTo(shots, { yPercent: -140, autoAlpha: 0, rotation: 0 }, {
+        yPercent: 0, autoAlpha: 1,
+        rotation: function (i, el) { return s.mobile ? 0 : Number(el.dataset.r || 0); },
+        duration: 0.12, stagger: 0.02, ease: 'power2.out'
+      }, 0)
+      .fromTo(clips, { autoAlpha: 0 }, { autoAlpha: 0, duration: 0.01 }, 0)
+      .fromTo(s.q('.cut'), { scaleY: 0 }, { scaleY: 0, duration: 0.01 }, 0)
+      .fromTo(s.q('.title-clip'), { scaleX: 0 }, { scaleX: 0, duration: 0.01 }, 0)
+      .fromTo(s.q('.title-clip span'), { autoAlpha: 0 }, { autoAlpha: 0, duration: 0.01 }, 0)
+      .fromTo(s.q('.wave'), { scaleX: 0 }, { scaleX: 0, duration: 0.01 }, 0)
+      .fromTo(s.q('.edit-head'), { x: 0, autoAlpha: 0 }, { x: 0, autoAlpha: 0, duration: 0.01 }, 0)
+      .fromTo(frames, { autoAlpha: 0 }, { autoAlpha: 0, duration: 0.01 }, 0);
+
+    // foto's naar de tijdlijn, één voor één
+    shots.forEach(function (shot, i) {
+      var at = 0.22 + i * (0.26 / shots.length);
+      tl.to(shot, {
+        x: function () { return delta(i).x; },
+        y: function () { return delta(i).y; },
+        scale: function () { return delta(i).scale; },
+        rotation: 0, duration: 0.08, ease: 'power2.inOut'
+      }, at)
+        .to(shot, { autoAlpha: 0, duration: 0.015 }, at + 0.08)
+        .to(clips[i], { autoAlpha: 1, duration: 0.015 }, at + 0.075);
+    });
+
+    tl.to(s.q('.bin .edit-label'), { autoAlpha: 0.35, duration: 0.05 }, 0.48)
+      .to(toArray(s.q('.cut')).filter(visible), { scaleY: 1, duration: 0.04, stagger: 0.012, ease: 'back.out(3)' }, 0.5)
+      .to(s.q('.title-clip'), { scaleX: 1, duration: 0.06, ease: 'power2.out' }, 0.56)
+      .to(s.q('.title-clip span'), { autoAlpha: 1, duration: 0.02 }, 0.61)
+      .to(s.q('.wave'), { scaleX: 1, duration: 0.08, ease: 'power1.out' }, 0.56)
+      .to(s.q('.edit-head'), { autoAlpha: 1, duration: 0.02 }, 0.6)
+      .to(s.q('.edit-head'), { x: function () { return lane.offsetWidth; }, duration: media.span, ease: 'none' }, media.t0);
+
+    // smal scherm: tijdlijn dimt, resultaat komt als laag erover
+    tl.fromTo(s.q('.edit-main'), { autoAlpha: 1 }, {
+      autoAlpha: function () { return narrow() ? 0.3 : 1; }, duration: 0.06
+    }, 0.6)
+      .fromTo(s.q('.program'), { autoAlpha: function () { return narrow() ? 0 : 1; }, scale: function () { return narrow() ? 0.9 : 1; } }, {
+        autoAlpha: 1, scale: 1, duration: 0.06, ease: 'power2.out'
+      }, 0.6);
+
+    // programmascherm: elk shot verschijnt zodra de afspeelkop over zijn clip gaat
+    var lens = clips.map(function (c) { return Number(c.dataset.len || 2); });
+    var total = lens.reduce(function (a, b) { return a + b; }, 0);
+    var acc = 0;
+    frames.forEach(function (f, i) {
+      var at = media.t0 + media.span * (acc / total);
+      var dur = media.span * (lens[i] / total);
+      acc += lens[i];
+      tl.to(f, { autoAlpha: 1, duration: 0.01 }, at)
+        .fromTo(f.querySelector('svg'), { scale: 1.12 }, { scale: 1, duration: dur, ease: 'none' }, at);
+      var cap = f.querySelector('.pf-cap');
+      if (cap) tl.fromTo(cap, { yPercent: 60, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.03, ease: 'power2.out' }, at + 0.01);
+    });
+
+    // echte video (film/media/result.mp4) scrubt mee over hetzelfde stuk
+    tl.eventCallback('onUpdate', function () {
+      if (!media.hasVideo || !media.video.duration) return;
+      var p = (tl.time() - media.t0) / media.span;
+      p = Math.max(0, Math.min(1, p));
+      var t = p * (media.video.duration - 0.05);
+      if (Math.abs(media.video.currentTime - t) > 1 / 30) media.video.currentTime = t;
+    });
+  };
+
+  function loadMediaVideo() {
+    var video = document.querySelector('video[data-slot="media-result"]');
+    if (!video || !window.fetch) return;
+    var src = video.dataset.src;
+    fetch(src, { method: 'HEAD' }).then(function (res) {
+      var type = res.headers.get('content-type') || '';
+      if (!res.ok || type.indexOf('video') === -1) return;
+      video.preload = 'auto';
+      video.addEventListener('loadedmetadata', function () {
+        if (!isFinite(video.duration) || !video.duration) return; // kapot of streamend bestand: tekening blijft
+        video.hidden = false;
+        media.video = video;
+        media.hasVideo = true;
+        video.closest('.program-frame').classList.add('has-video');
+        if (!root.classList.contains('film-on')) {
+          // statische versie: gewoon afspeelbaar met bediening
+          video.controls = true;
+          video.removeAttribute('tabindex');
+          video.setAttribute('aria-label', 'Voorbeeldvideo');
+          video.closest('.scene').removeAttribute('aria-hidden');
+        } else {
+          // iOS toont pas beelden na een eerste play()
+          var p = video.play();
+          if (p && p.then) p.then(function () { video.pause(); }).catch(function () {});
+        }
+        ScrollTrigger.update();
+      }, { once: true });
+      video.src = src;
+      video.load();
+    }).catch(function () {});
+  }
+
   function openingIntro(s) {
     var copy = s.chapter.querySelectorAll('.copy > *');
     var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -49,6 +167,24 @@
       .from(copy, { y: 28, autoAlpha: 0, duration: 0.9, stagger: 0.12 }, 0.45);
     return tl;
   }
+
+  /* ---------- Hulpjes ---------- */
+  function toArray(list) { return Array.prototype.slice.call(list); }
+  function visible(el) { return el.offsetParent !== null; }
+  // positie + maat van el binnen ancestor, zonder transforms (offset-keten)
+  function offsetIn(el, ancestor) {
+    var x = 0, y = 0, node = el;
+    var w = el.offsetWidth, h = el.offsetHeight;
+    if (el instanceof SVGElement) {
+      var r = el.getBoundingClientRect(), a = ancestor.getBoundingClientRect();
+      var k = ancestor.offsetWidth / a.width || 1; // corrigeer voor schaal van de scène
+      return { x: (r.left - a.left) * k, y: (r.top - a.top) * k, w: r.width * k, h: r.height * k };
+    }
+    while (node && node !== ancestor) { x += node.offsetLeft; y += node.offsetTop; node = node.offsetParent; }
+    return { x: x, y: y, w: w, h: h };
+  }
+
+  loadMediaVideo();
 
   /* ---------- Filmmodus ---------- */
   var film = null; // { rests: [], contactStart, max }
@@ -90,7 +226,8 @@
           defaults: { ease: 'none' },
           scrollTrigger: {
             trigger: chapter, start: 'top top', end: 'bottom bottom',
-            scrub: mobile ? true : 0.6
+            scrub: mobile ? true : 0.6,
+            invalidateOnRefresh: true
           }
         });
         SCENES[id](tl, s);
