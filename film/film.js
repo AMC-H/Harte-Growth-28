@@ -148,6 +148,27 @@
       .to(wa, { scale: 1.12, duration: 0.03, ease: 'power1.inOut', yoyo: true, repeat: 1 }, 0.92);
   };
 
+  // 4. Verkeer: jouw resultaat klimt van onder naar boven, de lijn loopt op. Illustratie, geen cijfers.
+  //    In de HTML staat jouw resultaat al bovenaan (eindbeeld); de animatie start het onderaan.
+  SCENES.verkeer = function (tl, s) {
+    var rows = toArray(s.q('.res')).filter(visible);
+    var you = rows[0];
+    var others = rows.slice(1);
+    var step = function () { return rows[1].offsetTop - rows[0].offsetTop; };
+
+    tl.fromTo(s.q('.serp-q'), { autoAlpha: 0, y: -8 }, { autoAlpha: 1, y: 0, duration: 0.08 }, 0)
+      .fromTo(rows, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.08, stagger: 0.03 }, 0.06)
+      .fromTo(you, { y: function () { return step() * others.length; } }, { y: 0, duration: 0.5, ease: 'power2.inOut' }, 0.2)
+      .fromTo(s.q('.chart'), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.1, ease: 'power2.out' }, 0.2)
+      .fromTo(s.q('.chart-cover'), { scaleX: 1 }, { scaleX: 0, duration: 0.6, ease: 'power1.inOut' }, 0.28);
+
+    // de anderen schuiven één plek omlaag op het moment dat jij ze passeert (onderste eerst)
+    others.forEach(function (row, i) {
+      var passAt = 0.2 + 0.5 * ((others.length - 1 - i) + 0.5) / others.length;
+      tl.fromTo(row, { y: function () { return -step(); } }, { y: 0, duration: 0.1, ease: 'power2.inOut' }, passAt - 0.05);
+    });
+  };
+
   function loadMediaVideo() {
     var video = document.querySelector('video[data-slot="media-result"]');
     if (!video || !window.fetch) return;

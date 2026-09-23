@@ -413,3 +413,57 @@ img, video, svg { display: block; max-width: 100%; }
   .wb-card .dot { width: 7cqw; height: 7cqw; margin: 0; flex: none; }
   .wb-card .ln { height: 2cqw; }
 }
+
+/* ---------- Scène 4: verkeer (zoekresultaat + lijn, zonder cijfers) ---------- */
+.serp-wrap { container-type: inline-size; position: relative; width: min(100cqw, 100cqh); aspect-ratio: 1; }
+.serp {
+  position: absolute; left: 0; top: 0; width: 86%; height: 92%; overflow: hidden;
+  padding: 3.6cqw; border-radius: 12px; background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line-2), 0 30px 80px -30px #000;
+}
+.serp-q {
+  display: flex; align-items: center; gap: 1.6cqw; padding: 2cqw 3cqw; border-radius: 99px;
+  background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line-2);
+  font: 500 2.5cqw/1.2 var(--f-body); color: var(--ink);
+}
+.serp-q svg { width: 2.6cqw; height: 2.6cqw; color: var(--mute); flex: none; }
+.serp-list { list-style: none; margin: 3cqw 0 0; padding: 0; display: grid; gap: .8cqw; }
+/* alle rijen even hoog, zodat 'één plek omlaag' overal dezelfde afstand is */
+.res { display: flex; gap: 2.2cqw; align-items: center; height: 12.6cqw; padding: 0 2.2cqw; border-radius: 8px; overflow: hidden; }
+.res-you { background: #261B1C; box-shadow: inset 3px 0 0 var(--accent); position: relative; z-index: 1; }
+.res-thumb { flex: none; width: 6.6cqw; aspect-ratio: 3 / 4; height: auto; border-radius: 4px; }
+.res-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: .9cqw; }
+.res-url { font: 400 1.8cqw/1 var(--f-mono); color: var(--mute); }
+.res-title { font: 600 2.4cqw/1.15 var(--f-body); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.serp .ln { width: 100%; height: 1cqw; background: rgba(242, 240, 236, .1); }
+.serp .ln-t { width: 62%; height: 1.7cqw; background: rgba(242, 240, 236, .2); }
+.serp .ln-m { width: 72%; }
+.serp .ln-s { width: 46%; }
+
+.chart {
+  position: absolute; right: 0; bottom: 0; width: 46%; padding: 3cqw; border-radius: 12px;
+  background: var(--surface-2); box-shadow: 0 0 0 1px var(--line-2), 0 24px 60px -20px #000;
+}
+.chart-label { display: flex; justify-content: space-between; gap: 1rem; font: 500 1.8cqw/1 var(--f-mono); color: var(--ink); }
+.chart-label span { color: var(--mute); font-weight: 400; }
+.chart-plot { position: relative; margin-top: 2.4cqw; aspect-ratio: 5 / 2; }
+.chart-plot svg { width: 100%; height: 100%; overflow: visible; }
+.chart-cover { position: absolute; inset: -4px -4px -4px -2px; background: var(--surface-2); transform-origin: right center; transform: scaleX(0); }
+
+@media (max-width: 767px) {
+}
+@container (max-width: 480px) {
+  .serp { width: 100%; height: 86%; padding: 4.5cqw; }
+  .serp-q { font-size: 4cqw; padding: 3cqw 4cqw; gap: 2.4cqw; }
+  .serp-q svg { width: 4cqw; height: 4cqw; }
+  .serp-list { margin-top: 4cqw; gap: 1.2cqw; }
+  .res { height: 16.5cqw; padding: 0 3cqw; gap: 3cqw; }
+  .res-thumb { width: 9.6cqw; }
+  .res-url { font-size: 3cqw; }
+  .res-title { font-size: 3.8cqw; }
+  .res-body { gap: 1.4cqw; }
+  .serp .ln { height: 1.6cqw; }
+  .serp .ln-t { height: 2.6cqw; }
+  .chart { width: 58%; padding: 4cqw; }
+  .chart-label { font-size: 3cqw; }
+}
