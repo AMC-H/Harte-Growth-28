@@ -23,6 +23,7 @@
   var head = document.querySelector('.tl-head');
 
   setupFab();
+  fillPrice();
 
   if (!window.gsap || !window.ScrollTrigger) return; // CDN niet geladen: statische versie blijft staan
 
@@ -187,6 +188,19 @@
     pop(msgs[2], 0.58);
     tl.fromTo(s.q('.summary'), { autoAlpha: 0, x: 40 }, { autoAlpha: 1, x: 0, duration: 0.1, ease: 'power3.out' }, 0.72)
       .fromTo(s.q('.summary dl > div'), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.05, stagger: 0.03 }, 0.78);
+  };
+
+  // 6. Prijs: exportvenster vult zich, oude prijs wordt doorgestreept, render loopt vol.
+  SCENES.prijs = function (tl, s) {
+    tl.fromTo(s.q('.export'), { autoAlpha: 0, scale: 0.96, y: 16 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.1, ease: 'power2.out' }, 0)
+      .fromTo(s.q('.ex-rows > div'), { autoAlpha: 0, x: -10 }, { autoAlpha: 1, x: 0, duration: 0.06, stagger: 0.05, ease: 'power2.out' }, 0.1)
+      .fromTo(s.q('.ex-was'), { '--strike': 0 }, { '--strike': 1, duration: 0.06 }, 0.42)
+      .fromTo(s.q('.ex-price b'), { autoAlpha: 0, scale: 0.7 }, { autoAlpha: 1, scale: 1, duration: 0.06, ease: 'back.out(2.4)', transformOrigin: 'left center' }, 0.47)
+      .fromTo(s.q('.ex-busy'), { autoAlpha: 1 }, { autoAlpha: 1, duration: 0.01 }, 0.55)
+      .fromTo(s.q('.ex-done'), { autoAlpha: 0 }, { autoAlpha: 0, duration: 0.01 }, 0.55)
+      .fromTo(s.q('.ex-fill'), { scaleX: 0 }, { scaleX: 1, duration: 0.32, ease: 'power1.inOut' }, 0.55)
+      .to(s.q('.ex-busy'), { autoAlpha: 0, duration: 0.02 }, 0.87)
+      .to(s.q('.ex-done'), { autoAlpha: 1, duration: 0.02 }, 0.88);
   };
 
   function loadMediaVideo() {
@@ -424,6 +438,17 @@
     var i = chapters.findIndex(function (ch) { return '#' + ch.id === location.hash; });
     if (i > 0) window.scrollTo(0, film.rests[i]);
   });
+
+  /* ---------- Prijs: één bron (de tekst in hoofdstuk Prijs), overgenomen in het exportvenster ---------- */
+  function fillPrice() {
+    var now = document.querySelector('[data-price]');
+    var was = document.querySelector('[data-price-was]');
+    Array.prototype.forEach.call(document.querySelectorAll('[data-price-copy]'), function (el) {
+      var src = el.getAttribute('data-price-copy') === 'was' ? was : now;
+      if (src) el.textContent = src.textContent.trim();
+      else if (el.getAttribute('data-price-copy') === 'was') el.remove();
+    });
+  }
 
   /* ---------- WhatsApp-knop: weg als het toetsenbord open is ---------- */
   function setupFab() {
