@@ -125,6 +125,29 @@
     });
   };
 
+  // 3. Fundament: eerst het wireframe, dan de echte onderdelen in leesvolgorde, als laatste de WhatsApp-knop.
+  SCENES.fundament = function (tl, s) {
+    var blocks = toArray(s.q('.wb')).filter(visible);
+    var wfs = blocks.map(function (b) { return b.querySelector('.wf'); });
+    // wat er per blok verschijnt, in leesvolgorde (op mobiel staat de foto bovenaan)
+    var byOrder = blocks.slice().sort(function (a, b) {
+      return (a.offsetTop - b.offsetTop) || (a.offsetLeft - b.offsetLeft);
+    });
+    var parts = [];
+    byOrder.forEach(function (b) {
+      if (b.classList.contains('wb-hero')) parts.push.apply(parts, toArray(b.querySelectorAll('.br-h, .ln, .br-btn')));
+      else parts.push(b.querySelector('.fill'));
+    });
+    var wa = s.scene.querySelector('.br-wa');
+
+    tl.fromTo(s.q('.br-url'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.06 }, 0)
+      .fromTo(wfs, { autoAlpha: 0, scale: 0.94 }, { autoAlpha: 1, scale: 1, duration: 0.08, stagger: 0.03, ease: 'power2.out' }, 0.02)
+      .fromTo(parts, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.07, stagger: 0.045, ease: 'power2.out' }, 0.3)
+      .to(wfs, { autoAlpha: 0, duration: 0.06, stagger: 0.04 }, 0.36)
+      .fromTo(wa, { autoAlpha: 0, scale: 0.5 }, { autoAlpha: 1, scale: 1, duration: 0.07, ease: 'back.out(2.6)' }, 0.84)
+      .to(wa, { scale: 1.12, duration: 0.03, ease: 'power1.inOut', yoyo: true, repeat: 1 }, 0.92);
+  };
+
   function loadMediaVideo() {
     var video = document.querySelector('video[data-slot="media-result"]');
     if (!video || !window.fetch) return;
