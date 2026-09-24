@@ -247,3 +247,7 @@ html { scroll-padding-top: calc(var(--hdr) + 12px); }
 .case-more { display: inline-flex; align-items: center; min-height: 44px; margin-top: .25rem; color: var(--ink); font-weight: 600; font-size: .9375rem; text-underline-offset: 4px; }
 .case-more:hover { color: var(--accent); }
 .page-cases .case-more { display: none; } /* op /cases zelf niet nodig */
+
+/* prijs in overleg (AI & Automation) */
+.price-talk strong { font-size: clamp(1.6rem, 1.3rem + 1vw, 2rem); }
+.price-note { margin-top: .5rem; max-width: 46ch; color: var(--ink); }
