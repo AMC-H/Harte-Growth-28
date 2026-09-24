@@ -38,13 +38,13 @@
 
   // 2. Media: losse foto's vallen in de bak, schuiven op de tijdlijn, krijgen cuts, tekst en geluid,
   //    en spelen af als afgewerkte 9:16-video in het programmascherm.
-  var media = { video: null, hasVideo: false, offset: 0, t0: 0.64, span: 0.3 };
+  var media = { video: null, hasVideo: false, t0: 0.64, span: 0.3 };
+  var clipVideo = document.querySelector('.shot-video'); // ruwe clip in de bak
 
   SCENES.media = function (tl, s) {
     var only = s.mobile ? ':not(.is-extra)' : '';
     var shots = toArray(s.q('.shot' + only));
     var clips = toArray(s.q('.clip' + only));
-    var frames = toArray(s.q('.pf' + only));
     var edit = s.scene.querySelector('.edit');
     var lane = s.scene.querySelector('.lane-v1');
     var narrow = function () { return edit.offsetWidth < 600; };
@@ -66,8 +66,7 @@
       .fromTo(s.q('.title-clip'), { scaleX: 0 }, { scaleX: 0, duration: 0.01 }, 0)
       .fromTo(s.q('.title-clip span'), { autoAlpha: 0 }, { autoAlpha: 0, duration: 0.01 }, 0)
       .fromTo(s.q('.wave'), { scaleX: 0 }, { scaleX: 0, duration: 0.01 }, 0)
-      .fromTo(s.q('.edit-head'), { x: 0, autoAlpha: 0 }, { x: 0, autoAlpha: 0, duration: 0.01 }, 0)
-      .fromTo(frames, { autoAlpha: 0 }, { autoAlpha: 0, duration: 0.01 }, 0);
+      .fromTo(s.q('.edit-head'), { x: 0, autoAlpha: 0 }, { x: 0, autoAlpha: 0, duration: 0.01 }, 0);
 
     // foto's naar de tijdlijn, één voor één
     shots.forEach(function (shot, i) {
@@ -98,30 +97,12 @@
         autoAlpha: 1, scale: 1, duration: 0.06, ease: 'power2.out'
       }, 0.6);
 
-    // programmascherm: elk shot verschijnt zodra de afspeelkop over zijn clip gaat
-    var lens = clips.map(function (c) { return Number(c.dataset.len || 2); });
-    var total = lens.reduce(function (a, b) { return a + b; }, 0);
-    var acc = 0;
-    frames.forEach(function (f, i) {
-      var at = media.t0 + media.span * (acc / total);
-      var dur = media.span * (lens[i] / total);
-      acc += lens[i];
-      tl.to(f, { autoAlpha: 1, duration: 0.01 }, at)
-        .fromTo(f.querySelector('svg'), { scale: 1.12 }, { scale: 1, duration: dur, ease: 'none' }, at);
-      var cap = f.querySelector('.pf-cap');
-      if (cap) tl.fromTo(cap, { yPercent: 60, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.03, ease: 'power2.out' }, at + 0.01);
-    });
-
-    // preview (gedimd + raster) tot de afspeelkop start, daarna het echte resultaat
-    tl.fromTo(s.q('video[data-slot]'), { opacity: 0.35 }, { opacity: 1, duration: 0.04 }, media.t0)
-      .fromTo(s.q('.pf-empty'), { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.04 }, media.t0);
-
-    // het 9:16-resultaat scrubt mee, vanaf het punt waar de opening het overdroeg
+    // het echte 9:16-resultaat scrubt mee zodra de afspeelkop loopt; daarvoor staat het eerste frame (poster)
     tl.eventCallback('onUpdate', function () {
       if (!media.hasVideo || !media.video.duration) return;
       var d = media.video.duration;
       var p = Math.max(0, Math.min(1, (tl.time() - media.t0) / media.span));
-      var t = (media.offset + p * (d - 0.05)) % d;
+      var t = p * (d - 0.05);
       if (Math.abs(media.video.currentTime - t) > 1 / 30) media.video.currentTime = t;
     });
   };
@@ -217,16 +198,33 @@
     return (mobile && el.dataset[key + 'Mobile']) || el.dataset[key];
   }
 
+  // Beelden van Media (foto's, miniaturen, clip, posters) en het resultaat pas laden als Media in zicht komt:
+  // ze staan in de vaste beeldlaag, dus loading="lazy" zou ze meteen laden en de eerste schermvulling vertragen.
+  function loadMediaAssets() {
+    // (mobiel: de verborgen extra's staan op display:none; die laadt de browser niet)
+    Array.prototype.forEach.call(document.querySelectorAll('#media img[data-src]'), function (img) {
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+    });
+    if (clipVideo && clipVideo.dataset.src) {
+      clipVideo.poster = clipVideo.dataset.poster;
+      clipVideo.src = clipVideo.dataset.src;
+      clipVideo.removeAttribute('data-src');
+    }
+    loadMediaVideo();
+  }
+
   function loadMediaVideo() {
     var video = document.querySelector('video[data-slot="media-result"]');
     if (!video) return;
-    video.preload = 'auto';
+    if (video.dataset.loaded) return;
+    video.dataset.loaded = '1';
+    if (video.dataset.poster) video.poster = video.dataset.poster;
+    video.preload = root.classList.contains('film-on') ? 'auto' : 'metadata';
     video.addEventListener('loadedmetadata', function () {
-      if (!isFinite(video.duration) || !video.duration) return; // kapot bestand: tekening blijft
-      video.hidden = false;
+      if (!isFinite(video.duration) || !video.duration) return; // kapot bestand: de poster blijft staan
       media.video = video;
       media.hasVideo = true;
-      video.closest('.program-frame').classList.add('has-video');
       if (!root.classList.contains('film-on')) {
         // statische versie: gewoon afspeelbaar met bediening
         video.controls = true;
@@ -236,7 +234,7 @@
       } else {
         // iOS toont pas beelden na een eerste play()
         var p = video.play();
-        if (p && p.then) p.then(function () { video.pause(); video.currentTime = media.offset; }).catch(function () {});
+        if (p && p.then) p.then(function () { video.pause(); video.currentTime = 0; }).catch(function () {});
       }
       ScrollTrigger.update();
     }, { once: true });
@@ -329,16 +327,15 @@
   }
 
   // Media neemt het beeld over: zelfde tijdstip, stilgezet als preview tot de montage 'afspeelt'.
-  // De opening bevriest op hetzelfde frame, zodat beide lagen tijdens de overgang precies gelijk zijn.
+  // De staande opening landt op het 9:16-scherm van Media en gaat daar over in het eerste frame
+  // van het resultaat. De opening zet zichzelf stil (scheelt rekenwerk), de ruwe clip in de bak speelt.
   function handOverToMedia() {
-    if (!op.v16) return;
-    var src = op.portrait && op.v9.readyState >= 1 ? op.v9 : op.v16;
-    op.v9.pause(); op.v16.pause();
-    media.offset = src.readyState >= 1 ? src.currentTime : 0;
-    if (media.video) { try { media.video.currentTime = media.offset; } catch (e) {} }
+    if (op.v16) { op.v9.pause(); op.v16.pause(); }
+    if (clipVideo) play(clipVideo);
   }
   // Terug naar de opening: de video loopt weer door.
   function backToOpening() {
+    if (clipVideo) clipVideo.pause();
     if (!op.v16) return;
     play(op.portrait ? op.v9 : op.v16);
   }
@@ -384,7 +381,6 @@
     return { x: x, y: y, w: w, h: h };
   }
 
-  afterFirstRender(loadMediaVideo);
 
   /* ---------- Filmmodus ---------- */
   var film = null; // { rests: [], max }
@@ -397,6 +393,7 @@
   }, function (ctx) {
     if (!ctx.conditions.motion) {
       staticOpening(true);
+      afterFirstRender(loadMediaAssets);
       return function () { staticOpening(false); };
     }
     var mobile = ctx.conditions.mobile;
@@ -439,14 +436,15 @@
       if (id !== 'contact') {
         // vóór Contact sneller weg: daar neemt de sluitende sluiter het beeld over
         var beforeContact = chapter.nextElementSibling && chapter.nextElementSibling.id === 'contact';
-        // desktop: de staande opening blijft staan tot het 9:16-scherm van Media er precies onder ligt
+        // desktop: de staande opening landt op het 9:16-scherm van Media en lost daar kort over in het
+        // resultaat (ander materiaal, dus een korte cross-dissolve in plaats van een lange overlap)
         var intoMedia = id === 'opening' && !mobile;
         gsap.fromTo(scene, { autoAlpha: 1 }, {
           autoAlpha: 0, ease: 'none',
           scrollTrigger: {
             trigger: chapter, scrub: true,
-            start: beforeContact ? 'bottom bottom' : intoMedia ? 'bottom 35%' : 'bottom 75%',
-            end: beforeContact ? 'bottom 90%' : intoMedia ? 'bottom 12%' : 'bottom 45%'
+            start: beforeContact ? 'bottom bottom' : intoMedia ? 'bottom 45%' : 'bottom 75%',
+            end: beforeContact ? 'bottom 90%' : intoMedia ? 'bottom 25%' : 'bottom 45%'
           }
         });
       }
@@ -470,6 +468,20 @@
       if (id === 'opening') {
         if (window.scrollY < window.innerHeight * 0.5) openingIntro(s);
         else root.classList.remove('intro'); // halverwege de pagina binnengekomen: geen intro
+      }
+    });
+
+    // Resultaat (3,5 MB) pas laden als Media in zicht komt (Media begint 1,7 scherm lager, dus pas na
+    // de eerste scroll); de ruwe clip speelt alleen in Media.
+    ScrollTrigger.create({
+      trigger: '#media', start: 'top 130%', once: true,
+      onEnter: loadMediaAssets
+    });
+    ScrollTrigger.create({
+      trigger: '#media', start: 'top 45%', end: 'bottom 45%',
+      onToggle: function (self) {
+        if (!clipVideo) return;
+        if (self.isActive) play(clipVideo); else clipVideo.pause();
       }
     });
 
