@@ -1,0 +1,4 @@
+{
+  "_uitleg": "Video's die nooit in de videostrook op /blog mogen staan. Zet het videoId (de 11 tekens na watch?v=) in de lijst. Wordt na de volgende deploy toegepast.",
+  "videoIds": []
+}

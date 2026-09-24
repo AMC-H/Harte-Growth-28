@@ -407,8 +407,19 @@
         '<h3 class="vtitle">' + t + '</h3>' +
         '<a class="vyt" href="' + watch + '" target="_blank" rel="noopener">Bekijk op YouTube</a></article>';
     }
+    // platformknop verbergen als er minder dan 3 video's van dat platform zijn
+    function syncChips() {
+      toArray(document.querySelectorAll('.chips[data-target="vgrid"] .chip')).forEach(function (b) {
+        var f = b.dataset.filter;
+        if (f === 'all') return;
+        var n = data.items.filter(function (v) { return v.platform === f; }).length;
+        b.hidden = n < 3;
+        if (b.hidden && filter === f) { filter = 'all'; }
+      });
+    }
     function render() {
       if (!data || !data.items || !data.items.length) return; // de statische kaarten blijven staan
+      syncChips();
       var list = data.items.filter(function (v) { return /^[\w-]{11}$/.test(v.videoId) && (filter === 'all' || v.platform === filter); })
         .sort(function (a, b) { return a.published < b.published ? 1 : -1; }).slice(0, 6);
       if (!list.length) return;

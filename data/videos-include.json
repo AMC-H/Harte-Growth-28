@@ -1,0 +1,4 @@
+{
+  "_uitleg": "Video's die je er zelf bij wilt, alleen van de officiële kanalen (Google Search Central, Instagram, Meta for Business, TikTok For Business). Per video: videoId en de publicatiedatum (JJJJ-MM-DD). Een video van een ander kanaal wordt genegeerd. Wordt na de volgende deploy toegepast.",
+  "videos": []
+}
