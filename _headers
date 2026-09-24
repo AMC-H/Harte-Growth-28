@@ -12,18 +12,21 @@
   Cache-Control: public, max-age=3600, must-revalidate
 /analytics.js
   Cache-Control: public, max-age=3600, must-revalidate
+# film.css/film.js: altijd hervalideren (304 als er niets veranderd is). Met max-age=3600 bleef een
+# oude film.js tot een uur hangen na een deploy, omdat de ?v= in index.html niet mee veranderde.
 /film.css
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: public, max-age=0, must-revalidate
 /film.js
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: public, max-age=0, must-revalidate
 
 # SVG-logo's: 1 dag (veranderen zelden maar niet nooit)
 /*.svg
   Cache-Control: public, max-age=86400
 
-# Video's en posters van de homepage: 1 dag (vaste namen, kunnen vervangen worden)
+# Video's en posters van de homepage: vaste bestandsnamen die vervangen worden, dus altijd hervalideren
+# (ETag -> 304). Met max-age=86400 zag een terugkerende bezoeker tot een dag lang een oude encode.
 /media/*
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=0, must-revalidate
 
 # PNG's (og-images): 1 week
 /*.png
