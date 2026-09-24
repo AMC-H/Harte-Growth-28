@@ -15,6 +15,9 @@
   var measureProgress = setupProgress();
   setupMotion();
   setupFaq();
+  setupVideos();
+  setupChips();
+  setupFacade();
 
   /* ---------- Voortgangsbalk: vulling, afspeelkop en actieve sectie ---------- */
   function setupProgress() {
@@ -344,6 +347,106 @@
           });
         }
       });
+    });
+  }
+
+  /* =====================================================================
+     Blog: filters (artikelen en video's), videostrook en click-to-load video.
+     Zonder JS: alle artikelen zichtbaar, de filters verborgen, video's zijn gewone links naar YouTube.
+     ===================================================================== */
+  var MONTHS = ['jan.', 'feb.', 'mrt.', 'apr.', 'mei', 'jun.', 'jul.', 'aug.', 'sep.', 'okt.', 'nov.', 'dec.'];
+  function nlDate(iso) {
+    var p = String(iso).slice(0, 10).split('-');
+    return (+p[2]) + ' ' + MONTHS[+p[1] - 1] + ' ' + p[0];
+  }
+  function escHtml(t) {
+    return String(t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
+  }
+
+  // filterknoppen: data-target wijst naar de lijst; kaarten dragen data-cats of data-platform
+  function setupChips() {
+    toArray(document.querySelectorAll('.chips[data-target]')).forEach(function (bar) {
+      var list = document.getElementById(bar.dataset.target);
+      if (!list) return;
+      bar.addEventListener('click', function (e) {
+        var btn = e.target.closest('.chip');
+        if (!btn) return;
+        toArray(bar.querySelectorAll('.chip')).forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+        var f = btn.dataset.filter;
+        list.dispatchEvent(new CustomEvent('hg:filter', { detail: f }));
+        if (list.id === 'vgrid') return; // de videostrook tekent zichzelf opnieuw (zie setupVideos)
+        var shown = 0;
+        toArray(list.children).forEach(function (card) {
+          var on = f === 'all' || (' ' + (card.dataset.cats || '') + ' ').indexOf(' ' + f + ' ') > -1;
+          card.hidden = !on;
+          if (on) shown++;
+        });
+        var count = document.getElementById('post-count');
+        if (count) count.textContent = shown + (shown === 1 ? ' artikel' : ' artikelen');
+        measureProgress();
+      });
+    });
+  }
+
+  // videostrook: nieuwste 6 (per platform te filteren). Start met de data in de pagina, daarna verse data van
+  // /api/videos. Lukt dat niet, dan blijft de laatst bekende data staan: nooit leeg, nooit een foutmelding.
+  function setupVideos() {
+    var sec = document.getElementById('algoritmes');
+    var grid = document.getElementById('vgrid');
+    if (!sec || !grid) return;
+    var data = null, filter = 'all';
+    try { data = JSON.parse(document.getElementById('videos-data').textContent); } catch (e) { data = null; }
+    function card(v) {
+      var watch = 'https://www.youtube.com/watch?v=' + encodeURIComponent(v.videoId);
+      var t = escHtml(v.title);
+      var thumb = /^https:\/\/i\d?\.ytimg\.com\//.test(v.thumbnail) ? v.thumbnail : 'https://i.ytimg.com/vi/' + encodeURIComponent(v.videoId) + '/hqdefault.jpg';
+      return '<article class="vcard" data-platform="' + escHtml(v.platform) + '">' +
+        '<a class="vthumb" href="' + watch + '" target="_blank" rel="noopener" data-video="' + escHtml(v.videoId) + '" data-title="' + t + '" aria-label="Speel video af: ' + t + '">' +
+        '<img src="' + escHtml(thumb) + '" width="480" height="360" loading="lazy" decoding="async" alt=""><span class="vplay" aria-hidden="true"></span></a>' +
+        '<p class="vmeta"><span>' + escHtml(v.channel) + '</span> · <time datetime="' + escHtml(String(v.published).slice(0, 10)) + '">' + nlDate(v.published) + '</time></p>' +
+        '<h3 class="vtitle">' + t + '</h3>' +
+        '<a class="vyt" href="' + watch + '" target="_blank" rel="noopener">Bekijk op YouTube</a></article>';
+    }
+    function render() {
+      if (!data || !data.items || !data.items.length) return; // de statische kaarten blijven staan
+      var list = data.items.filter(function (v) { return /^[\w-]{11}$/.test(v.videoId) && (filter === 'all' || v.platform === filter); })
+        .sort(function (a, b) { return a.published < b.published ? 1 : -1; }).slice(0, 6);
+      if (!list.length) return;
+      grid.innerHTML = list.map(card).join('');
+    }
+    grid.addEventListener('hg:filter', function (e) { filter = e.detail; render(); });
+    if (window.fetch && sec.dataset.src) {
+      fetch(sec.dataset.src, { headers: { Accept: 'application/json' } })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) { if (d && d.items && d.items.length) { data = d; render(); } })
+        .catch(function () { /* laatst bekende data blijft */ });
+    }
+  }
+
+  // click-to-load: pas na de klik een iframe van youtube-nocookie.com, daarvoor alleen een thumbnail
+  function setupFacade() {
+    // kapotte thumbnail: rustig donker vlak in plaats van een gebroken-afbeelding-icoon
+    document.addEventListener('error', function (e) {
+      var img = e.target;
+      if (img && img.tagName === 'IMG' && img.closest && img.closest('.vthumb')) img.style.visibility = 'hidden';
+    }, true);
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('.vthumb[data-video]');
+      if (!a || e.ctrlKey || e.metaKey || e.shiftKey) return; // nieuwe tab: gewoon naar YouTube
+      var id = a.dataset.video;
+      if (!/^[\w-]{11}$/.test(id)) return;
+      e.preventDefault();
+      var box = document.createElement('div');
+      box.className = 'vplayer';
+      var f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+      f.title = a.dataset.title || 'YouTube-video';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      f.allowFullscreen = true;
+      f.referrerPolicy = 'strict-origin-when-cross-origin';
+      box.appendChild(f);
+      a.replaceWith(box);
+      f.focus();
     });
   }
 

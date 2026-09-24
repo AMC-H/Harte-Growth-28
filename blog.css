@@ -1,0 +1,99 @@
+/* Blog: overzicht, artikelen en de videostrook. Basis (header, knoppen, tokens) uit film.css + pagina.css. */
+
+/* ---------- Overzicht ---------- */
+.blog-hero { padding-block: clamp(2.5rem, 6vw, 4.5rem) 0; }
+.blog-hero .hero-h { max-width: 16ch; }
+.blog-hero .lede { max-width: 56ch; font-size: 1.125rem; }
+
+/* filters werken alleen met JS: zonder JS niet tonen (alle artikelen staan er dan). Via .js uit de head, dus geen verschuiving */
+html:not(.js) .chips { display: none; }
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem; }
+.chip {
+  min-height: 44px; padding: 0 1rem; border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2); color: var(--mute);
+  font: 500 .875rem/1 var(--f-body);
+}
+.chip:hover { color: var(--ink); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); box-shadow: none; }
+
+.post-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.post-card {
+  position: relative; display: flex; flex-direction: column; gap: .7rem; padding: 1.5rem;
+  border-radius: 14px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line);
+}
+.post-card:hover { box-shadow: inset 0 0 0 1px var(--line-2); }
+.post-card h3 { font: 700 1.25rem/1.2 var(--f-head); letter-spacing: -.01em; }
+.post-card h3 a { color: var(--ink); text-decoration: none; }
+.post-card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; } /* hele kaart klikbaar */
+.post-card h3 a:focus-visible { outline: none; }
+.post-card:has(a:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+.post-card > p:not(.post-meta) { color: var(--mute); }
+.read-more { margin-top: auto; color: var(--ink); font-weight: 600; font-size: .9375rem; }
+.post-meta { color: var(--mute); font: 400 .8125rem/1.5 var(--f-mono); }
+
+/* ---------- Videostrook ---------- */
+.vlabel { margin-top: .6rem; color: var(--mute); font: 400 .8125rem/1.4 var(--f-mono); }
+.vgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem 1rem; margin-top: 1.5rem; }
+.vcard { display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
+.vthumb, .vplayer { position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #000; box-shadow: 0 0 0 1px var(--line-2); }
+.vthumb img { width: 100%; height: 100%; object-fit: cover; }
+.vplay {
+  position: absolute; left: 50%; top: 50%; width: 56px; height: 40px; margin: -20px 0 0 -28px; border-radius: 10px;
+  background: rgba(15, 17, 19, .82); transition: background-color .2s ease;
+}
+.vplay::before { content: ""; position: absolute; left: 23px; top: 12px; border-style: solid; border-width: 8px 0 8px 13px; border-color: transparent transparent transparent #fff; }
+.vthumb:hover .vplay, .vthumb:focus-visible .vplay { background: var(--accent); }
+.vplayer iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.vmeta { color: var(--mute); font: 400 .75rem/1.4 var(--f-mono); }
+.vtitle { font: 600 1rem/1.35 var(--f-body); overflow-wrap: anywhere; }
+.vyt { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-size: .875rem; text-underline-offset: 3px; }
+.vyt:hover { color: var(--accent); }
+.vchannels { margin-top: 1.5rem; color: var(--mute); font-size: .875rem; }
+.vchannels a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); text-underline-offset: 3px; }
+
+/* ---------- Artikel ---------- */
+.post-head { padding-top: clamp(2rem, 5vw, 3.5rem); }
+.back-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--mute); font-size: .9375rem; text-underline-offset: 3px; }
+.back-link::before { content: ""; width: 7px; height: 7px; margin-right: .6rem; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
+.back-link:hover { color: var(--ink); }
+.post-head .post-meta { margin-top: 1rem; }
+.post-h { margin-top: .6rem; font-size: clamp(2rem, 1.3rem + 2.6vw, 3.2rem); line-height: 1.04; max-width: 22ch; }
+.post-head .lede { max-width: 60ch; font-size: 1.125rem; }
+
+.article-body { margin-top: 2.5rem; }
+.article-body > * + * { margin-top: 1.1rem; }
+.article-body p, .article-body li { max-width: 68ch; color: #D5D7DA; line-height: 1.7; }
+.article-body h2 { margin-top: 2.5rem; font: 700 clamp(1.35rem, 1.1rem + .9vw, 1.7rem)/1.2 var(--f-head); letter-spacing: -.01em; }
+.article-body ol, .article-body ul { padding-left: 1.3rem; display: grid; gap: .5rem; }
+.article-body strong { color: var(--ink); }
+.article-body a:not(.btn) { color: var(--ink); text-underline-offset: 3px; }
+.article-body a:not(.btn):hover { color: var(--accent); }
+.pull-quote { margin-block: 2rem; padding: 1.1rem 1.4rem; border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 12px 12px 0; font: 500 1.125rem/1.5 var(--f-body); }
+.pull-quote cite { display: block; margin-top: .5rem; color: var(--mute); font: 400 .8125rem/1.4 var(--f-mono); font-style: normal; }
+.article-cta.cta-band {
+  margin-top: 2.5rem; padding: 1.5rem; border-radius: 14px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 1.5rem;
+}
+.article-cta h2 { margin: 0; font-size: 1.3rem; }
+.article-cta p { margin-top: .4rem; color: var(--mute); }
+.post-video { margin: 0; }
+.post-video figcaption, .post-source { color: var(--mute); font-size: .875rem; }
+
+.more-list { list-style: none; margin: 1.25rem 0 0; padding: 0; border-top: 1px solid var(--line); }
+.more-list li { border-bottom: 1px solid var(--line); }
+.more-list a { display: flex; flex-direction: column; gap: .25rem; padding: 1rem 0; min-height: 44px; color: var(--ink); text-decoration: none; }
+.more-list a:hover .more-t { color: var(--accent); }
+.more-cat { color: var(--mute); font: 400 .75rem/1.3 var(--f-mono); }
+.more-t { font: 600 1.0625rem/1.3 var(--f-body); }
+.more-all { margin-top: 1.5rem; padding-bottom: clamp(3rem, 6vw, 5rem); }
+
+/* ---------- Tablet / mobiel ---------- */
+@media (max-width: 1023px) {
+  .post-grid, .vgrid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 767px) {
+  .post-grid, .vgrid { grid-template-columns: 1fr; }
+  .chips { gap: .4rem; }
+  .chip { padding: 0 .85rem; }
+  .article-cta .btn { flex: 1 1 100%; }
+}

@@ -24,6 +24,8 @@
   Cache-Control: public, max-age=0, must-revalidate
 /cases.css
   Cache-Control: public, max-age=0, must-revalidate
+/blog.css
+  Cache-Control: public, max-age=0, must-revalidate
 
 # SVG-logo's: 1 dag (veranderen zelden maar niet nooit)
 /*.svg
