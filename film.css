@@ -150,6 +150,7 @@ img, video, svg { display: block; max-width: 100%; }
   .hdr-row { height: 48px; }
   .tl { height: 44px; gap: 10px; }
   .tl-clips a { padding: 0; }
+  .tl-clips li { min-width: 26px; } /* aanraakdoel minimaal 24px breed, ook voor korte hoofdstukken */
   .tl-clips a::before { bottom: 18px; }
   .tl-fill { bottom: 18px; }
   .tl-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -249,6 +250,13 @@ img, video, svg { display: block; max-width: 100%; }
 }
 
 /* ---------- Scène 1: opening ---------- */
+/* Vóór film.js: alleen de opening is zichtbaar, de sluiter staat dicht (intro), overige scènes verborgen.
+   GSAP neemt het daarna over met inline stijlen. */
+.intro #opening .bar { transform: scaleY(1); }
+.intro #opening .room { opacity: .15; }
+.intro #opening .mon-meta, .intro #opening .corner { opacity: 0; }
+.film-on #opening .crop-l, .film-on #opening .crop-r, .film-on #opening .crop-label { visibility: hidden; }
+.film-on .chapter:not(#opening) > .scene .scene-in { visibility: hidden; }
 .monitor {
   position: relative; overflow: hidden;
   width: min(100cqw, 100cqh * 16 / 9); aspect-ratio: 16 / 9;

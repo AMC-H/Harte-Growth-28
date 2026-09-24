@@ -237,14 +237,17 @@
     }).catch(function () {});
   }
 
+  // Intro bij binnenkomst: de sluiter gaat open en het licht komt op. De tekst staat er meteen
+  // (niet animeren: dat vertraagt de eerste zichtbare inhoud).
   function openingIntro(s) {
-    var copy = s.chapter.querySelectorAll('.copy > *');
     var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     tl.set(s.q('.bar'), { scaleY: 1 })
-      .fromTo(s.q('.room'), { autoAlpha: 0.15 }, { autoAlpha: 1, duration: 1.4, ease: 'power1.inOut' }, 0.35)
+      .set(s.q('.room'), { autoAlpha: 0.15 })
+      .set(s.q('.mon-meta, .corner'), { autoAlpha: 0 })
+      .call(function () { root.classList.remove('intro'); })
+      .to(s.q('.room'), { autoAlpha: 1, duration: 1.4, ease: 'power1.inOut' }, 0.35)
       .to(s.q('.bar'), { scaleY: 0, duration: 1.2, ease: 'expo.inOut' }, 0.2)
-      .from(s.q('.mon-meta, .corner'), { autoAlpha: 0, duration: 0.4, stagger: 0.05 }, 1.1)
-      .from(copy, { y: 28, autoAlpha: 0, duration: 0.9, stagger: 0.12 }, 0.45);
+      .to(s.q('.mon-meta, .corner'), { autoAlpha: 1, duration: 0.4, stagger: 0.05 }, 1.1);
     return tl;
   }
 
@@ -333,7 +336,10 @@
         builds[id] = tl.scrollTrigger;
       }
 
-      if (id === 'opening' && window.scrollY < window.innerHeight * 0.5) openingIntro(s);
+      if (id === 'opening') {
+        if (window.scrollY < window.innerHeight * 0.5) openingIntro(s);
+        else root.classList.remove('intro'); // halverwege de pagina binnengekomen: geen intro
+      }
     });
 
     ScrollTrigger.create({
@@ -348,7 +354,7 @@
     });
 
     return function () {
-      root.classList.remove('film-on');
+      root.classList.remove('film-on', 'intro');
       film = null;
     };
   });
