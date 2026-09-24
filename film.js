@@ -3,7 +3,8 @@
  * In filmmodus krijgt elke scène drie scroll-gekoppelde delen:
  *   in    -> .scene-in vervaagt erin terwijl het hoofdstuk binnenschuift
  *   bouw  -> de scène-tijdlijn scrubt terwijl de tekst vast staat (sticky)
- *   uit   -> .scene vervaagt weg terwijl het volgende hoofdstuk binnenkomt
+ *   uit   -> .scene vervaagt weg vóórdat het volgende hoofdstuk verschijnt (na elkaar, nooit over
+ *            elkaar heen: er is geen snap, dus elke tussenstand moet er goed uitzien)
  * In/uit zitten op verschillende elementen, zodat ze elkaar nooit overschrijven.
  * Zonder JS of met prefers-reduced-motion blijft alles statisch: CSS toont het eindbeeld.
  */
@@ -143,8 +144,8 @@
     });
     var wa = s.scene.querySelector('.br-wa');
 
-    tl.fromTo(s.q('.br-url'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.06 }, 0)
-      .fromTo(wfs, { autoAlpha: 0, scale: 0.94 }, { autoAlpha: 1, scale: 1, duration: 0.08, stagger: 0.03, ease: 'power2.out' }, 0.02)
+    tl.fromTo(s.q('.br-url'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.04 }, 0)
+      .fromTo(wfs, { autoAlpha: 0, scale: 0.94 }, { autoAlpha: 1, scale: 1, duration: 0.06, stagger: 0.02, ease: 'power2.out' }, 0)
       .fromTo(parts, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.07, stagger: 0.045, ease: 'power2.out' }, 0.3)
       .to(wfs, { autoAlpha: 0, duration: 0.06, stagger: 0.04 }, 0.36)
       .fromTo(wa, { autoAlpha: 0, scale: 0.5 }, { autoAlpha: 1, scale: 1, duration: 0.07, ease: 'back.out(2.6)' }, 0.84)
@@ -180,21 +181,21 @@
       tl.fromTo(el, { autoAlpha: 0, scale: 0.85, y: 10 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.06, ease: 'back.out(2)' }, at);
     };
 
-    tl.fromTo(s.q('.phone'), { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.1, ease: 'power2.out' }, 0)
-      .fromTo(s.q('.ph-day'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.04 }, 0.06);
-    pop(msgs[0], 0.12);
-    tl.fromTo(typing, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.03 }, 0.22)
-      .to(typing.children, { y: -4, duration: 0.025, ease: 'sine.inOut', yoyo: true, repeat: 5, stagger: 0.012 }, 0.24)
-      .to(typing, { autoAlpha: 0, duration: 0.02 }, 0.4);
-    pop(msgs[1], 0.4);
-    pop(msgs[2], 0.58);
-    tl.fromTo(s.q('.summary'), { autoAlpha: 0, x: 40 }, { autoAlpha: 1, x: 0, duration: 0.1, ease: 'power3.out' }, 0.72)
+    tl.fromTo(s.q('.phone'), { y: 30 }, { y: 0, duration: 0.1, ease: 'power2.out' }, 0)
+      .fromTo(s.q('.ph-day'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.04 }, 0.04);
+    pop(msgs[0], 0.05);
+    tl.fromTo(typing, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.03 }, 0.16)
+      .to(typing.children, { y: -4, duration: 0.025, ease: 'sine.inOut', yoyo: true, repeat: 5, stagger: 0.012 }, 0.18)
+      .to(typing, { autoAlpha: 0, duration: 0.02 }, 0.34);
+    pop(msgs[1], 0.34);
+    pop(msgs[2], 0.54);
+    tl.fromTo(s.q('.summary'), { autoAlpha: 0, x: 40 }, { autoAlpha: 1, x: 0, duration: 0.1, ease: 'power3.out' }, 0.7)
       .fromTo(s.q('.summary dl > div'), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.05, stagger: 0.03 }, 0.78);
   };
 
   // 6. Prijs: exportvenster vult zich, oude prijs wordt doorgestreept, render loopt vol.
   SCENES.prijs = function (tl, s) {
-    tl.fromTo(s.q('.export'), { autoAlpha: 0, scale: 0.96, y: 16 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.1, ease: 'power2.out' }, 0)
+    tl.fromTo(s.q('.export'), { scale: 0.96, y: 16 }, { scale: 1, y: 0, duration: 0.1, ease: 'power2.out' }, 0)
       .fromTo(s.q('.ex-rows > div'), { autoAlpha: 0, x: -10 }, { autoAlpha: 1, x: 0, duration: 0.06, stagger: 0.05, ease: 'power2.out' }, 0.1)
       .fromTo(s.q('.ex-was'), { '--strike': 0 }, { '--strike': 1, duration: 0.06 }, 0.42)
       .fromTo(s.q('.ex-price b'), { autoAlpha: 0, scale: 0.7 }, { autoAlpha: 1, scale: 1, duration: 0.06, ease: 'back.out(2.4)', transformOrigin: 'left center' }, 0.47)
@@ -270,7 +271,7 @@
   loadMediaVideo();
 
   /* ---------- Filmmodus ---------- */
-  var film = null; // { rests: [], contactStart, max }
+  var film = null; // { rests: [], max }
 
   var mm = gsap.matchMedia();
   mm.add({
@@ -300,12 +301,14 @@
           scrollTrigger: { trigger: chapter, start: 'top bottom', end: 'top 65%', scrub: true }
         })
           .fromTo(inner, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 }, 0)
-          .fromTo(s.q('.bar'), { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: 'power2.inOut' }, 0.1)
-          .to(inner, { autoAlpha: 0, duration: 0.3 }, 0.6);
+          .fromTo(s.q('.bar'), { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: 'power2.in' }, 0.1)
+          // al vervagen terwijl de sluiter dichtgaat: nooit een vol zwart vlak als je hier stopt
+          .to(inner, { autoAlpha: 0, duration: 0.35, ease: 'power1.in' }, 0.3);
       } else if (id !== 'opening') {
         gsap.fromTo(inner, { autoAlpha: 0, scale: 0.97 }, {
           autoAlpha: 1, scale: 1, ease: 'none',
-          scrollTrigger: { trigger: chapter, start: 'top 75%', end: 'top 20%', scrub: true }
+          // komt pas op als de vorige scène weg is (die is klaar bij 'bottom 45%' = deze 'top 45%')
+          scrollTrigger: { trigger: chapter, start: 'top 45%', end: 'top 15%', scrub: true }
         });
       }
       if (id !== 'contact') {
@@ -316,7 +319,7 @@
           scrollTrigger: {
             trigger: chapter, scrub: true,
             start: beforeContact ? 'bottom bottom' : 'bottom 75%',
-            end: beforeContact ? 'bottom 90%' : 'bottom 25%'
+            end: beforeContact ? 'bottom 90%' : 'bottom 45%'
           }
         });
       }
@@ -325,7 +328,8 @@
         var tl = gsap.timeline({
           defaults: { ease: 'none' },
           scrollTrigger: {
-            trigger: chapter, start: 'top top', end: 'bottom bottom',
+            // de opbouw begint al tijdens het invaden, zodat een scène nooit als lege huls in beeld staat
+            trigger: chapter, start: id === 'opening' ? 'top top' : 'top 45%', end: 'bottom bottom',
             scrub: mobile ? true : 0.6,
             invalidateOnRefresh: true
           }
@@ -342,15 +346,11 @@
       }
     });
 
+    // Geen automatische snap: de bezoeker bepaalt zelf waar hij stopt, zoals bij een video.
+    // De rustpunten zijn er alleen voor de tijdlijn-markeringen en ankerlinks.
     ScrollTrigger.create({
       start: 0, end: 'max',
-      onRefresh: function () { measure(builds); },
-      snap: {
-        snapTo: snapTo,
-        duration: { min: 0.25, max: 1.1 },
-        delay: 0.12,
-        ease: 'power2.inOut'
-      }
+      onRefresh: function () { measure(builds); }
     });
 
     return function () {
@@ -377,12 +377,7 @@
       var st = builds[ch.id];
       return st ? st.end - vh * REST_OFFSET : ch.offsetTop;
     });
-    var contact = document.getElementById('contact');
-    film = {
-      rests: rests,
-      max: max,
-      contactStart: contact ? Math.min(max, contact.offsetTop - hdr) - 2 : Infinity
-    };
+    film = { rests: rests, max: max };
   }
 
   // clipbreedtes op de tijdlijn volgen de echte scrolllengte per hoofdstuk
@@ -396,23 +391,6 @@
       var len = Math.max(next - ch.offsetTop - (chapters[i + 1] ? 0 : vh), vh * 0.4);
       li.style.flexGrow = String(len);
     });
-  }
-
-  function snapTo(value, self) {
-    if (!film || !film.max) return value;
-    var y = value * film.max;
-    if (y >= film.contactStart) return value; // contact: vrij scrollen, formulier nooit laten verspringen
-    var rests = film.rests;
-    var vh = window.innerHeight;
-    var nearest = rests.reduce(function (a, b) { return Math.abs(b - y) < Math.abs(a - y) ? b : a; });
-    var target = nearest;
-    if (Math.abs(nearest - y) > vh * 0.08) {
-      var dir = self && self.direction ? self.direction : 1;
-      if (dir > 0) target = rests.filter(function (r) { return r > y; })[0];
-      else target = rests.filter(function (r) { return r < y; }).pop();
-      if (target === undefined) target = nearest;
-    }
-    return Math.max(0, Math.min(1, target / film.max));
   }
 
   /* ---------- Tijdcode + tijdlijn ---------- */
@@ -601,10 +579,18 @@
     var contact = document.getElementById('contact');
     if (!contact) return;
     var narrow = window.matchMedia('(max-width: 767px)');
+    var band = document.querySelector('.stage-band');
+    var lastK = 1;
     var sync = function () {
       var r = contact.getBoundingClientRect();
       var inView = r.top < window.innerHeight * 0.85 && r.bottom > 0;
       fab.classList.toggle('is-away', narrow.matches && inView);
+      // beeldband (mobiel): onderrand volgt de bovenkant van Contact zodra die de band bereikt
+      if (band && narrow.matches) {
+        var top = band.getBoundingClientRect().top, h = band.offsetHeight || 1;
+        var k = Math.max(0, Math.min(1, (r.top - top) / h));
+        if (k !== lastK) { band.style.transform = k === 1 ? '' : 'scaleY(' + k.toFixed(4) + ')'; lastK = k; }
+      }
     };
     window.addEventListener('scroll', sync, { passive: true });
     window.addEventListener('resize', sync);
