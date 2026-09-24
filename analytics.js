@@ -123,7 +123,7 @@
     nl: {
       body: 'We plaatsen alleen analytische cookies (GA4 + Clarity), en alleen als jij dat wilt. <a href="/privacy" style="color:#ff4d1a;">Privacy</a> · <a href="/cookies" style="color:#ff4d1a;">Cookies</a>',
       accept: 'Accepteren',
-      decline: 'Weigeren',
+      decline: 'Alles weigeren',
       prefs: 'Meer opties',
       analytics_label: 'Analyse (GA4 + Clarity)',
       save: 'Bewaar'
@@ -131,7 +131,7 @@
     en: {
       body: 'We use analytics cookies only (GA4 + Clarity), and only if you say yes. <a href="/privacy" style="color:#ff4d1a;">Privacy</a> · <a href="/cookies" style="color:#ff4d1a;">Cookies</a>',
       accept: 'Accept',
-      decline: 'Decline',
+      decline: 'Reject all',
       prefs: 'More options',
       analytics_label: 'Analytics (GA4 + Clarity)',
       save: 'Save'
@@ -139,7 +139,7 @@
     es: {
       body: 'Usamos solo cookies analíticas (GA4 + Clarity), y solo si tú aceptas. <a href="/privacy" style="color:#ff4d1a;">Privacidad</a> · <a href="/cookies" style="color:#ff4d1a;">Cookies</a>',
       accept: 'Aceptar',
-      decline: 'Rechazar',
+      decline: 'Rechazar todo',
       prefs: 'Más opciones',
       analytics_label: 'Analítica (GA4 + Clarity)',
       save: 'Guardar'
@@ -147,8 +147,51 @@
   }[LANG] || null;
   if (!T) return;
 
+  /* Opmaak zit in dit bestand zelf, zodat de banner er op elke pagina hetzelfde uitziet, ongeacht welke
+     stylesheet de pagina laadt (film.css, video-design.css of styles.css). ID-selectors + later in de head
+     = wint van de oude regels in styles.css. Desktop: linksonder, naast de WhatsApp-knop. Onder 900px: volle
+     breedte, net boven de WhatsApp-knop. Weigeren en accepteren zijn bewust identiek (AVG). */
+  var CSS =
+    '#hg-cookie-banner{position:fixed;z-index:60;left:16px;right:auto;bottom:calc(16px + env(safe-area-inset-bottom,0px));' +
+      'width:auto;max-width:44rem;margin:0;padding:0;box-sizing:border-box;animation:none;' +
+      'background:#0F1113;color:#F2F0EC;border:1px solid rgba(242,240,236,.16);border-radius:14px;' +
+      'box-shadow:0 20px 50px -20px rgba(0,0,0,.8);font:400 14px/1.45 "Instrument Sans",-apple-system,system-ui,sans-serif;text-align:left}' +
+    '#hg-cookie-banner *{box-sizing:border-box}' +
+    '#hg-cookie-banner .hg-cc-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 20px;padding:14px 16px 10px 20px}' +
+    '#hg-cookie-banner .hg-cc-body{grid-column:1;grid-row:1;margin:0;font-size:14px;line-height:1.45;color:#F2F0EC}' +
+    '#hg-cookie-banner .hg-cc-body a{color:#F2F0EC !important;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(242,240,236,.45)}' +
+    '#hg-cookie-banner .hg-cc-actions{grid-column:2;grid-row:1 / span 2;display:flex;gap:8px;justify-content:flex-end;margin:0}' +
+    '#hg-cookie-banner .hg-cc-btn{flex:1 1 0;min-width:0;min-height:44px;margin:0;padding:0 18px;border:0;border-radius:999px;' +
+      'background:#F2F0EC;color:#0F1113;font:600 14px/1 "Instrument Sans",-apple-system,system-ui,sans-serif;white-space:nowrap;cursor:pointer;' +
+      'box-shadow:none;transition:background-color .2s ease}' +
+    '#hg-cookie-banner .hg-cc-btn:hover{background:#FFFFFF}' +
+    '#hg-cookie-banner .hg-cc-btn:focus-visible,#hg-cookie-banner .hg-cc-more:focus-visible,#hg-cookie-banner a:focus-visible{outline:2px solid #FF3B30;outline-offset:3px}' +
+    '#hg-cookie-banner .hg-cc-more{grid-column:1;grid-row:2;justify-self:start;min-height:32px;margin:0;padding:0;background:none;border:0;' +
+      'color:#9BA0A6;font:400 13px/1 "Instrument Sans",-apple-system,system-ui,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer}' +
+    '#hg-cookie-banner .hg-cc-prefs{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin:6px 0 4px;padding-top:10px;border-top:1px solid rgba(242,240,236,.08)}' +
+    '#hg-cookie-banner .hg-cc-prefs[hidden]{display:none}' +
+    '#hg-cookie-banner .hg-cc-prefs .hg-cc-btn{flex:0 0 auto}' +
+    '#hg-cookie-banner .hg-cc-toggle{display:flex;align-items:center;gap:10px;min-height:44px;color:#F2F0EC;font-size:14px;cursor:pointer}' +
+    '#hg-cookie-banner .hg-cc-toggle input{width:18px;height:18px;margin:0;accent-color:#FF3B30}' +
+    '@media (max-width:899px){' +
+      '#hg-cookie-banner{left:12px;right:12px;max-width:none;bottom:calc(84px + env(safe-area-inset-bottom,0px))}' +
+      '#hg-cookie-banner .hg-cc-inner{grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;padding:10px 12px}' +
+      '#hg-cookie-banner .hg-cc-body{grid-column:1 / -1;font-size:13px;line-height:1.4}' +
+      '#hg-cookie-banner .hg-cc-actions{grid-column:1;grid-row:2}' +
+      '#hg-cookie-banner .hg-cc-btn{padding:0 12px;font-size:14px}' +
+      '#hg-cookie-banner .hg-cc-more{grid-column:2;grid-row:2;min-height:44px}' +
+    '}';
+  function injectStyle(){
+    if (document.getElementById('hg-cc-style')) return;
+    var st = document.createElement('style');
+    st.id = 'hg-cc-style';
+    st.textContent = CSS;
+    document.head.appendChild(st);
+  }
+
   function buildBanner(){
     if (document.getElementById('hg-cookie-banner')) return document.getElementById('hg-cookie-banner');
+    injectStyle();
     var wrap = document.createElement('div');
     wrap.id = 'hg-cookie-banner';
     wrap.setAttribute('role', 'dialog');

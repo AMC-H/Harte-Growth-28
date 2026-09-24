@@ -219,27 +219,3 @@ html { scroll-padding-top: calc(var(--hdr) + 12px); }
   .closer .btn { flex: 1 1 100%; }
   .wa-fab { bottom: calc(12px + var(--safe-b)); }
 }
-
-/* ---------- Cookiebanner (analytics.js). styles.css wordt hier niet geladen; zelfde opbouw in de filmstijl ---------- */
-#hg-cookie-banner {
-  position: fixed; left: 16px; right: 16px; bottom: calc(16px + var(--safe-b)); z-index: 60; max-width: 44rem; margin: 0 auto;
-  background: var(--surface); border-radius: 12px; box-shadow: 0 0 0 1px var(--line-2), 0 30px 80px -30px #000;
-  color: var(--ink); font: 400 .875rem/1.5 var(--f-body);
-}
-#hg-cookie-banner .hg-cc-inner { padding: 16px 18px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: center; }
-#hg-cookie-banner .hg-cc-body { margin: 0; color: var(--mute); }
-#hg-cookie-banner .hg-cc-body a { color: var(--ink) !important; text-underline-offset: 3px; }
-#hg-cookie-banner .hg-cc-actions { display: flex; gap: 8px; }
-#hg-cookie-banner .hg-cc-btn { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; font: 600 .875rem/1 var(--f-body); cursor: pointer; }
-#hg-cookie-banner .hg-cc-btn-ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-2); }
-#hg-cookie-banner .hg-cc-btn-primary { background: var(--ink); color: var(--bg); }
-#hg-cookie-banner .hg-cc-more { grid-column: 1 / -1; justify-self: start; min-height: 44px; padding: 0; background: none; border: 0; color: var(--mute); font: inherit; font-size: .8125rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-#hg-cookie-banner .hg-cc-prefs { grid-column: 1 / -1; padding-top: 12px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; }
-#hg-cookie-banner .hg-cc-prefs[hidden] { display: none; }
-#hg-cookie-banner .hg-cc-toggle { display: flex; gap: 10px; align-items: center; min-height: 44px; cursor: pointer; }
-#hg-cookie-banner .hg-cc-toggle input { width: 18px; height: 18px; accent-color: var(--accent); }
-#hg-cookie-banner .hg-cc-prefs .hg-cc-btn { align-self: flex-end; }
-@media (max-width: 599px) {
-  #hg-cookie-banner .hg-cc-inner { grid-template-columns: 1fr; }
-  #hg-cookie-banner .hg-cc-actions .hg-cc-btn { flex: 1; }
-}
