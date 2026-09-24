@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>document.documentElement.classList.add('js')</script>
 <title>Harte Growth | Van foto's naar een video die verkoopt, binnen 48 uur</title>
 <meta name="description" content="Stuur je foto's of ruwe clips. Binnen 48 uur een gemonteerde video in 9:16 en 1:1. Actieprijs €35 per video, geen offertetraject, geld terug als je niet tevreden bent.">
 <link rel="canonical" href="https://hartegrowth.eu/">
@@ -136,6 +137,23 @@
         <rect x="145" y="21" width="4.5" height="4.5" fill="#ff4d1a"/>
       </svg>
     </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="hdr-menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path class="mb-open" d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="mb-close" d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span>Menu</span>
+    </button>
+    <nav class="hdr-nav" id="hdr-menu" aria-label="Hoofdmenu">
+      <ul class="hdr-links">
+        <li><a href="/diensten">Diensten</a></li>
+        <li><a href="/cases">Cases</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <ul class="hdr-lang" aria-label="Taal">
+        <li><a href="/" hreflang="nl" lang="nl" aria-current="page">NL</a></li>
+        <li><a href="/en/" hreflang="en" lang="en">EN</a></li>
+        <li><a href="/es/" hreflang="es" lang="es">ES</a></li>
+      </ul>
+    </nav>
   </div>
   <div class="tl">
     <p class="tc" aria-hidden="true"><span class="tc-rec"></span><span id="tc">00:00:00:00</span></p>
@@ -183,6 +201,7 @@
 
   <!-- 2. MEDIA -->
   <section class="chapter" id="media" style="--len:3.4" aria-labelledby="media-h">
+    <span class="alias" id="werkwijze"></span><span class="alias" id="voorbeeld"></span><!-- oude homepage-ankers -->
     <div class="scene" aria-hidden="true">
       <div class="scene-in">
         <div class="edit">
@@ -343,6 +362,7 @@
 
   <!-- 6. PRIJS -->
   <section class="chapter" id="prijs" style="--len:2.1" aria-labelledby="prijs-h">
+    <span class="alias" id="prijzen"></span><!-- oud homepage-anker -->
     <div class="scene" aria-hidden="true">
       <div class="scene-in">
         <div class="export">
@@ -452,7 +472,7 @@
         <p><span class="direct-k">Mail</span> <span>hallo@hartegrowth.eu</span></p>
       </div>
 
-      <div class="faq">
+      <div class="faq" id="faq">
         <h3 class="faq-h">Vaak gevraagd</h3>
         <details>
           <summary>Hoeveel materiaal heb ik nodig?</summary>

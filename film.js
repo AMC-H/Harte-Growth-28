@@ -25,6 +25,7 @@
   setupFab();
   fillPrice();
   setupForm();
+  setupMenu();
 
   if (!window.gsap || !window.ScrollTrigger) return; // CDN niet geladen: statische versie blijft staan
 
@@ -442,31 +443,56 @@
     return [hh, mm, ss, ff].map(function (n) { return n < 10 ? '0' + n : String(n); }).join(':');
   }
 
-  /* ---------- Hoofdstukmarkeringen: springen naar het rustpunt ---------- */
-  links.forEach(function (a, i) {
-    a.addEventListener('click', function (e) {
-      var target = chapters[i];
-      if (!target) return;
-      var heading = target.querySelector('h1, h2');
-      if (!film) return; // statisch: gewone anker-sprong
-      e.preventDefault();
-      var y = film.rests[i];
-      var dist = Math.abs(window.scrollY - y) / window.innerHeight;
-      gsap.to(window, {
-        scrollTo: { y: y, autoKill: true },
-        duration: Math.min(1.8, 0.5 + dist * 0.18),
-        ease: 'power2.inOut',
-        onComplete: function () { if (heading) heading.focus({ preventScroll: true }); }
-      });
-      history.replaceState(null, '', '#' + target.id);
+  /* ---------- Ankerlinks (tijdlijn, menu, oude homepage-ankers): naar het juiste hoofdstuk ---------- */
+  // Oude ankers van de vorige homepage blijven werken (links van buitenaf, bladwijzers).
+  var ALIASES = { werkwijze: 'media', voorbeeld: 'media', prijzen: 'prijs' };
+
+  function targetFor(hash) {
+    var id = decodeURIComponent((hash || '').replace(/^#/, ''));
+    if (!id) return null;
+    id = ALIASES[id] || id;
+    var el = document.getElementById(id);
+    if (!el) return null;
+    var i = chapters.indexOf(el);
+    return { el: el, id: id, index: i };
+  }
+
+  function scrollYFor(t) {
+    if (t.index >= 0) return film.rests[t.index];
+    // iets binnen een hoofdstuk (bv. #faq in Contact): net onder de header
+    var hdr = document.querySelector('.hdr').offsetHeight;
+    return t.el.getBoundingClientRect().top + window.scrollY - hdr - 16;
+  }
+
+  function jumpTo(t, smooth) {
+    var heading = t.index >= 0 ? t.el.querySelector('h1, h2') : t.el.querySelector('h2, h3') || t.el;
+    var y = Math.max(0, scrollYFor(t));
+    var done = function () { if (heading) heading.focus({ preventScroll: true }); };
+    if (!smooth) { window.scrollTo(0, y); return; }
+    var dist = Math.abs(window.scrollY - y) / window.innerHeight;
+    gsap.to(window, {
+      scrollTo: { y: y, autoKill: true },
+      duration: Math.min(1.8, 0.5 + dist * 0.18),
+      ease: 'power2.inOut',
+      onComplete: done
     });
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"], a[href^="/#"]');
+    if (!a || !film) return; // statisch: de browser springt zelf (aliassen staan als id in de HTML)
+    var t = targetFor(a.getAttribute('href').replace(/^\//, ''));
+    if (!t) return;
+    e.preventDefault();
+    jumpTo(t, true);
+    history.replaceState(null, '', '#' + t.id);
   });
 
-  // Direct binnenkomen op /#media: naar het rustpunt van dat hoofdstuk.
+  // Direct binnenkomen op /#media (of een oud anker zoals /#prijzen): naar het rustpunt.
   window.addEventListener('load', function () {
     if (!film || !location.hash) return;
-    var i = chapters.findIndex(function (ch) { return '#' + ch.id === location.hash; });
-    if (i > 0) window.scrollTo(0, film.rests[i]);
+    var t = targetFor(location.hash);
+    if (t && t.index !== 0) jumpTo(t, false);
   });
 
   /* ---------- Formulier: zelfde velden en functie als het oude formulier op de homepage ---------- */
@@ -514,6 +540,33 @@
           btn.textContent = label;
         });
     });
+  }
+
+  /* ---------- Menu (onder 900px achter een knop) ---------- */
+  function setupMenu() {
+    var btn = document.querySelector('.menu-btn');
+    var nav = document.getElementById('hdr-menu');
+    if (!btn || !nav) return;
+    var wide = window.matchMedia('(min-width: 900px)');
+    function set(open, focusBtn) {
+      nav.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      if (!open && focusBtn) btn.focus();
+    }
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') !== 'true';
+      set(open);
+      if (open) { var first = nav.querySelector('a'); if (first) first.focus(); }
+    });
+    nav.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) set(false, true);
+    });
+    document.addEventListener('click', function (e) {
+      if (nav.classList.contains('is-open') && !nav.contains(e.target) && !btn.contains(e.target)) set(false);
+    });
+    var onWide = function () { if (wide.matches) set(false); };
+    if (wide.addEventListener) wide.addEventListener('change', onWide);
   }
 
   /* ---------- Prijs: één bron (de tekst in hoofdstuk Prijs), overgenomen in het exportvenster ---------- */
