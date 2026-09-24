@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const eased = ease(progress);
       targets.forEach(t => {
         const cur = t.target * eased;
-        t.el.textContent = (t.decimals ? cur.toFixed(t.decimals).replace('.', ',') : Math.round(cur).toLocaleString('nl-NL')) + t.suffix;
+        t.el.textContent = (t.decimals ? cur.toFixed(t.decimals).replace('.', document.documentElement.lang === 'en' ? '.' : ',') : Math.round(cur).toLocaleString('nl-NL')) + t.suffix;
       });
 
       // stappen: activeer als hun midden boven viewport-midden komt
