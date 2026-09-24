@@ -378,24 +378,27 @@
       <div class="scene-in">
         <div class="monitor monitor-end">
           <svg class="room" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"><use href="#room-art"/></svg>
-          <p class="end-card">Einde. Jouw video is de volgende.</p>
           <div class="bar bar-top"></div><div class="bar bar-bot"></div>
         </div>
       </div>
     </div>
     <div class="copy">
+      <div class="contact-main">
       <h2 id="contact-h" class="h2" tabindex="-1">Stuur je materiaal, wij doen de rest.</h2>
-      <p class="lede">Snelst gaat het via WhatsApp. Liever eerst iets vragen? Vul het formulier in, dan reageren we dezelfde dag.</p>
+      <p class="lede">Snelst gaat het via <a class="link" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20foto%27s%20of%20video%20laten%20omzetten%20naar%20een%20video." target="_blank" rel="noopener">WhatsApp</a>. Liever eerst iets vragen? Vul het formulier in, dan reageren we dezelfde dag.</p>
+      <p class="kicker">Jouw video is de volgende.</p>
 
       <form id="lead-form" class="form" method="post" action="/.netlify/functions/send-video-lead">
         <p class="hp" aria-hidden="true"><label>Laat dit veld leeg: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-        <div class="field">
-          <label for="f-naam">Naam</label>
-          <input id="f-naam" name="naam" type="text" required autocomplete="name" placeholder="Je naam">
-        </div>
-        <div class="field">
-          <label for="f-contact">WhatsApp-nummer of e-mail</label>
-          <input id="f-contact" name="contact" type="text" required autocomplete="email" placeholder="06 ... of naam@voorbeeld.nl">
+        <div class="field-row">
+          <div class="field">
+            <label for="f-naam">Naam</label>
+            <input id="f-naam" name="naam" type="text" required autocomplete="name" placeholder="Je naam">
+          </div>
+          <div class="field">
+            <label for="f-contact">WhatsApp-nummer of e-mail</label>
+            <input id="f-contact" name="contact" type="text" required autocomplete="email" placeholder="06 ... of naam@voorbeeld.nl">
+          </div>
         </div>
         <div class="field-row">
           <div class="field">
@@ -434,7 +437,9 @@
         <p class="form-done-h">Aanvraag verstuurd.</p>
         <p>We reageren dezelfde dag. Bestanden kun je alvast sturen via een WeTransfer- of Google Drive-link.</p>
       </div>
+      </div>
 
+      <div class="contact-side">
       <div class="direct">
         <p><a class="link" href="https://wa.me/31634455762" target="_blank" rel="noopener">WhatsApp</a> <span>+31 6 34455762</span></p>
         <p><span class="direct-k">Mail</span> <span>hallo@hartegrowth.eu</span></p>
@@ -458,6 +463,7 @@
           <summary>Wat als ik niet tevreden ben?</summary>
           <p>Er zit één revisieronde bij. Komen we er samen niet uit? Dan krijg je je geld terug.</p>
         </details>
+      </div>
       </div>
 
       <footer class="foot">

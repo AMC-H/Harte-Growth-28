@@ -204,12 +204,6 @@
       .to(s.q('.ex-done'), { autoAlpha: 1, duration: 0.02 }, 0.88);
   };
 
-  // 7. Contact: het beeld uit de opening komt terug en de sluiter gaat bijna dicht.
-  SCENES.contact = function (tl, s) {
-    tl.fromTo(s.q('.bar'), { scaleY: 0 }, { scaleY: 0.9, duration: 0.5, ease: 'power2.inOut' }, 0)
-      .fromTo(s.q('.end-card'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 }, 0.4);
-  };
-
   function loadMediaVideo() {
     var video = document.querySelector('video[data-slot="media-result"]');
     if (!video || !window.fetch) return;
@@ -293,16 +287,33 @@
         q: function (sel) { return scene.querySelectorAll(sel); }
       };
 
-      if (id !== 'opening') {
+      if (id === 'contact') {
+        // 7. Contact: het beeld uit de opening komt terug, de sluiter gaat helemaal dicht en het podium
+        //    verdwijnt. Klaar vóór het rustpunt, zodat formulier en FAQ daarna alleen in beeld staan.
+        gsap.timeline({
+          defaults: { ease: 'none' },
+          // loopt terwijl Contact van onderaf binnenkomt; klaar voordat de tekst het beeld bereikt
+          scrollTrigger: { trigger: chapter, start: 'top bottom', end: 'top 65%', scrub: true }
+        })
+          .fromTo(inner, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 }, 0)
+          .fromTo(s.q('.bar'), { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: 'power2.inOut' }, 0.1)
+          .to(inner, { autoAlpha: 0, duration: 0.3 }, 0.6);
+      } else if (id !== 'opening') {
         gsap.fromTo(inner, { autoAlpha: 0, scale: 0.97 }, {
           autoAlpha: 1, scale: 1, ease: 'none',
           scrollTrigger: { trigger: chapter, start: 'top 75%', end: 'top 20%', scrub: true }
         });
       }
       if (id !== 'contact') {
+        // vóór Contact sneller weg: daar neemt de sluitende sluiter het beeld over
+        var beforeContact = chapter.nextElementSibling && chapter.nextElementSibling.id === 'contact';
         gsap.fromTo(scene, { autoAlpha: 1 }, {
           autoAlpha: 0, ease: 'none',
-          scrollTrigger: { trigger: chapter, start: 'bottom 75%', end: 'bottom 25%', scrub: true }
+          scrollTrigger: {
+            trigger: chapter, scrub: true,
+            start: beforeContact ? 'bottom bottom' : 'bottom 75%',
+            end: beforeContact ? 'bottom 90%' : 'bottom 25%'
+          }
         });
       }
 
@@ -525,5 +536,19 @@
       if (coarse.matches && e.target.matches('input, textarea, select')) fab.classList.add('is-tucked');
     });
     document.addEventListener('focusout', function () { fab.classList.remove('is-tucked'); });
+
+    // Mobiel: zolang Contact (formulier + FAQ, over de volle breedte) in beeld is, gaat de knop opzij,
+    // anders dekt hij de rechterkant van velden af. WhatsApp blijft bereikbaar via de links in Contact.
+    var contact = document.getElementById('contact');
+    if (!contact) return;
+    var narrow = window.matchMedia('(max-width: 767px)');
+    var sync = function () {
+      var r = contact.getBoundingClientRect();
+      var inView = r.top < window.innerHeight * 0.85 && r.bottom > 0;
+      fab.classList.toggle('is-away', narrow.matches && inView);
+    };
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
   }
 })();
