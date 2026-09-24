@@ -24,6 +24,7 @@
 
   setupFab();
   fillPrice();
+  setupForm();
 
   if (!window.gsap || !window.ScrollTrigger) return; // CDN niet geladen: statische versie blijft staan
 
@@ -201,6 +202,12 @@
       .fromTo(s.q('.ex-fill'), { scaleX: 0 }, { scaleX: 1, duration: 0.32, ease: 'power1.inOut' }, 0.55)
       .to(s.q('.ex-busy'), { autoAlpha: 0, duration: 0.02 }, 0.87)
       .to(s.q('.ex-done'), { autoAlpha: 1, duration: 0.02 }, 0.88);
+  };
+
+  // 7. Contact: het beeld uit de opening komt terug en de sluiter gaat bijna dicht.
+  SCENES.contact = function (tl, s) {
+    tl.fromTo(s.q('.bar'), { scaleY: 0 }, { scaleY: 0.9, duration: 0.5, ease: 'power2.inOut' }, 0)
+      .fromTo(s.q('.end-card'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 }, 0.4);
   };
 
   function loadMediaVideo() {
@@ -438,6 +445,53 @@
     var i = chapters.findIndex(function (ch) { return '#' + ch.id === location.hash; });
     if (i > 0) window.scrollTo(0, film.rests[i]);
   });
+
+  /* ---------- Formulier: zelfde velden en functie als het oude formulier op de homepage ---------- */
+  function setupForm() {
+    var form = document.getElementById('lead-form');
+    if (!form || !window.fetch) return; // zonder fetch post het formulier gewoon naar de function
+    var done = document.getElementById('lead-done');
+    var status = form.querySelector('.form-status');
+    var btn = form.querySelector('button[type="submit"]');
+    var label = btn.textContent;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = {
+        naam: form.naam.value.trim(),
+        contact: form.contact.value.trim(),
+        materiaal: form.materiaal.value,
+        type: form.type.value,
+        aantalFotos: form.aantalFotos.value.trim(),
+        bericht: form.bericht.value.trim(),
+        'bot-field': form['bot-field'].value
+      };
+      btn.disabled = true;
+      btn.textContent = 'Versturen...';
+      status.hidden = true;
+
+      fetch('/.netlify/functions/send-video-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+        .then(function (res) { if (!res.ok) throw new Error('status ' + res.status); })
+        .then(function () {
+          form.hidden = true;
+          done.hidden = false;
+          done.focus();
+          if (window.ScrollTrigger) ScrollTrigger.refresh();
+        })
+        .catch(function () {
+          var text = encodeURIComponent('Hoi! Het formulier lukte niet, dus ik stuur het zo. Mijn naam is ' + (data.naam || '...') + '.');
+          status.innerHTML = '<p>Versturen is niet gelukt. Je gegevens staan er nog. Probeer het opnieuw, of stuur ons direct een bericht.</p>' +
+            '<p><a class="link" href="https://wa.me/31634455762?text=' + text + '" target="_blank" rel="noopener">Stuur via WhatsApp</a></p>';
+          status.hidden = false;
+          btn.disabled = false;
+          btn.textContent = label;
+        });
+    });
+  }
 
   /* ---------- Prijs: één bron (de tekst in hoofdstuk Prijs), overgenomen in het exportvenster ---------- */
   function fillPrice() {

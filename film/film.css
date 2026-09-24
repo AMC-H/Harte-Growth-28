@@ -576,3 +576,78 @@ img, video, svg { display: block; max-width: 100%; }
   .ex-price b { font-size: 1.3rem; }
   .ex-render { padding: .7rem .9rem .8rem; }
 }
+
+/* ---------- Hoofdstuk 7: contact ---------- */
+.monitor-end .room { filter: saturate(.6) brightness(.7); }
+.end-card {
+  position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); z-index: 1;
+  width: fit-content; margin-inline: auto; padding: .45rem .7rem; border-radius: 4px;
+  background: rgba(8, 9, 10, .85);
+  text-align: center; font: 500 .8125rem/1 var(--f-mono); color: var(--ink);
+}
+.monitor-end .bar { transform: scaleY(.9); } /* eindbeeld: sluiter bijna dicht, alleen een spleet licht */
+
+.film-on #contact { height: auto; }
+.film-on #contact .copy {
+  position: relative; top: auto; height: auto;
+  padding-top: calc(var(--hdr) + 2rem); padding-bottom: calc(6rem + var(--safe-b));
+  justify-content: flex-start;
+}
+@media (max-width: 767px) {
+  .film-on #contact .scene { display: none; } /* formulier krijgt het hele scherm */
+  .film-on #contact .copy { padding-top: calc(var(--hdr) + 1.5rem); }
+}
+
+.form { display: grid; gap: 1rem; margin-top: 1.75rem; max-width: 34rem; }
+.hp { position: absolute; left: -9999px; }
+.field { display: grid; gap: .4rem; min-width: 0; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field label { font-size: .875rem; font-weight: 500; color: var(--ink); }
+.opt { color: var(--mute); font-weight: 400; }
+.field input, .field select, .field textarea {
+  width: 100%; min-height: 48px; padding: .75rem .9rem;
+  font: 400 1rem/1.4 var(--f-body); color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line-2); border-radius: 10px;
+}
+.field textarea { resize: vertical; }
+.field select {
+  appearance: none; -webkit-appearance: none; padding-right: 2.4rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5' fill='none' stroke='%239BA0A6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right .9rem center;
+}
+.field input::placeholder, .field textarea::placeholder { color: #6B7075; }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+.btn-submit { justify-self: start; }
+.form-status { font-size: .9375rem; line-height: 1.5; }
+.form-status p + p { margin-top: .4rem; }
+.form-done { margin-top: 1.75rem; padding: 1.25rem; border-radius: 12px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2); max-width: 34rem; }
+.form-done-h { font: 700 1.25rem/1.2 var(--f-head); margin-bottom: .4rem; }
+.form-done p:not(.form-done-h) { color: var(--mute); }
+
+.direct { margin-top: 2rem; display: grid; gap: .4rem; font-size: .9375rem; }
+.direct span { color: var(--mute); }
+.direct .direct-k { color: var(--ink); font-weight: 500; }
+
+.faq { margin-top: 2.5rem; max-width: 34rem; }
+.faq-h { font: 700 1.25rem/1.2 var(--f-head); margin: 0 0 .5rem; }
+.faq details { border-top: 1px solid var(--line-2); }
+.faq details:last-of-type { border-bottom: 1px solid var(--line-2); }
+.faq summary {
+  list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 1rem; align-items: center;
+  min-height: 48px; padding: .8rem 0; font-weight: 500;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font: 400 1.25rem/1 var(--f-mono); color: var(--mute); transition: transform .2s ease; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { padding: 0 0 1rem; color: var(--mute); max-width: 60ch; }
+
+.foot { margin-top: 3rem; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; font-size: .8125rem; color: var(--mute); }
+.foot a { color: var(--mute); }
+.foot a:hover { color: var(--ink); }
+
+@media (max-width: 767px) {
+  .field-row { grid-template-columns: 1fr; }
+  /* verzendknop nooit onder de WhatsApp-knop: rechts 76px vrij */
+  .form { padding-right: 0; }
+  .btn-submit { justify-self: stretch; margin-right: 76px; }
+}

@@ -34,7 +34,26 @@
     <linearGradient id="g-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fb9dc"/><stop offset="1" stop-color="#e7d8c0"/></linearGradient>
     <linearGradient id="g-dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5d4a66"/><stop offset=".55" stop-color="#e79a66"/><stop offset="1" stop-color="#f3c48e"/></linearGradient>
     <radialGradient id="g-lamp" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".55"/><stop offset="1" stop-color="#ffd9a0" stop-opacity="0"/></radialGradient>
+
+              <linearGradient id="r-wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#232a30"/><stop offset="1" stop-color="#171c20"/></linearGradient>
+              <linearGradient id="r-win" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dcb8"/><stop offset="1" stop-color="#e59a62"/></linearGradient>
+              <linearGradient id="r-beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2c08f" stop-opacity=".22"/><stop offset="1" stop-color="#f2c08f" stop-opacity="0"/></linearGradient>
+              <linearGradient id="r-floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2521"/><stop offset="1" stop-color="#151311"/></linearGradient>
   </defs>
+  <symbol id="room-art" viewBox="0 0 1600 900">
+            <rect width="1600" height="900" fill="url(#r-wall)"/>
+            <rect x="0" y="640" width="1600" height="260" fill="url(#r-floor)"/>
+            <rect x="880" y="150" width="420" height="400" rx="4" fill="url(#r-win)"/>
+            <path d="M1090 150v400M880 350h420" stroke="#1b2024" stroke-width="10"/>
+            <polygon points="880,550 1300,550 1160,900 520,900" fill="url(#r-beam)"/>
+            <rect x="250" y="520" width="520" height="150" rx="26" fill="#2c3338"/>
+            <rect x="230" y="470" width="120" height="200" rx="30" fill="#343c42"/>
+            <rect x="670" y="470" width="120" height="200" rx="30" fill="#343c42"/>
+            <rect x="330" y="455" width="360" height="110" rx="24" fill="#3a434a"/>
+            <rect x="1400" y="360" width="16" height="300" fill="#2a3136"/>
+            <path d="M1360 360h96l-20-70h-56z" fill="#e8b27f" opacity=".85"/>
+            <circle cx="160" cy="560" r="56" fill="#26382d"/><circle cx="120" cy="600" r="44" fill="#1f3026"/><rect x="130" y="600" width="60" height="70" rx="6" fill="#3a3129"/>
+  </symbol>
   <symbol id="art-gevel" viewBox="0 0 300 400">
     <rect width="300" height="400" fill="url(#g-sky)"/>
     <rect x="0" y="330" width="300" height="70" fill="#b9a88d"/>
@@ -117,6 +136,7 @@
         <li style="flex-grow:1"><a href="#verkeer"><span class="tl-name">Verkeer</span></a></li>
         <li style="flex-grow:1"><a href="#opvolging"><span class="tl-name">Opvolging</span></a></li>
         <li style="flex-grow:1"><a href="#prijs"><span class="tl-name">Prijs</span></a></li>
+        <li style="flex-grow:1"><a href="#contact"><span class="tl-name">Contact</span></a></li>
       </ol>
       <div class="tl-fill" aria-hidden="true"></div>
       <div class="tl-head" aria-hidden="true"><span></span></div>
@@ -132,26 +152,7 @@
     <div class="scene" aria-hidden="true">
       <div class="scene-in">
         <div class="monitor">
-          <svg class="room" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
-            <defs>
-              <linearGradient id="r-wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#232a30"/><stop offset="1" stop-color="#171c20"/></linearGradient>
-              <linearGradient id="r-win" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dcb8"/><stop offset="1" stop-color="#e59a62"/></linearGradient>
-              <linearGradient id="r-beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2c08f" stop-opacity=".22"/><stop offset="1" stop-color="#f2c08f" stop-opacity="0"/></linearGradient>
-              <linearGradient id="r-floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2521"/><stop offset="1" stop-color="#151311"/></linearGradient>
-            </defs>
-            <rect width="1600" height="900" fill="url(#r-wall)"/>
-            <rect x="0" y="640" width="1600" height="260" fill="url(#r-floor)"/>
-            <rect x="880" y="150" width="420" height="400" rx="4" fill="url(#r-win)"/>
-            <path d="M1090 150v400M880 350h420" stroke="#1b2024" stroke-width="10"/>
-            <polygon points="880,550 1300,550 1160,900 520,900" fill="url(#r-beam)"/>
-            <rect x="250" y="520" width="520" height="150" rx="26" fill="#2c3338"/>
-            <rect x="230" y="470" width="120" height="200" rx="30" fill="#343c42"/>
-            <rect x="670" y="470" width="120" height="200" rx="30" fill="#343c42"/>
-            <rect x="330" y="455" width="360" height="110" rx="24" fill="#3a434a"/>
-            <rect x="1400" y="360" width="16" height="300" fill="#2a3136"/>
-            <path d="M1360 360h96l-20-70h-56z" fill="#e8b27f" opacity=".85"/>
-            <circle cx="160" cy="560" r="56" fill="#26382d"/><circle cx="120" cy="600" r="44" fill="#1f3026"/><rect x="130" y="600" width="60" height="70" rx="6" fill="#3a3129"/>
-          </svg>
+          <svg class="room" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"><use href="#room-art"/></svg>
           <div class="crop" aria-hidden="true"><span class="crop-l"></span><span class="crop-r"></span><span class="crop-label">9:16</span></div>
           <p class="mon-meta"><span class="mon-rec"></span>A001</p>
           <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
@@ -364,6 +365,102 @@
       <div class="ctas">
         <a class="btn" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20een%20video%20laten%20maken." target="_blank" rel="noopener">Stuur je materiaal via WhatsApp</a>
       </div>
+    </div>
+  </section>
+
+  <!-- 7. CONTACT (vrij scrollen, geen snap) -->
+  <section class="chapter" id="contact" aria-labelledby="contact-h">
+    <div class="scene" aria-hidden="true">
+      <div class="scene-in">
+        <div class="monitor monitor-end">
+          <svg class="room" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"><use href="#room-art"/></svg>
+          <p class="end-card">Einde. Jouw video is de volgende.</p>
+          <div class="bar bar-top"></div><div class="bar bar-bot"></div>
+        </div>
+      </div>
+    </div>
+    <div class="copy">
+      <h2 id="contact-h" class="h2" tabindex="-1">Stuur je materiaal, wij doen de rest.</h2>
+      <p class="lede">Snelst gaat het via WhatsApp. Liever eerst iets vragen? Vul het formulier in, dan reageren we dezelfde dag.</p>
+
+      <form id="lead-form" class="form" method="post" action="/.netlify/functions/send-video-lead">
+        <p class="hp" aria-hidden="true"><label>Laat dit veld leeg: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="field">
+          <label for="f-naam">Naam</label>
+          <input id="f-naam" name="naam" type="text" required autocomplete="name" placeholder="Je naam">
+        </div>
+        <div class="field">
+          <label for="f-contact">WhatsApp-nummer of e-mail</label>
+          <input id="f-contact" name="contact" type="text" required autocomplete="email" placeholder="06 ... of naam@voorbeeld.nl">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-materiaal">Wat stuur je?</label>
+            <select id="f-materiaal" name="materiaal">
+              <option>Foto's</option>
+              <option>Video</option>
+              <option>Allebei</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-type">Waar is het van?</label>
+            <select id="f-type" name="type">
+              <option>Woning</option>
+              <option>Airbnb-verhuur</option>
+              <option>Auto's</option>
+              <option>Horeca</option>
+              <option>Product / webshop</option>
+              <option>Evenement</option>
+              <option>Anders</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-fotos">Hoeveelheid materiaal</label>
+          <input id="f-fotos" name="aantalFotos" type="text" placeholder="Bijv. 6 foto's, of 2 clips van 30 sec">
+        </div>
+        <div class="field">
+          <label for="f-bericht">Opmerking <span class="opt">(optioneel)</span></label>
+          <textarea id="f-bericht" name="bericht" rows="3" placeholder="Adres, deadline of andere wensen"></textarea>
+        </div>
+        <button class="btn btn-submit" type="submit">Verstuur aanvraag</button>
+        <div class="form-status" role="alert" hidden></div>
+      </form>
+      <div class="form-done" id="lead-done" role="status" tabindex="-1" hidden>
+        <p class="form-done-h">Aanvraag verstuurd.</p>
+        <p>We reageren dezelfde dag. Bestanden kun je alvast sturen via een WeTransfer- of Google Drive-link.</p>
+      </div>
+
+      <div class="direct">
+        <p><a class="link" href="https://wa.me/31634455762" target="_blank" rel="noopener">WhatsApp</a> <span>+31 6 34455762</span></p>
+        <p><span class="direct-k">Mail</span> <span>hallo@hartegrowth.eu</span></p>
+      </div>
+
+      <div class="faq">
+        <h3 class="faq-h">Vaak gevraagd</h3>
+        <details>
+          <summary>Hoeveel materiaal heb ik nodig?</summary>
+          <p>Een stuk of 5 tot 6 foto's of een paar korte clips is genoeg voor één video. Heb je meer? Stuur alles mee, wij kiezen wat het beste werkt.</p>
+        </details>
+        <details>
+          <summary>Hoe lever ik bestanden aan?</summary>
+          <p>Via WeTransfer of Google Drive. Stuur de link via WhatsApp of mail. Niet via WhatsApp zelf, dan comprimeert het en gaat de kwaliteit omlaag.</p>
+        </details>
+        <details>
+          <summary>Mag ik de video overal gebruiken?</summary>
+          <p>Ja, de video is van jou. Gebruik hem op social, je website, in een listing of in advertenties.</p>
+        </details>
+        <details>
+          <summary>Wat als ik niet tevreden ben?</summary>
+          <p>Er zit één revisieronde bij. Komen we er samen niet uit? Dan krijg je je geld terug.</p>
+        </details>
+      </div>
+
+      <footer class="foot">
+        <p>© 2026 Harte Growth</p>
+        <a href="/">Naar de gewone site</a>
+        <a href="/privacy">Privacy</a>
+      </footer>
     </div>
   </section>
 
