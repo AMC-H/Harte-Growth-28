@@ -1,0 +1,9 @@
+{
+  "name": "harte-growth-site",
+  "private": true,
+  "description": "Statische site; alleen de Netlify Functions gebruiken een dependency (Netlify Blobs voor de videostrook op /blog).",
+  "type": "commonjs",
+  "dependencies": {
+    "@netlify/blobs": "^8.2.0"
+  }
+}
