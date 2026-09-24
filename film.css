@@ -182,11 +182,17 @@ img, video, svg { display: block; max-width: 100%; }
 .link:hover { color: var(--accent); }
 
 .cue { display: none; }
+/* Hint bij binnenkomst: de video speelt niet vanzelf, hij loopt mee met scrollen. Weg na de eerste scroll. */
 .film-on .cue {
-  display: flex; align-items: center; gap: .6rem; margin-top: 2.2rem;
-  font: 400 .75rem/1 var(--f-mono); color: var(--mute);
+  display: flex; align-items: center; gap: .7rem; margin-top: 2rem;
+  font: 500 .8125rem/1 var(--f-mono); color: var(--ink);
+  transition: opacity .35s ease, transform .35s ease;
 }
-.cue-line { width: 28px; height: 2px; background: var(--accent); }
+.cue-line { width: 32px; height: 2px; background: var(--accent); transform-origin: left center; }
+.film-on .cue-line { animation: cue-pulse 1.6s ease-in-out infinite; }
+@keyframes cue-pulse { 0%, 100% { transform: scaleX(.35); } 50% { transform: scaleX(1); } }
+.has-scrolled .cue { opacity: 0; transform: translateY(6px); pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .film-on .cue-line { animation: none; } }
 
 /* ---------- Hoofdstukken: statische basis (geen JS of reduced motion) ---------- */
 .chapter, .alias, #faq { scroll-margin-top: calc(var(--hdr) + 8px); }
@@ -257,7 +263,7 @@ img, video, svg { display: block; max-width: 100%; }
   .film-on .lede { margin-top: .7rem; font-size: 1rem; }
   .film-on .ctas { margin-top: 1rem; }
   .film-on .btn { font-size: .9375rem; padding-inline: 1rem; white-space: nowrap; }
-  .film-on .cue { display: none; }
+  .film-on .cue { margin-top: .9rem; }
 }
 
 /* ---------- Scène 1: opening ---------- */

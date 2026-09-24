@@ -135,14 +135,14 @@
   <section class="chapter" id="opening" style="--len:1.7" aria-labelledby="opening-h">
     <div class="scene" aria-hidden="true">
       <div class="scene-in">
-        <!-- Ruw materiaal (16:9) speelt bij binnenkomst; bij de eerste scroll wordt het frame staand (9:16)
-             en neemt het resultaat het over. Zelfde video, zelfde lengte: currentTime loopt synchroon. -->
+        <!-- Ruw materiaal (16:9) en resultaat (9:16) spelen niet vanzelf: ze scrubben mee met het scrollen.
+             Halverwege de opening wordt het frame staand. Zelfde video, zelfde lengte, zelfde currentTime. -->
         <div class="monitor op-mon">
-          <video class="op-v16" muted loop playsinline preload="none" poster="/media/opening-16x9-1280.webp">
+          <video class="op-v16" muted playsinline preload="none" poster="/media/opening-16x9-1280.webp">
             <source src="/media/opening-16x9-960.mp4" type="video/mp4" media="(max-width: 767px)">
             <source src="/media/opening-16x9-1280.mp4" type="video/mp4">
           </video>
-          <video class="op-v9" muted loop playsinline preload="none"
+          <video class="op-v9" muted playsinline preload="none"
                  data-src-mobile="/media/opening-9x16-540.mp4" data-src="/media/opening-9x16-720.mp4"
                  data-poster-mobile="/media/opening-9x16-540.webp" data-poster="/media/opening-9x16-720.webp"></video>
           <span class="op-mask op-mask-l"></span><span class="op-mask op-mask-r"></span>
@@ -152,14 +152,6 @@
           <p class="op-format">16:9</p>
           <div class="bar bar-top"></div><div class="bar bar-bot"></div>
         </div>
-        <script>
-          /* 16:9 meteen laten spelen (niet wachten op GSAP), alleen als beweging mag */
-          (function (v) {
-            if (v && window.matchMedia && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-              var p = v.play(); if (p && p.catch) p.catch(function () {});
-            }
-          })(document.querySelector('.op-v16'));
-        </script>
       </div>
     </div>
     <div class="copy">

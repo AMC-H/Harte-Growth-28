@@ -263,10 +263,20 @@
     op.v9.src = pick(op.v9, 'src');
     op.v9.load();
   }
-  function syncTime(dst, src) {
-    if (dst.readyState >= 1 && src.readyState >= 1) { try { dst.currentTime = src.currentTime; } catch (e) {} }
-  }
   function play(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+
+  // Scrub-motor: de scroll bepaalt één virtuele tijd (met lichte smoothing via gsap.quickTo). Een ticker zet
+  // die hooguit één keer per frame op de zichtbare video('s), en nooit terwijl een video nog aan het zoeken
+  // is: zo bouwt snel scrollen geen achterstand aan seeks op en schokt het beeld niet.
+  var scrub = { t: 0, dur: 11.1 };
+  function seek(v, t, force) {
+    if (v.readyState < 1 || (v.seeking && !force)) return;
+    if (force || Math.abs(v.currentTime - t) > 1 / 60) { try { v.currentTime = t; } catch (e) {} }
+  }
+  function scrubTick() {
+    if (+gsap.getProperty(op.v16, 'opacity') > 0.001) seek(op.v16, scrub.t);
+    if (op.loaded && +gsap.getProperty(op.v9, 'opacity') > 0.001) seek(op.v9, scrub.t);
+  }
 
   // Transform voor de staande stand: de 9:16-strook wordt zo groot als (en staat waar) het
   // 9:16-scherm van Media, zodat de video daar naadloos in overgaat. Mobiel: vult de beeldband.
@@ -304,28 +314,24 @@
     gsap.to(q('.op-window'), { autoAlpha: portrait ? 1 : 0, duration: d * 0.6, delay: portrait ? d * 0.4 : 0, overwrite: 'auto' });
     gsap.delayedCall(d * 0.5, function () { op.fmt.textContent = op.portrait ? '9:16' : '16:9'; });
 
+    // Beide video's staan op dezelfde currentTime (scrub.t), dus het beeld loopt bij de wissel door.
     if (portrait) {
       loadV9();
       var fadeIn = function () {
         if (!op.portrait) return;
-        syncTime(op.v9, op.v16);  // beeld loopt zonder sprong door
-        play(op.v9);
+        seek(op.v9, scrub.t, true);
         gsap.to(op.v9, {
           autoAlpha: 1, duration: d * 0.45, delay: instant ? 0 : d * 0.25, overwrite: 'auto',
-          // 16:9 niet alleen pauzeren maar ook verbergen: anders lekt een haarlijn langs de afgeronde rand
-          onComplete: function () { if (op.portrait) { op.v16.pause(); gsap.set(op.v16, { autoAlpha: 0 }); } }
+          // 16:9 verbergen: anders lekt een haarlijn langs de afgeronde rand (en hij hoeft niet mee te zoeken)
+          onComplete: function () { if (op.portrait) gsap.set(op.v16, { autoAlpha: 0 }); }
         });
       };
       if (op.v9.readyState >= 2) fadeIn();
-      else op.v9.addEventListener('canplay', fadeIn, { once: true });
+      else op.v9.addEventListener('loadeddata', fadeIn, { once: true });
     } else {
       gsap.set(op.v16, { autoAlpha: 1 });
-      syncTime(op.v16, op.v9);
-      play(op.v16);
-      gsap.to(op.v9, {
-        autoAlpha: 0, duration: d * 0.45, overwrite: 'auto',
-        onComplete: function () { if (!op.portrait) op.v9.pause(); }
-      });
+      seek(op.v16, scrub.t, true);
+      gsap.to(op.v9, { autoAlpha: 0, duration: d * 0.45, overwrite: 'auto' });
     }
   }
 
@@ -333,14 +339,11 @@
   // De staande opening landt op het 9:16-scherm van Media en gaat daar over in het eerste frame
   // van het resultaat. De opening zet zichzelf stil (scheelt rekenwerk), de ruwe clip in de bak speelt.
   function handOverToMedia() {
-    if (op.v16) { op.v9.pause(); op.v16.pause(); }
     if (clipVideo) play(clipVideo);
   }
   // Terug naar de opening: de video loopt weer door.
   function backToOpening() {
     if (clipVideo) clipVideo.pause();
-    if (!op.v16) return;
-    play(op.portrait ? op.v9 : op.v16);
   }
 
   // Reduced motion (of geen filmmodus): meteen de staande 9:16-stand, zonder autoplay.
@@ -507,16 +510,32 @@
       onLeaveBack: function () { if (media.video) media.video.currentTime = 0; }
     });
 
-    // Opening: bij de eerste scroll van liggend naar staand (getriggerd, ±0,8 s, niet gescrubd).
-    // De 9:16-video laadt na de eerste render, zodat hij klaarstaat als de bezoeker gaat scrollen.
+    // Opening: de video scrubt mee met het scrollen (0:00 bovenaan, einde waar de scène begint te vervagen).
+    // Halverwege wordt het frame staand (getriggerde animatie van ±0,8 s); beide video's volgen dezelfde tijd.
     if (op.mon) {
+      op.v16.preload = 'auto';
+      op.v16.load();
+      op.v16.addEventListener('loadedmetadata', function () { if (op.v16.duration) scrub.dur = op.v16.duration; }, { once: true });
       afterFirstRender(loadV9);
+
+      var scrubTo = gsap.quickTo(scrub, 't', { duration: mobile ? 0.15 : 0.25, ease: 'power2.out' });
+      var scrubST = ScrollTrigger.create({
+        trigger: '#opening', start: 'top top', end: mobile ? 'bottom 75%' : 'bottom 45%',
+        onUpdate: function (self) { scrubTo(self.progress * (scrub.dur - 1 / 30)); }
+      });
+      gsap.ticker.add(scrubTick);
+
       ScrollTrigger.create({
-        start: 8, end: 'max',
+        trigger: '#opening', end: 'max',
+        start: function () { return scrubST.start + (scrubST.end - scrubST.start) * 0.5; },
         onEnter: function () { setOpening(true, mobile, false); },
         onLeaveBack: function () { setOpening(false, mobile, false); }
       });
-      if (window.scrollY > 8) setOpening(true, mobile, true);
+      // binnengekomen voorbij de wissel (bv. herladen halverwege): direct staand, op de juiste tijd
+      requestAnimationFrame(function () {
+        scrub.t = scrubST.progress * (scrub.dur - 1 / 30);
+        if (scrubST.progress >= 0.5) setOpening(true, mobile, true);
+      });
     }
 
     // Geen automatische snap: de bezoeker bepaalt zelf waar hij stopt, zoals bij een video.
@@ -530,6 +549,7 @@
     });
 
     return function () {
+      gsap.ticker.remove(scrubTick);
       root.classList.remove('film-on', 'intro');
       film = null;
       op.portrait = false;
@@ -576,6 +596,7 @@
   var lastActive = -1;
   function update(self) {
     var p = self.progress || 0;
+    root.classList.toggle('has-scrolled', window.scrollY > 8); // 'Scroll om af te spelen' verdwijnt
     fill.style.transform = 'scaleX(' + p.toFixed(4) + ')';
     head.style.transform = 'translateX(' + (p * 100).toFixed(3) + '%)';
 
