@@ -28,6 +28,9 @@ export function parseFeed(xml, channel) {
     const published = (e.match(/<published>([^<]+)<\/published>/) || [])[1];
     const thumb = (e.match(/<media:thumbnail url="([^"]+)"/) || [])[1];
     if (!id || !/^[\w-]{11}$/.test(id) || !title || !published) continue;
+    // 0 weergaven = aangekondigde livestream of premiere: nog geen thumbnail en niets te zien, overslaan
+    const views = (e.match(/<media:statistics views="(\d+)"/) || [])[1];
+    if (views === '0') continue;
     out.push({
       videoId: id,
       title: decode(title),
