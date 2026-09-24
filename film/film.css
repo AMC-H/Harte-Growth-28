@@ -143,7 +143,8 @@ img, video, svg { display: block; max-width: 100%; }
 .link { color: var(--ink); font-weight: 500; text-underline-offset: 4px; }
 .link:hover { color: var(--accent); }
 
-.cue {
+.cue { display: none; }
+.film-on .cue {
   display: flex; align-items: center; gap: .6rem; margin-top: 2.2rem;
   font: 400 .75rem/1 var(--f-mono); color: var(--mute);
 }
@@ -157,7 +158,8 @@ img, video, svg { display: block; max-width: 100%; }
   border-bottom: 1px solid var(--line);
 }
 .chapter > .copy { max-width: 36rem; }
-.scene { position: relative; }
+.scene { position: relative; overflow: hidden; }
+.film-on .scene { overflow: visible; }
 .scene-in {
   position: relative; width: 100%; aspect-ratio: 4 / 3;
   container-type: size;

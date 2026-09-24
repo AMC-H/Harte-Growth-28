@@ -326,8 +326,7 @@
 
     ScrollTrigger.create({
       start: 0, end: 'max',
-      onRefresh: function (self) { measure(builds); update(self); },
-      onUpdate: update,
+      onRefresh: function () { measure(builds); },
       snap: {
         snapTo: snapTo,
         duration: { min: 0.25, max: 1.1 },
@@ -340,6 +339,14 @@
       root.classList.remove('film-on');
       film = null;
     };
+  });
+
+  // Tijdcode, afspeelkop en actief hoofdstuk volgen de scrollpositie in beide modi
+  // (ook bij reduced motion: het is een voortgangsindicator, geen decoratieve beweging).
+  ScrollTrigger.create({
+    start: 0, end: 'max',
+    onRefresh: function (self) { sizeClips(); update(self); },
+    onUpdate: update
   });
 
   function measure(builds) {
@@ -358,7 +365,12 @@
       max: max,
       contactStart: contact ? Math.min(max, contact.offsetTop - hdr) - 2 : Infinity
     };
-    // clipbreedtes op de tijdlijn volgen de echte scrolllengte per hoofdstuk
+  }
+
+  // clipbreedtes op de tijdlijn volgen de echte scrolllengte per hoofdstuk
+  function sizeClips() {
+    var vh = window.innerHeight;
+    var max = ScrollTrigger.maxScroll(window);
     chapters.forEach(function (ch, i) {
       var li = links[i] && links[i].parentNode;
       if (!li) return;
