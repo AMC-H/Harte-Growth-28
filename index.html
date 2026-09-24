@@ -49,7 +49,7 @@
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://hartegrowth.eu/#org", "name": "Harte Growth", "url": "https://hartegrowth.eu/", "logo": "https://hartegrowth.eu/logo-nav.svg", "email": "hallo@hartegrowth.eu", "telephone": "+31634455762", "sameAs": ["https://wa.me/31634455762", "https://www.instagram.com/hartegrowth", "https://www.facebook.com/profile.php?id=61592600399432", "https://www.tiktok.com/@hartegrowth"]}, {"@type": "WebSite", "@id": "https://hartegrowth.eu/#site", "url": "https://hartegrowth.eu/", "name": "Harte Growth", "inLanguage": "nl", "publisher": {"@id": "https://hartegrowth.eu/#org"}}, {"@type": "ProfessionalService", "@id": "https://hartegrowth.eu/#service", "name": "Harte Growth", "description": "Stuur je foto's of ruwe clips. Binnen 48 uur een gemonteerde video in 9:16 en 1:1. Actieprijs €35 per video, geen offertetraject, geld terug als je niet tevreden bent.", "url": "https://hartegrowth.eu/", "image": "https://hartegrowth.eu/og-image.png", "logo": "https://hartegrowth.eu/logo-nav.svg", "telephone": "+31634455762", "email": "hallo@hartegrowth.eu", "areaServed": [{"@type": "Country", "name": "Netherlands"}, {"@type": "Country", "name": "Spain"}], "sameAs": ["https://wa.me/31634455762", "https://www.instagram.com/hartegrowth", "https://www.facebook.com/profile.php?id=61592600399432", "https://www.tiktok.com/@hartegrowth"], "makesOffer": [{"@type": "Offer", "price": "35", "priceCurrency": "EUR", "description": "Actieprijs per video, normaal €50", "itemOffered": {"@type": "Service", "name": "Foto's en video naar een gemonteerde video", "description": "Van foto's, ruwe clips of een mix naar een gemonteerde video binnen 48 uur, in 9:16 en 1:1. Eén revisieronde inbegrepen."}}]}, {"@type": "FAQPage", "@id": "https://hartegrowth.eu/#faq", "mainEntity": [{"@type": "Question", "name": "Hoeveel materiaal heb ik nodig?", "acceptedAnswer": {"@type": "Answer", "text": "Een stuk of 5 tot 6 foto's of een paar korte clips is genoeg voor één video. Heb je meer? Stuur alles mee, wij kiezen wat het beste werkt."}}, {"@type": "Question", "name": "Hoe lever ik bestanden aan?", "acceptedAnswer": {"@type": "Answer", "text": "Via WeTransfer of Google Drive. Stuur de link via WhatsApp of mail. Niet via WhatsApp zelf, dan comprimeert het en gaat de kwaliteit omlaag."}}, {"@type": "Question", "name": "Mag ik de video overal gebruiken?", "acceptedAnswer": {"@type": "Answer", "text": "Ja, de video is van jou. Gebruik hem op social, je website, in een listing of in advertenties."}}, {"@type": "Question", "name": "Wat als ik niet tevreden ben?", "acceptedAnswer": {"@type": "Answer", "text": "Er zit één revisieronde bij. Komen we er samen niet uit? Dan krijg je je geld terug."}}]}]}
 </script>
-<link rel="stylesheet" href="/film.css?v=20260924c">
+<link rel="stylesheet" href="/film.css?v=20260924d">
 </head>
 <body>
 
@@ -128,7 +128,7 @@
   </div>
 </header>
 
-<div class="stage-band" aria-hidden="true"></div>
+<div class="stage-dim" aria-hidden="true"></div>
 <main id="film">
 
   <!-- 1. OPENING -->
@@ -155,12 +155,20 @@
       </div>
     </div>
     <div class="copy">
-      <h1 id="opening-h" class="h1" tabindex="-1">Stuur je foto's of video's. Wij leveren een video die verkoopt.</h1>
-      <p class="lede">Binnen 48 uur een strak gemonteerde video, uit 5 tot 6 foto's, ruwe clips of een mix. In 9:16 en 1:1, klaar voor Instagram, TikTok en je website.</p>
-      <div class="ctas">
-        <a class="btn" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20foto%27s%20of%20video%20laten%20omzetten%20naar%20een%20video." target="_blank" rel="noopener">Stuur je beelden via WhatsApp</a>
+      <div class="copy-body">
+        <h1 id="opening-h" class="h1" tabindex="-1">Stuur je foto's of video's. Wij leveren een video die verkoopt.</h1>
+        <p class="lede">Binnen 48 uur een strak gemonteerde video, uit 5 tot 6 foto's, ruwe clips of een mix.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
+          <div class="more-body">
+            <p class="lede lede-rest">In 9:16 en 1:1, klaar voor Instagram, TikTok en je website.</p>
+          </div>
+        </details>
+        <div class="ctas">
+          <a class="btn" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20foto%27s%20of%20video%20laten%20omzetten%20naar%20een%20video." target="_blank" rel="noopener">Stuur je beelden via WhatsApp</a>
+        </div>
+        <p class="cue"><span class="cue-line" aria-hidden="true"></span>Scroll om af te spelen</p>
       </div>
-      <p class="cue"><span class="cue-line" aria-hidden="true"></span>Scroll om af te spelen</p>
     </div>
   </section>
 
@@ -208,9 +216,17 @@
       </div>
     </div>
     <div class="copy">
-      <h2 id="media-h" class="h2" tabindex="-1">Jij stuurt wat je hebt. Wij monteren.</h2>
-      <p class="lede">Een stuk of 5 tot 6 foto's of een paar ruwe clips is genoeg. Gewoon zoals het uit je telefoon komt. Wij knippen, kiezen de muziek, zetten er tekst op en bepalen het tempo.</p>
-      <p class="note">Aanleveren via WeTransfer of Google Drive. Niet via WhatsApp zelf, dan gaat de kwaliteit omlaag.</p>
+      <div class="copy-body">
+        <h2 id="media-h" class="h2" tabindex="-1">Jij stuurt wat je hebt. Wij monteren.</h2>
+        <p class="lede">Een stuk of 5 tot 6 foto's of een paar ruwe clips is genoeg.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
+          <div class="more-body">
+            <p class="lede lede-rest">Gewoon zoals het uit je telefoon komt. Wij knippen, kiezen de muziek, zetten er tekst op en bepalen het tempo.</p>
+            <p class="note">Aanleveren via WeTransfer of Google Drive. Niet via WhatsApp zelf, dan gaat de kwaliteit omlaag.</p>
+          </div>
+        </details>
+      </div>
     </div>
   </section>
 
@@ -238,9 +254,17 @@
       </div>
     </div>
     <div class="copy">
-      <h2 id="fundament-h" class="h2" tabindex="-1">Een website die aanvragen oplevert.</h2>
-      <p class="lede">Geen template die eruitziet als die van je concurrent. Een snelle site die bezoekers naar contact stuurt, met formulier, WhatsApp-knop en je video's op de plek waar ze werken.</p>
-      <p class="note">Binnen twee weken online, vanaf €550. <a class="link" href="/diensten">Meer over websites</a></p>
+      <div class="copy-body">
+        <h2 id="fundament-h" class="h2" tabindex="-1">Een website die aanvragen oplevert.</h2>
+        <p class="lede">Geen template die eruitziet als die van je concurrent.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
+          <div class="more-body">
+            <p class="lede lede-rest">Een snelle site die bezoekers naar contact stuurt, met formulier, WhatsApp-knop en je video's op de plek waar ze werken.</p>
+          </div>
+        </details>
+        <p class="note">Binnen twee weken online, vanaf €550. <a class="link" href="/diensten">Meer over websites</a></p>
+      </div>
     </div>
   </section>
 
@@ -277,9 +301,17 @@
       </div>
     </div>
     <div class="copy">
-      <h2 id="verkeer-h" class="h2" tabindex="-1">Gevonden worden op het moment dat iemand zoekt.</h2>
-      <p class="lede">Lokale SEO, zodat je in je regio bovenaan komt. Google Ads of Meta Ads als het sneller moet. En vindbaar in ChatGPT en andere AI-zoekmachines.</p>
-      <p class="note">Het beeld hiernaast is een illustratie, geen belofte van een positie of een cijfer.</p>
+      <div class="copy-body">
+        <h2 id="verkeer-h" class="h2" tabindex="-1">Gevonden worden op het moment dat iemand zoekt.</h2>
+        <p class="lede">Lokale SEO, zodat je in je regio bovenaan komt.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
+          <div class="more-body">
+            <p class="lede lede-rest">Google Ads of Meta Ads als het sneller moet. En vindbaar in ChatGPT en andere AI-zoekmachines.</p>
+            <p class="note">Dit beeld is een illustratie, geen belofte van een positie of een cijfer.</p>
+          </div>
+        </details>
+      </div>
     </div>
   </section>
 
@@ -313,9 +345,17 @@
       </div>
     </div>
     <div class="copy">
-      <h2 id="opvolging-h" class="h2" tabindex="-1">Elke aanvraag wordt opgepakt, ook als jij bezig bent.</h2>
-      <p class="lede">Een klant stuurt 's avonds een bericht. Onze AI antwoordt binnen 30 seconden via WhatsApp, stelt de juiste vragen en vat de aanvraag voor je samen. Jij belt terug wanneer het jou uitkomt.</p>
-      <p class="note">Het gesprek hiernaast is een voorbeeld.</p>
+      <div class="copy-body">
+        <h2 id="opvolging-h" class="h2" tabindex="-1">Elke aanvraag wordt opgepakt, ook als jij bezig bent.</h2>
+        <p class="lede">Een klant stuurt 's avonds een bericht. Onze AI antwoordt binnen 30 seconden via WhatsApp.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
+          <div class="more-body">
+            <p class="lede lede-rest">Hij stelt de juiste vragen en vat de aanvraag voor je samen. Jij belt terug wanneer het jou uitkomt.</p>
+            <p class="note">Dit gesprek is een voorbeeld.</p>
+          </div>
+        </details>
+      </div>
     </div>
   </section>
 
@@ -342,18 +382,20 @@
       </div>
     </div>
     <div class="copy">
-      <h2 id="prijs-h" class="h2" tabindex="-1">Eén vaste prijs. Geen offertetraject.</h2>
-      <!-- PRIJS: pas het bedrag hier aan; film.js neemt het over in het exportvenster. Staat ook in de <head> (meta description en JSON-LD). -->
-      <p class="price"><strong data-price>€35</strong> per video <s data-price-was>€50</s> <span class="price-tag">Actieprijs</span></p>
-      <ul class="facts">
-        <li>Klaar binnen 48 uur</li>
-        <li>In 9:16 en 1:1</li>
-        <li>Eén revisieronde inbegrepen</li>
-        <li>Niet tevreden? Geld terug.</li>
-      </ul>
-      <p class="note">Veel materiaal? Dan overleggen we dat kort vooraf.</p>
-      <div class="ctas">
-        <a class="btn" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20een%20video%20laten%20maken." target="_blank" rel="noopener">Stuur je materiaal via WhatsApp</a>
+      <div class="copy-body">
+        <h2 id="prijs-h" class="h2" tabindex="-1">Eén vaste prijs. Geen offertetraject.</h2>
+        <!-- PRIJS: pas het bedrag hier aan; film.js neemt het over in het exportvenster. Staat ook in de <head> (meta description en JSON-LD). -->
+        <p class="price"><strong data-price>€35</strong> per video <s data-price-was>€50</s> <span class="price-tag">Actieprijs</span></p>
+        <ul class="facts">
+          <li>Klaar binnen 48 uur</li>
+          <li>In 9:16 en 1:1</li>
+          <li>Eén revisieronde inbegrepen</li>
+          <li>Niet tevreden? Geld terug.</li>
+        </ul>
+        <p class="note">Veel materiaal? Dan overleggen we dat kort vooraf.</p>
+        <div class="ctas">
+          <a class="btn" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20een%20video%20laten%20maken." target="_blank" rel="noopener">Stuur je materiaal via WhatsApp</a>
+        </div>
       </div>
     </div>
   </section>
@@ -468,6 +510,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollToPlugin.min.js" defer></script>
-<script src="/film.js?v=20260924c" defer></script>
+<script src="/film.js?v=20260924d" defer></script>
 </body>
 </html>

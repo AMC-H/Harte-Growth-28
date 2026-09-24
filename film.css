@@ -19,7 +19,6 @@
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-r: env(safe-area-inset-right, 0px);
   --hdr: calc(84px + var(--safe-t));
-  --stage-h: 46svh; /* mobiel: hoogte van het beeld boven de tekst */
   color-scheme: dark;
 }
 
@@ -40,7 +39,7 @@ img, video, svg { display: block; max-width: 100%; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 [tabindex="-1"]:focus { outline: none; }
 
-.stage-band { display: none; }
+.stage-dim { display: none; }
 
 .skip {
   position: fixed; left: 12px; top: 12px; z-index: 50;
@@ -144,9 +143,6 @@ img, video, svg { display: block; max-width: 100%; }
 }
 .tl-now { display: none; }
 
-@media (max-width: 767px) and (max-height: 760px) {
-  :root { --stage-h: 38svh; } /* korte telefoons: meer ruimte voor de tekst */
-}
 @media (max-width: 767px) {
   :root { --hdr: calc(92px + var(--safe-t)); }
   .hdr-row { height: 48px; }
@@ -238,32 +234,60 @@ img, video, svg { display: block; max-width: 100%; }
 }
 .film-on .scene-in { height: 100%; aspect-ratio: auto; }
 
+/* Lees meer: op desktop altijd open zonder knop; op mobiel dichtgeklapt (film.js haalt 'open' weg). */
+.more > summary { display: none; }
+.lede-rest { margin-top: .35rem; }
+
 @media (max-width: 767px) {
-  /* Beeldband: dekt de bovenste strook af, zodat tekst van het vorige hoofdstuk er ACHTER wegschuift
-     in plaats van over het beeld heen. Scènes liggen erboven. Bij Contact krimpt de band mee met de
-     bovenkant van dat hoofdstuk (film.js), zodat er niets opnieuw tevoorschijn springt. */
-  .film-on .stage-band {
-    display: block; position: fixed; z-index: 3; left: 0; right: 0;
-    top: var(--hdr); height: var(--stage-h); background: var(--bg); pointer-events: none;
-    transform-origin: top center;
+  /* Mobiel: het beeld vult het hele scherm onder header en tijdlijn; de tekst loopt er als ondertitel
+     overheen, op een zachte scrim. UI-scènes blijven boven de tekstzone (--text-zone). */
+  :root { --text-zone: 40svh; }
+  .film-on .scene { z-index: 1; left: 0; right: 0; top: var(--hdr); bottom: 0; height: auto; padding: 0; }
+  .film-on .scene-in { padding: 14px var(--gutter) var(--text-zone); }
+  /* lichte dimlaag tijdens het lezen (film.js), tussen de tekstblokken helder */
+  .film-on .stage-dim {
+    display: block; position: fixed; z-index: 2; left: 0; right: 0; top: var(--hdr); bottom: 0;
+    background: #000; opacity: 0; pointer-events: none;
   }
-  .film-on .scene { z-index: 4; }
-  .film-on .scene { left: 0; bottom: auto; height: var(--stage-h); padding: 12px var(--gutter) 8px; }
   .film-on .copy {
-    top: calc(var(--hdr) + var(--stage-h));
-    height: calc(100svh - var(--hdr) - var(--stage-h));
-    width: 100%;
-    padding: .75rem var(--gutter) calc(14px + var(--safe-b));
-    justify-content: flex-start;
+    position: relative; top: auto; z-index: 3;
+    height: auto; min-height: 100svh; width: 100%; padding: 0;
+    display: flex; flex-direction: column; justify-content: flex-end;
   }
+  .film-on .copy-body {
+    position: relative; isolation: isolate;
+    padding: 5.5rem var(--gutter) calc(18px + var(--safe-b));
+  }
+  /* scrim: onder vrijwel dekkend, boven de kop zacht naar transparant (geen harde balk) */
+  .film-on .copy-body::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(to top,
+      rgba(15, 17, 19, .94) 0%, rgba(15, 17, 19, .9) 55%,
+      rgba(15, 17, 19, .88) calc(100% - 5.5rem), rgba(15, 17, 19, 0) 100%);
+  }
+  .film-on .copy-body .lede, .film-on .copy-body .note, .film-on .copy-body .price { color: #DCDFE2; }
   /* het laatste element blijft links van de WhatsApp-knop (16 + 56 + marge) */
-  .film-on .copy > :last-child { padding-right: 76px; }
+  .film-on .copy-body > :last-child { padding-right: 76px; }
   .film-on .h1 { font-size: clamp(1.75rem, 7.4vw, 2.3rem); }
   .film-on .h2 { font-size: clamp(1.6rem, 6.8vw, 2.1rem); }
   .film-on .lede { margin-top: .7rem; font-size: 1rem; }
   .film-on .ctas { margin-top: 1rem; }
   .film-on .btn { font-size: .9375rem; padding-inline: 1rem; white-space: nowrap; }
   .film-on .cue { margin-top: .9rem; }
+
+  /* Lees meer */
+  .more > summary {
+    display: inline-flex; align-items: center; gap: .45rem; margin-top: .55rem; min-height: 44px;
+    list-style: none; cursor: pointer; font: 600 .9375rem/1 var(--f-body); color: var(--ink);
+    text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(242, 240, 236, .45);
+  }
+  .more > summary::-webkit-details-marker { display: none; }
+  .more > summary::after { content: ""; width: 7px; height: 7px; border: solid var(--ink); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) translateY(-2px); }
+  .more[open] > summary::after { transform: rotate(-135deg) translateY(-1px); }
+  .more .more-close, .more[open] .more-open { display: none; }
+  .more[open] .more-close { display: inline; }
+  .more-body .lede-rest { margin-top: .2rem; }
+  .more-body .note { margin-top: .6rem; }
 }
 
 /* ---------- Scène 1: opening ---------- */
@@ -730,4 +754,22 @@ img, video, svg { display: block; max-width: 100%; }
   .field-row { grid-template-columns: 1fr; }
   /* de WhatsApp-knop gaat in Contact opzij (film.js), dus de verzendknop mag de volle breedte */
   .btn-submit { justify-self: stretch; }
+}
+
+/* ---------- Mobiel: schermvullend beeld (na alle scène-regels, zodat deze winnen) ---------- */
+@media (max-width: 767px) and (max-height: 760px) {
+  :root { --text-zone: 36svh; } /* korte telefoons */
+}
+@media (max-width: 767px) {
+  /* Opening: 16:9 full-bleed boven de tekstzone; staand vult hij het scherm als een Reel (film.js) */
+  .film-on #opening .scene-in { padding-inline: 0; }
+  .film-on .op-mon, .film-on .op-ring, .film-on .op-window { border-radius: 0; }
+  /* Media: het resultaat komt schermvullend over de montage heen, als een Reel */
+  .film-on #media .program {
+    position: absolute; top: -14px; bottom: calc(-1 * var(--text-zone));
+    left: calc(-1 * var(--gutter)); right: calc(-1 * var(--gutter));
+    width: auto; margin: 0; gap: 0;
+  }
+  .film-on #media .program > .edit-label { display: none; }
+  .film-on #media .program-frame { width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; box-shadow: none; }
 }

@@ -27,6 +27,7 @@
   fillPrice();
   setupForm();
   setupMenu();
+  setupMore();
 
   if (!window.gsap || !window.ScrollTrigger) return; // CDN niet geladen: statische versie blijft staan
 
@@ -279,7 +280,7 @@
   }
 
   // Transform voor de staande stand: de 9:16-strook wordt zo groot als (en staat waar) het
-  // 9:16-scherm van Media, zodat de video daar naadloos in overgaat. Mobiel: vult de beeldband.
+  // 9:16-scherm van Media, zodat de video daar naadloos in overgaat. Mobiel: vult het hele scherm (Reel).
   function portraitTarget(mobile) {
     var mon = op.mon, box = mon.parentElement;
     var W = mon.offsetWidth, H = mon.offsetHeight;
@@ -291,7 +292,7 @@
       var r = offsetIn(pf, document.querySelector('#media .scene-in'));
       k = r.h / H; cx = r.x + r.w / 2; cy = r.y + r.h / 2;
     } else {
-      k = Math.min(box.offsetHeight / H, box.offsetWidth / (W * 0.3164)) * 0.98;
+      k = Math.max(box.offsetHeight / H, box.offsetWidth / (W * 0.3164)); // mobiel: vult het scherm, als een Reel
       cx = box.offsetWidth / 2; cy = box.offsetHeight / 2;
     }
     return { k: k, x: cx - mx, y: cy - my, shift: (0.3418 - 0.025) * W + 10 };
@@ -308,8 +309,12 @@
     gsap.to(q('.op-mask'), Object.assign({ scaleX: portrait ? 1 : 0 }, common));
     gsap.to(q('.c-tl, .c-bl, .mon-meta'), Object.assign({ x: t.shift }, common));
     gsap.to(q('.c-tr, .c-br'), Object.assign({ x: -t.shift }, common));
-    // labels meeschalen tegengaan: ze blijven even groot als in de liggende stand
+    // labels en hoeken meeschalen tegengaan: ze blijven even groot (en dun) als in de liggende stand
     gsap.to(q('.mon-meta, .op-format'), Object.assign({ scale: 1 / t.k }, common));
+    gsap.to(q('.c-tl'), Object.assign({ scale: 1 / t.k, transformOrigin: 'left top' }, common));
+    gsap.to(q('.c-tr'), Object.assign({ scale: 1 / t.k, transformOrigin: 'right top' }, common));
+    gsap.to(q('.c-bl'), Object.assign({ scale: 1 / t.k, transformOrigin: 'left bottom' }, common));
+    gsap.to(q('.c-br'), Object.assign({ scale: 1 / t.k, transformOrigin: 'right bottom' }, common));
     gsap.to(q('.op-ring'), { autoAlpha: portrait ? 0 : 1, duration: d * 0.6, overwrite: 'auto' });
     gsap.to(q('.op-window'), { autoAlpha: portrait ? 1 : 0, duration: d * 0.6, delay: portrait ? d * 0.4 : 0, overwrite: 'auto' });
     gsap.delayedCall(d * 0.5, function () { op.fmt.textContent = op.portrait ? '9:16' : '16:9'; });
@@ -449,8 +454,9 @@
           autoAlpha: 0, ease: 'none',
           scrollTrigger: {
             trigger: chapter, scrub: true,
-            start: beforeContact ? 'bottom bottom' : intoMedia ? 'bottom 45%' : 'bottom 75%',
-            end: beforeContact ? 'bottom 90%' : intoMedia ? 'bottom 25%' : 'bottom 45%'
+            // mobiel heeft geen sluiter-overgang naar Contact: daar blijft Prijs staan tot Contact opkomt
+            start: beforeContact ? (mobile ? 'bottom 55%' : 'bottom bottom') : intoMedia ? 'bottom 45%' : 'bottom 75%',
+            end: beforeContact ? (mobile ? 'bottom 25%' : 'bottom 90%') : intoMedia ? 'bottom 25%' : 'bottom 45%'
           }
         });
       }
@@ -538,12 +544,32 @@
       });
     }
 
+    // Mobiel: de scène dimt licht (naar 70%) zolang er een tekstblok in beeld is; ertussen is hij helder.
+    if (mobile) {
+      var dimEl = document.querySelector('.stage-dim');
+      var bodies = toArray(document.querySelectorAll('.copy-body'));
+      var dims = bodies.map(function () { return 0; });
+      var applyDim = function () { dimEl.style.opacity = (Math.max.apply(null, dims) * 0.3).toFixed(3); };
+      bodies.forEach(function (body, i) {
+        ScrollTrigger.create({
+          trigger: body, start: 'top bottom', end: 'bottom top',
+          onUpdate: function (self) {
+            var p = self.progress;
+            dims[i] = p < 0.18 ? p / 0.18 : p > 0.82 ? (1 - p) / 0.18 : 1; // zacht in, vast, zacht uit
+            applyDim();
+          },
+          onLeave: function () { dims[i] = 0; applyDim(); },
+          onLeaveBack: function () { dims[i] = 0; applyDim(); }
+        });
+      });
+    }
+
     // Geen automatische snap: de bezoeker bepaalt zelf waar hij stopt, zoals bij een video.
     // De rustpunten zijn er alleen voor de tijdlijn-markeringen en ankerlinks.
     ScrollTrigger.create({
       start: 0, end: 'max',
       onRefresh: function () {
-        measure(builds);
+        measure(builds, mobile);
         if (op.portrait) setOpening(true, mobile, true); // nieuwe maat na resize
       }
     });
@@ -565,13 +591,14 @@
     onUpdate: update
   });
 
-  function measure(builds) {
+  function measure(builds, mobile) {
     var vh = window.innerHeight;
     var max = ScrollTrigger.maxScroll(window);
     var hdr = document.querySelector('.hdr').offsetHeight;
     var rests = chapters.map(function (ch) {
       if (ch.id === 'opening') return 0;
       if (ch.id === 'contact') return Math.min(max, ch.offsetTop - hdr);
+      if (mobile) return ch.offsetTop; // mobiel: het tekstblok staat dan onderin in beeld
       var st = builds[ch.id];
       return st ? st.end - vh * REST_OFFSET : ch.offsetTop;
     });
@@ -725,6 +752,17 @@
     });
   }
 
+  /* ---------- Lees meer: op mobiel dicht (kop + één zin zichtbaar), op desktop altijd open ---------- */
+  function setupMore() {
+    var mq = window.matchMedia('(max-width: 767px)');
+    var all = document.querySelectorAll('details.more');
+    var apply = function () {
+      Array.prototype.forEach.call(all, function (d) { if (mq.matches) d.removeAttribute('open'); else d.setAttribute('open', ''); });
+    };
+    apply();
+    if (mq.addEventListener) mq.addEventListener('change', apply);
+  }
+
   /* ---------- Menu (onder 900px achter een knop) ---------- */
   function setupMenu() {
     var btn = document.querySelector('.menu-btn');
@@ -778,18 +816,10 @@
     var contact = document.getElementById('contact');
     if (!contact) return;
     var narrow = window.matchMedia('(max-width: 767px)');
-    var band = document.querySelector('.stage-band');
-    var lastK = 1;
     var sync = function () {
       var r = contact.getBoundingClientRect();
       var inView = r.top < window.innerHeight * 0.85 && r.bottom > 0;
       fab.classList.toggle('is-away', narrow.matches && inView);
-      // beeldband (mobiel): onderrand volgt de bovenkant van Contact zodra die de band bereikt
-      if (band && narrow.matches) {
-        var top = band.getBoundingClientRect().top, h = band.offsetHeight || 1;
-        var k = Math.max(0, Math.min(1, (r.top - top) / h));
-        if (k !== lastK) { band.style.transform = k === 1 ? '' : 'scaleY(' + k.toFixed(4) + ')'; lastK = k; }
-      }
     };
     window.addEventListener('scroll', sync, { passive: true });
     window.addEventListener('resize', sync);
