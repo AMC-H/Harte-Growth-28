@@ -2,24 +2,30 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+/* Filmlayout meteen bij de eerste paint; alleen als beweging mag. Laadt GSAP niet, dan statisch. */
+(function (h) {
+  h.classList.add('js');
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    h.classList.add('film-on');
+    addEventListener('load', function () { if (!window.gsap || !window.ScrollTrigger) h.classList.remove('film-on'); });
+  }
+})(document.documentElement);
+</script>
 <title>Diensten | Harte Growth</title>
-<meta name="description" content="Vier motoren, één fundament: content & video, AI & automatisering, Google & SEO, en je website, als één samenhangend groeisysteem.">
+<meta name="description" content="Website, content, SEO en opvolging als één groeisysteem. Short-form video €35 (actie), website vanaf €550, maandelijks vanaf €195.">
 <link rel="canonical" href="https://hartegrowth.eu/diensten">
 <link rel="alternate" hreflang="nl" href="https://hartegrowth.eu/diensten">
 <link rel="alternate" hreflang="en" href="https://hartegrowth.eu/en/diensten.html">
 <link rel="alternate" hreflang="es" href="https://hartegrowth.eu/es/diensten.html">
 <link rel="alternate" hreflang="x-default" href="https://hartegrowth.eu/diensten">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" as="style">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="video-design.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Harte Growth">
+<meta property="og:locale" content="nl_NL">
 <meta property="og:title" content="Diensten | Harte Growth">
-<meta property="og:description" content="Vier motoren, één fundament: content & video, AI & automatisering, Google & SEO, en je website, als één samenhangend groeisysteem.">
+<meta property="og:description" content="Website, content, SEO en opvolging als één groeisysteem. Short-form video €35 (actie), website vanaf €550, maandelijks vanaf €195.">
 <meta property="og:url" content="https://hartegrowth.eu/diensten">
 <meta property="og:image" content="https://hartegrowth.eu/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -27,255 +33,351 @@
 <meta property="og:image:type" content="image/png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Diensten | Harte Growth">
-<meta name="twitter:description" content="Vier motoren, één fundament: content & video, AI & automatisering, Google & SEO, en je website, als één samenhangend groeisysteem.">
+<meta name="twitter:description" content="Website, content, SEO en opvolging als één groeisysteem. Short-form video €35 (actie), website vanaf €550, maandelijks vanaf €195.">
 <meta name="twitter:image" content="https://hartegrowth.eu/og-image.png">
-<script src="analytics.js?v=20260914a" defer></script>
+<meta name="theme-color" content="#0F1113">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@800&amp;family=Instrument+Serif:ital@1&amp;display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@800&amp;family=Instrument+Serif:ital@1&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/film.css?v=20260924e">
+<link rel="stylesheet" href="/diensten.css?v=20260924e">
+<script src="/analytics.js?v=20260914a" defer></script>
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://hartegrowth.eu/#org", "name": "Harte Growth", "url": "https://hartegrowth.eu/", "logo": "https://hartegrowth.eu/logo-nav.svg", "sameAs": ["https://wa.me/31634455762", "https://www.instagram.com/hartegrowth", "https://www.facebook.com/profile.php?id=61592600399432", "https://www.tiktok.com/@hartegrowth"]}, {"@type": "WebSite", "@id": "https://hartegrowth.eu/#site", "url": "https://hartegrowth.eu/", "name": "Harte Growth", "publisher": {"@id": "https://hartegrowth.eu/#org"}}, {"@type": "CollectionPage", "name": "Diensten | Harte Growth", "description": "Vier motoren, één fundament: content & video, AI & automatisering, Google & SEO, en je website, als één samenhangend groeisysteem.", "url": "https://hartegrowth.eu/diensten", "isPartOf": {"@id": "https://hartegrowth.eu/#site"}}]}
+{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://hartegrowth.eu/#org", "name": "Harte Growth", "url": "https://hartegrowth.eu/", "logo": "https://hartegrowth.eu/logo-nav.svg", "sameAs": ["https://wa.me/31634455762", "https://www.instagram.com/hartegrowth", "https://www.facebook.com/profile.php?id=61592600399432", "https://www.tiktok.com/@hartegrowth"]}, {"@type": "WebSite", "@id": "https://hartegrowth.eu/#site", "url": "https://hartegrowth.eu/", "name": "Harte Growth", "publisher": {"@id": "https://hartegrowth.eu/#org"}}, {"@type": "CollectionPage", "name": "Diensten | Harte Growth", "description": "Website, content, SEO en opvolging als één groeisysteem. Short-form video €35 (actie), website vanaf €550, maandelijks vanaf €195.", "url": "https://hartegrowth.eu/diensten", "isPartOf": {"@id": "https://hartegrowth.eu/#site"}}, {"@type": "Service", "name": "Short-form content", "description": "Van bestaand materiaal naar short-form video, in 9:16, 16:9 of 1:1 naar keuze, binnen 48 uur.", "provider": {"@id": "https://hartegrowth.eu/#org"}, "offers": {"@type": "Offer", "priceCurrency": "EUR", "priceSpecification": {"@type": "PriceSpecification", "priceCurrency": "EUR", "valueAddedTaxIncluded": false, "price": "35"}, "price": "35", "description": "Tijdelijke actieprijs per video, normaal €50"}}, {"@type": "Service", "name": "Website", "description": "Professionele website die bezoekers richting contact brengt.", "provider": {"@id": "https://hartegrowth.eu/#org"}, "offers": {"@type": "Offer", "priceCurrency": "EUR", "priceSpecification": {"@type": "PriceSpecification", "priceCurrency": "EUR", "valueAddedTaxIncluded": false, "minPrice": 550}}}, {"@type": "Service", "name": "Online Care", "description": "Website onderhoud, Google Business beheer en maandelijkse SEO-check.", "provider": {"@id": "https://hartegrowth.eu/#org"}, "offers": {"@type": "Offer", "priceCurrency": "EUR", "priceSpecification": {"@type": "UnitPriceSpecification", "priceCurrency": "EUR", "valueAddedTaxIncluded": false, "price": "195", "referenceQuantity": {"@type": "QuantitativeValue", "value": 1, "unitCode": "MON"}}, "price": "195"}}, {"@type": "Service", "name": "Growth", "description": "Lokale SEO, GEO, content en conversieverbeteringen, maandelijks.", "provider": {"@id": "https://hartegrowth.eu/#org"}, "offers": {"@type": "Offer", "priceCurrency": "EUR", "priceSpecification": {"@type": "UnitPriceSpecification", "priceCurrency": "EUR", "valueAddedTaxIncluded": false, "price": "495", "referenceQuantity": {"@type": "QuantitativeValue", "value": 1, "unitCode": "MON"}}, "price": "495"}}, {"@type": "Service", "name": "Growth Partner", "description": "Doorlopende samenwerking als externe online groeipartner.", "provider": {"@id": "https://hartegrowth.eu/#org"}, "offers": {"@type": "Offer", "priceCurrency": "EUR", "priceSpecification": {"@type": "UnitPriceSpecification", "priceCurrency": "EUR", "valueAddedTaxIncluded": false, "minPrice": 995, "referenceQuantity": {"@type": "QuantitativeValue", "value": 1, "unitCode": "MON"}}}}, {"@type": "Service", "name": "AI & Automation", "description": "Automatische opvolging van aanvragen, eenmalig ingericht.", "provider": {"@id": "https://hartegrowth.eu/#org"}, "offers": {"@type": "Offer", "priceCurrency": "EUR", "priceSpecification": {"@type": "PriceSpecification", "priceCurrency": "EUR", "valueAddedTaxIncluded": false, "minPrice": 350}}}, {"@type": "Service", "name": "Google Business setup", "description": "Inrichting van het Google Business-profiel.", "provider": {"@id": "https://hartegrowth.eu/#org"}, "offers": {"@type": "Offer", "priceCurrency": "EUR", "priceSpecification": {"@type": "PriceSpecification", "priceCurrency": "EUR", "valueAddedTaxIncluded": false, "minPrice": 250}}}, {"@type": "Service", "name": "Website onderhoud", "description": "Maandelijks onderhoud van je website.", "provider": {"@id": "https://hartegrowth.eu/#org"}, "offers": {"@type": "Offer", "priceCurrency": "EUR", "priceSpecification": {"@type": "UnitPriceSpecification", "priceCurrency": "EUR", "valueAddedTaxIncluded": false, "minPrice": 75, "referenceQuantity": {"@type": "QuantitativeValue", "value": 1, "unitCode": "MON"}}}}]}
 </script>
 </head>
-<body>
+<body class="page-diensten">
 
-<header>
-  <div class="navbar glass">
-    <a class="logo-link" href="/" aria-label="Harte Growth">
+<a class="skip" href="#aanbod">Direct naar het aanbod</a>
+
+<header class="hdr">
+  <div class="hdr-row">
+    <a class="logo" href="/" aria-label="Harte Growth, home">
       <svg width="116" height="26" viewBox="0 0 151 34" fill="none" aria-hidden="true" focusable="false">
         <text x="0" y="25" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="800" letter-spacing="-.9" textLength="61.5" lengthAdjust="spacingAndGlyphs" fill="#f6f3ef">Harte</text>
         <text x="72" y="25" font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-weight="400" font-size="28" letter-spacing="-.7" textLength="69.6" lengthAdjust="spacingAndGlyphs" fill="#ff4d1a">Growth</text>
         <rect x="145" y="21" width="4.5" height="4.5" fill="#ff4d1a"/>
       </svg>
     </a>
-    <nav class="links">
-      <a href="/#media">Werkwijze</a>
-      <a href="/#media">Voorbeeld</a>
-      <a href="/#prijs">Prijzen</a>
-      <a href="diensten.html">Diensten</a>
-      <a href="blog.html">Blog</a>
-      <a href="/#contact">Contact</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="hdr-menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path class="mb-open" d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="mb-close" d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span>Menu</span>
+    </button>
+    <nav class="hdr-nav" id="hdr-menu" aria-label="Hoofdmenu">
+      <ul class="hdr-links">
+        <li><a href="/diensten" aria-current="page">Diensten</a></li>
+        <li><a href="/cases">Cases</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <ul class="hdr-lang" aria-label="Taal">
+        <li><a href="/diensten" hreflang="nl" lang="nl" aria-current="page">NL</a></li>
+        <li><a href="/en/diensten.html" hreflang="en" lang="en">EN</a></li>
+        <li><a href="/es/diensten.html" hreflang="es" lang="es">ES</a></li>
+      </ul>
     </nav>
-    <div class="nav-right">
-      <a class="btn btn-primary" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20foto%27s%20of%20video%20laten%20omzetten%20naar%20een%20video." target="_blank" rel="noopener">
-        Stuur foto's of video
-      </a>
-      <button class="menu-btn" id="menuBtn" aria-label="Menu openen" aria-expanded="false" aria-controls="mnav">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      </button>
-    </div>
+  </div>
+  <div class="tl">
+    <p class="tc" aria-hidden="true"><span class="tc-rec"></span><span id="tc">00:00:00:00</span></p>
+    <nav class="tl-track" aria-label="Hoofdstukken">
+      <ol class="tl-clips">
+        <li style="flex-grow:1.6"><a href="#systeem" aria-current="location"><span class="tl-name">Systeem</span></a></li><li style="flex-grow:1.9"><a href="#media"><span class="tl-name">Media</span></a></li><li style="flex-grow:1.9"><a href="#fundament"><span class="tl-name">Fundament</span></a></li><li style="flex-grow:1.9"><a href="#verkeer"><span class="tl-name">Verkeer</span></a></li><li style="flex-grow:1.9"><a href="#opvolging"><span class="tl-name">Opvolging</span></a></li><li style="flex-grow:2.2"><a href="#export"><span class="tl-name">Export</span></a></li><li style="flex-grow:1.4"><a href="#aanbod"><span class="tl-name">Aanbod</span></a></li><li style="flex-grow:1.6"><a href="#maandelijks"><span class="tl-name">Doorgroeien</span></a></li><li style="flex-grow:1.2"><a href="#automation"><span class="tl-name">Automation</span></a></li><li style="flex-grow:1.8"><a href="#bewijs"><span class="tl-name">Bewijs</span></a></li><li style="flex-grow:1"><a href="#start"><span class="tl-name">Start</span></a></li>
+      </ol>
+      <div class="tl-fill" aria-hidden="true"></div>
+      <div class="tl-head" aria-hidden="true"><span></span></div>
+    </nav>
+    <p class="tl-now" id="tl-now" aria-hidden="true">Systeem</p>
   </div>
 </header>
 
-<div class="mnav" id="mnav">
-  <div class="mnav-top">
-    <a class="logo-link" href="/" aria-label="Harte Growth"><svg width="124" height="28" viewBox="0 0 151 34" fill="none" aria-hidden="true" focusable="false">
-      <text x="0" y="25" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="800" letter-spacing="-.9" textLength="61.5" lengthAdjust="spacingAndGlyphs" fill="#f6f3ef">Harte</text>
-      <text x="72" y="25" font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-weight="400" font-size="28" letter-spacing="-.7" textLength="69.6" lengthAdjust="spacingAndGlyphs" fill="#ff4d1a">Growth</text>
-      <rect x="145" y="21" width="4.5" height="4.5" fill="#ff4d1a"/>
-    </svg></a>
-    <button class="menu-btn" id="closeBtn" aria-label="Menu sluiten">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-    </button>
-  </div>
-  <nav class="mnav-links">
-    <a href="/#media">Werkwijze</a>
-    <a href="/#media">Voorbeeld</a>
-    <a href="/#prijs">Prijzen</a>
-    <a href="diensten.html">Diensten</a>
-    <a href="blog.html">Blog</a>
-    <a href="cases.html">Cases</a>
-    <a href="/#contact">Contact</a>
-  </nav>
-  <a class="btn btn-primary" style="margin-top:1.5rem; justify-content:center;" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20foto%27s%20of%20video%20laten%20omzetten%20naar%20een%20video." target="_blank" rel="noopener">Stuur foto's of video via WhatsApp</a>
-</div>
+<div class="stage-dim" aria-hidden="true"></div>
+<main id="film">
 
-<main class="wrap">
-
-  <!-- HERO -->
-  <section class="hero">
-    <div style="max-width:680px;">
-      <p class="eyebrow"><span class="rec-dot"></span>Diensten</p>
-      <h1 class="headline">Vier motoren. Eén <em>fundament</em>.</h1>
-      <p class="lede hero-sub" style="max-width:56ch;">Bureaus verkopen je een pakket. Wij bouwen aan je omzet. Eén plan, één aanspreekpunt, één maandrapport dat antwoord geeft op precies één vraag: wat leverde deze maand op?</p>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20de%20gratis%20groeiscan%20aanvragen." target="_blank" rel="noopener">
-          Doe de gratis groeiscan
-        </a>
-        <a class="btn btn-ghost" href="/">Liever eerst een video? →</a>
-      </div>
-      <p class="trust-line"><span class="trust-dot"></span>20 minuten · geen verkooppraatje · binnen 1 werkdag reactie</p>
-    </div>
-  </section>
-
-  <!-- VIER MOTOREN -->
-  <section id="motoren">
-    <div class="section-head">
-      <p class="eyebrow">Wat we doen</p>
-      <h2>Los in te zetten, of als geheel.</h2>
-    </div>
-    <div class="services-grid">
-      <div class="service-card">
-        <p class="num">01 · Fundament</p>
-        <h3>Website &amp; funnel</h3>
-        <p class="intro">Waar alles op rust. Geen digitale folder, maar een site die bezoekers naar contact stuurt, snel, mobielvriendelijk en meetbaar vanaf dag één.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Positioneringssessie vooraf</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Ontwerp op maat, geen template</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Conversiegerichte teksten</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>WhatsApp-routes ingebouwd</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Meertalig waar nodig (NL/EN/ES)</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <p class="num">02 · Media</p>
-        <h3>Content, video &amp; social</h3>
-        <p class="intro">De motor die je merk zichtbaar houdt. Short-form video, waaronder onze <a href="/" style="color:var(--ink-soft); text-decoration:underline;">foto's- en video-naar-video service</a>, projectcases en social posts, op een vast ritme.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Maandelijkse contentplanning</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Short-form video</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Foto's en projectcases</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Social &amp; Google Posts</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Consistente merkstijl</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <p class="num">03 · Verkeer</p>
-        <h3>SEO &amp; ads</h3>
-        <p class="intro">Zichtbaar op wat mensen intypen op het moment dat ze willen kopen. Organisch waar het kan, betaald waar het sneller moet, nooit op ijdele zoekwoorden.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Zoekwoorden op koopintentie</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Technische SEO</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Google Ads &amp; Meta Ads</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Lokale pagina's per stad</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Vindbaar in ChatGPT &amp; Gemini (GEO)</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <p class="num">04 · Opvolging</p>
-        <h3>WhatsApp, AI &amp; CRM</h3>
-        <p class="intro">Zodat geen aanvraag wegloopt. Jij zit in een bespreking; de aanvrager krijgt binnen 30 seconden een bevestiging, en AI vat de intake voor je samen.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>WhatsApp-flow met AI-samenvatting</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>CRM-koppeling</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Automatische bevestiging</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Implementatie en training</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Maandelijkse rapportage</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRIJZEN: WEBSITE -->
-  <section id="website-prijs">
-    <div class="section-head">
-      <p class="eyebrow">Website</p>
-      <h2>Je website. Van eigen makelij.</h2>
-    </div>
-    <div class="price-grid" style="grid-template-columns:1fr;">
-      <div class="price-card" style="max-width:520px;">
-        <p class="plan">Website op maat</p>
-        <p class="amount">Vanaf €550 <small>/ eenmalig</small></p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Ontwerp op maat, geen template</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Contactformulier &amp; WhatsApp ingebouwd</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Basis SEO &amp; Google-koppeling</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Meertalig indien nodig (op offerte)</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Live binnen 2 weken</li>
-        </ul>
-        <a class="btn btn-primary" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20een%20website%20laten%20maken." target="_blank" rel="noopener">Vraag je website aan</a>
-      </div>
-    </div>
-    <p class="price-note">Voor complexere sites, meertalig, funnels, integraties, maken we een offerte op maat. Een site alleen brengt geen aanvragen; wat volgt na de website is waar de groei zit.</p>
-  </section>
-
-  <!-- PRIJZEN: GROWTH PARTNERSHIP -->
-  <section id="growth-partnership">
-    <div class="section-head">
-      <p class="eyebrow">Growth Partnership</p>
-      <h2>Maandelijkse partner voor content, social &amp; groei.</h2>
-    </div>
-    <div class="price-grid cols-3">
-      <div class="price-card">
-        <p class="plan">Content Engine</p>
-        <p class="amount">€950 <small>/ maand</small></p>
-        <p style="color:var(--ink-soft); font-size:0.9rem;">Voor merken die zichtbaarder willen worden op Instagram, TikTok en Google. Content met ritme, niet ad-hoc.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Maandelijkse contentplanning</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>8–12 posts + reels per maand</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Community management</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Google Business posts</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Maandrapportage</li>
-        </ul>
-        <a class="btn btn-ghost" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20Content%20Engine%20bespreken." target="_blank" rel="noopener">Bespreek Content Engine</a>
-      </div>
-      <div class="price-card popular">
-        <span class="badge-popular">Meest gekozen</span>
-        <p class="plan">Growth Partnership</p>
-        <p class="amount">€1.950 <small>/ maand</small></p>
-        <p style="color:var(--ink-soft); font-size:0.9rem;">Voor bedrijven die elke maand structureel willen groeien: content, SEO, video en optimalisatie in één systeem.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Alles uit Content Engine</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Lokale SEO &amp; Google-optimalisatie</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Short-form videoproductie</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>A/B-testen &amp; conversie-optimalisatie</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Strategiegesprek per kwartaal</li>
-        </ul>
-        <a class="btn btn-primary" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20Growth%20Partnership%20bespreken." target="_blank" rel="noopener">Bespreek Growth Partnership</a>
-      </div>
-      <div class="price-card">
-        <p class="plan">Content + Influencer</p>
-        <p class="amount">€3.500 <small>/ maand</small></p>
-        <p style="color:var(--ink-soft); font-size:0.9rem;">Voor merken die willen doorbreken via creators en samenwerkingen. Bereik dat zichzelf terugverdient.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Alles uit Growth Partnership</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Influencer- &amp; creator-sourcing</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Campagne-productie &amp; briefing</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>UGC-content</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Creator-fees apart, wij regelen het</li>
-        </ul>
-        <a class="btn btn-ghost" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20Content%20%2B%20Influencer%20bespreken." target="_blank" rel="noopener">Bespreek Content + Influencer</a>
-      </div>
-    </div>
-    <p class="price-note">Alle Growth Partnership-pakketten zijn maandelijks opzegbaar na minimaal 3 maanden. Advertentiebudget staat los en gaat rechtstreeks naar Meta, Google of TikTok.</p>
-  </section>
-
-  <!-- BEWIJS -->
-  <section id="bewijs">
-    <div class="studio-band">
-      <div class="studio-top">
-        <div>
-          <p class="eyebrow">Bewijs</p>
-          <h2 style="font-size:clamp(1.6rem,1.2vw + 1.1rem,2.1rem); margin-top:0.5rem; max-width:34ch;">Cijfers, geen beloftes.</h2>
+  <section class="chapter" id="systeem" style="--len:1.6" aria-labelledby="systeem-h">
+    <!-- Stage: één montagetijdlijn. Leeg data-asset-src = DOM/SVG-versie; gevuld = video, framereeks of 3D
+         (zie diensten-stage-README.md). Puur decoratief: alle labels staan ook als tekst in de hoofdstukken. -->
+    <div class="scene dstage" aria-hidden="true">
+      <div class="scene-in">
+        <div class="stage-slot" data-asset-src="" data-asset-type="">
+          <div class="gs">
+            <div class="gs-ruler"><span>00:00</span><span>00:15</span><span>00:30</span><span>00:45</span><span>01:00</span></div>
+            <div class="gs-tracks">
+            <div class="gs-track" data-track="media"><span class="gs-name">MEDIA</span><div class="gs-lane"><span class="gs-clip">Short-form video</span><span class="gs-clip">Social content</span><span class="gs-clip">Google content</span><span class="gs-clip">Visuals</span><span class="gs-clip">Reels</span><span class="gs-clip">Cases</span></div></div>
+            <div class="gs-gap" data-to="fundament"><i></i><i></i><i></i></div>
+            <div class="gs-track" data-track="fundament"><span class="gs-name">FUNDAMENT</span><div class="gs-lane"><span class="gs-clip">Websites</span><span class="gs-clip">Landingpages</span><span class="gs-clip">Funnels</span><span class="gs-clip">WhatsApp</span><span class="gs-clip">Contactflows</span><span class="gs-clip">Analytics</span><span class="gs-clip">Meertalig</span></div></div>
+            <div class="gs-gap" data-to="verkeer"><i></i><i></i><i></i></div>
+            <div class="gs-track" data-track="verkeer"><span class="gs-name">VERKEER</span><div class="gs-lane"><span class="gs-clip">Google</span><span class="gs-clip">Local SEO</span><span class="gs-clip">SEO</span><span class="gs-clip">GEO / AI search</span><span class="gs-clip">Google Business</span><span class="gs-clip">Ads</span><span class="gs-clip">Locatiepagina's</span></div></div>
+            <div class="gs-gap" data-to="opvolging"><i></i><i></i><i></i></div>
+            <div class="gs-track" data-track="opvolging"><span class="gs-name">OPVOLGING</span><div class="gs-lane"><span class="gs-clip">AI</span><span class="gs-clip">Automation</span><span class="gs-clip">WhatsApp flows</span><span class="gs-clip">Forms</span><span class="gs-clip">CRM</span><span class="gs-clip">Automatische e-mail</span><span class="gs-clip">Lead qualification</span></div></div>
+            </div>
+            <div class="gs-track gs-master"><span class="gs-name">MASTER</span><div class="gs-lane"><span class="gs-clip">HarteGrowth Growth System</span></div></div>
+            <div class="gs-head"><span></span></div>
+            <div class="xwin gs-export">
+              <div class="xwin-bar"><i></i><i></i><i></i><span>Exporteren</span></div>
+              <dl class="xwin-rows">
+                <div><dt>Bestand</dt><dd>HarteGrowth Growth System</dd></div>
+                <div><dt>Sporen</dt><dd>Media, Fundament, Verkeer, Opvolging</dd></div>
+                <div><dt>Output</dt><dd>Aanvragen</dd></div>
+              </dl>
+              <div class="xwin-render"><div class="xwin-track"><span class="xwin-fill"></span></div><p class="xwin-status"><span class="st-busy">Renderen</span><span class="st-done">Klaar</span></p></div>
+            </div>
+          </div>
         </div>
-        <a class="btn btn-ghost" href="cases.html">Bekijk alle resultaten →</a>
       </div>
-      <div class="case-line" style="margin-top:0; padding-top:0; border-top:none;">
-        <div class="case-stat"><b>11,1K</b><span>theacmen.es · vertoningen</span></div>
-        <div class="case-stat"><b>4.000+</b><span>Art of Race · volgers · 3 mnd</span></div>
-        <div class="case-stat"><b>€0</b><span>Advertentiebudget in beide</span></div>
+    </div>
+    <div class="copy">
+      <div class="copy-body">
+        <h1 id="systeem-h" class="h1 dh1" tabindex="-1">Van online aanwezig naar structureel groeien.</h1>
+        <p class="lede">Website, content, vindbaarheid en opvolging. Niet als losse diensten, maar als één systeem dat aanvragen moet opleveren.</p>
+        <div class="ctas">
+          <a class="btn" href="/groeiscan">Start gratis groeiscan</a>
+          <a class="btn btn-ghost" href="/cases">Bekijk resultaten</a>
+        </div>
       </div>
     </div>
   </section>
-
-  <!-- GROEISCAN CTA -->
-  <section id="groeiscan">
-    <div class="cta-band">
-      <div>
-        <h2>Nog niet zeker waar je moet beginnen?</h2>
-        <p>De groeiscan vertelt je waar je grootste kans ligt. 20 minuten, geen verkooppraatje, binnen 1 werkdag reactie.</p>
+  <section class="chapter" id="media" style="--len:1.9" aria-labelledby="media-h">
+    <div class="scene gs-static" aria-hidden="true"><div class="scene-in"></div></div>
+    <div class="copy">
+      <div class="copy-body">
+        <h2 id="media-h" class="h2" tabindex="-1">Content die aandacht trekt.</h2>
+        <p class="lede">Short-form video, social en Google content op een vast ritme, gemaakt van wat je al hebt.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
+          <div class="more-body">
+            <ul class="clip-list" aria-label="Onderdelen"><li>Short-form video</li><li>Social content</li><li>Google content</li><li>Visuals</li><li>Reels</li><li>Cases</li></ul>
+          </div>
+        </details>
       </div>
-      <a class="btn btn-primary" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20de%20gratis%20groeiscan%20aanvragen." target="_blank" rel="noopener">Start de groeiscan</a>
+    </div>
+  </section>
+  <section class="chapter" id="fundament" style="--len:1.9" aria-labelledby="fundament-h">
+    <div class="scene gs-static" aria-hidden="true"><div class="scene-in"></div></div>
+    <div class="copy">
+      <div class="copy-body">
+        <h2 id="fundament-h" class="h2" tabindex="-1">Een website die bezoekers omzet in aanvragen.</h2>
+        <p class="lede">Snel, mobiel en gebouwd om naar contact te leiden, met WhatsApp en formulieren op de plek waar ze werken.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
+          <div class="more-body">
+            <ul class="clip-list" aria-label="Onderdelen"><li>Websites</li><li>Landingpages</li><li>Funnels</li><li>WhatsApp</li><li>Contactflows</li><li>Analytics</li><li>Meertalig</li></ul>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+  <section class="chapter" id="verkeer" style="--len:1.9" aria-labelledby="verkeer-h">
+    <div class="scene gs-static" aria-hidden="true"><div class="scene-in"></div></div>
+    <div class="copy">
+      <div class="copy-body">
+        <h2 id="verkeer-h" class="h2" tabindex="-1">Gevonden worden wanneer klanten zoeken.</h2>
+        <p class="lede">In Google, in je regio en in AI-zoekmachines, organisch waar het kan en met advertenties waar het sneller moet.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
+          <div class="more-body">
+            <ul class="clip-list" aria-label="Onderdelen"><li>Google</li><li>Local SEO</li><li>SEO</li><li>GEO / AI search</li><li>Google Business</li><li>Ads</li><li>Locatiepagina's</li></ul>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+  <section class="chapter" id="opvolging" style="--len:1.9" aria-labelledby="opvolging-h">
+    <div class="scene gs-static" aria-hidden="true"><div class="scene-in"></div></div>
+    <div class="copy">
+      <div class="copy-body">
+        <h2 id="opvolging-h" class="h2" tabindex="-1">Van aanvraag naar klant zonder leads te laten liggen.</h2>
+        <p class="lede">Elke aanvraag krijgt direct antwoord, de juiste vragen en een vervolg, ook als jij bezig bent.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
+          <div class="more-body">
+            <ul class="clip-list" aria-label="Onderdelen"><li>AI</li><li>Automation</li><li>WhatsApp flows</li><li>Forms</li><li>CRM</li><li>Automatische e-mail</li><li>Lead qualification</li></ul>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+  <section class="chapter" id="export" style="--len:2.2" aria-labelledby="export-h">
+    <div class="scene gs-static" aria-hidden="true"><div class="scene-in"></div></div>
+    <div class="copy">
+      <div class="copy-body">
+        <h2 id="export-h" class="h2" tabindex="-1">Samen: het HarteGrowth Growth System.</h2>
+        <p class="lede">Elk onderdeel werkt los.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
+          <div class="more-body">
+            <p class="lede lede-rest">Samen zorgen ze dat aandacht verandert in aanvragen en aanvragen in klanten.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+  <section class="chapter plain" id="aanbod" aria-labelledby="aanbod-h">
+    <div class="plain-inner">
+      <h2 id="aanbod-h" class="h2" tabindex="-1">Kies waar je wilt beginnen.</h2>
+      <p class="lede">Begin klein of bouw direct het complete systeem.</p>
+      <div class="offer-grid">
+        <article class="xwin offer" aria-labelledby="offer-video-h">
+          <div class="xwin-bar"><i></i><i></i><i></i><span id="offer-video-h">Short-form content</span></div>
+          <div class="offer-body">
+            <p class="big-price"><strong>€35</strong> <span class="per">per video</span> <s>€50</s> <span class="price-tag">Tijdelijke actie</span> <span class="vat">excl. btw</span></p>
+            <p class="offer-text">Van je bestaande materiaal naar short-form content die klaar is om te posten.</p>
+            <dl class="xwin-rows">
+              <div><dt>Formaat</dt><dd>9:16, 16:9 of 1:1 naar keuze</dd></div>
+              <div><dt>Input</dt><dd>5 tot 6 foto's, videoclips of een combinatie</dd></div>
+              <div><dt>Levering</dt><dd>Binnen 48 uur</dd></div>
+              <div><dt>Revisie</dt><dd>Eén ronde</dd></div>
+            </dl>
+            <p class="incl-h">Inclusief</p>
+            <ul class="incl"><li>Professionele montage</li><li>Muziek en timing</li><li>Tekst waar nodig</li><li>Eén revisieronde</li><li>Levering binnen 48 uur</li></ul>
+            <a class="btn" href="https://wa.me/31634455762?text=Hoi%20Harte%20Growth%2C%20ik%20wil%20een%20video%20laten%20maken%20voor%20%E2%82%AC35." target="_blank" rel="noopener">Laat mijn video maken</a>
+            <p class="small">De laagdrempelige manier om ons te leren kennen.</p>
+          </div>
+        </article>
+        <article class="xwin offer" aria-labelledby="offer-site-h">
+          <div class="xwin-bar"><i></i><i></i><i></i><span id="offer-site-h">Website</span></div>
+          <div class="offer-body">
+            <p class="big-price"><span class="from">Vanaf</span> <strong>€550</strong> <span class="vat">excl. btw</span></p>
+            <p class="offer-text">Een professionele online basis die niet alleen goed oogt, maar bezoekers richting contact brengt.</p>
+            <p class="incl-h">Inclusief</p>
+            <ul class="incl"><li>Maatwerk uitstraling</li><li>Responsive en mobile first</li><li>WhatsApp</li><li>Contactformulier</li><li>Basis SEO</li><li>Google-koppeling</li><li>Analytics</li><li>Technisch goed opgebouwd</li><li>Snelle performance</li></ul>
+            <a class="btn" href="https://wa.me/31634455762?text=Hoi%20Harte%20Growth%2C%20ik%20wil%20mijn%20website%20bespreken." target="_blank" rel="noopener">Bespreek mijn website</a>
+            <p class="small muted">Meertalige websites, uitgebreide SEO, boekingssystemen, webshops, funnels en maatwerk koppelingen worden apart begroot.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section class="chapter plain" id="maandelijks" aria-labelledby="maandelijks-h">
+    <div class="plain-inner">
+      <h2 id="maandelijks-h" class="h2" tabindex="-1">Daarna bouwen we door.</h2>
+      <p class="lede">Maandelijks, met één aanspreekpunt en een rapport dat laat zien wat het oplevert.</p>
+      <div class="tiers">
+        <article class="tier" data-tier="care" aria-labelledby="tier-care-h">
+          <div class="tier-track"><h3 id="tier-care-h" class="tier-name">Online Care</h3><p class="tier-price"><strong>€195</strong> / maand <span class="vat">excl. btw</span></p></div>
+          <div class="tier-body">
+            <p class="tier-lead">Voor bedrijven die professioneel online willen blijven staan zonder alles zelf te beheren.</p>
+            <ul class="incl"><li>Website onderhoud</li><li>Kleine website wijzigingen</li><li>Google Business beheer</li><li>Maandelijkse SEO-check</li><li>Technische controles</li><li>Monitoring van analytics en Search Console</li><li>2 Google Posts per maand</li></ul>
+            <a class="btn btn-ghost" href="https://wa.me/31634455762?text=Hoi%20Harte%20Growth%2C%20ik%20wil%20Online%20Care%20bespreken." target="_blank" rel="noopener">Start met Online Care</a>
+          </div>
+        </article>
+        <article class="tier tier-featured" data-tier="growth" aria-labelledby="tier-growth-h">
+          <div class="tier-track"><h3 id="tier-growth-h" class="tier-name">Growth</h3><span class="price-tag tier-tag">Meest gekozen</span><p class="tier-price"><strong>€495</strong> / maand <span class="vat">excl. btw</span></p></div>
+          <div class="tier-body">
+            <p class="tier-lead">Voor bedrijven die actief hun online zichtbaarheid willen vergroten.</p>
+            <ul class="incl"><li>Alles uit Online Care</li><li>Lokale SEO</li><li>SEO en GEO voor Google en AI-search</li><li>Pagina-optimalisaties</li><li>Nieuwe lokale of dienstpagina's waar nodig</li><li>4 short-form contentitems per maand</li><li>Google Business content</li><li>Conversieverbeteringen</li><li>Maandelijkse rapportage</li></ul>
+            <a class="btn" href="https://wa.me/31634455762?text=Hoi%20Harte%20Growth%2C%20ik%20wil%20Growth%20bespreken." target="_blank" rel="noopener">Start met Growth</a>
+          </div>
+        </article>
+        <article class="tier" data-tier="partner" aria-labelledby="tier-partner-h">
+          <div class="tier-track"><h3 id="tier-partner-h" class="tier-name">Growth Partner</h3><p class="tier-price"><span class="from">Vanaf</span> <strong>€995</strong> / maand <span class="vat">excl. btw</span></p></div>
+          <div class="tier-body">
+            <p class="tier-lead">HarteGrowth als externe online groeipartner. Geen pakket, maar een doorlopende samenwerking.</p>
+            <ul class="incl"><li>Alles uit Growth</li><li>8 tot 12 contentitems per maand</li><li>Uitgebreidere SEO</li><li>Landingspagina's</li><li>Campagnes</li><li>Meta en Google Ads management</li><li>Funnels</li><li>Conversie-optimalisatie</li><li>AI en automation</li><li>CRM en WhatsApp-flows</li><li>Actieve strategie</li></ul>
+            <a class="btn btn-ghost" href="https://wa.me/31634455762?text=Hoi%20Harte%20Growth%2C%20ik%20wil%20Growth%20Partner%20bespreken." target="_blank" rel="noopener">Bespreek Growth Partner</a>
+          </div>
+        </article>
+      </div>
+      <div class="tier-notes">
+        <p>Maandelijks opzegbaar, met een opzegtermijn van één maand.</p>
+        <p>Advertentiebudget is niet inbegrepen.</p>
+        <p>Grotere bedrijven en complexere trajecten: prijs op maat.</p>
+        <p class="muted">Campagnes &amp; maatwerk: ook influencer-samenwerkingen en UGC zijn mogelijk, op maat.</p>
+      </div>
+    </div>
+  </section>
+  <section class="chapter plain" id="automation" aria-labelledby="automation-h">
+    <div class="plain-inner">
+      <h2 id="automation-h" class="h2" tabindex="-1">AI &amp; Automation</h2>
+      <p class="big-price"><span class="from">Vanaf</span> <strong>€350</strong> <span class="per">eenmalig</span> <span class="vat">excl. btw</span></p>
+      <p class="small">Grotere automatiseringen: prijs op maat.</p>
+      <p class="lede">Geen AI als gimmick. We zetten het in om tijd te besparen en minder aanvragen verloren te laten gaan.</p>
+      <div class="flow">
+        <span class="flow-line" aria-hidden="true"><span class="flow-fill"></span></span>
+        <ol class="flow-nodes" aria-label="Zo loopt een aanvraag"><li class="fnode"><span class="fdot" aria-hidden="true"></span><span class="flabel">Nieuwe aanvraag</span></li><li class="fnode"><span class="fdot" aria-hidden="true"></span><span class="flabel">Automatische reactie</span></li><li class="fnode"><span class="fdot" aria-hidden="true"></span><span class="flabel">Juiste vragen</span></li><li class="fnode"><span class="fdot" aria-hidden="true"></span><span class="flabel">Gegevens verzamelen</span></li><li class="fnode"><span class="fdot" aria-hidden="true"></span><span class="flabel">Lead kwalificeren</span></li><li class="fnode"><span class="fdot" aria-hidden="true"></span><span class="flabel">Naar e-mail of CRM</span></li><li class="fnode"><span class="fdot" aria-hidden="true"></span><span class="flabel">Follow-up</span></li></ol>
+      </div>
+      <div class="ctas"><a class="btn" href="https://wa.me/31634455762?text=Hoi%20Harte%20Growth%2C%20ik%20wil%20weten%20wat%20jullie%20voor%20mij%20kunnen%20automatiseren." target="_blank" rel="noopener">Bekijk wat we kunnen automatiseren</a></div>
+    </div>
+  </section>
+  <section class="chapter plain" id="bewijs" aria-labelledby="bewijs-h">
+    <div class="plain-inner">
+      <h2 id="bewijs-h" class="h2" tabindex="-1">Cijfers, geen beloftes.</h2>
+      <p class="lede">Uit de Google Search Console en Instagram Insights van onze klanten.</p>
+      <div class="result-grid">
+        <article class="xwin result">
+          <div class="xwin-bar"><i></i><i></i><i></i><span>theacmen.es</span></div>
+          <div class="result-body">
+            <h3 class="result-name">The A/C Men</h3>
+            <p class="result-sector">Airco, Costa Blanca</p>
+            <dl class="result-stats"><div><dt>Google-vertoningen, 3 mnd</dt><dd>11,1K</dd></div><div><dt>Organische klikken</dt><dd>360</dd></div><div><dt>Gem. positie</dt><dd>8,5</dd></div><div><dt>Advertentiebudget</dt><dd>€0</dd></div></dl>
+            <p class="result-system">Systeem: website in zes talen, vindbaarheid per plaats.</p>
+            <p class="result-source">Bron: Google Search Console, 3 maanden</p>
+          </div>
+        </article>
+        <article class="xwin result">
+          <div class="xwin-bar"><i></i><i></i><i></i><span>timecargoeurope.com</span></div>
+          <div class="result-body">
+            <h3 class="result-name">Time Cargo Europe</h3>
+            <p class="result-sector">Transport, Europa</p>
+            <dl class="result-stats"><div><dt>Google-vertoningen, 3 mnd</dt><dd>1,54K</dd></div><div><dt>Organische klikken</dt><dd>223</dd></div><div><dt>CTR</dt><dd>14,5%</dd></div><div><dt>Gem. positie</dt><dd>11,9</dd></div></dl>
+            <p class="result-system">Systeem: website in vijf talen, SEO, Google-profiel, video en fotografie.</p>
+            <p class="result-source">Bron: Google Search Console, 3 maanden</p>
+          </div>
+        </article>
+        <article class="xwin result">
+          <div class="xwin-bar"><i></i><i></i><i></i><span>sunkeypropertycare.com</span></div>
+          <div class="result-body">
+            <h3 class="result-name">Sunkey Property Care</h3>
+            <p class="result-sector">Vastgoedbeheer, Costa Blanca</p>
+            <dl class="result-stats"><div><dt>Google-vertoningen, vanaf nul</dt><dd>1,28K</dd></div><div><dt>Organische klikken</dt><dd>56</dd></div><div><dt>CTR</dt><dd>4,4%</dd></div><div><dt>Per factuur</dt><dd>&lt;1 min</dd></div></dl>
+            <p class="result-system">Systeem: lokale SEO voor acht locaties, CRM en facturatie in één systeem.</p>
+            <p class="result-source">Bron: Google Search Console</p>
+          </div>
+        </article>
+        <article class="xwin result">
+          <div class="xwin-bar"><i></i><i></i><i></i><span>Instagram</span></div>
+          <div class="result-body">
+            <h3 class="result-name">Art of Race</h3>
+            <p class="result-sector">Motorsport</p>
+            <dl class="result-stats"><div><dt>Volgers, 3 mnd</dt><dd>4.000+</dd></div><div><dt>Organische groei</dt><dd>100%</dd></div><div><dt>Advertentiebudget</dt><dd>€0</dd></div></dl>
+            <p class="result-system">Systeem: Instagram-strategie, content en community management.</p>
+            <p class="result-source">Bron: Instagram Insights, 3 maanden</p>
+          </div>
+        </article>
+      </div>
+      <div class="ctas"><a class="btn btn-ghost" href="/cases">Bekijk alle cases</a></div>
+      <div class="los">
+        <h3 class="los-h">Ook los in te zetten</h3>
+        <dl class="price-table"><div><dt>Google Business setup</dt><dd>vanaf €250</dd></div><div><dt>AI &amp; Automation</dt><dd>vanaf €350</dd></div><div><dt>Website</dt><dd>vanaf €550</dd></div><div><dt>Website onderhoud</dt><dd>vanaf €75 / maand</dd></div><div><dt>Short-form content</dt><dd>€35 actie (normaal €50)</dd></div><div><dt>Ads management</dt><dd>prijs afhankelijk van scope</dd></div><div><dt>SEO / GEO</dt><dd>prijs afhankelijk van scope</dd></div><div><dt>Webshops en custom platforms</dt><dd>offerte</dd></div></dl>
+        <p class="small muted">Alle prijzen excl. btw.</p>
+      </div>
+    </div>
+  </section>
+  <section class="chapter plain" id="start" aria-labelledby="start-h">
+    <div class="plain-inner">
+      <div class="xwin start-render" aria-hidden="true">
+        <div class="xwin-bar"><i></i><i></i><i></i><span>HarteGrowth Growth System</span></div>
+        <div class="xwin-render"><div class="xwin-track"><span class="xwin-fill"></span></div><p class="xwin-status"><span class="st-busy">Renderen</span><span class="st-done">Klaar</span></p></div>
+      </div>
+      <h2 id="start-h" class="h2" tabindex="-1">Je hoeft niet te weten welk pakket je nodig hebt.</h2>
+      <p class="lede">Laat ons kijken waar je nu zichtbaarheid, aanvragen of tijd laat liggen.</p>
+      <div class="ctas">
+        <a class="btn btn-lg" href="/groeiscan">Start gratis groeiscan</a>
+        <a class="btn btn-ghost" href="https://wa.me/31634455762?text=Hoi%20Harte%20Growth%2C%20ik%20wil%20een%20gesprek%20plannen." target="_blank" rel="noopener">Plan een gesprek</a>
+      </div>
     </div>
   </section>
 
 </main>
 
-<footer class="wrap">
+<footer class="site-foot">
   <div class="footer-row">
-    <div class="logo" style="font-size:1rem;"><b>Harte</b><i>Growth</i><span>.</span></div>
+    <div class="logo-text"><b>Harte</b><i>Growth</i><span>.</span></div>
     <div class="footer-links">
       <a href="/#media">Werkwijze</a>
-      <a href="diensten.html">Diensten</a>
-      <a href="blog.html">Blog</a>
-      <a href="cases.html">Cases</a>
+      <a href="/diensten">Diensten</a>
+      <a href="/blog">Blog</a>
+      <a href="/cases">Cases</a>
       <a href="/#contact">Contact</a>
     </div>
     <div class="footer-links">
@@ -287,32 +389,13 @@
   </div>
 </footer>
 
-<script>
-(function(){
-  var menuBtn = document.getElementById('menuBtn');
-  var closeBtn = document.getElementById('closeBtn');
-  var mnav = document.getElementById('mnav');
-  if (menuBtn && mnav) {
-    menuBtn.addEventListener('click', function(){
-      mnav.classList.add('open');
-      menuBtn.setAttribute('aria-expanded','true');
-    });
-  }
-  if (closeBtn && mnav) {
-    closeBtn.addEventListener('click', function(){
-      mnav.classList.remove('open');
-      if (menuBtn) menuBtn.setAttribute('aria-expanded','false');
-    });
-  }
-  if (mnav) {
-    mnav.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){
-        mnav.classList.remove('open');
-        if (menuBtn) menuBtn.setAttribute('aria-expanded','false');
-      });
-    });
-  }
-})();
-</script>
+<a class="wa-fab" href="https://wa.me/31634455762?text=Hoi%20Harte%20Growth%2C%20ik%20kom%20van%20de%20dienstenpagina%20en%20wil%20mijn%20situatie%20bespreken." target="_blank" rel="noopener" aria-label="Stuur ons een WhatsApp-bericht">
+  <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path fill="#fff" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3Z"/></svg>
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollToPlugin.min.js" defer></script>
+<script src="/diensten.js?v=20260924e" defer></script>
 </body>
 </html>
