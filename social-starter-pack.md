@@ -35,7 +35,7 @@ Groeimarketing voor dienstverleners aan de Costa Blanca en in Nederland.
 Wij bouwen je fundament (website + funnel) en zetten daarboven content, SEO en ads aan het werk. Vanaf de eerste maand meetbaar in Google Search Console.
 
 Recente resultaten:
-· theacmen.es — 7,78K Google-vertoningen in 3 maanden, zonder ad-budget
+· theacmen.es — 12,4K Google-vertoningen in 3 maanden, zonder ad-budget
 · timecargoeurope.com — 13,6% CTR op koopintentie
 · sunkeypropertycare.com — factuur maken in minder dan een minuut
 
@@ -74,14 +74,14 @@ Dezelfde drie ideeën, elke keer aangepast aan het platform.
 ### Post 1 · De case (Airco Costa Blanca)
 
 **LinkedIn / Facebook (langer format):**
-> Drie maanden geleden was theacmen.es niet te vinden op Google. Vandaag: 7.780 vertoningen, 308 klikken, gemiddelde positie 7,6. Zonder één euro aan advertenties.
+> Drie maanden geleden was theacmen.es niet te vinden op Google. Vandaag: 12,4K vertoningen, 364 klikken, gemiddelde positie 9. Zonder één euro aan advertenties.
 >
 > Wat we deden: meertalig platform, Google Business opnieuw ingericht, lokale service- en projectpagina's per stad. Daar houdt Google van, en dat merkten we in Search Console.
 >
 > Ben je dienstverlener aan de Costa Blanca en zoek je vindbaarheid zonder ads erin te blijven pompen? Ik denk graag mee. Zie link in bio.
 
 **Instagram (carrousel van 3 slides):**
-1. Slide 1 (zwart, oranje tekst): *"Van onvindbaar naar 7.780 Google-vertoningen. In 3 maanden."*
+1. Slide 1 (zwart, oranje tekst): *"Van onvindbaar naar 12,4K Google-vertoningen. In 3 maanden."*
 2. Slide 2: screenshot van SGC-grafiek + tekst *"Zonder advertenties. Alleen lokale SEO."*
 3. Slide 3 (CTA): *"Wil je zoiets? hartegrowth.eu"*
 
@@ -89,7 +89,7 @@ Caption: *"Airco Costa Blanca in drie maanden op Google. Lokale SEO doet 't nog 
 
 **TikTok (30-45 sec video):**
 - Screen-recording van hun Search Console grafiek die omhoog schiet
-- Voice-over: *"Deze installateur was drie maanden geleden onvindbaar. Nu 7.780 Google-vertoningen. Dit deden we."*
+- Voice-over: *"Deze installateur was drie maanden geleden onvindbaar. Nu 12,4K Google-vertoningen. Dit deden we."*
 - Overlay met de 3 stappen (Google Business, lokale pagina's, technisch fundament)
 - Eindscherm: hartegrowth.eu
 
