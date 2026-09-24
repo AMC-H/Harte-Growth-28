@@ -1,22 +1,26 @@
-# Slot voor de echte video (homepage, hoofdstuk Media)
+# Video's op de homepage
 
-Zet hier `result.mp4` neer. `film.js` controleert bij het laden van de homepage of `/media/result.mp4` bestaat.
-Zo ja, dan vervangt de video de getekende beelden in het 9:16-programmascherm en scrubt hij mee met scrollen.
-Zo nee, dan blijft de getekende versie staan. Er hoeft niets aan de code te veranderen.
+| Bestand | Waar | Maat |
+|---|---|---|
+| `opening-16x9-1280.mp4` / `-960.mp4` | Opening, liggend (ruw materiaal). 960 op mobiel. | 1280x720 / 960x540 |
+| `opening-9x16-720.mp4` / `-540.mp4` | Opening na de eerste scroll, en het resultaat in Media. 540 op mobiel. | 720x1280 / 540x960 |
+| `opening-*.webp` | Posters (eerste frame). De 16:9-poster wordt vooraf geladen. | idem |
 
-## Aanbevolen export
+De 9:16-video's laden pas na de eerste render. Beide video's zijn even lang en lopen synchroon
+(bij de wissel neemt de ene de `currentTime` van de andere over).
 
-- Formaat 9:16, bijvoorbeeld 720 x 1280. Groter is niet nodig; het scherm is klein.
-- Geen geluid (de video speelt altijd gedempt).
-- Lengte 10 tot 20 seconden.
-- Veel keyframes, anders hapert het terugspoelen tijdens het scrollen. Met ffmpeg:
+## Vervangen
+
+Houd dezelfde bestandsnamen aan, of pas de paden aan in `index.html` (hoofdstuk Opening en Media).
+Liggend en staand moeten exact even lang zijn en de staande versie moet de middelste 9:16-strook
+van de liggende zijn, anders loopt de wissel niet naadloos.
+
+Export: H.264, geen geluid, faststart, elk bestand liefst onder 3 MB. De staande versies met veel
+keyframes (elke 12 frames), want Media spoelt er met scrollen doorheen. Met ffmpeg bijvoorbeeld:
 
 ```
-ffmpeg -i bron.mp4 -vf "scale=720:-2" -c:v libx264 -preset slow -crf 24 \
-  -g 6 -keyint_min 6 -pix_fmt yuv420p -an -movflags +faststart result.mp4
+ffmpeg -i staand.mp4 -vf "scale=720:1280" -c:v libx264 -preset slow -b:v 1.9M -maxrate 2.2M -bufsize 4M \
+  -g 12 -pix_fmt yuv420p -an -movflags +faststart opening-9x16-720.mp4
 ```
-
-`-g 6` zet elke 6 frames een keyframe. Dat maakt het bestand iets groter, maar het scrubben loopt dan soepel.
-Richtlijn: houd het bestand onder de 4 MB.
 
 Gebruik alleen eigen beeld of materiaal met een licentie die dit toestaat.

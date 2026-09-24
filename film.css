@@ -264,26 +264,30 @@ img, video, svg { display: block; max-width: 100%; }
 /* Vóór film.js: alleen de opening is zichtbaar, de sluiter staat dicht (intro), overige scènes verborgen.
    GSAP neemt het daarna over met inline stijlen. */
 .intro #opening .bar { transform: scaleY(1); }
-.intro #opening .room { opacity: .15; }
-.intro #opening .mon-meta, .intro #opening .corner { opacity: 0; }
-.film-on #opening .crop-l, .film-on #opening .crop-r, .film-on #opening .crop-label { visibility: hidden; }
+.intro #opening .mon-meta, .intro #opening .corner, .intro #opening .op-format { opacity: 0; }
 .film-on .chapter:not(#opening) > .scene .scene-in { visibility: hidden; }
 .monitor {
   position: relative; overflow: hidden;
   width: min(100cqw, 100cqh * 16 / 9); aspect-ratio: 16 / 9;
   border-radius: 6px; background: #08090a;
-  box-shadow: 0 0 0 1px var(--line-2);
 }
-.room { position: absolute; inset: 0; width: 100%; height: 100%; transform-origin: 62% 55%; }
-.crop { position: absolute; inset: 0; }
-.crop-l, .crop-r {
-  position: absolute; top: 0; bottom: 0; width: var(--crop-side, 34.18%); /* 9:16-uitsnede binnen 16:9 */
-  background: rgba(8, 9, 10, .62);
+.room { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* Opening: 16:9 ruw materiaal -> 9:16 resultaat. Alles via transform (maskers, hoeken, schaal van het frame). */
+.op-mon { transform-origin: 50% 50%; }
+.op-v16, .op-v9 { position: absolute; top: 0; height: 100%; object-fit: cover; background: #08090a; }
+.op-v16 { left: 0; width: 100%; }
+.op-v9 { left: 34.18%; width: 31.64%; opacity: 0; }            /* 9:16-strook midden in 16:9 */
+.op-mask { position: absolute; top: -1px; bottom: -1px; width: 34.2%; background: var(--bg); transform: scaleX(0); }
+.op-mask-l { left: -1px; transform-origin: left center; }
+.op-mask-r { right: -1px; transform-origin: right center; }
+.op-ring { position: absolute; inset: 0; border-radius: 6px; box-shadow: inset 0 0 0 1px var(--line-2); pointer-events: none; }
+.op-window {
+  position: absolute; top: 0; bottom: 0; left: 34.18%; width: 31.64%; border-radius: 6px;
+  box-shadow: inset 0 0 0 1px var(--line-2); opacity: 0; pointer-events: none;
 }
-.crop-l { left: 0; border-right: 1px dashed rgba(242, 240, 236, .5); }
-.crop-r { right: 0; border-left: 1px dashed rgba(242, 240, 236, .5); }
-.crop-label {
-  position: absolute; left: 50%; bottom: 6%; transform: translateX(-50%);
+.op-format {
+  position: absolute; left: 50%; bottom: 5%; transform: translateX(-50%);
   font: 500 .6875rem/1 var(--f-mono); color: var(--ink);
   padding: 4px 6px; background: rgba(8, 9, 10, .7); border-radius: 3px;
 }
@@ -291,17 +295,22 @@ img, video, svg { display: block; max-width: 100%; }
   position: absolute; left: 4%; top: 6%;
   display: flex; align-items: center; gap: 6px;
   font: 500 .6875rem/1 var(--f-mono); color: var(--ink);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, .6);
 }
 .mon-rec { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
-.corner { position: absolute; width: 14px; height: 14px; border: 0 solid rgba(242, 240, 236, .55); }
+.corner { position: absolute; width: 14px; height: 14px; border: 0 solid rgba(242, 240, 236, .7); }
 .c-tl { left: 2.5%; top: 4%; border-top-width: 1px; border-left-width: 1px; }
 .c-tr { right: 2.5%; top: 4%; border-top-width: 1px; border-right-width: 1px; }
 .c-bl { left: 2.5%; bottom: 4%; border-bottom-width: 1px; border-left-width: 1px; }
 .c-br { right: 2.5%; bottom: 4%; border-bottom-width: 1px; border-right-width: 1px; }
-@media (max-width: 767px) {
-  /* mobiel: vierkant beeld vult het podium beter; 9:16 binnen 1:1 laat 21,875% per kant over */
-  .monitor { width: min(100cqw, 100cqh); aspect-ratio: 1 / 1; --crop-side: 21.875%; }
-}
+
+/* Reduced motion of zonder beweging: direct de staande 9:16-stand */
+.op-mon.is-static-portrait { width: min(100cqw, 100cqh * 9 / 16); aspect-ratio: 9 / 16; }
+.is-static-portrait .op-v16, .is-static-portrait .op-mask, .is-static-portrait .op-window { display: none; }
+.is-static-portrait .op-v9 { left: 0; width: 100%; opacity: 1; }
+.is-static-portrait .op-format { display: none; } /* valt anders over de videobediening */
+.mon-meta { transform-origin: left center; }
+.op-format { transform-origin: 50% 100%; }
 /* sluiterbalken: standaard open (eindbeeld), JS zet ze dicht voor de intro */
 .bar { position: absolute; left: 0; right: 0; height: 50.5%; background: #050606; transform: scaleY(0); }
 .bar-top { top: 0; transform-origin: top; }
@@ -416,6 +425,10 @@ img, video, svg { display: block; max-width: 100%; }
 }
 .program-frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .has-video .pf { display: none; }
+/* met echte video: raster + label liggen als preview óver de gedimde video (film.js dimt en haalt ze weg) */
+.program-frame video { z-index: 1; }
+.has-video .pf-empty { z-index: 2; background: transparent; }
+.has-video .pf-empty svg { display: none; }
 
 /* smal podium: resultaat komt als laag over de dimmende tijdlijn */
 @container (max-width: 599px) {

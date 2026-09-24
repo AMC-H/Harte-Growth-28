@@ -36,16 +36,9 @@
   /* ---------- Scènes: per hoofdstuk een functie die de bouw-tijdlijn vult ---------- */
   var SCENES = {};
 
-  // 1. Opening: het beeld opent als een film, daarna schuift de camera langzaam in.
-  SCENES.opening = function (tl, s) {
-    tl.fromTo(s.q('.room'), { scale: 1 }, { scale: 1.08, duration: 1 }, 0)
-      .fromTo(s.q('.crop-l, .crop-r'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.35 }, 0.3)
-      .fromTo(s.q('.crop-label'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, 0.5);
-  };
-
   // 2. Media: losse foto's vallen in de bak, schuiven op de tijdlijn, krijgen cuts, tekst en geluid,
   //    en spelen af als afgewerkte 9:16-video in het programmascherm.
-  var media = { video: null, hasVideo: false, t0: 0.64, span: 0.3 };
+  var media = { video: null, hasVideo: false, offset: 0, t0: 0.64, span: 0.3 };
 
   SCENES.media = function (tl, s) {
     var only = s.mobile ? ':not(.is-extra)' : '';
@@ -119,12 +112,16 @@
       if (cap) tl.fromTo(cap, { yPercent: 60, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.03, ease: 'power2.out' }, at + 0.01);
     });
 
-    // echte video (/media/result.mp4) scrubt mee over hetzelfde stuk
+    // preview (gedimd + raster) tot de afspeelkop start, daarna het echte resultaat
+    tl.fromTo(s.q('video[data-slot]'), { opacity: 0.35 }, { opacity: 1, duration: 0.04 }, media.t0)
+      .fromTo(s.q('.pf-empty'), { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.04 }, media.t0);
+
+    // het 9:16-resultaat scrubt mee, vanaf het punt waar de opening het overdroeg
     tl.eventCallback('onUpdate', function () {
       if (!media.hasVideo || !media.video.duration) return;
-      var p = (tl.time() - media.t0) / media.span;
-      p = Math.max(0, Math.min(1, p));
-      var t = p * (media.video.duration - 0.05);
+      var d = media.video.duration;
+      var p = Math.max(0, Math.min(1, (tl.time() - media.t0) / media.span));
+      var t = (media.offset + p * (d - 0.05)) % d;
       if (Math.abs(media.video.currentTime - t) > 1 / 30) media.video.currentTime = t;
     });
   };
@@ -206,49 +203,168 @@
       .to(s.q('.ex-done'), { autoAlpha: 1, duration: 0.02 }, 0.88);
   };
 
-  function loadMediaVideo() {
-    var video = document.querySelector('video[data-slot="media-result"]');
-    if (!video || !window.fetch) return;
-    var src = video.dataset.src;
-    fetch(src, { method: 'HEAD' }).then(function (res) {
-      var type = res.headers.get('content-type') || '';
-      if (!res.ok || type.indexOf('video') === -1) return;
-      video.preload = 'auto';
-      video.addEventListener('loadedmetadata', function () {
-        if (!isFinite(video.duration) || !video.duration) return; // kapot of streamend bestand: tekening blijft
-        video.hidden = false;
-        media.video = video;
-        media.hasVideo = true;
-        video.closest('.program-frame').classList.add('has-video');
-        if (!root.classList.contains('film-on')) {
-          // statische versie: gewoon afspeelbaar met bediening
-          video.controls = true;
-          video.removeAttribute('tabindex');
-          video.setAttribute('aria-label', 'Voorbeeldvideo');
-          video.closest('.scene').removeAttribute('aria-hidden');
-        } else {
-          // iOS toont pas beelden na een eerste play()
-          var p = video.play();
-          if (p && p.then) p.then(function () { video.pause(); }).catch(function () {});
-        }
-        ScrollTrigger.update();
-      }, { once: true });
-      video.src = src;
-      video.load();
-    }).catch(function () {});
+  // Laadt pas na de eerste render (load-event + idle), zodat de homepage snel verschijnt.
+  function afterFirstRender(fn) {
+    var idle = function () {
+      if (window.requestIdleCallback) requestIdleCallback(fn, { timeout: 1500 });
+      else setTimeout(fn, 200);
+    };
+    if (document.readyState === 'complete') idle();
+    else window.addEventListener('load', idle, { once: true });
+  }
+  function pick(el, key) {
+    var mobile = window.matchMedia('(max-width: 767px)').matches;
+    return (mobile && el.dataset[key + 'Mobile']) || el.dataset[key];
   }
 
-  // Intro bij binnenkomst: de sluiter gaat open en het licht komt op. De tekst staat er meteen
-  // (niet animeren: dat vertraagt de eerste zichtbare inhoud).
+  function loadMediaVideo() {
+    var video = document.querySelector('video[data-slot="media-result"]');
+    if (!video) return;
+    video.preload = 'auto';
+    video.addEventListener('loadedmetadata', function () {
+      if (!isFinite(video.duration) || !video.duration) return; // kapot bestand: tekening blijft
+      video.hidden = false;
+      media.video = video;
+      media.hasVideo = true;
+      video.closest('.program-frame').classList.add('has-video');
+      if (!root.classList.contains('film-on')) {
+        // statische versie: gewoon afspeelbaar met bediening
+        video.controls = true;
+        video.removeAttribute('tabindex');
+        video.setAttribute('aria-label', 'Voorbeeldvideo');
+        video.closest('.scene').removeAttribute('aria-hidden');
+      } else {
+        // iOS toont pas beelden na een eerste play()
+        var p = video.play();
+        if (p && p.then) p.then(function () { video.pause(); video.currentTime = media.offset; }).catch(function () {});
+      }
+      ScrollTrigger.update();
+    }, { once: true });
+    video.src = pick(video, 'src');
+    video.load();
+  }
+
+  /* ---------- Opening: 16:9 ruw materiaal -> 9:16 resultaat ---------- */
+  var op = {
+    mon: document.querySelector('.op-mon'),
+    v16: document.querySelector('.op-v16'),
+    v9: document.querySelector('.op-v9'),
+    fmt: document.querySelector('.op-format'),
+    portrait: false,
+    loaded: false
+  };
+
+  function loadV9() {
+    if (op.loaded || !op.v9) return;
+    op.loaded = true;
+    op.v9.poster = pick(op.v9, 'poster');
+    op.v9.preload = 'auto';
+    op.v9.src = pick(op.v9, 'src');
+    op.v9.load();
+  }
+  function syncTime(dst, src) {
+    if (dst.readyState >= 1 && src.readyState >= 1) { try { dst.currentTime = src.currentTime; } catch (e) {} }
+  }
+  function play(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+
+  // Transform voor de staande stand: de 9:16-strook wordt zo groot als (en staat waar) het
+  // 9:16-scherm van Media, zodat de video daar naadloos in overgaat. Mobiel: vult de beeldband.
+  function portraitTarget(mobile) {
+    var mon = op.mon, box = mon.parentElement;
+    var W = mon.offsetWidth, H = mon.offsetHeight;
+    var mx = mon.offsetLeft + W / 2, my = mon.offsetTop + H / 2;
+    var pf = document.querySelector('#media .program-frame');
+    var edit = document.querySelector('#media .edit');
+    var k, cx, cy;
+    if (!mobile && pf && edit && edit.offsetWidth >= 600) {
+      var r = offsetIn(pf, document.querySelector('#media .scene-in'));
+      k = r.h / H; cx = r.x + r.w / 2; cy = r.y + r.h / 2;
+    } else {
+      k = Math.min(box.offsetHeight / H, box.offsetWidth / (W * 0.3164)) * 0.98;
+      cx = box.offsetWidth / 2; cy = box.offsetHeight / 2;
+    }
+    return { k: k, x: cx - mx, y: cy - my, shift: (0.3418 - 0.025) * W + 10 };
+  }
+
+  function setOpening(portrait, mobile, instant) {
+    op.portrait = portrait;
+    var d = instant ? 0 : 0.8, ease = 'power3.inOut';
+    var q = function (sel) { return op.mon.querySelectorAll(sel); };
+    var t = portrait ? portraitTarget(mobile) : { k: 1, x: 0, y: 0, shift: 0 };
+    var common = { duration: d, ease: ease, overwrite: 'auto' };
+
+    gsap.to(op.mon, Object.assign({ x: t.x, y: t.y, scale: t.k }, common));
+    gsap.to(q('.op-mask'), Object.assign({ scaleX: portrait ? 1 : 0 }, common));
+    gsap.to(q('.c-tl, .c-bl, .mon-meta'), Object.assign({ x: t.shift }, common));
+    gsap.to(q('.c-tr, .c-br'), Object.assign({ x: -t.shift }, common));
+    // labels meeschalen tegengaan: ze blijven even groot als in de liggende stand
+    gsap.to(q('.mon-meta, .op-format'), Object.assign({ scale: 1 / t.k }, common));
+    gsap.to(q('.op-ring'), { autoAlpha: portrait ? 0 : 1, duration: d * 0.6, overwrite: 'auto' });
+    gsap.to(q('.op-window'), { autoAlpha: portrait ? 1 : 0, duration: d * 0.6, delay: portrait ? d * 0.4 : 0, overwrite: 'auto' });
+    gsap.delayedCall(d * 0.5, function () { op.fmt.textContent = op.portrait ? '9:16' : '16:9'; });
+
+    if (portrait) {
+      loadV9();
+      var fadeIn = function () {
+        if (!op.portrait) return;
+        syncTime(op.v9, op.v16);  // beeld loopt zonder sprong door
+        play(op.v9);
+        gsap.to(op.v9, {
+          autoAlpha: 1, duration: d * 0.45, delay: instant ? 0 : d * 0.25, overwrite: 'auto',
+          // 16:9 niet alleen pauzeren maar ook verbergen: anders lekt een haarlijn langs de afgeronde rand
+          onComplete: function () { if (op.portrait) { op.v16.pause(); gsap.set(op.v16, { autoAlpha: 0 }); } }
+        });
+      };
+      if (op.v9.readyState >= 2) fadeIn();
+      else op.v9.addEventListener('canplay', fadeIn, { once: true });
+    } else {
+      gsap.set(op.v16, { autoAlpha: 1 });
+      syncTime(op.v16, op.v9);
+      play(op.v16);
+      gsap.to(op.v9, {
+        autoAlpha: 0, duration: d * 0.45, overwrite: 'auto',
+        onComplete: function () { if (!op.portrait) op.v9.pause(); }
+      });
+    }
+  }
+
+  // Media neemt het beeld over: zelfde tijdstip, stilgezet als preview tot de montage 'afspeelt'.
+  // De opening bevriest op hetzelfde frame, zodat beide lagen tijdens de overgang precies gelijk zijn.
+  function handOverToMedia() {
+    if (!op.v16) return;
+    var src = op.portrait && op.v9.readyState >= 1 ? op.v9 : op.v16;
+    op.v9.pause(); op.v16.pause();
+    media.offset = src.readyState >= 1 ? src.currentTime : 0;
+    if (media.video) { try { media.video.currentTime = media.offset; } catch (e) {} }
+  }
+  // Terug naar de opening: de video loopt weer door.
+  function backToOpening() {
+    if (!op.v16) return;
+    play(op.portrait ? op.v9 : op.v16);
+  }
+
+  // Reduced motion (of geen filmmodus): meteen de staande 9:16-stand, zonder autoplay.
+  function staticOpening(on) {
+    if (!op.mon) return;
+    op.mon.classList.toggle('is-static-portrait', on);
+    if (!on) return;
+    op.v16.pause();
+    loadV9();
+    op.fmt.textContent = '9:16';
+    op.v9.controls = true;
+    op.v9.setAttribute('aria-label', 'Voorbeeldvideo, staand formaat');
+    op.mon.closest('.scene').removeAttribute('aria-hidden');
+  }
+
   function openingIntro(s) {
     var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     tl.set(s.q('.bar'), { scaleY: 1 })
-      .set(s.q('.room'), { autoAlpha: 0.15 })
-      .set(s.q('.mon-meta, .corner'), { autoAlpha: 0 })
+      .set(s.q('.op-v16'), { autoAlpha: 0.15 })
+      .set(s.q('.mon-meta, .corner, .op-format'), { autoAlpha: 0 })
       .call(function () { root.classList.remove('intro'); })
-      .to(s.q('.room'), { autoAlpha: 1, duration: 1.4, ease: 'power1.inOut' }, 0.35)
+      .to(s.q('.op-v16'), { autoAlpha: 1, duration: 1.4, ease: 'power1.inOut' }, 0.35)
       .to(s.q('.bar'), { scaleY: 0, duration: 1.2, ease: 'expo.inOut' }, 0.2)
-      .to(s.q('.mon-meta, .corner'), { autoAlpha: 1, duration: 0.4, stagger: 0.05 }, 1.1);
+      .to(s.q('.mon-meta, .corner, .op-format'), { autoAlpha: 1, duration: 0.4, stagger: 0.05 }, 1.1);
     return tl;
   }
 
@@ -268,7 +384,7 @@
     return { x: x, y: y, w: w, h: h };
   }
 
-  loadMediaVideo();
+  afterFirstRender(loadMediaVideo);
 
   /* ---------- Filmmodus ---------- */
   var film = null; // { rests: [], max }
@@ -276,9 +392,13 @@
   var mm = gsap.matchMedia();
   mm.add({
     motion: '(prefers-reduced-motion: no-preference)',
+    reduce: '(prefers-reduced-motion: reduce)', // zonder deze roept matchMedia de functie niet aan op desktop
     mobile: '(max-width: 767px)'
   }, function (ctx) {
-    if (!ctx.conditions.motion) return;
+    if (!ctx.conditions.motion) {
+      staticOpening(true);
+      return function () { staticOpening(false); };
+    }
     var mobile = ctx.conditions.mobile;
     root.classList.add('film-on');
 
@@ -308,18 +428,25 @@
         gsap.fromTo(inner, { autoAlpha: 0, scale: 0.97 }, {
           autoAlpha: 1, scale: 1, ease: 'none',
           // komt pas op als de vorige scène weg is (die is klaar bij 'bottom 45%' = deze 'top 45%')
-          scrollTrigger: { trigger: chapter, start: 'top 45%', end: 'top 15%', scrub: true }
+          scrollTrigger: {
+            trigger: chapter, start: 'top 45%', end: 'top 15%', scrub: true,
+            // Media neemt de staande video over van de opening: zelfde beeld, zelfde moment
+            onEnter: id === 'media' ? handOverToMedia : null,
+            onLeaveBack: id === 'media' ? backToOpening : null
+          }
         });
       }
       if (id !== 'contact') {
         // vóór Contact sneller weg: daar neemt de sluitende sluiter het beeld over
         var beforeContact = chapter.nextElementSibling && chapter.nextElementSibling.id === 'contact';
+        // desktop: de staande opening blijft staan tot het 9:16-scherm van Media er precies onder ligt
+        var intoMedia = id === 'opening' && !mobile;
         gsap.fromTo(scene, { autoAlpha: 1 }, {
           autoAlpha: 0, ease: 'none',
           scrollTrigger: {
             trigger: chapter, scrub: true,
-            start: beforeContact ? 'bottom bottom' : 'bottom 75%',
-            end: beforeContact ? 'bottom 90%' : 'bottom 45%'
+            start: beforeContact ? 'bottom bottom' : intoMedia ? 'bottom 35%' : 'bottom 75%',
+            end: beforeContact ? 'bottom 90%' : intoMedia ? 'bottom 12%' : 'bottom 45%'
           }
         });
       }
@@ -346,16 +473,33 @@
       }
     });
 
+    // Opening: bij de eerste scroll van liggend naar staand (getriggerd, ±0,8 s, niet gescrubd).
+    // De 9:16-video laadt na de eerste render, zodat hij klaarstaat als de bezoeker gaat scrollen.
+    if (op.mon) {
+      afterFirstRender(loadV9);
+      ScrollTrigger.create({
+        start: 8, end: 'max',
+        onEnter: function () { setOpening(true, mobile, false); },
+        onLeaveBack: function () { setOpening(false, mobile, false); }
+      });
+      if (window.scrollY > 8) setOpening(true, mobile, true);
+    }
+
     // Geen automatische snap: de bezoeker bepaalt zelf waar hij stopt, zoals bij een video.
     // De rustpunten zijn er alleen voor de tijdlijn-markeringen en ankerlinks.
     ScrollTrigger.create({
       start: 0, end: 'max',
-      onRefresh: function () { measure(builds); }
+      onRefresh: function () {
+        measure(builds);
+        if (op.portrait) setOpening(true, mobile, true); // nieuwe maat na resize
+      }
     });
 
     return function () {
       root.classList.remove('film-on', 'intro');
       film = null;
+      op.portrait = false;
+      if (op.mon) gsap.set([op.mon].concat(toArray(op.mon.querySelectorAll('.op-mask, .corner, .mon-meta, .op-format, .op-ring, .op-window, .op-v9, .op-v16'))), { clearProps: 'all' });
     };
   });
 

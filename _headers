@@ -21,6 +21,10 @@
 /*.svg
   Cache-Control: public, max-age=86400
 
+# Video's en posters van de homepage: 1 dag (vaste namen, kunnen vervangen worden)
+/media/*
+  Cache-Control: public, max-age=86400
+
 # PNG's (og-images): 1 week
 /*.png
   Cache-Control: public, max-age=604800
