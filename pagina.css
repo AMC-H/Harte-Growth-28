@@ -242,3 +242,8 @@ html { scroll-padding-top: calc(var(--hdr) + 12px); }
   .closer .btn { flex: 1 1 100%; }
   .wa-fab { bottom: calc(12px + var(--safe-b)); }
 }
+
+/* link van een resultaatblok naar de volledige case op /cases */
+.case-more { display: inline-flex; align-items: center; min-height: 44px; margin-top: .25rem; color: var(--ink); font-weight: 600; font-size: .9375rem; text-underline-offset: 4px; }
+.case-more:hover { color: var(--accent); }
+.page-cases .case-more { display: none; } /* op /cases zelf niet nodig */
