@@ -95,15 +95,20 @@
   function getCounter(el) {
     if (el._hgCounter !== undefined) return el._hgCounter;
     var final = el.textContent.trim();
-    var m = final.match(/^([^\d<]*)(\d[\d.]*)(?:,(\d+))?(.*)$/);   // '<1 min' en '€0' tellen niet
-    var value = m ? parseFloat(m[2].replace(/\./g, '') + (m[3] ? '.' + m[3] : '')) : 0;
+    // notatie volgt de taal van de pagina: NL/ES 12,4K en 4.000; EN 12.4K en 4,000
+    var en = (document.documentElement.lang || 'nl').slice(0, 2) === 'en';
+    var DEC = en ? '.' : ',', GRP = en ? ',' : '.';
+    var re = en ? /^([^\d<]*)(\d[\d,]*)(?:\.(\d+))?(.*)$/ : /^([^\d<]*)(\d[\d.]*)(?:,(\d+))?(.*)$/;
+    var m = final.match(re);   // '<1 min' en '€0' tellen niet
+    var value = m ? parseFloat(m[2].split(GRP).join('') + (m[3] ? '.' + m[3] : '')) : 0;
     if (!value) return (el._hgCounter = null);
-    var dec = m[3] ? m[3].length : 0, group = m[2].indexOf('.') > -1;
+    var dec = m[3] ? m[3].length : 0, group = m[2].indexOf(GRP) > -1;
+    var loc = en ? 'en-GB' : (document.documentElement.lang === 'es' ? 'de-DE' : 'nl-NL'); // de-DE: zelfde tekens als ES, groepeert ook 4 cijfers
     var sr = document.createElement('span'); sr.className = 'sr-only'; sr.textContent = final;
     var vis = document.createElement('span'); vis.setAttribute('aria-hidden', 'true'); vis.textContent = final;
     el.textContent = ''; el.appendChild(sr); el.appendChild(vis);
     var fmt = function (n) {
-      return m[1] + n.toLocaleString('nl-NL', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: group }) + m[4];
+      return m[1] + n.toLocaleString(loc, { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: group }) + m[4];
     };
     var obj = { v: 0 }, tw = null;
     var api = {
