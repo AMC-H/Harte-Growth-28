@@ -134,12 +134,16 @@
       // Begintoestand staat meteen; het afspelen wacht tot de webfonts binnen zijn (max. 0,7 s). Anders
       // rendert GSAP elk frame en wordt de tussenstand van de font-wissel (één font wel, één niet) als
       // layout shift gemeten.
-      var tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } })
-        .from(hero.querySelector('.hero-h'), { y: 22 * d, opacity: 0, duration: 0.5 }, 0)
-        .from(hero.querySelector('.hero-copy .lede'), { y: 16 * d, opacity: 0, duration: 0.45 }, 0.1)
-        .from(hero.querySelectorAll('.hero-copy .ctas > *'), { y: 12 * d, opacity: 0, duration: 0.4, stagger: 0.06 }, 0.18)
-        .from(frame, { y: 40 * d, duration: 0.6 }, 0.12)
-        .from(phone.length ? phone : {}, { xPercent: -30, autoAlpha: 0, duration: 0.45, stagger: 0.08 }, 0.45);
+      var tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+      var add = function (targets, vars, at) { // alleen wat op deze pagina bestaat
+        var list = toArray(targets && targets.length !== undefined ? targets : [targets]).filter(Boolean);
+        if (list.length) tl.from(list, vars, at);
+      };
+      add(hero.querySelector('.hero-h'), { y: 22 * d, opacity: 0, duration: 0.5 }, 0);
+      add(hero.querySelector('.hero-copy .lede'), { y: 16 * d, opacity: 0, duration: 0.45 }, 0.1);
+      add(hero.querySelectorAll('.hero-copy .ctas > *'), { y: 12 * d, opacity: 0, duration: 0.4, stagger: 0.06 }, 0.18);
+      add(frame, { y: 40 * d, duration: 0.6 }, 0.12);
+      add(phone, { xPercent: -30, autoAlpha: 0, duration: 0.45, stagger: 0.08 }, 0.45);
       var started = false;
       var go = function () {
         if (started) return;

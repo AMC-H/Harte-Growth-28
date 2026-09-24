@@ -1,0 +1,89 @@
+/* Cases: alleen wat /cases extra nodig heeft. Basis (header, knoppen, frames, resultaatblok, lijn, FAQ-open/dicht)
+   komt uit pagina.css, gedeeld met /diensten. */
+
+/* ---------- Hero: collage van drie klantsites ---------- */
+.collage { margin: 1.5rem 1.5rem 3rem 2.5rem; }
+.hero-mini { position: absolute; width: 38%; border-radius: 10px; box-shadow: 0 0 0 1px var(--line-2), 0 30px 60px -24px #000; }
+.hero-mini .bframe-bar { height: 22px; gap: 4px; padding: 0 8px; }
+.hero-mini .bframe-bar i { width: 7px; height: 7px; }
+.hero-mini .bframe-bar span { margin-left: 6px; padding: 2px 8px; font-size: .625rem; }
+.mini-shot { aspect-ratio: 16 / 10; overflow: hidden; background: #fff; }
+.bframe .mini-shot img { aspect-ratio: auto; height: auto; }
+.hero-mini.m1 { left: -2.5rem; bottom: -2.5rem; }
+.hero-mini.m2 { right: -1.5rem; top: -1.75rem; }
+
+/* ---------- Case-sectie ---------- */
+.case-sec + .case-sec { margin-top: clamp(1rem, 3vw, 2rem); border-top: 1px solid var(--line); }
+.case-meta { color: var(--mute); font: 400 .8125rem/1.4 var(--f-mono); }
+.case-meta a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); text-underline-offset: 3px; }
+.case-meta a:hover { color: var(--accent); }
+.case-h { margin-top: .6rem; max-width: 26ch; }
+.case-client { display: block; margin-bottom: .35rem; color: var(--accent); font: 600 1rem/1.2 var(--f-body); letter-spacing: 0; }
+.case-title { display: block; }
+
+/* resultaatblok, zelfde component als op /diensten, hier breed: frame links, cijfers rechts */
+.case-lg { margin-top: 2rem; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.case-lg .case-body { padding: 1.5rem 1.75rem; justify-content: center; }
+.case-sec > .wrap > .case-wide { margin-top: 2rem; }
+.case .case-name { font: 700 1.2rem/1.15 var(--f-head); }
+
+/* uitgangssituatie > aanpak > resultaat: dezelfde lijn als de werkwijze op /diensten, drie blokken */
+.uar { margin-top: 2.5rem; }
+.steps-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
+.uar-h { font: 700 1.125rem/1.2 var(--f-head); }
+.uar .step p:not(.uar-h) { color: #C9CCCF; }
+
+/* wat we bouwden: uitklapbare onderdelen met een dienst-tag */
+.build-h { margin-top: 3rem; color: var(--mute); font: 500 .875rem/1 var(--f-mono); }
+.builds { margin-top: .9rem; }
+.build summary { justify-content: flex-start; }
+.build summary h3 { flex: 1; font: 600 1.0625rem/1.3 var(--f-body); }
+.dtag {
+  flex: none; display: inline-flex; align-items: center; height: 24px; padding: 0 .6rem; border-radius: 999px;
+  background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line-2); color: var(--mute); font: 500 .6875rem/1 var(--f-mono);
+  min-width: 6.5rem; justify-content: center;
+}
+.dtag[data-dienst="fundament"] { color: #F2F0EC; }
+.dtag[data-dienst="verkeer"] { color: #FF8A82; }
+.build .qa-body p { padding-left: 7.5rem; }
+
+.case-info { margin-top: 1.5rem; padding: .8rem 1rem; border-radius: 10px; background: var(--surface); color: var(--mute); font: 400 .8125rem/1.6 var(--f-mono); }
+.case-links { margin-top: 1rem; color: var(--mute); font-size: .9375rem; }
+.case-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); text-underline-offset: 3px; }
+.case-links a:hover { color: var(--accent); }
+.case-cta { margin-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.5rem; }
+.case-cta-h { font: 700 1.25rem/1.2 var(--f-head); }
+
+/* plekken voor quote, startdatum/vooraf-cijfers en video: klaar voor gebruik, verborgen zolang leeg (hidden) */
+.case-quote { margin: 2rem 0 0; padding: 1.25rem 1.5rem; border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 12px 12px 0; }
+.case-quote blockquote { margin: 0; font: 500 1.25rem/1.4 var(--f-body); }
+.case-quote figcaption { margin-top: .6rem; color: var(--mute); font-size: .875rem; }
+.case-facts { margin: 1.5rem 0 0; display: flex; flex-wrap: wrap; gap: 1rem 2.5rem; }
+.case-facts div { display: flex; flex-direction: column; gap: .15rem; }
+.case-facts dd { margin: 0; order: -1; font: 800 1.4rem/1 var(--f-head); }
+.case-facts dt { color: var(--mute); font-size: .8125rem; }
+.case-reel { margin: 2rem 0 0; max-width: 22rem; }
+.case-reel video { width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; background: #000; }
+.case-reel figcaption { margin-top: .5rem; color: var(--mute); font-size: .8125rem; }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1023px) {
+  .collage { margin: 1.5rem 1rem 3rem 1.5rem; }
+  .case-lg { grid-template-columns: 1fr; }
+  .uar .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+  .uar .steps-line { display: block; }
+}
+
+/* ---------- Mobiel ---------- */
+@media (max-width: 767px) {
+  .collage { margin: 0; }
+  .hero-mini { display: none; }
+  .case-lg .case-body { padding: 1.1rem 1.25rem 1.25rem; }
+  .uar .steps { grid-template-columns: 1fr; gap: 1.5rem; }
+  .dtag { min-width: 0; }
+  .build summary { flex-wrap: wrap; gap: .4rem .75rem; }
+  .build summary h3 { flex-basis: calc(100% - 44px); order: 2; }
+  .build summary .qa-icon { order: 3; }
+  .build .qa-body p { padding-left: 0; }
+  .case-cta .btn { flex: 1 1 100%; }
+}
