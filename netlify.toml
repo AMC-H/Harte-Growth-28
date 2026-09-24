@@ -14,6 +14,22 @@
   to = "/"
   status = 301
 
+# De film (tijdelijk op /film/) is nu de homepage
+[[redirects]]
+  from = "/film"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/film/"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/film/*"
+  to = "/"
+  status = 301
+
 [[redirects]]
   from = "/diensten.html"
   to = "/diensten"

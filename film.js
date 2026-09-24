@@ -117,7 +117,7 @@
       if (cap) tl.fromTo(cap, { yPercent: 60, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.03, ease: 'power2.out' }, at + 0.01);
     });
 
-    // echte video (film/media/result.mp4) scrubt mee over hetzelfde stuk
+    // echte video (/media/result.mp4) scrubt mee over hetzelfde stuk
     tl.eventCallback('onUpdate', function () {
       if (!media.hasVideo || !media.video.duration) return;
       var p = (tl.time() - media.t0) / media.span;
@@ -462,7 +462,7 @@
     });
   });
 
-  // Direct binnenkomen op /film/#media: naar het rustpunt van dat hoofdstuk.
+  // Direct binnenkomen op /#media: naar het rustpunt van dat hoofdstuk.
   window.addEventListener('load', function () {
     if (!film || !location.hash) return;
     var i = chapters.findIndex(function (ch) { return '#' + ch.id === location.hash; });

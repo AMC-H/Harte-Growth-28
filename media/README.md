@@ -1,6 +1,6 @@
-# Slot voor de echte video (hoofdstuk Media)
+# Slot voor de echte video (homepage, hoofdstuk Media)
 
-Zet hier `result.mp4` neer. `film.js` controleert bij het laden of `film/media/result.mp4` bestaat.
+Zet hier `result.mp4` neer. `film.js` controleert bij het laden van de homepage of `/media/result.mp4` bestaat.
 Zo ja, dan vervangt de video de getekende beelden in het 9:16-programmascherm en scrubt hij mee met scrollen.
 Zo nee, dan blijft de getekende versie staan. Er hoeft niets aan de code te veranderen.
 
