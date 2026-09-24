@@ -1,194 +1,170 @@
-/* Diensten: bouwt voort op film.css (tokens, header, tijdlijn, knoppen, mobiele scrim). Alleen wat deze
-   pagina extra nodig heeft staat hier. */
+/* Diensten: verkooppagina. Bouwt voort op film.css (tokens, header, voortgangsbalk, knoppen, WhatsApp-knop).
+   Geen vaste stage of scroll-animatie: alleen de verbindingslijn van de werkwijze komt één keer in beeld. */
 
-/* ---------- Typografie (kleiner dan de homepage) ---------- */
-.page-diensten .dh1 { font-size: clamp(2.2rem, 5.5vw, 4.5rem); line-height: .98; }
-.page-diensten .h2 { font-size: clamp(1.8rem, 3.6vw, 3rem); line-height: 1; }
-.page-diensten .lede { font-size: 1.0625rem; max-width: 52ch; }
+html { scroll-padding-top: calc(var(--hdr) + 12px); }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+#dienst { padding-top: var(--hdr); }
+.wrap { width: 100%; max-width: 76rem; margin-inline: auto; padding-inline: var(--gutter); }
+.narrow > * { max-width: 52rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* ---------- Knoppen ---------- */
+/* ---------- Typografie en knoppen ---------- */
+.page-diensten .h2 { font-size: clamp(1.9rem, 1.2rem + 2.1vw, 2.9rem); line-height: 1.02; }
+.sec-h { max-width: 22ch; }
+.sec-h-sm { font-size: clamp(1.4rem, 1.1rem + 1vw, 1.8rem) !important; }
+.sec-lede { color: var(--mute); max-width: 56ch; margin-top: .8rem; text-wrap: pretty; }
+.fine { color: var(--mute); font-size: .875rem; margin-top: 1.2rem; max-width: 70ch; }
 .btn-ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-2); }
 .btn-ghost:hover { background: rgba(242, 240, 236, .06); }
 .btn-lg { min-height: 56px; padding: .9rem 1.6rem; font-size: 1.0625rem; }
-.small { margin-top: .75rem; font-size: .875rem; color: var(--ink); max-width: 60ch; }
-.muted { color: var(--mute); }
-
-/* ---------- Lijst met onderdelen (tekstversie van de clips) ---------- */
-.clip-list { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem .45rem; max-width: 34rem; }
-.clip-list li { font: 500 .75rem/1 var(--f-mono); padding: .45rem .6rem; border-radius: 4px; box-shadow: inset 0 0 0 1px var(--line-2); color: var(--ink); }
-
-/* ---------- Exportvenster-component (zelfde taal als het prijsvenster op de homepage) ---------- */
-.xwin { border-radius: 12px; overflow: hidden; background: var(--surface); box-shadow: 0 0 0 1px var(--line-2); }
-.xwin-bar { display: flex; align-items: center; gap: 6px; padding: .7rem 1rem; background: var(--surface-2); border-bottom: 1px solid var(--line); }
-.xwin-bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(242, 240, 236, .18); }
-.xwin-bar span { margin-left: .6rem; font: 500 .75rem/1.2 var(--f-mono); color: var(--mute); }
-.xwin-rows { margin: 0; padding: .25rem 1.25rem; }
-.xwin-rows div { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1rem; padding: .65rem 0; border-bottom: 1px solid var(--line); }
-.xwin-rows div:last-child { border-bottom: 0; }
-.xwin-rows dt { font: 400 .75rem/1.6 var(--f-mono); color: var(--mute); }
-.xwin-rows dd { margin: 0; font-size: .9375rem; }
-.xwin-render { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem 1.1rem; }
-.xwin-track { flex: 1; height: 6px; border-radius: 99px; background: rgba(242, 240, 236, .1); overflow: hidden; }
-.xwin-fill { display: block; height: 100%; background: var(--accent); transform-origin: left center; }
-.xwin-status { position: relative; min-width: 5.5rem; font: 500 .75rem/1 var(--f-mono); }
-.st-busy { position: absolute; left: 0; top: 0; color: var(--mute); opacity: 0; }
-.st-done { color: var(--ink); }
-
-/* ---------- Growth System: één montagetijdlijn met vier sporen ---------- */
-.stage-slot { position: relative; width: 100%; display: grid; place-items: center; }
-.stage-asset { width: 100%; height: 100%; object-fit: contain; }
-.gs { position: relative; width: min(100%, 46rem); display: flex; flex-direction: column; gap: 10px; }
-.gs-ruler { display: flex; justify-content: space-between; padding-left: 104px; font: 400 .625rem/1 var(--f-mono); color: var(--mute); }
-/* 'Tijdelijke actie' en 'Meest gekozen': lichter rood voor contrast op de rode tint */
-.page-diensten .price-tag { color: #FF8A82; }
-.gs-tracks { display: flex; flex-direction: column; }
-.gs-track { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 8px; align-items: stretch; }
-.gs-name {
-  display: grid; place-items: center; padding: 0 6px; border-radius: 4px;
-  background: var(--surface-2); font: 500 .625rem/1.2 var(--f-mono); letter-spacing: .04em; color: var(--mute);
+.btn-block { width: 100%; }
+.tag {
+  display: inline-flex; align-items: center; height: 24px; padding: 0 .55rem; border-radius: 999px;
+  background: var(--accent); color: var(--bg); font: 600 .75rem/1 var(--f-body); white-space: nowrap;
 }
-.gs-lane {
-  display: flex; flex-wrap: wrap; align-content: flex-start; gap: 6px; min-height: 64px; padding: 7px;
-  border-radius: 6px; background: rgba(242, 240, 236, .03); box-shadow: inset 0 0 0 1px var(--line);
+.tag-soft { background: rgba(255, 59, 48, .14); color: #FF8A82; }
+
+.sec { padding-block: clamp(3.5rem, 7vw, 6rem) 0; }
+.sec-tight { padding-top: clamp(3rem, 6vw, 5rem); }
+
+/* ---------- Voortgangsbalk: gewone sectienamen, geen tijdcode ---------- */
+.page-diensten .tl-clips li { flex: 1 1 0; }
+@media (min-width: 768px) { .page-diensten .tl { gap: 0; } }
+
+/* ---------- 1. Hero ---------- */
+.hero { padding-top: clamp(2rem, 5vw, 4rem); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 4vw, 4rem); align-items: center; }
+.hero-h { font-size: clamp(2.3rem, 1.2rem + 3vw, 3.9rem); max-width: 15ch; }
+.hero-copy .lede { max-width: 40ch; font-size: 1.125rem; }
+.hero-shot { position: relative; margin: 0 0 2.5rem 2.5rem; }
+.bframe { border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px var(--line-2), 0 40px 90px -40px #000; }
+.bframe-bar { display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; background: var(--surface-2); }
+.bframe-bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(242, 240, 236, .2); }
+.bframe-bar span { margin-left: 10px; padding: 3px 12px; border-radius: 6px; background: var(--bg); color: var(--mute); font: 400 .75rem/1.2 var(--f-mono); }
+.bframe img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+.hero-phone {
+  position: absolute; left: -2.5rem; bottom: -2.5rem; width: clamp(96px, 16%, 132px);
+  border: 5px solid #000; border-radius: 20px; overflow: hidden; background: #000;
+  box-shadow: 0 0 0 1px var(--line-2), 0 24px 50px -20px #000;
 }
-.gs-clip {
-  display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 6px;
-  background: #22303A; box-shadow: inset 0 0 0 1px rgba(242, 240, 236, .16);
-  font: 500 .6875rem/1 var(--f-mono); color: var(--ink); white-space: nowrap;
-  transform-origin: left center;
+.hero-phone img { width: 100%; height: auto; }
+.proof {
+  position: absolute; right: -.75rem; bottom: -1.75rem; max-width: 22rem;
+  padding: .8rem 1rem; border-radius: 12px; background: var(--surface); box-shadow: 0 0 0 1px var(--line-2), 0 20px 50px -20px #000;
+  font-size: .9375rem; line-height: 1.35;
 }
-.gs-gap { position: relative; height: 16px; margin-left: 104px; }
-.gs-gap i { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(242, 240, 236, .38); transform-origin: top center; }
-.gs-gap i:nth-child(1) { left: 12%; }
-.gs-gap i:nth-child(2) { left: 48%; }
-.gs-gap i:nth-child(3) { left: 82%; }
-.gs-master { margin-top: 6px; }
-.gs-master .gs-lane { min-height: 40px; }
-.gs-master .gs-clip { flex: 1; background: rgba(255, 59, 48, .18); box-shadow: inset 0 0 0 1px rgba(255, 59, 48, .55); }
-.gs-head { position: absolute; top: 18px; bottom: 0; left: 104px; right: 0; pointer-events: none; }
-.gs-head span { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--accent); }
-.gs-head span::before { content: ""; position: absolute; top: -6px; left: -5px; width: 12px; height: 7px; background: var(--accent); clip-path: polygon(0 0, 100% 0, 50% 100%); }
-.gs-export { position: relative; margin: 6px 0 0 auto; width: min(26rem, 82%); box-shadow: 0 0 0 1px var(--line-2), 0 30px 80px -30px #000; }
-/* film: de sporen schuiven weg in de master, het exportvenster neemt hun plek in */
-.film-on .dstage .gs-export { position: absolute; right: 0; top: 30px; margin: 0; }
-
-/* ---------- Film-layout voor deze pagina ---------- */
-.film-on #film #systeem > .scene .scene-in { visibility: visible; } /* eerste stage is meteen zichtbaar */
-.film-on .gs-static { display: none; }
-.gs-static:not(.filled) { display: none; }
-@media (min-width: 1024px) {
-  .film-on .dstage { left: 45vw; }                 /* stage ±55% breed */
+.proof strong { font: 800 1.3rem/1 var(--f-head); letter-spacing: -.02em; }
+.proof span { display: block; margin-top: .35rem; color: var(--mute); font-size: .75rem; }
+.clients {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1.5rem;
+  margin-top: clamp(2.5rem, 5vw, 4rem); padding-block: .75rem; border-block: 1px solid var(--line);
 }
-@media (min-width: 768px) {
-  .film-on body.page-diensten .copy { width: min(34rem, 40vw); }
+.clients p { color: var(--mute); font-size: .875rem; }
+.clients ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
+.clients a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; text-decoration: none; }
+.clients a:hover { color: var(--accent); }
+
+/* ---------- 2. Instappen en 5. pakketten (zelfde kaart) ---------- */
+.entries, .plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; }
+.entry, .plan {
+  display: flex; flex-direction: column; gap: .9rem; padding: 1.5rem;
+  border-radius: 14px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line);
 }
-/* 768-1023: stage bovenin (45%), tekst eronder */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .film-on .dstage {
-    left: 0; right: 0; top: var(--hdr); bottom: auto; height: 45svh; z-index: 3;
-    padding: 12px var(--gutter); background: var(--bg);
-  }
-  .film-on body.page-diensten .chapter:not(.plain) .copy {
-    top: calc(var(--hdr) + 45svh); height: calc(100svh - var(--hdr) - 45svh);
-    width: 100%; padding: 1.5rem var(--gutter) 2rem; justify-content: flex-start;
-  }
-  .page-diensten .gs-lane { min-height: 44px; padding: 5px; gap: 5px; }
-  .page-diensten .gs-clip { height: 22px; font-size: .625rem; padding: 0 8px; }
-  .page-diensten .gs-gap { height: 10px; }
+.entry.is-featured, .plan.is-featured { box-shadow: inset 0 0 0 2px var(--accent); background: #1A1616; }
+.entry-top { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.entry h3, .plan h3 { font: 700 1.25rem/1.15 var(--f-head); letter-spacing: -.01em; }
+.entry-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .5rem; }
+.entry-price strong { font: 800 2.4rem/1 var(--f-head); letter-spacing: -.03em; }
+.entry-price s { color: var(--mute); }
+.per, .from { color: var(--mute); font-size: .9375rem; }
+.entry-who, .plan-who { color: var(--mute); }
+.plan-term { color: var(--mute); font-size: .8125rem; margin-top: -.5rem; }
+.ticks { list-style: none; margin: 0 0 .4rem; padding: 0; display: grid; gap: .5rem; }
+.ticks li { position: relative; padding-left: 1.6rem; }
+.ticks li::before {
+  content: ""; position: absolute; left: .15rem; top: .45em; width: .7rem; height: .38rem;
+  border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg);
 }
-/* statisch (geen JS of reduced motion): scènes groeien mee met de inhoud */
-html:not(.film-on) .page-diensten .scene-in { aspect-ratio: auto; container-type: inline-size; padding: 1rem 0 2.5rem; }
+.entry .btn, .plan .btn { margin-top: auto; }
+.plan-notes { list-style: none; margin: 1.2rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem 1.8rem; color: var(--mute); font-size: .875rem; }
 
-/* ---------- Gewone inhoud na de film (aanbod t/m start) ---------- */
-.page-diensten .chapter.plain { display: block; }
-.film-on body.page-diensten .chapter.plain { height: auto; padding: 16vh var(--gutter) 8vh; }
-.plain-inner { max-width: 76rem; }
-.page-diensten .chapter.plain .h2 + .lede, .page-diensten .chapter.plain .big-price + .small + .lede { margin-bottom: 2rem; }
-
-/* prijsweergave */
-.big-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .55rem; margin-top: .9rem; color: var(--mute); }
-.big-price strong { font: 800 clamp(2.6rem, 1.8rem + 2.6vw, 3.6rem)/1 var(--f-head); letter-spacing: -.03em; color: var(--ink); }
-.big-price .from, .big-price .per { font-size: 1rem; color: var(--ink); }
-.big-price s { color: var(--mute); }
-
-/* aanbod */
-.offer-grid { display: grid; gap: 1.25rem; }
-@media (min-width: 900px) { .offer-grid { grid-template-columns: 1fr 1fr; align-items: start; } }
-.offer-body { padding: .6rem 1.4rem 1.5rem; }
-.offer-text { margin-top: .9rem; max-width: 46ch; }
-.offer .xwin-rows { margin: 1rem -1.4rem 0; padding: 0 1.4rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.incl-h { margin-top: 1.1rem; font: 500 .75rem/1 var(--f-mono); color: var(--mute); }
-.incl { list-style: none; margin: .7rem 0 1.4rem; padding: 0; display: grid; gap: .45rem; }
-.incl li { display: flex; gap: .6rem; align-items: baseline; }
-.incl li::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); transform: translateY(-1px); }
-
-/* maandelijks: drie gestapelde sporen, elk langer dan het vorige */
-.tiers { display: grid; gap: 1.1rem; }
-.tier { border-radius: 12px; background: var(--surface); box-shadow: 0 0 0 1px var(--line-2); padding: 1rem 1.25rem 1.4rem; }
-.tier-track {
-  display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem;
-  width: var(--w, 100%); min-height: 52px; padding: .6rem 1rem; border-radius: 8px;
-  background: #22303A; box-shadow: inset 0 0 0 1px rgba(242, 240, 236, .16);
+/* ---------- 3. Werkwijze ---------- */
+.steps { list-style: none; margin: 2.25rem 0 0; padding: 0; position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
+/* verbindingslijn door de nummers; komt één keer in beeld (JS zet .is-in) */
+.steps::before {
+  content: ""; position: absolute; left: 18px; right: 18px; top: 17px; height: 2px;
+  background: linear-gradient(90deg, var(--accent), rgba(255, 59, 48, .35)); transform-origin: left center;
 }
-.tier[data-tier="care"] { --w: 48%; }
-.tier[data-tier="growth"] { --w: 74%; }
-.tier[data-tier="partner"] { --w: 100%; }
-.tier-name { font: 700 1.25rem/1.1 var(--f-head); letter-spacing: -.01em; }
-.tier-price { margin-left: auto; display: flex; align-items: baseline; gap: .4rem; font: 500 1rem/1 var(--f-mono); color: var(--mute); }
-.tier-price strong { font: 700 1.35rem/1 var(--f-mono); color: var(--ink); }
-.tier-price .from { font-family: var(--f-body); color: var(--ink); }
-.tier-body { display: grid; gap: .5rem 2rem; margin-top: 1rem; }
-.tier-lead { max-width: 52ch; }
-.tier-body .incl { margin: .4rem 0 .6rem; }
-.tier-body .btn { justify-self: start; }
-@media (min-width: 900px) {
-  .tier-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: start; }
-  .tier-body .incl { grid-column: 2; grid-row: 1 / span 2; columns: 2; display: block; margin-top: 0; }
-  .tier-body .incl li { margin-bottom: .45rem; break-inside: avoid; }
+.js .steps::before { transform: scaleX(0); transition: transform 1.1s cubic-bezier(.3, .7, .2, 1); }
+.js .steps.is-in::before { transform: none; }
+@media (prefers-reduced-motion: reduce) { .js .steps::before { transform: none; transition: none; } }
+.step { position: relative; display: flex; flex-direction: column; gap: .55rem; }
+.step-dot {
+  display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; margin-bottom: .4rem;
+  background: var(--bg); box-shadow: inset 0 0 0 2px var(--accent); font: 600 .875rem/1 var(--f-mono);
 }
-.tier-featured { box-shadow: 0 0 0 2px var(--accent); padding-block: 1.3rem 1.8rem; }
-.tier-featured .tier-track { background: rgba(255, 59, 48, .16); box-shadow: inset 0 0 0 1px rgba(255, 59, 48, .55); }
-.tier-tag { order: 3; }
-.tier-notes { margin-top: 1.4rem; display: grid; gap: .3rem; font-size: .9375rem; }
+.step h3 { font: 700 1.25rem/1.15 var(--f-head); }
+.step p { color: var(--mute); font-size: .9688rem; }
+.step-img { margin: .5rem 0 0; }
+.step-img img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 10px; box-shadow: 0 0 0 1px var(--line-2); background: var(--surface-2); }
+.step-img figcaption { margin-top: .45rem; color: var(--mute); font-size: .75rem; }
 
-/* automation: zeven knooppunten die één voor één oplichten */
-.flow { position: relative; margin: 1rem 0 2rem; }
-.flow-nodes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .5rem; }
-.fnode { position: relative; display: flex; flex-direction: column; align-items: center; gap: .8rem; text-align: center; }
-.fdot { position: relative; z-index: 1; width: 16px; height: 16px; border-radius: 50%; background: var(--bg); box-shadow: inset 0 0 0 2px rgba(242, 240, 236, .35); transition: background-color .2s ease, box-shadow .2s ease; }
-.flabel { font-size: .875rem; line-height: 1.3; color: var(--mute); transition: color .2s ease; }
-.fnode.on .fdot, html:not(.film-on) .fdot { background: var(--accent); box-shadow: 0 0 0 4px rgba(255, 59, 48, .2); }
-.fnode.on .flabel, html:not(.film-on) .flabel { color: var(--ink); }
-.flow-line { position: absolute; top: 7px; left: calc(100% / 14); right: calc(100% / 14); height: 2px; background: rgba(242, 240, 236, .16); }
-.flow-fill { position: absolute; inset: 0; background: var(--accent); transform-origin: left center; }
-html:not(.film-on) .flow-fill { transform: none; }
-.film-on .flow-fill { transform: scaleX(0); }
+/* ---------- 4. Resultaten ---------- */
+.cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; }
+.case { border-radius: 14px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; display: flex; flex-direction: column; }
+.bframe-sm { border-radius: 0; box-shadow: none; }
+.bframe-sm .bframe-bar { height: 26px; }
+.case-body { padding: 1.1rem 1.25rem 1.25rem; display: flex; flex-direction: column; gap: .5rem; flex: 1; }
+.case h3 { font: 700 1.2rem/1.15 var(--f-head); }
+.case-sector { color: var(--mute); font-size: .875rem; margin-top: -.3rem; }
+.case-stats { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem 1rem; margin: .4rem 0; }
+.case-stats div { display: flex; flex-direction: column; gap: .15rem; }
+.case-stats dd { order: -1; }
+.case-stats dd { margin: 0; font: 800 1.6rem/1 var(--f-head); letter-spacing: -.02em; }
+.case-stats dt { color: var(--mute); font-size: .8125rem; line-height: 1.3; }
+.case-built { font-size: .9375rem; }
+.case-src { margin-top: auto; color: var(--mute); font: 400 .75rem/1.3 var(--f-mono); }
+.case-wide {
+  margin-top: 1rem; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.5fr) auto; align-items: center;
+  gap: 1rem 2rem; padding: 1.25rem 1.5rem;
+}
+.case-wide .case-body { padding: 0; }
+.case-wide .case-stats { grid-template-columns: repeat(3, auto); justify-content: start; gap: 1rem 2rem; margin: 0; }
+.case-wide .case-src { margin: 0; align-self: end; }
+#resultaten .ctas { margin-top: 1.5rem; }
 
-/* bewijs */
-.result-grid { display: grid; gap: 1.1rem; }
-@media (min-width: 900px) { .result-grid { grid-template-columns: 1fr 1fr; } }
-.result-body { padding: 1rem 1.25rem 1.2rem; }
-.result-name { font: 700 1.2rem/1.2 var(--f-head); }
-.result-sector { margin-top: .2rem; font-size: .875rem; color: var(--mute); }
-.result-stats { margin: 1rem 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem 1rem; }
-.result-stats div { display: flex; flex-direction: column-reverse; gap: .3rem; }
-.result-stats dd { margin: 0; font: 600 clamp(1.5rem, 1.1rem + 1.2vw, 2rem)/1 var(--f-mono); color: var(--ink); }
-.result-stats dt { font-size: .8125rem; color: var(--mute); }
-.result-system { margin-top: 1rem; font-size: .9375rem; }
-.result-source { margin-top: .5rem; font: 400 .75rem/1.4 var(--f-mono); color: var(--mute); }
+/* ---------- 6. Automation ---------- */
+.auto { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 2rem 4rem; align-items: center; }
+.auto-copy .entry-price { margin-top: 1rem; }
+.auto-copy .btn { margin-top: 1.4rem; }
+.flow { list-style: none; margin: 0; padding: 0; counter-reset: f; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .5rem; position: relative; }
+.flow::before { content: ""; position: absolute; left: 7%; right: 7%; top: 15px; height: 2px; background: var(--line-2); }
+.flow li { counter-increment: f; position: relative; display: flex; flex-direction: column; align-items: center; gap: .6rem; text-align: center; font-size: .8125rem; line-height: 1.3; color: var(--mute); }
+.flow li::before {
+  content: counter(f); display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line-2); color: var(--ink); font: 600 .8125rem/1 var(--f-mono);
+}
+.flow li:first-child::before, .flow li:last-child::before { background: var(--accent); color: var(--bg); box-shadow: none; }
 
-/* ook los in te zetten */
-.los { margin-top: 3.5rem; max-width: 46rem; }
-.los-h { font: 700 1.35rem/1.2 var(--f-head); margin-bottom: .8rem; }
-.price-table { margin: 0; }
-.price-table div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; padding: .75rem 0; border-top: 1px solid var(--line-2); }
-.price-table div:last-child { border-bottom: 1px solid var(--line-2); }
+/* ---------- 7. Vragen ---------- */
+.qas { margin-top: 1.5rem; border-top: 1px solid var(--line); }
+.qa { border-bottom: 1px solid var(--line); }
+.qa summary {
+  list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  min-height: 60px; padding: .8rem 0; font: 600 1.0625rem/1.3 var(--f-body);
+}
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary::after { content: "+"; flex: none; width: 28px; text-align: center; color: var(--accent); font: 400 1.6rem/1 var(--f-body); }
+.qa[open] summary::after { content: "\2212"; }
+.qa p { padding: 0 2.5rem 1.2rem 0; color: var(--mute); max-width: 62ch; }
+
+/* ---------- 8. Losse diensten en afsluiter ---------- */
+.price-table { margin: 1.2rem 0 0; border-top: 1px solid var(--line); }
+.price-table div { display: flex; justify-content: space-between; gap: 1rem; padding: .8rem 0; border-bottom: 1px solid var(--line); }
 .price-table dt { font-weight: 500; }
-.price-table dd { margin: 0; font: 500 .9375rem/1.4 var(--f-mono); color: var(--ink); text-align: right; }
-
-/* afsluiting */
-.start-render { max-width: 26rem; margin-bottom: 2.5rem; }
-#start .ctas { margin-top: 1.8rem; }
+.price-table dd { margin: 0; color: var(--mute); text-align: right; }
+.closer { margin-top: clamp(4rem, 8vw, 6.5rem); padding-bottom: clamp(4rem, 8vw, 6rem); }
+.closer .sec-h { max-width: 18ch; }
 
 /* footer (bestaande sitefooter, in de tokens van deze pagina) */
 .site-foot { padding: 3rem var(--gutter) calc(3.5rem + var(--safe-b)); }
@@ -201,41 +177,47 @@ html:not(.film-on) .flow-fill { transform: none; }
 .logo-text i { font-style: normal; font-weight: 500; color: var(--accent); }
 .logo-text span { color: var(--accent); }
 
-/* ---------- Mobiel (<768px): homepage-aanpak ---------- */
-@media (max-width: 767px) {
-  .page-diensten .gs-clip:nth-child(n+5) { display: none; }       /* max. 4 clips per spoor */
-  .page-diensten .gs-track { grid-template-columns: 78px minmax(0, 1fr); gap: 6px; }
-  .page-diensten .gs-ruler { padding-left: 84px; }
-  .page-diensten .gs-gap { margin-left: 84px; }
-  .page-diensten .gs-head { left: 84px; }
-  .page-diensten .gs-lane { min-height: 0; padding: 5px; gap: 5px; }
-  .page-diensten .gs-clip { height: 24px; font-size: .625rem; padding: 0 8px; }
-  .page-diensten .gs-gap { height: 10px; }
-  .page-diensten .gs-export { width: auto; margin-left: 0; }
-  .film-on .page-diensten .dstage .gs-export { left: 0; top: 24px; }
-  .page-diensten .xwin-rows div { grid-template-columns: 5.4rem 1fr; gap: .6rem; }
-  .film-on body.page-diensten .chapter.plain { padding: 5rem var(--gutter) 3rem; }
-  /* tijdlijn: 11 hoofdstukken passen alleen zonder tijdcode en hoofdstuklabel (min. 24px per markering) */
-  .page-diensten #tc, .page-diensten .tl-now { display: none; }
-  .page-diensten .tl-clips li { min-width: 24px; }
-  /* automation verticaal */
-  .flow-nodes { grid-template-columns: 1fr; gap: 1.1rem; }
-  .fnode { flex-direction: row; text-align: left; gap: 1rem; }
-  .flow-line { top: 8px; bottom: 8px; left: 7px; right: auto; width: 2px; height: auto; }
-  .flow-fill { transform-origin: center top; }
-  .film-on .flow-fill { transform: scaleY(0); }
-  /* prijstabel: naam boven, prijs eronder */
-  .price-table div { grid-template-columns: 1fr; gap: .2rem; }
-  .price-table dd { text-align: left; }
-  .tier[data-tier="care"] { --w: 78%; }
-  .tier[data-tier="growth"] { --w: 90%; }
-  .tier-track { padding: .5rem .8rem; }
-  .tier-price { margin-left: 0; width: 100%; }
-  .offer-body { padding: .6rem 1.1rem 1.3rem; }
-  .offer .xwin-rows { margin-inline: -1.1rem; padding-inline: 1.1rem; }
+/* ---------- Tablet ---------- */
+@media (max-width: 1023px) {
+  .hero-grid, .auto { grid-template-columns: 1fr; }
+  .hero-shot { margin: 1rem 0 3rem 1rem; }
+  .entries, .plans, .cases { grid-template-columns: 1fr 1fr; }
+  .steps { grid-template-columns: 1fr 1fr; gap: 2rem 1.5rem; }
+  .steps::before { display: none; }
+  .case-wide { grid-template-columns: 1fr; }
 }
-@media (max-width: 380px) {
-  .tier[data-tier="care"], .tier[data-tier="growth"] { --w: 100%; }
+
+/* ---------- Mobiel (<768px): alles gestapeld ---------- */
+@media (max-width: 767px) {
+  .hero-h { font-size: clamp(2.1rem, 9.5vw, 2.6rem); }
+  .hero-copy .lede { font-size: 1.0625rem; }
+  .hero-copy .btn { flex: 1 1 100%; }
+  .hero-grid { gap: 1.5rem; }
+  .hero-shot { margin: 0; }
+  #instappen { padding-top: 2.75rem; }
+  .entries, .plans, .cases { margin-top: 1.25rem; }
+  .entry, .plan { padding: 1.25rem; }
+  .hero-phone { display: none; }
+  .proof { position: static; max-width: none; margin-top: .75rem; }
+  .clients { margin-top: 1.5rem; padding-block: .25rem; }
+  .clients ul { gap: 0 1.1rem; }
+  .entries, .plans, .cases { grid-template-columns: 1fr; }
+  .plans .is-featured { order: -1; }
+  /* werkwijze: verticaal, lijn links langs de nummers */
+  .steps { grid-template-columns: 1fr; gap: 2rem; padding-left: 52px; }
+  .steps::before { display: block; left: 17px; right: auto; top: 18px; bottom: 18px; width: 2px; height: auto; transform-origin: top center;
+    background: linear-gradient(180deg, var(--accent), rgba(255, 59, 48, .35)); }
+  .js .steps::before { transform: scaleY(0); }
+  .js .steps.is-in::before { transform: none; }
+  .step-dot { position: absolute; left: -52px; top: 0; margin: 0; }
+  .case-wide .case-stats { grid-template-columns: repeat(3, auto); gap: .8rem 1.4rem; }
+  .flow { grid-template-columns: 1fr; gap: .6rem; }
+  .flow::before { left: 15px; right: auto; top: 16px; bottom: 16px; width: 2px; height: auto; }
+  .flow li { flex-direction: row; text-align: left; font-size: .9375rem; }
+  .qa p { padding-right: 0; }
+  .price-table dd { font-size: .9375rem; }
+  .closer .btn { flex: 1 1 100%; }
+  .wa-fab { bottom: calc(12px + var(--safe-b)); }
 }
 
 /* ---------- Cookiebanner (analytics.js). styles.css wordt hier niet geladen; zelfde opbouw in de filmstijl ---------- */
