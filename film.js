@@ -39,6 +39,7 @@
   // 2. Media: losse foto's vallen in de bak, schuiven op de tijdlijn, krijgen cuts, tekst en geluid,
   //    en spelen af als afgewerkte 9:16-video in het programmascherm.
   var media = { video: null, hasVideo: false, t0: 0.64, span: 0.3 };
+  var mediaResultAt = 0.7; // deel van de Media-opbouw waarop de resultaatlaag (mobiel) volledig op is; zie hieronder
   var clipVideo = document.querySelector('.shot-video'); // ruwe clip in de bak
 
   SCENES.media = function (tl, s) {
@@ -97,14 +98,6 @@
         autoAlpha: 1, scale: 1, duration: 0.06, ease: 'power2.out'
       }, 0.6);
 
-    // het echte 9:16-resultaat scrubt mee zodra de afspeelkop loopt; daarvoor staat het eerste frame (poster)
-    tl.eventCallback('onUpdate', function () {
-      if (!media.hasVideo || !media.video.duration) return;
-      var d = media.video.duration;
-      var p = Math.max(0, Math.min(1, (tl.time() - media.t0) / media.span));
-      var t = p * (d - 0.05);
-      if (Math.abs(media.video.currentTime - t) > 1 / 30) media.video.currentTime = t;
-    });
   };
 
   // 3. Fundament: eerst het wireframe, dan de echte onderdelen in leesvolgorde, als laatste de WhatsApp-knop.
@@ -201,8 +194,12 @@
   // Beelden van Media (foto's, miniaturen, clip, posters) en het resultaat pas laden als Media in zicht komt:
   // ze staan in de vaste beeldlaag, dus loading="lazy" zou ze meteen laden en de eerste schermvulling vertragen.
   function loadMediaAssets() {
-    // (mobiel: de verborgen extra's staan op display:none; die laadt de browser niet)
+    mediaAssetsRequested = true;
+    // Geen loading="lazy": in een vaste, (nog) onzichtbare laag met transforms beslist elke browser anders
+    // of een beeld 'in beeld' is (Safari laadde ze niet). Wij beslissen zelf: alles wat getoond wordt, laadt.
+    var mobile = window.matchMedia('(max-width: 767px)').matches;
     Array.prototype.forEach.call(document.querySelectorAll('#media img[data-src]'), function (img) {
+      if (mobile && img.closest('.is-extra')) return; // mobiel verborgen extra's: niet laden
       img.src = img.dataset.src;
       img.removeAttribute('data-src');
     });
@@ -213,6 +210,12 @@
     }
     loadMediaVideo();
   }
+
+  // Wordt het scherm breder (telefoon gedraaid, venster groter), dan alsnog de extra foto's laden.
+  var wideMq = window.matchMedia('(max-width: 767px)');
+  var onWidth = function () { if (!wideMq.matches && mediaAssetsRequested) loadMediaAssets(); };
+  if (wideMq.addEventListener) wideMq.addEventListener('change', onWidth);
+  var mediaAssetsRequested = false;
 
   function loadMediaVideo() {
     var video = document.querySelector('video[data-slot="media-result"]');
@@ -463,6 +466,7 @@
         // bouw eindigt op 90%, zodat het rustpunt een af beeld laat zien
         tl.set({}, {}, tl.duration() / 0.9);
         builds[id] = tl.scrollTrigger;
+        if (id === 'media') mediaResultAt = 0.66 / tl.duration(); // resultaatlaag is op bij tijd 0.66
       }
 
       if (id === 'opening') {
@@ -483,6 +487,24 @@
         if (!clipVideo) return;
         if (self.isActive) play(clipVideo); else clipVideo.pause();
       }
+    });
+
+    // Resultaat: 0:00 op het moment dat het 9:16-scherm volledig in beeld is, laatste frame als de scène
+    // begint weg te vagen. Desktop: na het invaden van de scène. Mobiel: zodra de resultaatlaag op is
+    // (die komt daar pas op 60% van de montage, over de gedimde tijdlijn heen).
+    var mediaBuild = builds.media;
+    ScrollTrigger.create({
+      trigger: '#media',
+      start: mobile
+        ? function () { return mediaBuild.start + (mediaBuild.end - mediaBuild.start) * mediaResultAt; }
+        : 'top 15%',
+      end: 'bottom 75%',
+      onUpdate: function (self) {
+        if (!media.hasVideo || !media.video.duration) return;
+        var t = self.progress * (media.video.duration - 1 / 30);
+        if (Math.abs(media.video.currentTime - t) > 1 / 60) media.video.currentTime = t;
+      },
+      onLeaveBack: function () { if (media.video) media.video.currentTime = 0; }
     });
 
     // Opening: bij de eerste scroll van liggend naar staand (getriggerd, ±0,8 s, niet gescrubd).

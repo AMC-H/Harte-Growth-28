@@ -19,12 +19,19 @@ De tijdlijn-labels in Media (00:00 tot 00:12) volgen de lengte van `result.mp4`;
 Liggend en staand moeten exact even lang zijn en de staande versie moet de middelste 9:16-strook
 van de liggende zijn, anders loopt de wissel niet naadloos.
 
-Export: H.264, geen geluid, faststart, elk bestand liefst onder 3 MB. De staande versies met veel
-keyframes (elke 12 frames), want Media spoelt er met scrollen doorheen. Met ffmpeg bijvoorbeeld:
+Export: H.264, geen geluid, faststart, elk bestand liefst onder 3 MB (result.mp4 onder 4 MB). De staande
+versies en result.mp4 met veel keyframes (elke 12 frames) en zonder B-frames: dan kloppen de tijdstempels
+exact met het origineel (eerste frame op 0:00) en loopt het scrubben soepel. Met ffmpeg bijvoorbeeld:
 
 ```
 ffmpeg -i staand.mp4 -vf "scale=720:1280" -c:v libx264 -preset slow -b:v 1.9M -maxrate 2.2M -bufsize 4M \
-  -g 12 -pix_fmt yuv420p -an -movflags +faststart opening-9x16-720.mp4
+  -g 12 -bf 0 -pix_fmt yuv420p -an -movflags +faststart opening-9x16-720.mp4
 ```
 
 Gebruik alleen eigen beeld of materiaal met een licentie die dit toestaat.
+
+## Posters
+
+Maak de poster van het eerste frame zoals de browser het rendert (video op 0:00 in een canvas tekenen
+en als WebP opslaan). Een PNG uit een videotool heeft vaak een BT.709-kleurprofiel en wordt in de browser
+dan lichter getoond dan de video zelf.
