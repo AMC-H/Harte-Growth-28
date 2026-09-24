@@ -773,3 +773,7 @@ img, video, svg { display: block; max-width: 100%; }
   .film-on #media .program > .edit-label { display: none; }
   .film-on #media .program-frame { width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; box-shadow: none; }
 }
+
+/* btw-vermelding bij prijzen (klein, gedempt) */
+.vat { font: 400 .75rem/1 var(--f-body); color: var(--mute); white-space: nowrap; }
+.film-on .copy-body .vat { color: #C4C8CC; }
