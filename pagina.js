@@ -1,4 +1,4 @@
-/* Harte Growth, diensten.
+/* Harte Growth, gedeelde code voor /diensten en /cases (pagina.js).
  * Menu, WhatsApp-knop, voortgangsbalk en de scroll-animaties (GSAP 3.13 + ScrollTrigger, zoals de homepage).
  * De HTML staat altijd in eindstand: alle begintoestanden worden hier gezet, pas als GSAP geladen is.
  * Zonder JS of GSAP, en bij prefers-reduced-motion, blijft alles gewoon staan.
@@ -127,8 +127,9 @@
     var hero = document.getElementById('top');
     if (!hero) return;
     var frame = hero.querySelector('.hero-shot > .bframe');
-    var phone = hero.querySelector('.hero-phone');
+    var phone = toArray(hero.querySelectorAll('.hero-phone, .hero-mini')); // diensten: telefoon, cases: kleine frames
     var proofNum = hero.querySelector('.proof strong');
+    if (!frame) return;
     if (intro) {
       // Begintoestand staat meteen; het afspelen wacht tot de webfonts binnen zijn (max. 0,7 s). Anders
       // rendert GSAP elk frame en wordt de tussenstand van de font-wissel (één font wel, één niet) als
@@ -138,7 +139,7 @@
         .from(hero.querySelector('.hero-copy .lede'), { y: 16 * d, opacity: 0, duration: 0.45 }, 0.1)
         .from(hero.querySelectorAll('.hero-copy .ctas > *'), { y: 12 * d, opacity: 0, duration: 0.4, stagger: 0.06 }, 0.18)
         .from(frame, { y: 40 * d, duration: 0.6 }, 0.12)
-        .from(phone, { xPercent: -30, autoAlpha: 0, duration: 0.45 }, 0.45);
+        .from(phone.length ? phone : {}, { xPercent: -30, autoAlpha: 0, duration: 0.45, stagger: 0.08 }, 0.45);
       var started = false;
       var go = function () {
         if (started) return;
@@ -157,6 +158,7 @@
       scrollTrigger: { trigger: hero, start: 0, end: 'bottom top', scrub: true }
     });
     // telefoon 15% sneller dan het frame: diepte
+    if (!phone.length) return;
     gsap.to(phone, {
       y: function () { return -0.15 * (hero.offsetTop + hero.offsetHeight); }, ease: 'none',
       scrollTrigger: { trigger: hero, start: 0, end: 'bottom top', scrub: true, invalidateOnRefresh: true }
@@ -179,22 +181,24 @@
 
   /* ---------- 3. Werkwijze: lijn loopt mee met de scroll, stappen lichten op als de lijn ze bereikt ---------- */
   function stepsMotion(m) {
-    var wrap = document.querySelector('.steps-wrap');
-    if (!wrap) return;
+    toArray(document.querySelectorAll('.steps-wrap')).forEach(function (wrap) { stepLine(wrap, m); });
+  }
+  function stepLine(wrap, m) {
     var line = wrap.querySelector('.steps-line'), fill = wrap.querySelector('.steps-fill');
     var steps = toArray(wrap.querySelectorAll('.step'));
-    var imgs = steps.map(function (s) { return s.querySelector('.step-img img'); });
+    var imgs = steps.map(function (s) { return s.querySelector('.step-img img'); }).filter(Boolean);
     // gedimd = titel en nummer op halve kracht (blijft leesbaar, contrast >= 3:1); tekst eronder blijft staan
     var dims = steps.map(function (s) { return s.querySelectorAll('h3, .step-dot'); });
     var lit = steps.map(function () { return false; });
     gsap.set(dims, { opacity: 0.5 });
-    gsap.set(imgs, { clipPath: 'inset(100% 0% 0% 0%)' });
+    if (imgs.length) gsap.set(imgs, { clipPath: 'inset(100% 0% 0% 0%)' });
     // eenmaal opgelicht blijft een stap aan: terugscrollen maakt niets leeg
     function light(i, instant) {
       if (lit[i]) return;
       lit[i] = true;
       gsap.to(dims[i], { opacity: 1, duration: instant ? 0 : 0.4 });
-      gsap.to(imgs[i], { clipPath: 'inset(0% 0% 0% 0%)', duration: instant ? 0 : 0.8, ease: 'power3.out' });
+      var img = steps[i].querySelector('.step-img img');
+      if (img) gsap.to(img, { clipPath: 'inset(0% 0% 0% 0%)', duration: instant ? 0 : 0.8, ease: 'power3.out' });
     }
     if (getComputedStyle(line).display === 'none') {
       // tablet (2x2, geen lijn): elke stap op zijn eigen moment

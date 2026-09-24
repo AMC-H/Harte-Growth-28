@@ -18,9 +18,11 @@
   Cache-Control: public, max-age=0, must-revalidate
 /film.js
   Cache-Control: public, max-age=0, must-revalidate
-/diensten.css
+/pagina.css
   Cache-Control: public, max-age=0, must-revalidate
-/diensten.js
+/pagina.js
+  Cache-Control: public, max-age=0, must-revalidate
+/cases.css
   Cache-Control: public, max-age=0, must-revalidate
 
 # SVG-logo's: 1 dag (veranderen zelden maar niet nooit)
