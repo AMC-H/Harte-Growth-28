@@ -115,15 +115,39 @@
 
   };
 
-  // 3. Fundament: een echte klantsite (theacmen.es) in het browservenster. De pagina scrollt mee met de
-  //    scrub-tijdlijn, van de hero tot onderaan, zoals een bezoeker erdoorheen zou scrollen.
+  // 3. Fundament: een demosite (fictieve villaverhuur) in het browservenster. De pagina scrollt mee met de
+  //    scrub-tijdlijn; in de hero loopt de villavideo mee met het scrollen, zodat je door de villa beweegt.
+  var demo = { t: 0 }, demoVideo = null;
   SCENES.fundament = function (tl, s) {
-    var page = s.scene.querySelector('.br-shot');
-    var shot = function () { return toArray(s.q('.br-shot img')).filter(visible)[0]; };
-    var travel = function () { var img = shot(); return img ? Math.max(0, img.offsetHeight - page.clientHeight) : 0; };
+    var page = s.scene.querySelector('.d-page'), view = s.scene.querySelector('.demo');
+    var travel = function () { return Math.max(0, page.offsetHeight - view.clientHeight); };
     tl.fromTo(s.q('.br-url'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.04 }, 0)
-      .fromTo(s.q('.br-shot img'), { y: 0 }, { y: function () { return -travel(); }, duration: 0.75, ease: 'power1.inOut' }, 0.12);
+      .fromTo(demo, { t: 0 }, { t: 1, duration: 0.55, onUpdate: scrubDemo }, 0)
+      .fromTo(s.q('.d-nav'), { autoAlpha: 0, y: -8 }, { autoAlpha: 1, y: 0, duration: 0.06, ease: 'power2.out' }, 0.02)
+      .fromTo(s.q('.d-kicker, .d-h, .d-sub, .d-ctas'), { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.07, stagger: 0.025, ease: 'power2.out' }, 0.06)
+      .fromTo(page, { y: 0 }, { y: function () { return -travel(); }, duration: 0.62, ease: 'power1.inOut' }, 0.26)
+      .fromTo(s.q('.d-book .d-wa'), { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.06, ease: 'back.out(2.6)' }, 0.84);
   };
+  function scrubDemo() {
+    var v = demoVideo;
+    if (!v || !v.duration) return;
+    var t = demo.t * (v.duration - 1 / 30);
+    if (Math.abs(v.currentTime - t) > 1 / 60) v.currentTime = t;
+  }
+  function loadDemoVideo(mobile) {
+    var v = document.querySelector('.d-video');
+    if (!v || v.dataset.loaded) return;
+    v.dataset.loaded = '1';
+    if (mobile && v.dataset.posterMobile) v.poster = v.dataset.posterMobile;
+    v.src = (mobile && v.dataset.srcMobile) || v.dataset.src;
+    v.preload = 'auto';
+    v.addEventListener('loadedmetadata', function () {
+      if (!isFinite(v.duration) || !v.duration) return; // kapot bestand: de poster blijft staan
+      demoVideo = v;
+      var p = v.play(); // iOS toont pas beelden na een eerste play()
+      if (p && p.then) p.then(function () { v.pause(); scrubDemo(); }).catch(scrubDemo); else { v.pause(); scrubDemo(); }
+    }, { once: true });
+  }
 
   // 4. Verkeer: jouw resultaat klimt van onder naar boven, de lijn loopt op. Illustratie, geen cijfers.
   //    In de HTML staat jouw resultaat al bovenaan (eindbeeld); de animatie start het onderaan.
@@ -484,6 +508,9 @@
         else root.classList.remove('intro'); // halverwege de pagina binnengekomen: geen intro
       }
     });
+
+    // villavideo van de demosite: laden ruim voordat Fundament in beeld komt
+    ScrollTrigger.create({ trigger: '#fundament', start: 'top 250%', once: true, onEnter: function () { loadDemoVideo(mobile); } });
 
     // Resultaat (3,5 MB) pas laden als Media in zicht komt (Media begint 1,7 scherm lager, dus pas na
     // de eerste scroll); de ruwe clip speelt alleen in Media.
