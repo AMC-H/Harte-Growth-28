@@ -115,28 +115,41 @@
 
   };
 
-  // 3. Fundament: eerst het wireframe, dan de echte onderdelen in leesvolgorde, als laatste de WhatsApp-knop.
+  // 3. Fundament: voorbeeldsite van een villaverhuur. De hero is een WebGL-scène (villa.js) waarvan de camera
+  //    de scrub-tijdlijn volgt: van zee over het zwembad door de pui naar binnen. Kop, feiten en knoppen komen
+  //    onderweg binnen, als laatste de WhatsApp-knop.
+  var villaCam = { p: 0 };
   SCENES.fundament = function (tl, s) {
-    var blocks = toArray(s.q('.wb')).filter(visible);
-    var wfs = blocks.map(function (b) { return b.querySelector('.wf'); });
-    // wat er per blok verschijnt, in leesvolgorde (op mobiel staat de foto bovenaan)
-    var byOrder = blocks.slice().sort(function (a, b) {
-      return (a.offsetTop - b.offsetTop) || (a.offsetLeft - b.offsetLeft);
-    });
-    var parts = [];
-    byOrder.forEach(function (b) {
-      if (b.classList.contains('wb-hero')) parts.push.apply(parts, toArray(b.querySelectorAll('.br-h, .ln, .br-btn')));
-      else parts.push(b.querySelector('.fill'));
-    });
     var wa = s.scene.querySelector('.br-wa');
-
     tl.fromTo(s.q('.br-url'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.04 }, 0)
-      .fromTo(wfs, { autoAlpha: 0, scale: 0.94 }, { autoAlpha: 1, scale: 1, duration: 0.06, stagger: 0.02, ease: 'power2.out' }, 0)
-      .fromTo(parts, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.07, stagger: 0.045, ease: 'power2.out' }, 0.3)
-      .to(wfs, { autoAlpha: 0, duration: 0.06, stagger: 0.04 }, 0.36)
+      .fromTo(villaCam, { p: 0 }, { p: 1, duration: 0.9, onUpdate: syncVilla }, 0)
+      .fromTo(s.q('.vs-nav'), { autoAlpha: 0, y: -8 }, { autoAlpha: 1, y: 0, duration: 0.06, ease: 'power2.out' }, 0.02)
+      .fromTo(s.q('.vs-kicker, .vs-h'), { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.08, stagger: 0.03, ease: 'power2.out' }, 0.06)
+      .to(s.q('.vs-hero'), { autoAlpha: 0, y: -16, duration: 0.08, ease: 'power1.in' }, 0.46)
+      .fromTo(s.q('.vs-facts li'), { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.06, stagger: 0.03, ease: 'power2.out' }, 0.7)
+      .fromTo(s.q('.vs .br-btn'), { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.06, ease: 'power2.out' }, 0.78)
       .fromTo(wa, { autoAlpha: 0, scale: 0.5 }, { autoAlpha: 1, scale: 1, duration: 0.07, ease: 'back.out(2.6)' }, 0.84)
       .to(wa, { scale: 1.12, duration: 0.03, ease: 'power1.inOut', yoyo: true, repeat: 1 }, 0.92);
   };
+
+  // WebGL-villa: Three.js (± 170 kB) laadt pas als Fundament nadert; zonder WebGL blijft de poster staan.
+  var villa = null, villaActive = false, villaLoading = false;
+  function syncVilla() { if (villa) villa.setProgress(villaCam.p); }
+  function hasWebGL() {
+    try { var c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; }
+  }
+  function loadVilla(mobile) {
+    var page = document.querySelector('.vs');
+    var canvas = page && page.querySelector('.vs-gl');
+    if (villa || villaLoading || !canvas || !hasWebGL()) return;
+    villaLoading = true;
+    import('/villa.js?v=20260925a').then(function (m) {
+      villa = m.createVilla(canvas, { mobile: mobile });
+      villa.setProgress(villaCam.p, true);
+      page.classList.add('is-live');
+      if (villaActive) villa.start();
+    }).catch(function () { villaLoading = false; }); // CDN of WebGL faalt: de poster blijft staan
+  }
 
   // 4. Verkeer: jouw resultaat klimt van onder naar boven, de lijn loopt op. Illustratie, geen cijfers.
   //    In de HTML staat jouw resultaat al bovenaan (eindbeeld); de animatie start het onderaan.
@@ -498,6 +511,16 @@
       }
     });
 
+    // WebGL-villa: laden ruim voordat Fundament in beeld komt; renderen alleen zolang de scène zichtbaar is
+    ScrollTrigger.create({ trigger: '#fundament', start: 'top 250%', once: true, onEnter: function () { loadVilla(mobile); } });
+    ScrollTrigger.create({
+      trigger: '#fundament', start: 'top bottom', end: 'bottom top',
+      onToggle: function (self) {
+        villaActive = self.isActive;
+        if (villa) { if (self.isActive) villa.start(); else villa.stop(); }
+      }
+    });
+
     // Resultaat (3,5 MB) pas laden als Media in zicht komt (Media begint 1,7 scherm lager, dus pas na
     // de eerste scroll); de ruwe clip speelt alleen in Media.
     ScrollTrigger.create({
@@ -590,6 +613,8 @@
 
     return function () {
       gsap.ticker.remove(scrubTick);
+      if (villa) villa.stop();
+      villaActive = false;
       root.classList.remove('film-on', 'intro');
       film = null;
       op.portrait = false;

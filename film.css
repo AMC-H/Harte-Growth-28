@@ -436,7 +436,7 @@ img, video, svg { display: block; max-width: 100%; }
   .is-extra { display: none !important; }
 }
 
-/* ---------- Scène 3: fundament (website bouwt zichzelf) ---------- */
+/* ---------- Scène 3: fundament (voorbeeldsite van een villaverhuur, hero in WebGL) ---------- */
 /* De site zelf is licht: het is de site van de klant, niet die van ons. */
 .browser {
   container-type: inline-size;
@@ -448,36 +448,39 @@ img, video, svg { display: block; max-width: 100%; }
 .br-bar { flex: none; display: flex; align-items: center; gap: 1cqw; height: max(22px, 4.4cqw); padding: 0 2cqw; background: #E4E1DB; }
 .br-bar i { width: 1.1cqw; height: 1.1cqw; min-width: 6px; min-height: 6px; border-radius: 50%; background: #C6C1B8; }
 .br-url { flex: 1; margin-left: 2cqw; padding: .5cqw 1.6cqw; border-radius: 99px; background: #fff; font: 400 max(9px, 1.5cqw)/1.3 var(--f-mono); color: #54585c; }
-.br-page {
-  flex: 1; min-height: 0; display: grid; gap: 2.4cqw; padding: 3.2cqw 4cqw 4cqw;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto minmax(0, 1fr) auto;
-}
-.wb { position: relative; min-width: 0; min-height: 0; }
-.wf { position: absolute; inset: -.6cqw; border: 1.5px dashed #ADA79D; border-radius: 6px; opacity: 0; }
-.fill { position: relative; height: 100%; }
-.wb-nav { grid-column: 1 / -1; }
-.wb-nav .fill { display: flex; align-items: center; gap: 2.4cqw; }
-.br-logo { font: 800 2.1cqw/1 var(--f-head); letter-spacing: -.02em; margin-right: auto; }
 .ln { display: block; height: 1cqw; width: 7cqw; border-radius: 99px; background: #D5D0C8; }
-.wb-hero { grid-column: 1 / 3; }
-.wb-hero .fill { display: flex; flex-direction: column; justify-content: center; }
+.ln-m { width: 70%; }
+.ln-s { width: 45%; }
 .br-h { font: 800 4.4cqw/1 var(--f-head); letter-spacing: -.035em; max-width: 14ch; }
-.wb-hero .ln-l { width: 90%; height: 1.1cqw; margin-top: 2.2cqw; }
-.wb-hero .ln-m { width: 66%; height: 1.1cqw; margin-top: 1cqw; }
 .br-ctas { display: flex; gap: 1.2cqw; margin-top: 2.6cqw; }
 .br-btn, .br-wa { display: inline-flex; align-items: center; gap: .7cqw; padding: 1cqw 1.8cqw; border-radius: 99px; font: 600 1.5cqw/1 var(--f-body); color: #fff; white-space: nowrap; }
 .br-btn { background: #121417; }
 .br-wa { background: var(--wa); }
 .br-wa svg { width: 1.7cqw; height: 1.7cqw; }
-.wb-img { grid-column: 3; grid-row: 2; }
-.wb-img .fill { border-radius: 8px; overflow: hidden; }
-.wb-img .fill > svg { width: 100%; height: 100%; }
-.br-play { position: absolute; left: 50%; top: 50%; width: 5cqw; height: 5cqw; margin: -2.5cqw 0 0 -2.5cqw; border-radius: 50%; background: #fff; display: grid; place-items: center; }
-.br-play svg { width: 45%; height: 45%; }
-.wb-card .fill { display: flex; flex-direction: column; gap: .9cqw; padding: 1.6cqw; border-radius: 6px; background: #fff; box-shadow: 0 1px 0 #E1DDD6; }
-.wb-card .dot { width: 3cqw; height: 3cqw; border-radius: 50%; background: #E9E4DC; margin-bottom: .4cqw; }
-.ln-m { width: 70%; }
-.ln-s { width: 45%; }
+
+/* de pagina is één schermvullende hero: poster (zonder WebGL), canvas, verloop voor leesbaarheid, tekst erboven */
+.vs { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #c9a878; color: #fff; }
+.vs-poster, .vs-gl { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.vs-gl { opacity: 0; transition: opacity .6s ease; }
+.vs.is-live .vs-gl { opacity: 1; }
+.vs-shade {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(8, 10, 14, .55) 0%, rgba(8, 10, 14, 0) 26%, rgba(8, 10, 14, 0) 60%, rgba(8, 10, 14, .6) 100%),
+    linear-gradient(90deg, rgba(8, 10, 14, .5) 0%, rgba(8, 10, 14, 0) 55%),
+    radial-gradient(120% 90% at 50% 50%, transparent 60%, rgba(0, 0, 0, .35) 100%);
+}
+.vs-nav { position: absolute; left: 4cqw; right: 4cqw; top: 2.6cqw; display: flex; align-items: center; gap: 2.6cqw; font: 500 1.35cqw/1 var(--f-body); }
+.vs-logo { margin-right: auto; font: 400 2.5cqw/1 'Instrument Serif', Georgia, serif; font-style: italic; letter-spacing: -.01em; }
+.vs-link { opacity: .85; }
+.vs-hero { position: absolute; left: 4cqw; right: 4cqw; top: 22%; }
+.vs-kicker { font: 500 1.25cqw/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; opacity: .9; }
+.vs-h { margin-top: 1.4cqw; font-size: 5.2cqw; max-width: 11ch; text-shadow: 0 2px 30px rgba(0, 0, 0, .25); }
+.vs-book { position: absolute; left: 4cqw; right: 4cqw; bottom: 3.6cqw; display: flex; align-items: flex-end; justify-content: space-between; gap: 2cqw; }
+.vs-facts { list-style: none; margin: 0; padding: 0; display: flex; gap: .8cqw; }
+.vs-facts li { padding: .8cqw 1.4cqw; border-radius: 99px; background: rgba(255, 255, 255, .16); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); font: 500 1.25cqw/1 var(--f-body); white-space: nowrap; }
+.vs .br-ctas { margin: 0; }
+.vs .br-btn { background: #fff; color: #121417; }
 
 @media (max-width: 767px) {
   /* mobiel: dezelfde site, maar op een telefoon */
@@ -487,24 +490,22 @@ img, video, svg { display: block; max-width: 100%; }
   .br-bar { height: 9cqw; padding: 0 4cqw; gap: 2cqw; }
   .br-bar i { display: none; }
   .br-url { margin: 0; font-size: 3.6cqw; text-align: center; }
-  .br-page { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto auto; gap: 4cqw; padding: 5cqw; align-content: start; }
-  .wb-nav, .wb-hero, .wb-img { grid-column: 1; grid-row: auto; }
-  .wb-img { order: 1; aspect-ratio: 4 / 3; }
-  .wb-hero { order: 2; }
-  .wb-card { order: 3; }
-  .wb-card ~ .wb-card { display: none; }
-  .br-logo { font-size: 5cqw; }
   .ln { height: 2cqw; width: 12cqw; }
-  .wb-nav .ln:not(:last-child) { display: none; }
   .br-h { font-size: 9cqw; }
-  .wb-hero .ln-l, .wb-hero .ln-m { height: 2.4cqw; margin-top: 3cqw; }
   .br-ctas { gap: 2.4cqw; margin-top: 4cqw; }
   .br-btn, .br-wa { font-size: 3.4cqw; padding: 2.4cqw 3.6cqw; gap: 1.4cqw; }
   .br-wa svg { width: 3.8cqw; height: 3.8cqw; }
-  .br-play { width: 11cqw; height: 11cqw; margin: -5.5cqw 0 0 -5.5cqw; }
-  .wb-card .fill { flex-direction: row; align-items: center; padding: 3cqw; gap: 3cqw; }
-  .wb-card .dot { width: 7cqw; height: 7cqw; margin: 0; flex: none; }
-  .wb-card .ln { height: 2cqw; }
+  .vs-nav { left: 5cqw; right: 5cqw; top: 5cqw; font-size: 3.2cqw; }
+  .vs-link { display: none; }
+  .vs-logo { font-size: 6cqw; }
+  .vs-hero { left: 5cqw; right: 5cqw; top: 17%; }
+  .vs-kicker { font-size: 2.9cqw; }
+  .vs-h { margin-top: 3cqw; font-size: 11cqw; }
+  .vs-book { left: 5cqw; right: 5cqw; bottom: 5cqw; flex-direction: column; align-items: stretch; gap: 3.4cqw; }
+  .vs-facts { flex-wrap: wrap; gap: 2cqw; }
+  .vs-facts li { padding: 2cqw 3cqw; font-size: 3cqw; }
+  .vs .br-ctas { display: grid; grid-template-columns: 1fr 1fr; }
+  .vs .br-btn, .vs .br-wa { justify-content: center; }
 }
 
 /* ---------- Scène 4: verkeer (zoekresultaat + lijn, zonder cijfers) ---------- */
