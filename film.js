@@ -22,6 +22,20 @@
   var nowEl = document.getElementById('tl-now');
   var fill = document.querySelector('.tl-fill');
   var head = document.querySelector('.tl-head');
+  var LANG = (root.lang || 'nl').slice(0, 2).toLowerCase();
+  if (['nl', 'en', 'es'].indexOf(LANG) < 0) LANG = 'nl';
+  // teksten die dit script zelf schrijft, in de taal van de pagina
+  var TXT = {
+    nl: { video: 'Voorbeeldvideo', videoPortrait: 'Voorbeeldvideo, staand formaat', sending: 'Versturen...',
+          fail: 'Versturen is niet gelukt. Je gegevens staan er nog. Probeer het opnieuw, of stuur ons direct een bericht.',
+          waFail: 'Hoi! Het formulier lukte niet, dus ik stuur het zo. Mijn naam is ', waBtn: 'Stuur via WhatsApp' },
+    en: { video: 'Example video', videoPortrait: 'Example video, portrait format', sending: 'Sending...',
+          fail: "Sending didn't work. Your details are still here. Try again, or message us directly.",
+          waFail: "Hi! The form didn't work, so I'm sending it this way. My name is ", waBtn: 'Send via WhatsApp' },
+    es: { video: 'Vídeo de ejemplo', videoPortrait: 'Vídeo de ejemplo, formato vertical', sending: 'Enviando...',
+          fail: 'No se ha podido enviar. Tus datos siguen aquí. Inténtalo de nuevo o escríbenos directamente.',
+          waFail: '¡Hola! El formulario no funcionó, así que os lo envío por aquí. Me llamo ', waBtn: 'Enviar por WhatsApp' }
+  }[LANG];
 
   setupFab();
   fillPrice();
@@ -233,7 +247,7 @@
         // statische versie: gewoon afspeelbaar met bediening
         video.controls = true;
         video.removeAttribute('tabindex');
-        video.setAttribute('aria-label', 'Voorbeeldvideo');
+        video.setAttribute('aria-label', TXT.video);
         video.closest('.scene').removeAttribute('aria-hidden');
       } else {
         // iOS toont pas beelden na een eerste play()
@@ -360,7 +374,7 @@
     loadV9();
     op.fmt.textContent = '9:16';
     op.v9.controls = true;
-    op.v9.setAttribute('aria-label', 'Voorbeeldvideo, staand formaat');
+    op.v9.setAttribute('aria-label', TXT.videoPortrait);
     op.mon.closest('.scene').removeAttribute('aria-hidden');
   }
 
@@ -723,10 +737,12 @@
         type: form.type.value,
         aantalFotos: form.aantalFotos.value.trim(),
         bericht: form.bericht.value.trim(),
-        'bot-field': form['bot-field'].value
+        'bot-field': form['bot-field'].value,
+        lang: LANG,
+        page: location.pathname
       };
       btn.disabled = true;
-      btn.textContent = 'Versturen...';
+      btn.textContent = TXT.sending;
       status.hidden = true;
 
       fetch('/.netlify/functions/send-video-lead', {
@@ -742,9 +758,9 @@
           if (window.ScrollTrigger) ScrollTrigger.refresh();
         })
         .catch(function () {
-          var text = encodeURIComponent('Hoi! Het formulier lukte niet, dus ik stuur het zo. Mijn naam is ' + (data.naam || '...') + '.');
-          status.innerHTML = '<p>Versturen is niet gelukt. Je gegevens staan er nog. Probeer het opnieuw, of stuur ons direct een bericht.</p>' +
-            '<p><a class="link" href="https://wa.me/31634455762?text=' + text + '" target="_blank" rel="noopener">Stuur via WhatsApp</a></p>';
+          var text = encodeURIComponent(TXT.waFail + (data.naam || '...') + '.');
+          status.innerHTML = '<p>' + TXT.fail + '</p>' +
+            '<p><a class="link" href="https://wa.me/31634455762?text=' + text + '" target="_blank" rel="noopener">' + TXT.waBtn + '</a></p>';
           status.hidden = false;
           btn.disabled = false;
           btn.textContent = label;

@@ -28,6 +28,9 @@ exports.handler = async (event) => {
   const { name, email, company, url, consent, referrer } = data;
 
   // Simple validation + honeypot check
+  const lang = ['nl', 'en', 'es'].includes(String(data.lang || '').toLowerCase()) ? String(data.lang).toLowerCase() : 'nl';
+  const page = typeof data.page === 'string' ? data.page.slice(0, 200) : '';
+
   if (data['bot-field']) {
     // Silent success — bots denken dat het werkt
     return { statusCode: 200, headers: cors, body: JSON.stringify({ ok: true }) };
@@ -66,6 +69,7 @@ exports.handler = async (event) => {
             <tr><td style="padding:6px 0;color:#6b6a63;">Gescande URL</td><td style="padding:6px 0;"><a href="${escape(url)}" style="color:#ff4d1a;text-decoration:none;">${escape(domain)}</a></td></tr>
             <tr><td style="padding:6px 0;color:#6b6a63;">Toestemming</td><td style="padding:6px 0;">${consent ? 'ja' : 'nee'}</td></tr>
             ${referrer ? `<tr><td style="padding:6px 0;color:#6b6a63;">Referrer</td><td style="padding:6px 0;font-size:12px;color:#6b6a63;">${escape(referrer)}</td></tr>` : ''}
+            <tr><td style="padding:6px 0;color:#6b6a63;">Taal</td><td style="padding:6px 0;">${lang.toUpperCase()}${page ? ' · ' + escape(page) : ''}</td></tr>
             <tr><td style="padding:6px 0;color:#6b6a63;">Tijdstip</td><td style="padding:6px 0;font-size:13px;color:#6b6a63;">${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}</td></tr>
           </table>
 
@@ -107,7 +111,7 @@ Pak binnen 1 werkdag op — deze lead is actief aan het vergelijken.`;
         from: FROM,
         to: [TO],
         reply_to: email,
-        subject: `Nieuwe groeiscan: ${name}${company ? ' (' + company + ')' : ''} · ${domain}`,
+        subject: `${lang !== 'nl' ? '[' + lang.toUpperCase() + '] ' : ''}Nieuwe groeiscan: ${name}${company ? ' (' + company + ')' : ''} · ${domain}`,
         html,
         text
       })

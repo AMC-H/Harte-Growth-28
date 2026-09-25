@@ -21,6 +21,9 @@ exports.handler = async (event) => {
 
   const { naam, contact, materiaal, type, aantalFotos, bericht } = data;
 
+  const lang = ['nl', 'en', 'es'].includes(String(data.lang || '').toLowerCase()) ? String(data.lang).toLowerCase() : 'nl';
+  const page = typeof data.page === 'string' ? data.page.slice(0, 200) : '';
+
   if (data['bot-field']) {
     return { statusCode: 200, headers: cors, body: JSON.stringify({ ok: true }) };
   }
@@ -57,6 +60,7 @@ exports.handler = async (event) => {
             ${materiaal ? `<tr><td style="padding:6px 0;color:#6b6a63;">Wat stuurt hij/zij</td><td style="padding:6px 0;">${escape(materiaal)}</td></tr>` : ''}
             ${type ? `<tr><td style="padding:6px 0;color:#6b6a63;">Waar van</td><td style="padding:6px 0;">${escape(type)}</td></tr>` : ''}
             ${aantalFotos ? `<tr><td style="padding:6px 0;color:#6b6a63;">Hoeveelheid</td><td style="padding:6px 0;">${escape(aantalFotos)}</td></tr>` : ''}
+            <tr><td style="padding:6px 0;color:#6b6a63;">Taal</td><td style="padding:6px 0;">${lang.toUpperCase()}${page ? ' · ' + escape(page) : ''}</td></tr>
             <tr><td style="padding:6px 0;color:#6b6a63;">Tijdstip</td><td style="padding:6px 0;font-size:13px;color:#6b6a63;">${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}</td></tr>
           </table>
 
@@ -89,7 +93,7 @@ ${bericht ? '\nOpmerking:\n' + bericht : ''}`;
         from: FROM,
         to: [TO],
         ...(looksLikeEmail ? { reply_to: contact } : {}),
-        subject: `Nieuwe video-aanvraag: ${naam}`,
+        subject: `${lang !== 'nl' ? '[' + lang.toUpperCase() + '] ' : ''}Nieuwe video-aanvraag: ${naam}`,
         html,
         text
       })

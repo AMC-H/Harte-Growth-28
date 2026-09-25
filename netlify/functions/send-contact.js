@@ -19,6 +19,9 @@ exports.handler = async (event) => {
 
   const { name, email, company, url, message } = data;
 
+  const lang = ['nl', 'en', 'es'].includes(String(data.lang || '').toLowerCase()) ? String(data.lang).toLowerCase() : 'nl';
+  const page = typeof data.page === 'string' ? data.page.slice(0, 200) : '';
+
   if (data['bot-field']) {
     return { statusCode: 200, headers: cors, body: JSON.stringify({ ok: true }) };
   }
@@ -53,6 +56,7 @@ exports.handler = async (event) => {
             <tr><td style="padding:6px 0;color:#6b6a63;">E-mail</td><td style="padding:6px 0;"><a href="mailto:${escape(email)}" style="color:#ff4d1a;text-decoration:none;">${escape(email)}</a></td></tr>
             ${company ? `<tr><td style="padding:6px 0;color:#6b6a63;">Bedrijf</td><td style="padding:6px 0;">${escape(company)}</td></tr>` : ''}
             ${url ? `<tr><td style="padding:6px 0;color:#6b6a63;">Website</td><td style="padding:6px 0;"><a href="${escape(url)}" style="color:#ff4d1a;text-decoration:none;">${escape(url)}</a></td></tr>` : ''}
+            <tr><td style="padding:6px 0;color:#6b6a63;">Taal</td><td style="padding:6px 0;">${lang.toUpperCase()}${page ? ' · ' + escape(page) : ''}</td></tr>
             <tr><td style="padding:6px 0;color:#6b6a63;">Tijdstip</td><td style="padding:6px 0;font-size:13px;color:#6b6a63;">${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}</td></tr>
           </table>
 
@@ -94,7 +98,7 @@ ${message}`;
         from: FROM,
         to: [TO],
         reply_to: email,
-        subject: `Nieuw contactbericht: ${name}${company ? ' (' + company + ')' : ''}`,
+        subject: `${lang !== 'nl' ? '[' + lang.toUpperCase() + '] ' : ''}Nieuw contactbericht: ${name}${company ? ' (' + company + ')' : ''}`,
         html,
         text
       })

@@ -129,7 +129,7 @@
       save: 'Bewaar'
     },
     en: {
-      body: 'We use analytics cookies only (GA4 + Clarity), and only if you say yes. <a href="/privacy" style="color:#ff4d1a;">Privacy</a> · <a href="/cookies" style="color:#ff4d1a;">Cookies</a>',
+      body: 'We use analytics cookies only (GA4 + Clarity), and only if you say yes. <a href="/en/privacy.html" style="color:#ff4d1a;">Privacy</a> · <a href="/en/cookies.html" style="color:#ff4d1a;">Cookies</a>',
       accept: 'Accept',
       decline: 'Reject all',
       prefs: 'More options',
@@ -137,7 +137,7 @@
       save: 'Save'
     },
     es: {
-      body: 'Usamos solo cookies analíticas (GA4 + Clarity), y solo si tú aceptas. <a href="/privacy" style="color:#ff4d1a;">Privacidad</a> · <a href="/cookies" style="color:#ff4d1a;">Cookies</a>',
+      body: 'Usamos solo cookies analíticas (GA4 + Clarity), y solo si tú aceptas. <a href="/es/privacy.html" style="color:#ff4d1a;">Privacidad</a> · <a href="/es/cookies.html" style="color:#ff4d1a;">Cookies</a>',
       accept: 'Aceptar',
       decline: 'Rechazar todo',
       prefs: 'Más opciones',
