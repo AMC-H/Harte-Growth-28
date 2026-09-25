@@ -286,7 +286,9 @@ html { scroll-padding-top: calc(var(--hdr) + 12px); }
 .compare th, .compare td { padding: .9rem 1.1rem; border-bottom: 1px solid var(--line); text-align: center; }
 .compare tr:last-child > * { border-bottom: 0; }
 .compare thead th { color: var(--mute); font: 500 .75rem/1.3 var(--f-mono); text-transform: uppercase; letter-spacing: .04em; }
-.compare tbody th { text-align: left; font-weight: 500; }
+.compare tbody th, .compare thead th:first-child { text-align: left; }
+.compare tbody th { font-weight: 500; }
+.compare th:first-child { position: sticky; left: 0; z-index: 1; background: var(--surface); }
 .compare td { color: var(--mute); }
 .compare .is-us { background: rgba(255, 59, 48, .08); color: var(--ink); }
 .compare thead .is-us { color: var(--accent); }
