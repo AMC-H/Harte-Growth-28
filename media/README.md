@@ -43,10 +43,10 @@ door vier fotorealistische stills in `media/villa/`, gescrubd met het scrollen (
 
 | Bestand | Beeld |
 |---|---|
-| `villa/villa-1.webp` | vanaf zee op de villa aan de kust (ook de poster zonder WebGL / bij reduced motion) |
-| `villa/villa-2.webp` | op het terras aan het zwembad, richting de open pui |
-| `villa/villa-3.webp` | op het dek voor de open pui, kijkend naar binnen |
-| `villa/villa-4.webp` | binnen, uitzicht over het zwembad op zee |
+| `villa/villa-1.png` | vanaf zee op de villa aan de kust (ook de poster zonder WebGL / bij reduced motion) |
+| `villa/villa-2.png` | op het terras aan het zwembad, richting de open pui |
+| `villa/villa-3.png` | op het dek voor de open pui, kijkend naar binnen |
+| `villa/villa-4.png` | binnen, uitzicht over het zwembad op zee |
 
-16:9, liefst 1600 px breed, WebP onder ~250 kB per beeld. Het focuspunt en de mate van inzoomen per beeld staan
+16:9 (PNG zoals Higgsfield ze levert; later om te zetten naar WebP onder ~250 kB). Het focuspunt en de mate van inzoomen per beeld staan
 bovenaan `villa.js` (`SHOTS`).
