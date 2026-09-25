@@ -66,7 +66,7 @@ h1,h2,h3,h4{font-weight:700;letter-spacing:-.02em;line-height:1.04;}
 .bg-canvas{position:fixed;inset:0;z-index:-1;opacity:.4;pointer-events:none;}
 
 /* HEADER */
-header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,9,12,.45);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border-bottom:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.1);transition:border-color .3s,background .3s;}
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,9,12,.96);border-bottom:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.1);transition:border-color .3s,background .3s;}
 header.scrolled{border-color:rgba(255,255,255,.12);background:rgba(10,9,12,.72);}
 .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;max-width:var(--maxw);margin:0 auto;}
 .logo{display:flex;align-items:center;font-weight:700;font-size:15px;letter-spacing:-.01em;}
@@ -83,7 +83,7 @@ header.scrolled{border-color:rgba(255,255,255,.12);background:rgba(10,9,12,.72);
 @media(max-width:920px){.navlinks{display:none;}.nav-right .btn:not(.wa-btn-nav){display:none;}.menu-btn{display:block;}.nav{padding:14px 22px;}}
 .progress-line{height:2px;background:var(--accent);width:0%;transition:width .08s linear;}
 
-.mnav{position:fixed;inset:0;background:var(--glass-bg-strong);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);z-index:150;display:flex;flex-direction:column;padding:22px;transform:translateX(100%);transition:transform .35s var(--ease);overflow-y:auto;}
+.mnav{position:fixed;inset:0;background:var(--bg);z-index:150;display:flex;flex-direction:column;padding:22px;transform:translateX(100%);transition:transform .35s var(--ease);overflow-y:auto;}
 .mnav.open{transform:translateX(0);}
 .mnav-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px;}
 .mnav a{font-size:24px;font-weight:700;padding:14px 0;border-bottom:1px solid var(--border);}
@@ -874,9 +874,7 @@ footer .foot-links a:hover{color:var(--accent);}
 .case-details-grid > div,
 .lang-switch,
 .h-svc.svc-ai{
-  background:var(--glass-bg);
-  backdrop-filter:var(--glass-blur);
-  -webkit-backdrop-filter:var(--glass-blur);
+  background:var(--panel);
   box-shadow:var(--glass-shadow);
 }
 
@@ -886,9 +884,7 @@ footer .foot-links a:hover{color:var(--accent);}
 .scan-gate-box,
 .scan-request-card,
 #hg-cookie-banner{
-  background:var(--glass-bg-strong);
-  backdrop-filter:var(--glass-blur);
-  -webkit-backdrop-filter:var(--glass-blur);
+  background:var(--panel-2);
   box-shadow:var(--glass-shadow);
 }
 

@@ -148,7 +148,7 @@
   if (!T) return;
 
   /* Opmaak zit in dit bestand zelf, zodat de banner er op elke pagina hetzelfde uitziet, ongeacht welke
-     stylesheet de pagina laadt (film.css, video-design.css of styles.css). ID-selectors + later in de head
+     stylesheet de pagina laadt (film.css of styles.css). ID-selectors + later in de head
      = wint van de oude regels in styles.css. Desktop: linksonder, naast de WhatsApp-knop. Onder 900px: volle
      breedte, net boven de WhatsApp-knop. Weigeren en accepteren zijn bewust identiek (AVG). */
   var CSS =
