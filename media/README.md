@@ -36,9 +36,17 @@ Maak de poster van het eerste frame zoals de browser het rendert (video op 0:00 
 en als WebP opslaan). Een PNG uit een videotool heeft vaak een BT.709-kleurprofiel en wordt in de browser
 dan lichter getoond dan de video zelf.
 
-## Scène 3 (Fundament): villa in WebGL
+## Scène 3 (Fundament): villa-tour in WebGL
 
-De hero van de voorbeeldsite in scène 3 is geen video maar een WebGL-scène (`/villa.js`, Three.js r170 via jsDelivr).
-Alles wordt in code opgebouwd; er zijn geen modellen of textures. `villa-poster-960.webp` en `-1600.webp` zijn
-een render van het eerste beeld en staan er als terugval (zonder WebGL, bij reduced motion en zolang Three.js laadt).
-Na een aanpassing aan de scène de posters opnieuw renderen vanaf hetzelfde camerapunt (voortgang 0,12).
+De hero van de voorbeeldsite in scène 3 is een cinematische tour in WebGL (`/villa.js`, Three.js r170 via jsDelivr)
+door vier fotorealistische stills in `media/villa/`, gescrubd met het scrollen (GSAP ScrollTrigger in film.js):
+
+| Bestand | Beeld |
+|---|---|
+| `villa/villa-1.webp` | vanaf zee op de villa aan de kust (ook de poster zonder WebGL / bij reduced motion) |
+| `villa/villa-2.webp` | op het terras aan het zwembad, richting de open pui |
+| `villa/villa-3.webp` | op het dek voor de open pui, kijkend naar binnen |
+| `villa/villa-4.webp` | binnen, uitzicht over het zwembad op zee |
+
+16:9, liefst 1600 px breed, WebP onder ~250 kB per beeld. Het focuspunt en de mate van inzoomen per beeld staan
+bovenaan `villa.js` (`SHOTS`).
