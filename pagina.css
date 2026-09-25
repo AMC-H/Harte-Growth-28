@@ -270,6 +270,9 @@ html { scroll-padding-top: calc(var(--hdr) + 12px); }
 .form-status a { color: var(--ink); text-underline-offset: 3px; }
 .form-legal { color: var(--mute); font-size: .8125rem; line-height: 1.5; }
 .form-legal a { color: var(--ink); text-underline-offset: 3px; }
+.info-intro { margin-top: 1.25rem; max-width: 44ch; color: var(--mute); }
+.page-contact .hero-copy .ctas { margin-top: 1.75rem; }
+.page-form #vragen { padding-bottom: clamp(4rem, 8vw, 6rem); }
 .info-list { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; gap: 1rem; max-width: 34rem; }
 .info-list li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: .15rem .9rem; align-items: start; }
 .info-ic { grid-row: span 2; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line-2); color: var(--accent); }
