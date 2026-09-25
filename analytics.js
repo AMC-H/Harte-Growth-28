@@ -161,7 +161,7 @@
     '#hg-cookie-banner .hg-cc-body{grid-column:1;grid-row:1;margin:0;font-size:14px;line-height:1.45;color:#F2F0EC}' +
     '#hg-cookie-banner .hg-cc-body a{color:#F2F0EC !important;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(242,240,236,.45)}' +
     '#hg-cookie-banner .hg-cc-actions{grid-column:2;grid-row:1 / span 2;display:flex;gap:8px;justify-content:flex-end;margin:0}' +
-    '#hg-cookie-banner .hg-cc-btn{flex:1 1 0;min-width:0;min-height:44px;margin:0;padding:0 18px;border:0;border-radius:999px;' +
+    '#hg-cookie-banner .hg-cc-btn{flex:1 1 auto;min-width:0;white-space:nowrap;min-height:44px;margin:0;padding:0 18px;border:0;border-radius:999px;' +
       'background:#F2F0EC;color:#0F1113;font:600 14px/1 "Instrument Sans",-apple-system,system-ui,sans-serif;white-space:nowrap;cursor:pointer;' +
       'box-shadow:none;transition:background-color .2s ease}' +
     '#hg-cookie-banner .hg-cc-btn:hover{background:#FFFFFF}' +
