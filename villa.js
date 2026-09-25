@@ -9,10 +9,10 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.m
 
 // focus = punt in het beeld (0..1, van linksboven) waar de push-in naartoe gaat; zoom = hoe ver
 export const SHOTS = [
-  { src: '/media/villa/villa-1.webp', focus: [0.5, 0.46], zoom: 0.28 },  // vanaf zee op de villa
-  { src: '/media/villa/villa-2.webp', focus: [0.5, 0.5], zoom: 0.24 },   // aan het zwembad, op de pui af
-  { src: '/media/villa/villa-3.webp', focus: [0.5, 0.52], zoom: 0.22 },  // op het dek, door de open pui
-  { src: '/media/villa/villa-4.webp', focus: [0.5, 0.5], zoom: 0.1 }     // binnen, uitzicht op zee
+  { src: '/media/villa/villa-1.png', focus: [0.5, 0.46], zoom: 0.28 },  // vanaf zee op de villa
+  { src: '/media/villa/villa-2.png', focus: [0.5, 0.5], zoom: 0.24 },   // aan het zwembad, op de pui af
+  { src: '/media/villa/villa-3.png', focus: [0.5, 0.52], zoom: 0.22 },  // op het dek, door de open pui
+  { src: '/media/villa/villa-4.png', focus: [0.5, 0.5], zoom: 0.1 }     // binnen, uitzicht op zee
 ];
 
 const frag = `
