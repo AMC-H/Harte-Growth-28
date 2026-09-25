@@ -1,432 +1,515 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Harte Growth | Marketing de crecimiento para empresas que quieren crecer</title>
-<meta name="description" content="Marketing de crecimiento para emprendedores y organizaciones. Web y embudo como base, contenido, SEO, vídeo y anuncios como motor. Desde negocios familiares hasta equipos de marketing.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+/* Filmlayout meteen bij de eerste paint (geen layout-verspringing als film.js laadt).
+   Alleen als beweging mag; laadt GSAP niet, dan terug naar de statische versie. */
+(function (h) {
+  h.classList.add('js');
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    h.classList.add('film-on', 'intro');
+    addEventListener('load', function () {
+      if (!window.gsap || !window.ScrollTrigger) h.classList.remove('film-on', 'intro');
+    });
+  }
+})(document.documentElement);
+</script>
+<title>Harte Growth | De fotos a un vídeo que vende, en 48 horas</title>
+<meta name="description" content="Envía tus fotos o clips sin editar. En 48 horas tienes un vídeo montado en 9:16, 16:9 o 1:1, a tu elección. Precio de oferta: 35 € por vídeo, sin presupuestos.">
 <link rel="canonical" href="https://hartegrowth.eu/es/">
 <link rel="alternate" hreflang="nl" href="https://hartegrowth.eu/">
 <link rel="alternate" hreflang="en" href="https://hartegrowth.eu/en/">
 <link rel="alternate" hreflang="es" href="https://hartegrowth.eu/es/">
 <link rel="alternate" hreflang="x-default" href="https://hartegrowth.eu/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css?v=20260914a">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Harte Growth">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Harte Growth | De fotos a un vídeo que vende, en 48 horas">
+<meta property="og:description" content="De fotos sueltas a un vídeo que vende, en 48 horas. Y además la web, la visibilidad y el seguimiento por WhatsApp.">
+<meta property="og:url" content="https://hartegrowth.eu/es/">
 <meta property="og:image" content="https://hartegrowth.eu/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
-<meta property="og:image:alt" content="Harte Growth">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Harte Growth | De fotos a un vídeo que vende, en 48 horas">
+<meta name="twitter:description" content="De fotos sueltas a un vídeo que vende, en 48 horas. Y además la web, la visibilidad y el seguimiento por WhatsApp.">
 <meta name="twitter:image" content="https://hartegrowth.eu/og-image.png">
-<meta property="og:title" content="Harte Growth | Marketing de crecimiento para empresas que quieren crecer">
-<meta property="og:description" content="Marketing de crecimiento para emprendedores y organizaciones. Web y embudo como base, contenido, SEO, vídeo y anuncios como motor. Desde negocios familiares hasta equipos de marketing.">
-<meta property="og:url" content="https://hartegrowth.eu/es/">
-<meta name="twitter:title" content="Harte Growth | Marketing de crecimiento para empresas que quieren crecer">
-<meta name="twitter:description" content="Marketing de crecimiento para emprendedores y organizaciones. Web y embudo como base, contenido, SEO, vídeo y anuncios como motor. Desde negocios familiares hasta equipos de marketing.">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[
-  {"@type":"Organization","@id":"https://hartegrowth.eu/#org","name":"Harte Growth","url":"https://hartegrowth.eu/","logo":"https://hartegrowth.eu/logo-nav.svg","slogan":"Marketing de crecimiento para empresas que quieren escalar.","sameAs":["https://wa.me/31634455762","https://www.instagram.com/hartegrowth","https://www.facebook.com/profile.php?id=61592600399432","https://www.tiktok.com/@hartegrowth"]},
-  {"@type":"WebSite","@id":"https://hartegrowth.eu/#site","url":"https://hartegrowth.eu/es/","name":"Harte Growth","publisher":{"@id":"https://hartegrowth.eu/#org"},"inLanguage":["nl","en","es"]},
-  {"@type":"ProfessionalService","name":"Harte Growth","description":"Equipo que construye marketing de crecimiento para empresas que quieren escalar. Contenido, vídeo, SEO, ads y funnels. Web como base.","url":"https://hartegrowth.eu/es/","image":"https://hartegrowth.eu/og-image.png","logo":"https://hartegrowth.eu/logo-nav.svg","telephone":"+31634455762","priceRange":"€€","areaServed":[{"@type":"Country","name":"Netherlands"},{"@type":"Country","name":"Spain"},{"@type":"Place","name":"Costa Blanca"}],"sameAs":["https://wa.me/31634455762","https://www.instagram.com/hartegrowth","https://www.facebook.com/profile.php?id=61592600399432","https://www.tiktok.com/@hartegrowth"],"serviceType":["Growth marketing","Content marketing","SEO","Video marketing","Advertising","Web development"],"foundingDate":"2023","knowsAbout":["Marketing de crecimiento","SEO","Google Ads","Marketing de contenidos","Marketing en vídeo","Redes sociales","Automatización con IA","WhatsApp Business API","Optimización de landing pages","Webs multilingües","SEO local Costa Blanca"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Servicios","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Web y funnel","description":"Web y funnel como base para el crecimiento."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Google y SEO","description":"Optimización para buscadores y Google Ads para tráfico medible."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Contenido y vídeo","description":"Blog, social, vídeo y podcast como motor de crecimiento."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"IA y automatización","description":"Seguimiento IA, flujos de WhatsApp, integración CRM y automatización de procesos."}}]}}
-]}
-</script>
+<meta name="theme-color" content="#0F1113">
+<link rel="preload" as="image" href="/media/opening-16x9-1280.webp" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@800&amp;family=Instrument+Serif:ital@1&amp;display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@800&amp;family=Instrument+Serif:ital@1&amp;display=swap" rel="stylesheet">
 <script src="/analytics.js?v=20260914a" defer></script>
+<!-- LET OP: de prijs (€35, normaal €50) staat ook in de meta description hierboven en in de JSON-LD hieronder. -->
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://hartegrowth.eu/#org", "name": "Harte Growth", "url": "https://hartegrowth.eu/es/", "logo": "https://hartegrowth.eu/logo-nav.svg", "email": "hallo@hartegrowth.eu", "telephone": "+31634455762", "sameAs": ["https://wa.me/31634455762", "https://www.instagram.com/hartegrowth", "https://www.facebook.com/profile.php?id=61592600399432", "https://www.tiktok.com/@hartegrowth"]}, {"@type": "WebSite", "@id": "https://hartegrowth.eu/#site", "url": "https://hartegrowth.eu/es/", "name": "Harte Growth", "inLanguage": "es", "publisher": {"@id": "https://hartegrowth.eu/#org"}}, {"@type": "ProfessionalService", "@id": "https://hartegrowth.eu/es/#service", "name": "Harte Growth", "description": "Envía tus fotos o clips sin editar. En 48 horas tienes un vídeo montado en 9:16, 16:9 o 1:1, a tu elección. Precio de oferta: 35 € por vídeo, sin presupuestos.", "url": "https://hartegrowth.eu/es/", "image": "https://hartegrowth.eu/og-image.png", "logo": "https://hartegrowth.eu/logo-nav.svg", "telephone": "+31634455762", "email": "hallo@hartegrowth.eu", "areaServed": [{"@type": "Country", "name": "Países Bajos"}, {"@type": "Country", "name": "España"}], "sameAs": ["https://wa.me/31634455762", "https://www.instagram.com/hartegrowth", "https://www.facebook.com/profile.php?id=61592600399432", "https://www.tiktok.com/@hartegrowth"], "makesOffer": [{"@type": "Offer", "price": "35", "priceCurrency": "EUR", "description": "Precio de oferta por vídeo, normalmente 50 €", "itemOffered": {"@type": "Service", "name": "Fotos y vídeo convertidos en un vídeo montado", "description": "De fotos, clips sin editar o una mezcla a un vídeo montado en 48 horas, en 9:16, 16:9 o 1:1, a tu elección. Una ronda de cambios incluida."}, "priceSpecification": {"@type": "UnitPriceSpecification", "price": "35", "priceCurrency": "EUR", "valueAddedTaxIncluded": false, "referenceQuantity": {"@type": "QuantitativeValue", "value": 1, "unitText": "vídeo"}}}]}, {"@type": "FAQPage", "@id": "https://hartegrowth.eu/es/#faq", "mainEntity": [{"@type": "Question", "name": "¿Cuánto material necesito?", "acceptedAnswer": {"@type": "Answer", "text": "Con unas 5 o 6 fotos o unos pocos clips cortos basta para un vídeo. ¿Tienes más? Envíalo todo y elegimos lo que mejor funcione."}}, {"@type": "Question", "name": "¿Cómo envío los archivos?", "acceptedAnswer": {"@type": "Answer", "text": "Por WeTransfer o Google Drive. Envíanos el enlace por WhatsApp o por correo. No directamente por WhatsApp: comprime los archivos y baja la calidad."}}, {"@type": "Question", "name": "¿Puedo usar el vídeo donde quiera?", "acceptedAnswer": {"@type": "Answer", "text": "Sí, el vídeo es tuyo. Úsalo en redes sociales, en tu web, en un anuncio de alquiler o en publicidad."}}, {"@type": "Question", "name": "¿Y si no me convence?", "acceptedAnswer": {"@type": "Answer", "text": "Incluye una ronda de cambios. ¿No llegamos a un acuerdo? Te devolvemos el dinero."}}]}]}
+</script>
+<link rel="stylesheet" href="/film.css?v=20260924e">
 </head>
 <body>
 
-<canvas class="bg-canvas"></canvas>
+<!-- Beeldmateriaal voor hoofdstuk Media: één woning, getekend in SVG. Eén keer gedefinieerd, overal hergebruikt. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fb9dc"/><stop offset="1" stop-color="#e7d8c0"/></linearGradient>
+  </defs>
+  <symbol id="art-gevel" viewBox="0 0 300 400">
+    <rect width="300" height="400" fill="url(#g-sky)"/>
+    <rect x="0" y="330" width="300" height="70" fill="#b9a88d"/>
+    <path d="M40 170 150 110 260 170z" fill="#b5583a"/>
+    <rect x="52" y="168" width="196" height="165" fill="#ece6dc"/>
+    <rect x="72" y="195" width="44" height="52" fill="#2f3a42"/><rect x="184" y="195" width="44" height="52" fill="#2f3a42"/>
+    <rect x="128" y="262" width="44" height="71" fill="#6b4a36"/>
+    <rect x="72" y="270" width="44" height="40" fill="#2f3a42"/><rect x="184" y="270" width="44" height="40" fill="#2f3a42"/>
+    <path d="M268 330c2-60 4-110 2-150" stroke="#6d5a43" stroke-width="7" fill="none"/>
+    <path d="M270 182c-30-8-46 4-56 16 18-6 36-8 56-16zm0 0c24-16 42-12 54-2-18-2-36 0-54 2zm0 0c-14 18-18 36-16 50 8-18 12-32 16-50z" fill="#4f7a4c"/>
+  </symbol>
+  <symbol id="art-zwembad" viewBox="0 0 300 400">
+    <rect width="300" height="400" fill="url(#g-sky)"/>
+    <rect x="0" y="170" width="300" height="230" fill="#dcc7a8"/>
+    <polygon points="40,210 260,210 300,400 0,400" fill="#2d8db5"/>
+    <path d="M40 250q30-8 60 0t60 0 60 0 60 0M20 300q40-10 80 0t80 0 80 0M10 350q45-10 90 0t90 0 90 0" stroke="#7cc6e2" stroke-width="3" fill="none" opacity=".7"/>
+    <rect x="200" y="176" width="70" height="14" rx="4" fill="#f3efe8"/><path d="M206 190v12M262 190v12" stroke="#8a7b66" stroke-width="3"/>
+    <circle cx="60" cy="120" r="20" fill="#f8e3b5"/>
+  </symbol>
+</svg>
 
-<header>
-  <div class="nav">
-    <a href="/es/" class="logo" aria-label="Harte Growth"><svg width="116" height="26" viewBox="0 0 151 34" fill="none" role="img" aria-label="Harte Growth"><text x="0" y="25" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="800" letter-spacing="-.9" textLength="61.5" lengthAdjust="spacingAndGlyphs" fill="#f6f3ef">Harte</text><text x="72" y="25" font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-weight="400" font-size="28" letter-spacing="-.7" textLength="69.6" lengthAdjust="spacingAndGlyphs" fill="#ff4d1a">Growth</text><rect x="145" y="21" width="4.5" height="4.5" fill="#ff4d1a"/></svg></a>
-    <nav class="navlinks">
-      <a href="/diensten.html">Servicios</a>
-      <a href="/cases.html">Casos</a>
-      <a href="/blog.html">Blog</a>
-      <a href="/over-ons.html">Nosotros</a>
-      <a href="/contact.html">Contacto</a>
+<a class="skip" href="#contact">Ir directamente al formulario de contacto</a>
+
+<header class="hdr">
+  <div class="hdr-row">
+    <a class="logo" href="/es/" aria-label="Harte Growth, inicio">
+      <!-- Logo: zelfde inline SVG als op alle andere pagina's (26px hoog, punt direct na "Growth"). -->
+      <svg width="116" height="26" viewBox="0 0 151 34" fill="none" aria-hidden="true" focusable="false">
+        <text x="0" y="25" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="800" letter-spacing="-.9" textLength="61.5" lengthAdjust="spacingAndGlyphs" fill="#f6f3ef">Harte</text>
+        <text x="72" y="25" font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-weight="400" font-size="28" letter-spacing="-.7" textLength="69.6" lengthAdjust="spacingAndGlyphs" fill="#ff4d1a">Growth</text>
+        <rect x="145" y="21" width="4.5" height="4.5" fill="#ff4d1a"/>
+      </svg>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="hdr-menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path class="mb-open" d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="mb-close" d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span>Menú</span>
+    </button>
+    <nav class="hdr-nav" id="hdr-menu" aria-label="Menú principal">
+      <ul class="hdr-links">
+        <li><a href="/es/diensten.html">Servicios</a></li>
+        <li><a href="/es/cases.html">Casos</a></li>
+        <li><a href="/es/blog.html">Blog</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+      <ul class="hdr-lang" aria-label="Idioma">
+        <li><a href="/" hreflang="nl" lang="nl">NL</a></li>
+        <li><a href="/en/" hreflang="en" lang="en">EN</a></li>
+        <li><a href="/es/" hreflang="es" lang="es" aria-current="page">ES</a></li>
+      </ul>
     </nav>
-    <div class="nav-right">
-      <div class="lang-switch" role="navigation" aria-label="Idioma"><a href="/" hreflang="nl">NL</a><a href="/en/" hreflang="en">EN</a><a href="/es/" class="active" hreflang="es">ES</a></div>
-      <a href="/es/groeiscan.html" class="btn btn-primary magnetic">Escaneo gratis</a>
-      <button class="menu-btn" id="menuBtn" aria-label="Menú">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8"/></svg>
-      </button>
-    </div>
   </div>
-  <div class="progress-line"></div>
+  <div class="tl">
+    <p class="tc" aria-hidden="true"><span class="tc-rec"></span><span id="tc">00:00:00:00</span></p>
+    <nav class="tl-track" aria-label="Capítulos">
+      <ol class="tl-clips">
+        <li style="flex-grow:1.7"><a href="#opening" aria-current="location"><span class="tl-name">Opening</span></a></li>
+        <li style="flex-grow:3.4"><a href="#media"><span class="tl-name">Medios</span></a></li>
+        <li style="flex-grow:2.3"><a href="#fundament"><span class="tl-name">Base</span></a></li>
+        <li style="flex-grow:2.3"><a href="#verkeer"><span class="tl-name">Tráfico</span></a></li>
+        <li style="flex-grow:2.5"><a href="#opvolging"><span class="tl-name">Seguimiento</span></a></li>
+        <li style="flex-grow:2.1"><a href="#prijs"><span class="tl-name">Precio</span></a></li>
+        <li style="flex-grow:1.5"><a href="#contact"><span class="tl-name">Contacto</span></a></li>
+      </ol>
+      <div class="tl-fill" aria-hidden="true"></div>
+      <div class="tl-head" aria-hidden="true"><span></span></div>
+    </nav>
+    <p class="tl-now" id="tl-now" aria-hidden="true">Opening</p>
+  </div>
 </header>
 
-<div class="mnav" id="mnav">
-  <div class="mnav-top">
-    <span class="logo" aria-label="Harte Growth"><svg width="124" height="28" viewBox="0 0 151 34" fill="none" role="img" aria-label="Harte Growth"><text x="0" y="25" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="800" letter-spacing="-.9" textLength="61.5" lengthAdjust="spacingAndGlyphs" fill="#f6f3ef">Harte</text><text x="72" y="25" font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-weight="400" font-size="28" letter-spacing="-.7" textLength="69.6" lengthAdjust="spacingAndGlyphs" fill="#ff4d1a">Growth</text><rect x="145" y="21" width="4.5" height="4.5" fill="#ff4d1a"/></svg></span>
-    <button class="menu-btn" id="closeBtn" style="display:block" aria-label="Cerrar">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8"/></svg>
-    </button>
-  </div>
-  <a href="/diensten.html">Servicios</a>
-  <a href="/cases.html">Casos</a>
-  <a href="/blog.html">Blog</a>
-  <a href="/over-ons.html">Nosotros</a>
-  <a href="/contact.html">Contacto</a>
-  <div class="lang-switch" role="navigation" aria-label="Idioma"><a href="/" hreflang="nl">NL</a><a href="/en/" hreflang="en">EN</a><a href="/es/" class="active" hreflang="es">ES</a></div>
-  <a href="/es/groeiscan.html" class="btn btn-primary">Escaneo gratis</a>
-</div>
+<div class="stage-dim" aria-hidden="true"></div>
+<main id="film">
 
-<main>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-bg-words">Growth<br>Growth<br>Growth</div>
-    <div class="wrap-wide">
-      <div class="chapter reveal in"><span class="num">01</span><span>Harte Growth · estudio de crecimiento</span><span class="line"></span></div>
-      <h1 class="hero-headline reveal in">
-        <span class="line"><span class="word">Marketing</span> <span class="word">que</span></span>
-        <span class="line">trae <em>clientes</em>.</span>
-      </h1>
-      <div class="hero-sub">
-        <p class="lead reveal in">Para empresas que quieren crecer. Desde emprendedores con ambición hasta organizaciones con un equipo de marketing. Medible desde el primer mes.</p>
-        <div class="meta reveal in">
-          <div class="hero-ctas">
-            <a href="/es/groeiscan.html" class="btn btn-primary magnetic">Pide un escaneo gratis
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="/cases.html" class="btn btn-ghost">Ver la evidencia →</a>
-          </div>
-          <div class="hero-live"><span class="dot"></span>Para empresas y organizaciones en España, Países Bajos y más allá</div>
+  <!-- 1. OPENING -->
+  <section class="chapter" id="opening" style="--len:1.7" aria-labelledby="opening-h">
+    <div class="scene" aria-hidden="true">
+      <div class="scene-in">
+        <!-- Ruw materiaal (16:9) en resultaat (9:16) spelen niet vanzelf: ze scrubben mee met het scrollen.
+             Halverwege de opening wordt het frame staand. Zelfde video, zelfde lengte, zelfde currentTime. -->
+        <div class="monitor op-mon">
+          <video class="op-v16" muted playsinline preload="none" poster="/media/opening-16x9-1280.webp">
+            <source src="/media/opening-16x9-960.mp4" type="video/mp4" media="(max-width: 767px)">
+            <source src="/media/opening-16x9-1280.mp4" type="video/mp4">
+          </video>
+          <video class="op-v9" muted playsinline preload="none"
+                 data-src-mobile="/media/opening-9x16-540.mp4" data-src="/media/opening-9x16-720.mp4"
+                 data-poster-mobile="/media/opening-9x16-540.webp" data-poster="/media/opening-9x16-720.webp"></video>
+          <span class="op-mask op-mask-l"></span><span class="op-mask op-mask-r"></span>
+          <span class="op-ring"></span><span class="op-window"></span>
+          <p class="mon-meta"><span class="mon-rec"></span>A001</p>
+          <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+          <p class="op-format">16:9</p>
+          <div class="bar bar-top"></div><div class="bar bar-bot"></div>
         </div>
+      </div>
+    </div>
+    <div class="copy">
+      <div class="copy-body">
+        <h1 id="opening-h" class="h1" tabindex="-1">Envía tus fotos o vídeos. Te entregamos un vídeo que vende.</h1>
+        <p class="lede">Un vídeo bien montado en 48 horas, a partir de 5 o 6 fotos, clips sin editar o una mezcla.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Leer más</span><span class="more-close">Menos</span></summary>
+          <div class="more-body">
+            <p class="lede lede-rest">En 9:16, 16:9 o 1:1, a tu elección, listo para Instagram, TikTok y tu web.</p>
+          </div>
+        </details>
+        <div class="ctas">
+          <a class="btn" href="https://wa.me/31634455762?text=%C2%A1Hola%21%20Quiero%20convertir%20fotos%20o%20v%C3%ADdeo%20en%20un%20v%C3%ADdeo." target="_blank" rel="noopener">Envía tus imágenes por WhatsApp</a>
+        </div>
+        <p class="cue"><span class="cue-line" aria-hidden="true"></span>Desplázate para reproducir</p>
       </div>
     </div>
   </section>
 
-  <!-- MARQUEE -->
-  <div class="marquee-strip">
-    <div class="marquee">
-      <span>contenido &amp; vídeo</span>
-      <span>SEO &amp; Google Ads</span>
-      <span>visibilidad local</span>
-      <span>social &amp; short-form</span>
-      <span>embudos que convierten</span>
-      <span>seguimiento por WhatsApp</span>
-      <span>informes en lenguaje claro</span>
-      <span>contenido &amp; vídeo</span>
-      <span>SEO &amp; Google Ads</span>
-      <span>visibilidad local</span>
-      <span>social &amp; short-form</span>
-      <span>embudos que convierten</span>
-      <span>seguimiento por WhatsApp</span>
-      <span>informes en lenguaje claro</span>
-    </div>
-  </div>
-
-  <!-- STATEMENT -->
-  <section class="statement">
-    <div class="wrap-wide">
-      <div class="chapter reveal"><span class="num">02</span><span>Nuestra postura</span><span class="line"></span></div>
-      <h2 class="reveal">Las agencias venden un <em>paquete</em>.<br>Nosotros construimos tu <em>facturación</em>.</h2>
-      <p class="reveal">Un 'paquete completo de marketing online' suena bien. Hasta que te das cuenta de que sigues recibiendo facturas separadas de tu diseñador web, tu freelance de SEO, tu creador de contenido y tu herramienta de marketing. Y nadie puede explicarte de dónde vienen realmente tus clientes. Nosotros gestionamos toda la cadena: base (web más embudo), motor (contenido, SEO, vídeo, anuncios) y seguimiento (WhatsApp, IA, CRM). Un plan, un contacto, un informe mensual que responde a una pregunta: ¿qué ha traído este mes?</p>
-    </div>
-  </section>
-
-  <!-- GROWTH STORY -->
-  <section class="growth-story" id="hoe">
-    <div class="wrap-wide">
-      <div class="chapter reveal"><span class="num">03</span><span>Así es el crecimiento: base + motor, cuatro meses</span><span class="line"></span></div>
-      <div class="growth-grid" style="margin-top:32px;">
-        <div class="growth-sticky">
-          <div class="growth-chart-wrap">
-            <svg viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="curveGrad" x1="0" x2="1" y1="0" y2="0">
-                  <stop offset="0" stop-color="#ff4d1a"/>
-                  <stop offset="1" stop-color="#ff7a4a"/>
-                </linearGradient>
-              </defs>
-              <line x1="60" y1="80" x2="560" y2="80" stroke="var(--border)" stroke-dasharray="3 5" stroke-width="1"/>
-              <line x1="60" y1="160" x2="560" y2="160" stroke="var(--border)" stroke-dasharray="3 5" stroke-width="1"/>
-              <line x1="60" y1="240" x2="560" y2="240" stroke="var(--border)" stroke-dasharray="3 5" stroke-width="1"/>
-              <line x1="60" y1="320" x2="560" y2="320" stroke="var(--border)" stroke-width="1"/>
-              <line x1="60" y1="40" x2="60" y2="320" stroke="var(--border-2)" stroke-width="1"/>
-              <text x="80" y="342" fill="var(--text-mute)" font-size="10" font-family="JetBrains Mono">M1</text>
-              <text x="205" y="342" fill="var(--text-mute)" font-size="10" font-family="JetBrains Mono">M2</text>
-              <text x="330" y="342" fill="var(--text-mute)" font-size="10" font-family="JetBrains Mono">M3</text>
-              <text x="455" y="342" fill="var(--text-mute)" font-size="10" font-family="JetBrains Mono">M4</text>
-              <text x="530" y="342" fill="#ff4d1a" font-size="10" font-family="JetBrains Mono" font-weight="600">hoy</text>
-              <path d="M60 320 C160 314 240 300 320 240 C400 175 480 105 560 68" fill="none" stroke="var(--border)" stroke-width="1" stroke-dasharray="3 4"/>
-              <path id="growthPath" d="M60 320 C160 314 240 300 320 240 C400 175 480 105 560 68" fill="none" stroke="url(#curveGrad)" stroke-width="3" stroke-linecap="round"/>
-              <circle id="growthPoint" cx="560" cy="68" r="6" fill="#ff4d1a" stroke="var(--text)" stroke-width="1.5" opacity="0"/>
-              <text x="60" y="26" fill="var(--text-dim)" font-size="10.5" font-family="JetBrains Mono" letter-spacing="1">AIRE ACONDICIONADO COSTA BLANCA · IMPRESIONES GOOGLE · M1 – M3</text>
-            </svg>
-          </div>
-          <div class="growth-metrics">
-            <div class="m"><span class="mn" data-target="12.4" data-decimal="1" data-suffix="K">0</span><span class="mlbl">Impresiones</span></div>
-            <div class="m"><span class="mn" data-target="364">0</span><span class="mlbl">Clics</span></div>
-            <div class="m"><span class="mn" data-target="9">0</span><span class="mlbl">Posición media</span></div>
-          </div>
-        </div>
-        <div class="growth-scroller">
-          <div class="gs-step">
-            <span class="when">Mes 1</span>
-            <h3>Todavía <em class="serif">apenas ves nada</em>.</h3>
-            <p>Ponemos los cimientos en orden. Perfil de Google Business rehecho, algunos ajustes técnicos aburridos, unas cuantas páginas locales publicadas. Tu tráfico apenas ha subido. Correcto. Dale tiempo.</p>
-          </div>
-          <div class="gs-step">
-            <span class="when">Mes 2</span>
-            <h3>Los primeros buscadores te <em class="serif">ven</em>.</h3>
-            <p>Alguien busca "aire acondicionado Moraira" o "gestor Alicante". Tu nombre aparece. Aún no arriba, pero visible. Todavía no hay solicitudes. Búsquedas sí.</p>
-          </div>
-          <div class="gs-step">
-            <span class="when">Mes 3</span>
-            <h3>Ahora lo <em class="serif">notas</em>.</h3>
-            <p>Google te posiciona en lo que quieres. Los clics suben. Llegan las primeras reseñas. Las nuevas páginas posicionan más rápido. Aquí empieza a rendir.</p>
-          </div>
-          <div class="gs-step">
-            <span class="when">Mes 4 en adelante</span>
-            <h3><em class="serif">Funciona</em>.</h3>
-            <p>Cada mes algunas solicitudes más. Sin que tengas que hacer nada. Una vez al mes recibes una nota de una página: tráfico, solicitudes, qué hemos hecho.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CASE IN SPOTLIGHT -->
-  <section class="sec" id="cases-preview">
-    <div class="wrap-wide">
-      <div class="chapter reveal"><span class="num">04</span><span>Caso destacado</span><span class="line"></span></div>
-      <div class="case-hero reveal">
-        <div>
-          <span class="attribution"><span class="pulse-dot" style="background:var(--green);box-shadow:0 0 6px var(--green)"></span> Datos de Google Search Console · este proyecto específico</span>
-          <h2>theacmen.es pasó de <em>invisible</em> a 12,4K impresiones y 364 clics en tres meses.</h2>
-          <p>Una empresa de aire acondicionado en la Costa Blanca conseguía clientes solo por el boca a boca. Construimos una plataforma multilingüe, rehicimos el perfil de Google Business y publicamos páginas de servicio y proyectos por ciudad. Sin gastar un solo euro en anuncios.</p>
-          <div class="case-stats">
-            <div class="case-stat"><div class="num">12,4K</div><div class="lbl">Impresiones</div><div class="sub">en Google · 3 meses</div></div>
-            <div class="case-stat"><div class="num">364</div><div class="lbl">Clics</div><div class="sub">orgánicos · 0 anuncios</div></div>
-            <div class="case-stat"><div class="num">9</div><div class="lbl">Pos. media</div><div class="sub">intención de compra</div></div>
-          </div>
-          <p style="margin-top:24px;"><a href="/cases.html" class="btn btn-ghost">Ver todos los casos →</a></p>
-        </div>
-        <div>
-          <div class="google-mock">
-            <div class="g-pos"><span class="up">↑</span> Posición 9</div>
-            <div class="g-bar">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#9aa0a6" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="#9aa0a6" stroke-width="1.8" stroke-linecap="round"/></svg>
-              <div class="q" data-query="instalador aire acondicionado costa blanca"></div>
+  <!-- 2. MEDIA -->
+  <section class="chapter" id="media" style="--len:3.4" aria-labelledby="media-h">
+    <span class="alias" id="werkwijze"></span><span class="alias" id="voorbeeld"></span><!-- oude homepage-ankers -->
+    <div class="scene" aria-hidden="true">
+      <div class="scene-in">
+        <div class="edit">
+          <div class="edit-main">
+            <div class="bin">
+              <p class="edit-label">Material: 5 fotos, 1 clip</p>
+              <div class="shot" data-r="-5" style="--x:2%;--y:18%;--r:-5deg"><img data-src="/media/media-foto-1.webp" alt="" width="540" height="960" decoding="async"></div>
+              <div class="shot" data-r="4" style="--x:19%;--y:8%;--r:4deg"><img data-src="/media/media-foto-2.webp" alt="" width="540" height="960" decoding="async"></div>
+              <div class="shot is-extra" data-r="-3" style="--x:36%;--y:20%;--r:-3deg"><img data-src="/media/media-foto-3.webp" alt="" width="540" height="960" decoding="async"></div>
+              <div class="shot is-extra" data-r="6" style="--x:53%;--y:6%;--r:6deg"><img data-src="/media/media-foto-4.webp" alt="" width="540" height="960" decoding="async"></div>
+              <div class="shot" data-r="-4" style="--x:66%;--y:18%;--r:-4deg"><img data-src="/media/media-foto-5.webp" alt="" width="540" height="960" decoding="async"></div>
+              <div class="shot is-clip" data-r="3" style="--x:80%;--y:4%;--r:3deg"><video class="shot-video" data-src="/media/media-clip.mp4" data-poster="/media/media-clip.webp" muted loop playsinline preload="none"></video><span class="shot-rec">0:03</span></div>
             </div>
-            <div class="g-tabs"><span>Todo</span><span>Imágenes</span><span>Maps</span><span>Noticias</span></div>
-            <div class="g-result">
-              <div class="site"><span class="fav">T</span> theacmen.es › servicios</div>
-              <h3>The Air Conditioning Men, instalación de aire acondicionado <mark>Costa Blanca</mark></h3>
-              <p>Instalación, servicio, mantenimiento y limpieza profunda de aire acondicionado para viviendas y empresas. Zona de trabajo: Costa Blanca, Torrevieja y Murcia. Pide un presupuesto sin compromiso…</p>
+            <div class="tlp">
+              <div class="tlp-ruler"><span>00:00</span><span>00:04</span><span>00:08</span><span>00:12</span></div>
+              <div class="trk"><span class="trk-name">V2</span><div class="lane"><div class="title-clip" style="width:42%"><span>Texto</span></div></div></div>
+              <div class="trk trk-v1"><span class="trk-name">V1</span>
+                <div class="lane lane-v1">
+                  <div class="clip" data-len="2"><img class="clip-thumb" data-src="/media/media-foto-1.webp" alt="" decoding="async"></div>
+                  <div class="clip" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-2.webp" alt="" decoding="async"></div>
+                  <div class="clip is-extra" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-3.webp" alt="" decoding="async"></div>
+                  <div class="clip is-extra" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-4.webp" alt="" decoding="async"></div>
+                  <div class="clip" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-5.webp" alt="" decoding="async"></div>
+                  <div class="clip" data-len="3"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-clip.webp" alt="" decoding="async"></div>
+                </div>
+              </div>
+              <div class="trk"><span class="trk-name">A1</span><div class="lane"><svg class="wave" viewBox="0 0 200 20" preserveAspectRatio="none"><rect x="0.00" y="7.5" width="2" height="5"/><rect x="3.12" y="6.5" width="2" height="7"/><rect x="6.25" y="7.5" width="2" height="5"/><rect x="9.38" y="7.5" width="2" height="5"/><rect x="12.50" y="5.5" width="2" height="9"/><rect x="15.62" y="7.5" width="2" height="5"/><rect x="18.75" y="5.0" width="2" height="10"/><rect x="21.88" y="7.0" width="2" height="6"/><rect x="25.00" y="5.0" width="2" height="10"/><rect x="28.12" y="7.5" width="2" height="5"/><rect x="31.25" y="7.0" width="2" height="6"/><rect x="34.38" y="7.5" width="2" height="5"/><rect x="37.50" y="3.5" width="2" height="13"/><rect x="40.62" y="5.5" width="2" height="9"/><rect x="43.75" y="6.5" width="2" height="7"/><rect x="46.88" y="7.0" width="2" height="6"/><rect x="50.00" y="3.0" width="2" height="14"/><rect x="53.12" y="3.0" width="2" height="14"/><rect x="56.25" y="5.5" width="2" height="9"/><rect x="59.38" y="7.0" width="2" height="6"/><rect x="62.50" y="7.5" width="2" height="5"/><rect x="65.62" y="6.0" width="2" height="8"/><rect x="68.75" y="4.5" width="2" height="11"/><rect x="71.88" y="4.5" width="2" height="11"/><rect x="75.00" y="5.5" width="2" height="9"/><rect x="78.12" y="5.0" width="2" height="10"/><rect x="81.25" y="4.5" width="2" height="11"/><rect x="84.38" y="1.0" width="2" height="18"/><rect x="87.50" y="4.5" width="2" height="11"/><rect x="90.62" y="2.5" width="2" height="15"/><rect x="93.75" y="4.5" width="2" height="11"/><rect x="96.88" y="4.0" width="2" height="12"/><rect x="100.00" y="5.0" width="2" height="10"/><rect x="103.12" y="6.0" width="2" height="8"/><rect x="106.25" y="4.5" width="2" height="11"/><rect x="109.38" y="5.5" width="2" height="9"/><rect x="112.50" y="5.0" width="2" height="10"/><rect x="115.62" y="3.5" width="2" height="13"/><rect x="118.75" y="4.5" width="2" height="11"/><rect x="121.88" y="2.5" width="2" height="15"/><rect x="125.00" y="4.0" width="2" height="12"/><rect x="128.12" y="5.5" width="2" height="9"/><rect x="131.25" y="5.0" width="2" height="10"/><rect x="134.38" y="2.0" width="2" height="16"/><rect x="137.50" y="8.0" width="2" height="4"/><rect x="140.62" y="4.5" width="2" height="11"/><rect x="143.75" y="2.0" width="2" height="16"/><rect x="146.88" y="7.5" width="2" height="5"/><rect x="150.00" y="8.0" width="2" height="4"/><rect x="153.12" y="6.0" width="2" height="8"/><rect x="156.25" y="7.0" width="2" height="6"/><rect x="159.38" y="8.0" width="2" height="4"/><rect x="162.50" y="4.0" width="2" height="12"/><rect x="165.62" y="6.0" width="2" height="8"/><rect x="168.75" y="6.0" width="2" height="8"/><rect x="171.88" y="5.5" width="2" height="9"/><rect x="175.00" y="4.0" width="2" height="12"/><rect x="178.12" y="7.0" width="2" height="6"/><rect x="181.25" y="8.0" width="2" height="4"/><rect x="184.38" y="4.5" width="2" height="11"/><rect x="187.50" y="6.5" width="2" height="7"/><rect x="190.62" y="6.5" width="2" height="7"/><rect x="193.75" y="7.0" width="2" height="6"/><rect x="196.88" y="4.5" width="2" height="11"/></svg></div></div>
+              <div class="edit-head"><span></span></div>
             </div>
           </div>
-          <p class="case-note">↑ así aparece el sitio en Google · datos de su Search Console</p>
+          <div class="program">
+            <p class="edit-label">Resultado 9:16</p>
+            <div class="program-frame">
+              <!-- Het echte 9:16-resultaat; de poster is het eerste frame. Scrubt mee met de montage. -->
+              <video data-slot="media-result" data-src="/media/result.mp4" data-poster="/media/result.webp" muted playsinline preload="none" tabindex="-1"></video>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+    <div class="copy">
+      <div class="copy-body">
+        <h2 id="media-h" class="h2" tabindex="-1">Tú envías lo que tienes. Nosotros montamos.</h2>
+        <p class="lede">Con unas 5 o 6 fotos o unos pocos clips sin editar basta.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Leer más</span><span class="more-close">Menos</span></summary>
+          <div class="more-body">
+            <p class="lede lede-rest">Tal como salen de tu móvil. Nosotros cortamos, elegimos la música, añadimos texto y marcamos el ritmo.</p>
+            <p class="note">Envíalo por WeTransfer o Google Drive. No directamente por WhatsApp, porque baja la calidad.</p>
+          </div>
+        </details>
       </div>
     </div>
   </section>
 
-  <!-- HORIZONTAL SCROLL SERVICES -->
-  <section class="h-scroll-outer" id="services">
-    <div class="h-scroll-pin">
-      <div class="h-scroll-header">
-        <div class="chapter"><span class="num">05</span><span>Lo que hacemos</span><span class="line"></span></div>
-        <h2 class="reveal">Cuatro motores. <em>Una</em> base. <span style="color:var(--text-dim);font-weight:400;">→ scroll</span></h2>
-      </div>
-      <div class="h-scroll-track">
-        <div class="h-svc">
-          <span class="n">01 · BASE</span>
-          <h3>Web y <em>embudo</em>.</h3>
-          <p>La base de todo. Una web que no está para presumir, sino para llevar visitas al contacto. Medible, rápida y construida sobre tu embudo.</p>
-          <ul><li>Estrategia antes que diseño</li><li>Textos de conversión</li><li>Rápida en móvil</li><li>Rutas WhatsApp integradas</li></ul>
-        </div>
-        <div class="h-svc">
-          <span class="n">02 · MEDIOS</span>
-          <h3>Contenido, vídeo &amp; <em>social</em>.</h3>
-          <p>El motor que mantiene visible tu marca. Vídeo short-form, casos y publicaciones con ritmo. Publicado con constancia, no una vez por trimestre.</p>
-          <ul><li>Vídeo short-form</li><li>Fotos y casos de proyecto</li><li>Publicaciones sociales y Google</li><li>Calendario editorial</li></ul>
-        </div>
-        <div class="h-svc">
-          <span class="n">03 · TRÁFICO</span>
-          <h3>SEO &amp; <em>anuncios</em>.</h3>
-          <p>Visible en lo que la gente busca cuando está lista para comprar. Orgánico donde se puede, pagado donde toca. Sin palabras clave vanidosas.</p>
-          <ul><li>Palabras clave de intención de compra</li><li>Google Ads y Meta Ads</li><li>Páginas locales por ciudad</li><li>GEO: visible en ChatGPT/Gemini</li></ul>
-        </div>
-        <div class="h-svc">
-          <span class="n">04 · SEGUIMIENTO</span>
-          <h3>WhatsApp, IA y <em>CRM</em>.</h3>
-          <p>Seguimiento inteligente para que ninguna solicitud se pierda. Tú estás en reunión, quien escribe recibe confirmación en 30 segundos. La IA te resume el intake.</p>
-          <ul><li>Flujo WhatsApp con resumen por IA</li><li>Integración CRM</li><li>Confirmación automática</li><li>Implementación y formación</li></ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHATSAPP LEAD -->
-  <section class="sec">
-    <div class="wrap-wide">
-      <div class="chapter reveal"><span class="num">06</span><span>Del clic a la cita</span><span class="line"></span></div>
-      <div class="case-hero reveal">
-        <div>
-          <h2>La solicitud llega. <em>Tú</em> no tienes que hacer nada.</h2>
-          <p>Cada web que construimos tiene rutas inteligentes de WhatsApp y formularios. Alguien rellena algo, la IA lo resume, tú recibes una nota clara en tu CRM y quien pregunta recibe confirmación en 30 segundos. Sin que tengas que mirar el móvil.</p>
-          <ul style="margin-top:10px;list-style:none;">
-            <li style="padding:8px 0;color:var(--text-dim);font-size:15px;display:flex;gap:10px;"><span style="color:var(--accent);font-weight:700;">→</span> Botón de WhatsApp con introducción prerellenada por página</li>
-            <li style="padding:8px 0;color:var(--text-dim);font-size:15px;display:flex;gap:10px;"><span style="color:var(--accent);font-weight:700;">→</span> Resumen por IA de cada solicitud en tu CRM</li>
-            <li style="padding:8px 0;color:var(--text-dim);font-size:15px;display:flex;gap:10px;"><span style="color:var(--accent);font-weight:700;">→</span> Confirmación automática en 30 segundos</li>
-            <li style="padding:8px 0;color:var(--text-dim);font-size:15px;display:flex;gap:10px;"><span style="color:var(--accent);font-weight:700;">→</span> Recordatorio si no respondes en X horas</li>
-          </ul>
-        </div>
-        <div>
-          <div class="wa-mock">
-            <div class="wa-header">
-              <div class="wa-avatar">A</div>
-              <div>
-                <div class="wa-name">Aire Acondicionado Costa Blanca</div>
-                <div class="wa-status">● en línea</div>
+  <!-- 3. FUNDAMENT -->
+  <section class="chapter" id="fundament" style="--len:2.3" aria-labelledby="fundament-h">
+    <div class="scene" aria-hidden="true">
+      <div class="scene-in">
+        <div class="browser">
+          <div class="br-bar"><i></i><i></i><i></i><span class="br-url">tuempresa.es</span></div>
+          <div class="br-page">
+            <div class="wb wb-nav"><span class="wf"></span><div class="fill"><b class="br-logo">Tu empresa</b><span class="ln"></span><span class="ln"></span><span class="ln"></span></div></div>
+            <div class="wb wb-hero"><span class="wf"></span>
+              <div class="fill">
+                <p class="br-h">Trabajo profesional en tu zona. Respuesta hoy mismo.</p>
+                <span class="ln ln-l"></span><span class="ln ln-m"></span>
+                <div class="br-ctas"><span class="br-btn">Pedir presupuesto</span><span class="br-wa"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>WhatsApp</span></div>
               </div>
             </div>
-            <div class="wa-body" style="min-height:220px;display:flex;flex-direction:column;"></div>
+            <div class="wb wb-img"><span class="wf"></span><div class="fill"><svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><use href="#art-gevel"/></svg><span class="br-play"><svg viewBox="0 0 16 16"><path d="M5 3.5v9l7.5-4.5z" fill="#0F1113"/></svg></span></div></div>
+            <div class="wb wb-card"><span class="wf"></span><div class="fill"><i class="dot"></i><span class="ln ln-m"></span><span class="ln ln-s"></span></div></div>
+            <div class="wb wb-card"><span class="wf"></span><div class="fill"><i class="dot"></i><span class="ln ln-m"></span><span class="ln ln-s"></span></div></div>
+            <div class="wb wb-card"><span class="wf"></span><div class="fill"><i class="dot"></i><span class="ln ln-m"></span><span class="ln ln-s"></span></div></div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy">
+      <div class="copy-body">
+        <h2 id="fundament-h" class="h2" tabindex="-1">Una web que genera solicitudes.</h2>
+        <p class="lede">No una plantilla igual a la de tu competencia.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Leer más</span><span class="more-close">Menos</span></summary>
+          <div class="more-body">
+            <p class="lede lede-rest">Una web rápida que lleva a las visitas a contactar, con formulario, botón de WhatsApp y tus vídeos donde mejor funcionan.</p>
+          </div>
+        </details>
+        <p class="note">Online en dos semanas, desde 550 €. <a class="link" href="/es/diensten.html">Más sobre webs</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. VERKEER (illustratie, geen echte cijfers of posities) -->
+  <section class="chapter" id="verkeer" style="--len:2.3" aria-labelledby="verkeer-h">
+    <div class="scene" aria-hidden="true">
+      <div class="scene-in">
+        <div class="serp-wrap">
+          <div class="serp">
+            <div class="serp-q"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>alquiler casa vacaciones moraira</div>
+            <ol class="serp-list">
+              <li class="res res-you">
+                <svg class="res-thumb" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><use href="#art-zwembad"/></svg>
+                <div class="res-body"><span class="res-url">tuempresa.es</span><span class="res-title">Casa de vacaciones en Moraira con piscina privada</span><span class="ln"></span><span class="ln ln-m"></span></div>
+              </li>
+              <li class="res"><div class="res-body"><span class="res-url">ejemplo-a.es</span><span class="ln ln-t"></span><span class="ln"></span><span class="ln ln-m"></span></div></li>
+              <li class="res"><div class="res-body"><span class="res-url">ejemplo-b.com</span><span class="ln ln-t"></span><span class="ln"></span><span class="ln ln-s"></span></div></li>
+              <li class="res"><div class="res-body"><span class="res-url">ejemplo-c.es</span><span class="ln ln-t"></span><span class="ln"></span><span class="ln ln-m"></span></div></li>
+              <li class="res is-extra"><div class="res-body"><span class="res-url">ejemplo-d.es</span><span class="ln ln-t"></span><span class="ln"></span><span class="ln ln-s"></span></div></li>
+            </ol>
+          </div>
+          <div class="chart">
+            <p class="chart-label">Visibilidad <span>Ilustración</span></p>
+            <div class="chart-plot">
+              <svg viewBox="0 0 200 80" preserveAspectRatio="none">
+                <defs><linearGradient id="g-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF3B30" stop-opacity=".28"/><stop offset="1" stop-color="#FF3B30" stop-opacity="0"/></linearGradient></defs>
+                <path d="M0 74 C30 72 45 70 60 64 S90 58 105 48 S140 34 155 24 S185 10 200 6 V80 H0Z" fill="url(#g-area)"/>
+                <path d="M0 74 C30 72 45 70 60 64 S90 58 105 48 S140 34 155 24 S185 10 200 6" fill="none" stroke="#FF3B30" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
+              </svg>
+              <div class="chart-cover"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy">
+      <div class="copy-body">
+        <h2 id="verkeer-h" class="h2" tabindex="-1">Que te encuentren justo cuando alguien busca.</h2>
+        <p class="lede">SEO local, para salir arriba en tu zona.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Leer más</span><span class="more-close">Menos</span></summary>
+          <div class="more-body">
+            <p class="lede lede-rest">Google Ads o Meta Ads si tiene que ir más rápido. Y visible en ChatGPT y otros buscadores con IA.</p>
+            <p class="note">Esta imagen es una ilustración, no una promesa de posición ni de cifras.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. OPVOLGING (voorbeeldgesprek, geen echte klant) -->
+  <section class="chapter" id="opvolging" style="--len:2.5" aria-labelledby="opvolging-h">
+    <div class="scene" aria-hidden="true">
+      <div class="scene-in">
+        <div class="chat-wrap">
+          <div class="phone">
+            <div class="ph-head"><span class="ph-av">TE</span><span class="ph-name">Tu empresa<small>en línea</small></span></div>
+            <div class="ph-body">
+              <p class="ph-day">Hoy</p>
+              <div class="msg in"><p>¡Hola! He visto vuestra casa en Moraira. ¿Está libre en verano?</p><time>21:14</time></div>
+              <div class="out-slot">
+                <div class="typing"><i></i><i></i><i></i></div>
+                <div class="msg out"><span class="msg-ai">Respuesta automática</span><p>¡Hola, gracias por tu mensaje! ¿Para qué fechas y cuántas personas? Así hoy mismo te enviamos precio y disponibilidad.</p><time>21:14</time></div>
+              </div>
+              <div class="msg in"><p>Del 12 al 19 de julio, somos cuatro.</p><time>21:15</time></div>
+            </div>
+          </div>
+          <div class="summary">
+            <p class="sum-title">Resumen para ti</p>
+            <dl>
+              <div class="is-extra"><dt>Qué</dt><dd>Casa en Moraira</dd></div>
+              <div><dt>Cuándo</dt><dd>12–19 de julio</dd></div>
+              <div class="is-extra"><dt>Quién</dt><dd>4 personas</dd></div>
+              <div><dt>Siguiente paso</dt><dd>Enviar precio</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy">
+      <div class="copy-body">
+        <h2 id="opvolging-h" class="h2" tabindex="-1">Cada solicitud recibe respuesta, aunque estés ocupado.</h2>
+        <p class="lede">Un cliente escribe por la noche. Nuestra IA responde en 30 segundos por WhatsApp.</p>
+        <details class="more" open>
+          <summary><span class="more-open">Leer más</span><span class="more-close">Menos</span></summary>
+          <div class="more-body">
+            <p class="lede lede-rest">Hace las preguntas adecuadas y te resume la solicitud. Tú llamas cuando te venga bien.</p>
+            <p class="note">Esta conversación es un ejemplo.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. PRIJS -->
+  <section class="chapter" id="prijs" style="--len:2.1" aria-labelledby="prijs-h">
+    <span class="alias" id="prijzen"></span><!-- oud homepage-anker -->
+    <div class="scene" aria-hidden="true">
+      <div class="scene-in">
+        <div class="export">
+          <div class="ex-bar"><i></i><i></i><i></i><span>Exportar</span></div>
+          <dl class="ex-rows">
+            <div class="is-extra"><dt>Archivo</dt><dd>tu-video</dd></div>
+            <div><dt>Formato</dt><dd>9:16, 16:9 o 1:1, a tu elección</dd></div>
+            <div><dt>Entrega</dt><dd>En 48 horas</dd></div>
+            <div class="is-extra"><dt>Presupuesto</dt><dd>No hace falta</dd></div>
+            <div class="ex-price"><dt>Precio</dt><dd><s class="ex-was" data-price-copy="was"></s> <b data-price-copy="now"></b> por vídeo</dd></div>
+            <div><dt>Garantía</dt><dd>¿No te convence? Te devolvemos el dinero.</dd></div>
+          </dl>
+          <div class="ex-render">
+            <div class="ex-track"><span class="ex-fill"></span></div>
+            <p class="ex-status"><span class="ex-busy">Renderizando</span><span class="ex-done">Listo</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy">
+      <div class="copy-body">
+        <h2 id="prijs-h" class="h2" tabindex="-1">Un precio fijo. Sin presupuestos.</h2>
+        <!-- PRIJS: pas het bedrag hier aan; film.js neemt het over in het exportvenster. Staat ook in de <head> (meta description en JSON-LD). Alle prijzen excl. btw. -->
+        <p class="price"><strong data-price>35 €</strong> por vídeo <s data-price-was>50 €</s> <span class="price-tag">Precio de oferta</span> <span class="vat">sin IVA</span></p>
+        <ul class="facts">
+          <li>Listo en 48 horas</li>
+          <li>9:16, 16:9 o 1:1, a tu elección</li>
+          <li>Una ronda de cambios incluida</li>
+          <li>¿No te convence? Te devolvemos el dinero.</li>
+        </ul>
+        <p class="note">¿Mucho material? Lo hablamos brevemente antes.</p>
+        <div class="ctas">
+          <a class="btn" href="https://wa.me/31634455762?text=%C2%A1Hola%21%20Quiero%20que%20me%20hag%C3%A1is%20un%20v%C3%ADdeo." target="_blank" rel="noopener">Envía tu material por WhatsApp</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TIMELINE -->
-  <section class="sec">
-    <div class="wrap-wide">
-      <div class="chapter reveal"><span class="num">07</span><span>Cómo trabajamos</span><span class="line"></span></div>
-      <h2 class="reveal" style="font-size:clamp(30px,4.4vw,54px);font-weight:800;letter-spacing:-.035em;line-height:1;max-width:640px;margin-bottom:20px;">Desde la primera conversación hasta un <em class="serif">crecimiento</em> medible.</h2>
-      <div class="timeline-fill">
-        <div class="tl-step"><span class="dot"></span><div class="when">Semana 1–2</div><h3>Escaneo</h3><p>Nos metemos en tu oferta, tu posición en Google, el recorrido de tu cliente y tus procesos internos. Sin deberes para ti, leemos nosotros.</p></div>
-        <div class="tl-step"><span class="dot"></span><div class="when">Semana 2–3</div><h3>Prioridades</h3><p>Recibes una lista breve: dónde se están perdiendo solicitudes y tiempo, y qué abordamos primero. La decisión es tuya.</p></div>
-        <div class="tl-step"><span class="dot"></span><div class="when">Desde semana 4</div><h3>Construir</h3><p>Web, contenido, embudos y automatización se despliegan como un todo. Suele estar en vivo en 6–10 semanas.</p></div>
-        <div class="tl-step"><span class="dot"></span><div class="when">Continuo</div><h3>Seguir creciendo</h3><p>Cada mes: una página de cifras, tres cosas que hicimos y la siguiente que vamos a mejorar. Sin panel de 40 gráficos.</p></div>
+  <!-- 7. CONTACT (vrij scrollen, geen snap) -->
+  <section class="chapter" id="contact" aria-labelledby="contact-h">
+    <div class="scene" aria-hidden="true">
+      <div class="scene-in">
+        <div class="monitor monitor-end">
+          <img class="room" src="/media/opening-16x9-960.webp" alt="" loading="lazy" decoding="async">
+          <div class="bar bar-top"></div><div class="bar bar-bot"></div>
+        </div>
       </div>
     </div>
-  </section>
+    <div class="copy">
+      <div class="contact-main">
+      <h2 id="contact-h" class="h2" tabindex="-1">Envía tu material, nosotros hacemos el resto.</h2>
+      <p class="lede">Lo más rápido es por <a class="link" href="https://wa.me/31634455762?text=%C2%A1Hola%21%20Quiero%20convertir%20fotos%20o%20v%C3%ADdeo%20en%20un%20v%C3%ADdeo." target="_blank" rel="noopener">WhatsApp</a>. ¿Prefieres preguntar algo antes? Rellena el formulario y te respondemos el mismo día.</p>
+      <p class="kicker">Tu vídeo es el siguiente.</p>
 
-  <!-- BOOKING WIDGET -->
-  <section class="book" id="book">
-    <div class="wrap-wide">
-      <div class="chapter reveal"><span class="num">08</span><span>Reserva la llamada</span><span class="line"></span></div>
-      <h2 class="reveal" style="font-size:clamp(30px,4.6vw,54px);font-weight:800;letter-spacing:-.035em;line-height:1.02;margin:14px 0 8px;max-width:720px;">Veinte minutos. <em class="serif">Sin</em> argumentos de venta.</h2>
-      <p style="color:var(--text-dim);font-size:16px;max-width:520px;margin-bottom:36px;">Ya hemos mirado tu web y tu perfil de Google antes de la llamada. Tú nos cuentas qué pasa. Nosotros te decimos qué haríamos. Si encajamos, te enviamos una propuesta. Si no, no vuelves a saber de nosotros.</p>
-      <div class="booking reveal">
-        <div class="book-step-label"><b>1</b>. Elige un día</div>
-        <div class="book-days" id="bookDays"></div>
-        <div class="book-step-label"><b>2</b>. Elige una hora</div>
-        <div class="book-times" id="bookTimes"></div>
-        <div class="book-step-label"><b>3</b>. ¿Quién eres?</div>
-        <form class="book-form" id="bookForm">
-          <input name="name" required placeholder="Tu nombre">
-          <input name="company" required placeholder="Nombre de la empresa">
-          <input name="contact" class="wide" required placeholder="Teléfono o email donde localizarte">
-          <button type="submit" class="book-submit">Reservar mi llamada
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </form>
-        <div class="book-status" id="bookStatus">Elige un día arriba para empezar</div>
-        <div class="book-note">Confirmamos tu hora lo antes posible.</div>
+      <form id="lead-form" class="form" method="post" action="/.netlify/functions/send-video-lead">
+        <p class="hp" aria-hidden="true"><label>Deja este campo vacío: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-naam">Nombre</label>
+            <input id="f-naam" name="naam" type="text" required autocomplete="name" placeholder="Tu nombre">
+          </div>
+          <div class="field">
+            <label for="f-contact">Número de WhatsApp o correo</label>
+            <input id="f-contact" name="contact" type="text" required autocomplete="email" placeholder="+34 ... o nombre@ejemplo.es">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-materiaal">¿Qué nos envías?</label>
+            <select id="f-materiaal" name="materiaal">
+              <option>Fotos</option>
+              <option>Vídeo</option>
+              <option>Ambos</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-type">¿De qué es?</label>
+            <select id="f-type" name="type">
+              <option>Vivienda</option>
+              <option>Alquiler en Airbnb</option>
+              <option>Coches</option>
+              <option>Hostelería</option>
+              <option>Producto / tienda online</option>
+              <option>Evento</option>
+              <option>Otro</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-fotos">Cantidad de material</label>
+          <input id="f-fotos" name="aantalFotos" type="text" placeholder="P. ej. 6 fotos o 2 clips de 30 s">
+        </div>
+        <div class="field">
+          <label for="f-bericht">Comentario <span class="opt">(opcional)</span></label>
+          <textarea id="f-bericht" name="bericht" rows="3" placeholder="Dirección, plazo u otras preferencias"></textarea>
+        </div>
+        <button class="btn btn-submit" type="submit">Enviar solicitud</button>
+        <div class="form-status" role="alert" hidden></div>
+      </form>
+      <div class="form-done" id="lead-done" role="status" tabindex="-1" hidden>
+        <p class="form-done-h">Solicitud enviada.</p>
+        <p>Te respondemos el mismo día. Ya puedes enviarnos los archivos con un enlace de WeTransfer o Google Drive.</p>
       </div>
-    </div>
-  </section>
+      </div>
 
-  <!-- BLOG PREVIEW -->
-  <section class="sec" id="blog-preview">
-    <div class="wrap-wide">
-      <div class="chapter reveal"><span class="num">09</span><span>Del blog</span><span class="line"></span></div>
-      <h2 class="reveal" style="font-size:clamp(28px,3.8vw,44px);font-weight:800;letter-spacing:-.03em;margin-bottom:40px;">Lo que <em class="serif">aprendemos</em> de cada escaneo.</h2>
-      <div class="blog-grid stagger">
-        <a href="/blog-waarom-website-geen-aanvragen.html" class="blog-card">
-          <div class="blog-cover has-img" style="background-image:url(/blog-cover-01.svg);"></div>
-          <div class="blog-body">
-            <div class="blog-meta">SEO · 6 min lectura</div>
-            <h3>Cinco razones por las que tu web no genera clientes</h3>
-            <p>Muchas veces no es tu producto ni tu precio. Es una de estas cinco cosas, y la mayoría se arregla en una semana.</p>
-            <span class="blog-link">Leer el artículo →</span>
-          </div>
-        </a>
-        <a href="/blog-lokale-seo.html" class="blog-card">
-          <div class="blog-cover has-img" style="background-image:url(/blog-cover-02.svg);"></div>
-          <div class="blog-body">
-            <div class="blog-meta">SEO · 8 min lectura</div>
-            <h3>SEO local para empresas de servicios: por dónde empezamos</h3>
-            <p>Google Business, páginas locales y reseñas. En qué orden abordarlo empezando desde cero, con ejemplos.</p>
-            <span class="blog-link">Leer el artículo →</span>
-          </div>
-        </a>
-        <a href="/blog-ai-whatsapp.html" class="blog-card">
-          <div class="blog-cover has-img" style="background-image:url(/blog-cover-03.svg);"></div>
-          <div class="blog-body">
-            <div class="blog-meta">IA · 7 min lectura</div>
-            <h3>Cómo construimos seguimiento con IA por WhatsApp para pymes</h3>
-            <p>Sin chatbot con "¿en qué puedo ayudarte?". Una IA que resume las solicitudes, te avisa y confirma al cliente en 30 segundos.</p>
-            <span class="blog-link">Leer el artículo →</span>
-          </div>
-        </a>
+      <div class="contact-side">
+      <div class="direct">
+        <p><a class="link" href="https://wa.me/31634455762" target="_blank" rel="noopener">WhatsApp</a> <span>+31 6 34455762</span></p>
+        <p><span class="direct-k">Correo</span> <span>hallo@hartegrowth.eu</span></p>
       </div>
-      <p style="margin-top:24px;"><a href="/blog.html" class="btn btn-ghost">Todos los artículos →</a></p>
-    </div>
-  </section>
 
-  <!-- FAQ -->
-  <section class="sec" id="faq">
-    <div class="wrap-wide">
-      <div class="chapter reveal"><span class="num">10</span><span>Respuestas antes de que preguntes</span><span class="line"></span></div>
-      <h2 class="reveal" style="font-size:clamp(30px,4.4vw,54px);font-weight:800;letter-spacing:-.035em;margin-bottom:40px;">Claridad antes de <em class="serif">empezar</em>.</h2>
-      <div class="faq-wrap reveal">
-        <div class="faq-item"><button class="faq-q">¿Cuánto cuesta un escaneo?<span class="plus"></span></button><div class="faq-a"><p>Nada. Gratis y sin compromiso. Recibes consejo concreto de todos modos, también si no acabamos trabajando juntos.</p></div></div>
-        <div class="faq-item"><button class="faq-q">¿Solo trabajáis en NL y España?<span class="plus"></span></button><div class="faq-a"><p>No, trabajamos en remoto por toda Europa. El foco está en España y los Países Bajos, es donde estamos.</p></div></div>
-        <div class="faq-item"><button class="faq-q">¿Con qué rapidez puede empezar un proyecto?<span class="plus"></span></button><div class="faq-a"><p>Tras el escaneo recibes una propuesta en pocos días laborables. Los proyectos pequeños suelen empezar en 2 semanas. Los grandes los planificamos juntos.</p></div></div>
-        <div class="faq-item"><button class="faq-q">¿Me ato a un contrato largo?<span class="plus"></span></button><div class="faq-a"><p>No. Trabajamos por fases, con acuerdos claros. Sin contratos anuales que se renuevan solos.</p></div></div>
-        <div class="faq-item"><button class="faq-q">¿Qué os diferencia de un freelance o una gran agencia?<span class="plus"></span></button><div class="faq-a"><p>Un freelance resuelve normalmente una pieza (solo SEO o solo la web). Una gran agencia reparte el trabajo entre 5 personas. Nosotros construimos el sistema entero como uno, con un solo contacto.</p></div></div>
-        <div class="faq-item"><button class="faq-q">Ya tengo web. ¿Hay que tirarla?<span class="plus"></span></button><div class="faq-a"><p>No necesariamente. A veces es más rentable afinar la web actual que rehacerla. Te lo decimos honestamente en el escaneo.</p></div></div>
+      <div class="faq" id="faq">
+        <h3 class="faq-h">Preguntas frecuentes</h3>
+        <details>
+          <summary>¿Cuánto material necesito?</summary>
+          <p>Con unas 5 o 6 fotos o unos pocos clips cortos basta para un vídeo. ¿Tienes más? Envíalo todo y elegimos lo que mejor funcione.</p>
+        </details>
+        <details>
+          <summary>¿Cómo envío los archivos?</summary>
+          <p>Por WeTransfer o Google Drive. Envíanos el enlace por WhatsApp o por correo. No directamente por WhatsApp: comprime los archivos y baja la calidad.</p>
+        </details>
+        <details>
+          <summary>¿Puedo usar el vídeo donde quiera?</summary>
+          <p>Sí, el vídeo es tuyo. Úsalo en redes sociales, en tu web, en un anuncio de alquiler o en publicidad.</p>
+        </details>
+        <details>
+          <summary>¿Y si no me convence?</summary>
+          <p>Incluye una ronda de cambios. ¿No llegamos a un acuerdo? Te devolvemos el dinero.</p>
+        </details>
       </div>
+      </div>
+
+      <footer class="foot">
+        <p>© 2026 Harte Growth</p>
+        <a href="/es/privacy.html">Privacidad</a>
+      </footer>
     </div>
   </section>
 
 </main>
 
-<!-- CTA -->
-<section class="cta-full">
-  <div class="wrap-wide">
-    <div class="chapter reveal"><span class="num">→</span><span>¿Listos para empezar?</span><span class="line"></span></div>
-    <h2 class="reveal">Pide un <em>escaneo</em><br>gratuito.</h2>
-    <p class="reveal">Respuesta en 1 día laborable. Sin argumentos de venta, una opinión honesta sobre dónde está tu mayor oportunidad.</p>
-    <a href="/es/groeiscan.html" class="btn btn-primary magnetic reveal">Iniciar el escaneo
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap-wide">
-    <div class="foot-grid">
-      <div class="foot-brand"><h3>Harte<em> Growth.</em></h3><p>Marketing de crecimiento para empresas que quieren crecer de verdad. Web y embudo como base, contenido, SEO, vídeo y anuncios como motor. Trabajando desde España y Países Bajos, remoto en toda Europa.</p></div>
-      <div><h4>Servicios</h4><ul class="foot-links"><li><a href="/diensten.html">Web &amp; embudo</a></li><li><a href="/diensten.html">Google &amp; SEO</a></li><li><a href="/diensten.html">Contenido &amp; vídeo</a></li><li><a href="/diensten.html">IA &amp; automatización</a></li></ul></div>
-      <div><h4>Estudio</h4><ul class="foot-links"><li><a href="/cases.html">Casos</a></li><li><a href="/blog.html">Blog</a></li><li><a href="/over-ons.html">Nosotros</a></li></ul></div>
-      <div><h4>Contacto</h4><ul class="foot-links"><li><a href="/contact.html">Formulario</a></li><li><a href="https://wa.me/31634455762">WhatsApp</a></li></ul><h4 style="margin-top:22px;">Redes</h4><ul class="foot-links"><li><a href="https://www.instagram.com/hartegrowth" rel="me">Instagram</a></li><li><a href="https://www.facebook.com/profile.php?id=61592600399432" rel="me">Facebook</a></li><li><a href="https://www.tiktok.com/@hartegrowth" rel="me">TikTok</a></li></ul></div>
-
-      <div><h4>Legal</h4><ul class="foot-links"><li><a href="/es/privacy.html">Política de privacidad</a></li><li><a href="/es/cookies.html">Política de cookies</a></li></ul></div>
-    </div>
-    <div class="foot-bottom"><span>© 2026 Harte Growth</span><span>España · Costa Blanca · Remoto</span><span><button type="button" class="hg-cookie-link" onclick="hgOpenCookiePrefs()">Configuración de cookies</button></span></div>
-  </div>
-</footer>
-
-<a href="https://wa.me/31634455762?text=Hola%20Harte%20Growth%2C%20me%20gustar%C3%ADa%20solicitar%20un%20escaneo%20de%20crecimiento%20gratis." class="wa-float" aria-label="WhatsApp">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
-  WhatsApp
+<a class="wa-fab" href="https://wa.me/31634455762" target="_blank" rel="noopener" aria-label="Envíanos un mensaje de WhatsApp">
+  <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path fill="#fff" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3Z"/></svg>
 </a>
 
-<script src="/script.js?v=20260914a"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollToPlugin.min.js" defer></script>
+<script src="/film.js?v=20260924e" defer></script>
 </body>
 </html>
