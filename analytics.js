@@ -178,7 +178,7 @@
       '#hg-cookie-banner .hg-cc-inner{grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;padding:10px 12px}' +
       '#hg-cookie-banner .hg-cc-body{grid-column:1 / -1;font-size:13px;line-height:1.4}' +
       '#hg-cookie-banner .hg-cc-actions{grid-column:1;grid-row:2}' +
-      '#hg-cookie-banner .hg-cc-btn{padding:0 12px;font-size:14px}' +
+      '#hg-cookie-banner .hg-cc-btn{flex:1 1 auto;padding:0 10px;font-size:14px;white-space:nowrap}' +
       '#hg-cookie-banner .hg-cc-more{grid-column:2;grid-row:2;min-height:44px}' +
     '}';
   function injectStyle(){
