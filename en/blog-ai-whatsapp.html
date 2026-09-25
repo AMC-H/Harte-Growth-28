@@ -1,178 +1,172 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI + WhatsApp for SMBs · no chatbot, real follow-up | Harte Growth</title>
-<meta name="description" content="How we build AI follow-up via WhatsApp for SMB clients. No chatbot — real summary, follow-up and confirmation within 30 seconds.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>document.documentElement.classList.add('js');</script>
+<title>How we build AI follow-up on WhatsApp for small businesses | Harte Growth</title>
+<meta name="description" content="Not a generic chatbot. An AI that summarises enquiries, pings you, and confirms to the customer within 30 seconds.">
 <link rel="canonical" href="https://hartegrowth.eu/en/blog-ai-whatsapp.html">
 <link rel="alternate" hreflang="nl" href="https://hartegrowth.eu/blog-ai-whatsapp">
 <link rel="alternate" hreflang="en" href="https://hartegrowth.eu/en/blog-ai-whatsapp.html">
 <link rel="alternate" hreflang="es" href="https://hartegrowth.eu/es/blog-ai-whatsapp.html">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css?v=20260914a">
-<meta property="og:type" content="website">
+<link rel="alternate" hreflang="x-default" href="https://hartegrowth.eu/blog-ai-whatsapp">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
 <meta property="og:site_name" content="Harte Growth">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="How we build AI follow-up on WhatsApp for small businesses | Harte Growth">
+<meta property="og:description" content="Not a generic chatbot. An AI that summarises enquiries, pings you, and confirms to the customer within 30 seconds.">
+<meta property="og:url" content="https://hartegrowth.eu/en/blog-ai-whatsapp.html">
 <meta property="og:image" content="https://hartegrowth.eu/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
-<meta property="og:image:alt" content="Harte Growth">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How we build AI follow-up on WhatsApp for small businesses | Harte Growth">
+<meta name="twitter:description" content="Not a generic chatbot. An AI that summarises enquiries, pings you, and confirms to the customer within 30 seconds.">
 <meta name="twitter:image" content="https://hartegrowth.eu/og-image.png">
-<meta property="og:title" content="AI + WhatsApp for SMBs · no chatbot, real follow-up | Harte Growth">
-<meta property="og:description" content="How we build AI follow-up via WhatsApp for SMB clients. No chatbot — real summary, follow-up and confirmation within 30 seconds.">
-<meta property="og:url" content="https://hartegrowth.eu/en/blog-ai-whatsapp.html">
-<meta name="twitter:title" content="AI + WhatsApp for SMBs · no chatbot, real follow-up | Harte Growth">
-<meta name="twitter:description" content="How we build AI follow-up via WhatsApp for SMB clients. No chatbot — real summary, follow-up and confirmation within 30 seconds.">
+<meta name="theme-color" content="#0F1113">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@800&amp;family=Instrument+Serif:ital@1&amp;display=swap" as="style">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@800&amp;family=Instrument+Serif:ital@1&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/film.css?v=20260924e">
+<link rel="stylesheet" href="/pagina.css?v=20260925c">
+<link rel="stylesheet" href="/blog.css?v=20260925c">
+<meta property="article:published_time" content="2026-07-28">
 <script src="/analytics.js?v=20260914a" defer></script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AI + WhatsApp for SMBs: no chatbot, real follow-up", "description": "How we build AI follow-up via WhatsApp for SMB clients. No chatbot — real summary, follow-up and confirmation within 30 seconds.", "datePublished": "2026-05-15", "dateModified": "2026-05-15", "inLanguage": "en", "author": {"@type": "Organization", "name": "Harte Growth", "url": "https://hartegrowth.eu/"}, "publisher": {"@type": "Organization", "name": "Harte Growth", "logo": {"@type": "ImageObject", "url": "https://hartegrowth.eu/logo-nav.svg"}}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://hartegrowth.eu/en/blog-ai-whatsapp.html"}}</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://hartegrowth.eu/#org", "name": "Harte Growth", "url": "https://hartegrowth.eu/en/", "logo": "https://hartegrowth.eu/logo-nav.svg", "sameAs": ["https://wa.me/31634455762", "https://www.instagram.com/hartegrowth", "https://www.facebook.com/profile.php?id=61592600399432", "https://www.tiktok.com/@hartegrowth"]}, {"@type": "WebSite", "@id": "https://hartegrowth.eu/#site", "url": "https://hartegrowth.eu/en/", "name": "Harte Growth", "publisher": {"@id": "https://hartegrowth.eu/#org"}}, {"@type": "Article", "headline": "How we build AI follow-up on WhatsApp for small businesses", "description": "Not a generic chatbot. An AI that summarises enquiries, pings you, and confirms to the customer within 30 seconds.", "url": "https://hartegrowth.eu/en/blog-ai-whatsapp.html", "inLanguage": "en", "publisher": {"@id": "https://hartegrowth.eu/#org"}, "isPartOf": {"@id": "https://hartegrowth.eu/#site"}, "datePublished": "2026-07-28", "author": {"@id": "https://hartegrowth.eu/#org"}, "mainEntityOfPage": "https://hartegrowth.eu/en/blog-ai-whatsapp.html"}]}
+</script>
 </head>
-<body>
+<body class="page-diensten page-blog page-post">
 
-<canvas class="bg-canvas"></canvas>
+<a class="skip" href="#top-h">Skip to the article</a>
 
-<header>
-  <div class="nav">
-    <a href="/en/" class="logo" aria-label="Harte Growth"><svg width="116" height="26" viewBox="0 0 151 34" fill="none" role="img" aria-label="Harte Growth"><text x="0" y="25" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="800" letter-spacing="-.9" textLength="61.5" lengthAdjust="spacingAndGlyphs" fill="#f6f3ef">Harte</text><text x="72" y="25" font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-weight="400" font-size="28" letter-spacing="-.7" textLength="69.6" lengthAdjust="spacingAndGlyphs" fill="#ff4d1a">Growth</text><rect x="145" y="21" width="4.5" height="4.5" fill="#ff4d1a"/></svg></a>
-    <nav class="navlinks"><a href="/en/diensten.html">Services</a><a href="/en/cases.html">Cases</a><a href="/en/blog.html">Blog</a><a href="/en/over-ons.html">About</a><a href="/en/contact.html">Contact</a></nav>
-    <div class="nav-right">
-      <div class="lang-switch" role="navigation" aria-label="Language"><a href="/blog-ai-whatsapp" hreflang="nl">NL</a><a href="/en/blog-ai-whatsapp.html" class="active" hreflang="en">EN</a><a href="/es/blog-ai-whatsapp.html" hreflang="es">ES</a></div>
-      <a href="/en/groeiscan.html" class="btn btn-primary magnetic">Free growth scan</a>
-      <button class="menu-btn" id="menuBtn" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8"/></svg></button>
-    </div>
+<header class="hdr">
+  <div class="hdr-row">
+    <a class="logo" href="/en/" aria-label="Harte Growth, home">
+      <svg width="116" height="26" viewBox="0 0 151 34" fill="none" aria-hidden="true" focusable="false">
+        <text x="0" y="25" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="800" letter-spacing="-.9" textLength="61.5" lengthAdjust="spacingAndGlyphs" fill="#f6f3ef">Harte</text>
+        <text x="72" y="25" font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-weight="400" font-size="28" letter-spacing="-.7" textLength="69.6" lengthAdjust="spacingAndGlyphs" fill="#ff4d1a">Growth</text>
+        <rect x="145" y="21" width="4.5" height="4.5" fill="#ff4d1a"/>
+      </svg>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="hdr-menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path class="mb-open" d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="mb-close" d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span>Menu</span>
+    </button>
+    <nav class="hdr-nav" id="hdr-menu" aria-label="Main menu">
+      <ul class="hdr-links">
+        <li><a href="/en/diensten.html">Services</a></li><li><a href="/en/cases.html">Cases</a></li><li><a href="/en/blog.html" aria-current="page">Blog</a></li><li><a href="/en/#contact">Contact</a></li>
+      </ul>
+      <ul class="hdr-lang" aria-label="Language">
+        <li><a href="/blog-ai-whatsapp" hreflang="nl" lang="nl">NL</a></li>
+        <li><a href="/en/blog-ai-whatsapp.html" hreflang="en" lang="en" aria-current="page">EN</a></li>
+        <li><a href="/es/blog-ai-whatsapp.html" hreflang="es" lang="es">ES</a></li>
+      </ul>
+    </nav>
   </div>
-  <div class="progress-line"></div>
+  <div class="tl">
+    <nav class="tl-track" aria-label="Sections on this page">
+      <ol class="tl-clips">
+        <li style="--g:85;--gm:85"><a href="#top" aria-current="location"><span class="tl-name">Article</span></a></li><li style="--g:15;--gm:15"><a href="#verder"><span class="tl-name">Further reading</span></a></li>
+      </ol>
+      <div class="tl-fill" aria-hidden="true"></div>
+      <div class="tl-head" aria-hidden="true"><span></span></div>
+    </nav>
+    <p class="tl-now" id="tl-now" aria-hidden="true">Article</p>
+  </div>
 </header>
 
-<div class="mnav" id="mnav">
-  <div class="mnav-top"><span class="logo" aria-label="Harte Growth"><svg width="124" height="28" viewBox="0 0 151 34" fill="none" role="img" aria-label="Harte Growth"><text x="0" y="25" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="800" letter-spacing="-.9" textLength="61.5" lengthAdjust="spacingAndGlyphs" fill="#f6f3ef">Harte</text><text x="72" y="25" font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-weight="400" font-size="28" letter-spacing="-.7" textLength="69.6" lengthAdjust="spacingAndGlyphs" fill="#ff4d1a">Growth</text><rect x="145" y="21" width="4.5" height="4.5" fill="#ff4d1a"/></svg></span><button class="menu-btn" id="closeBtn" style="display:block" aria-label="Close"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8"/></svg></button></div>
-  <div class="lang-switch" role="navigation" aria-label="Language"><a href="/blog-ai-whatsapp" hreflang="nl">NL</a><a href="/en/blog-ai-whatsapp.html" class="active" hreflang="en">EN</a><a href="/es/blog-ai-whatsapp.html" hreflang="es">ES</a></div>
-  <a href="/en/diensten.html">Services</a><a href="/en/cases.html">Cases</a><a href="/en/blog.html">Blog</a><a href="/en/over-ons.html">About</a><a href="/en/contact.html">Contact</a>
-  <a href="/en/groeiscan.html" class="btn btn-primary">Free growth scan</a>
-</div>
+<main id="dienst">
 
-<main>
-  <article>
-    <section class="post-hero">
-      <div class="wrap-narrow">
-        <div class="meta reveal in"><span>AI · Automation</span><span class="dot"></span><span>7 min read</span><span class="dot"></span><span>May 15, 2026</span></div>
-        <h1 class="reveal in">How we build <em>AI follow-up</em> via WhatsApp for SMB clients.</h1>
-        <p class="lede reveal in">No chatbot with "how can I help you?". An AI that summarises leads, pings you, and confirms with the client within 30 seconds.</p>
+  <article class="post" id="top" aria-labelledby="top-h">
+    <header class="wrap narrow post-head">
+      <a class="back-link" href="/en/blog.html">All articles</a>
+      <p class="post-meta"><time datetime="2026-07-28">28 July 2026</time> · AI · Automation · 7 min read</p>
+      <h1 id="top-h" class="h1 post-h" tabindex="-1">How we build AI follow-up on WhatsApp for small businesses</h1>
+      <p class="lede">Not a chatbot asking "how can I help you?". An AI that summarises enquiries, pings you, and confirms to the customer within 30 seconds.</p>
+    </header>
+    <div class="wrap narrow post-body article-body">
+      <h2>The problem we solve</h2>
+      <div class="pull-quote">
+        A good enquiry comes in while you're in a meeting. By the time you call back, the customer has already gone elsewhere.
       </div>
-    </section>
 
-    <section class="post-body">
-      <p>Every SMB owner knows it: a good lead comes in exactly when you are in a meeting. By the time you call back, the client is already with someone else.</p>
-      <p>The solution does not have to be a chatbot (which mostly just annoys). We build something simpler and more effective.</p>
-
-      <h2>How it works in practice</h2>
+      <h2>How it works, step by step</h2>
       <ol>
-        <li>Someone fills in a short intake on your site. 3 fields max.</li>
-        <li>Right after, WhatsApp opens with a prefilled message: "Hi! I just filled in the form on your site. Can we talk about [X]?"</li>
-        <li>In the background: AI reads the intake, makes a compact summary, and puts it in your CRM.</li>
-        <li>You get a short notification ("New lead: aircon Moraira. Marleen, likely high intent"), not a 4-page document.</li>
-        <li>The lead gets an automatic WhatsApp within 30 seconds: "Thanks Marleen! We will get back to you today at the latest."</li>
+        <li>Someone fills in a short intake form on your site.</li>
+        <li>WhatsApp opens automatically with a pre-filled message.</li>
+        <li>AI summarises the enquiry and adds it to your CRM.</li>
+        <li>You get a notification with that summary.</li>
+        <li>The customer gets an automatic confirmation within 30 seconds.</li>
       </ol>
 
-      <h2>Why AI and not just an auto-reply?</h2>
-      <p>Auto-replies are generic and irritating. AI can:</p>
-      <ul>
-        <li><strong>Personalise</strong>: mentions the name, restates the question, makes clear someone is reading along</li>
-        <li><strong>Qualify</strong>: recognises from the intake whether someone likely has high or low intent</li>
-        <li><strong>Summarise</strong>: so you do not have to read through a long story to get the core</li>
-        <li><strong>Route</strong>: pings colleague X if it is about service X, colleague Y if it is about service Y</li>
-      </ul>
+      <h2>Why AI, and not just an auto-reply?</h2>
+      <p>An auto-reply sends everyone the same message. AI personalises the confirmation, qualifies the enquiry, summarises it in a way you can use, and flags when something is urgent. A fixed rule can't do that.</p>
 
-      <h2>What we do NOT do</h2>
-      <p class="callout">We do not build chatbots that "have conversations" with the client. People see through them and get frustrated.</p>
-      <p>Other things we do not do:</p>
-      <ul>
-        <li>No bots that pretend to be human</li>
-        <li>No 24/7 "answer everything" AI that promises things that are wrong</li>
-        <li>No automations that take over your client contact — only support it</li>
-      </ul>
+      <h2>What we deliberately don't do</h2>
+      <p>We don't build chatbots that "have conversations" with the customer. An AI pretending to think along feels fake faster than a simple, honest confirmation that the enquiry has been received.</p>
 
-      <h2>The tools</h2>
-      <p>We usually work with:</p>
-      <ul>
-        <li><strong>WhatsApp Business API</strong>: for reliable, verified messages</li>
-        <li><strong>Make or n8n</strong>: for the workflow logic</li>
-        <li><strong>OpenAI / Anthropic</strong>: for the AI summary (via API, not the ChatGPT UI)</li>
-        <li><strong>Your CRM</strong>: Pipedrive, HubSpot, or custom</li>
-      </ul>
-      <p>Under the hood no black box. Everything is explainable and portable to another party if you ever want that.</p>
+      <h2>The technology behind it</h2>
+      <p>WhatsApp Business API, Make or n8n for the connections between systems, OpenAI or Anthropic for the summary, and a connection to your CRM, usually Pipedrive or HubSpot.</p>
 
-      <h2>What does it cost?</h2>
-      <p>Setup varies. Roughly:</p>
-      <ul>
-        <li>Basic WhatsApp flow + AI summary: 1 week of work</li>
-        <li>Extended routing + CRM integration: 2–3 weeks</li>
-        <li>Recurring cost: ~€30–80 per month for tools + WhatsApp API traffic</li>
-      </ul>
-      <p>Usually you earn that back within 2–3 months on one extra job won.</p>
+      <h2>What it costs</h2>
+      <p>Setting it up takes 1 to 3 weeks. Ongoing, expect around €30 to €80 a month.</p>
 
-      <div class="post-cta">
+      <div class="pull-quote">
+        AI follow-up only makes sense if the process behind it is right. Fix the process first, then automate.
+      </div>
+
+      <div class="article-cta cta-band">
         <div>
-          <h4>Want something like this for your own business?</h4>
-          <p>In the growth scan we look at whether this makes sense for you, and roughly what it costs.</p>
+          <h2>Wondering whether this fits the way you handle enquiries?</h2>
+          <p>The growth scan will tell you. A reply within 1 working day, no sales pitch.</p>
         </div>
-        <a href="/en/groeiscan.html" class="btn btn-primary magnetic">Take the free growth scan
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+        <a class="btn btn-primary" href="https://wa.me/31634455762?text=Hi%21%20I%27d%20like%20to%20request%20the%20free%20growth%20scan." target="_blank" rel="noopener">Get your free growth scan</a>
       </div>
-
-      <h2>A short warning</h2>
-      <p>AI follow-up only makes sense if the process behind it holds up. If you then do not call back for 2 days, the 30-second confirmation is worthless — you just shift the disappointment 30 seconds.</p>
-      <p>Fix the process first, automate after. Never the other way round.</p>
-    </section>
-
-      <div class="related-posts">
-        <h3>Read also</h3>
-        <ul>
-          <li><a href="blog-lokale-seo.html">Local SEO for service businesses: the complete guide</a></li>
-          <li><a href="blog-waarom-website-geen-aanvragen.html">5 reasons your website isn't bringing in leads</a></li>
-          <li><a href="blog-seo-mkb.html">SEO for SMBs: what works, what doesn't, and where to start</a></li>
-          <li><a href="blog-ai-automatisering-mkb.html">AI automation for SMBs: what it delivers and where to start</a></li>
-        </ul>
-      </div>
+    </div>
   </article>
+  <section class="sec" id="verder" aria-labelledby="verder-h">
+    <div class="wrap narrow">
+      <h2 id="verder-h" class="h2 sec-h sec-h-sm" tabindex="-1">Further reading</h2>
+      <ul class="more-list">
+          <li><a href="/en/blog-waarom-website-geen-aanvragen.html"><span class="more-cat">SEO · Conversion</span><span class="more-t">5 reasons your website isn't bringing in enquiries</span></a></li>
+          <li><a href="/en/blog-lokale-seo.html"><span class="more-cat">SEO · Local</span><span class="more-t">Local SEO for service businesses: where we start</span></a></li>
+          <li><a href="/en/blog-seo-mkb.html"><span class="more-cat">SEO · Strategy</span><span class="more-t">SEO for small businesses: what works, what doesn't, and where to start</span></a></li>
+      </ul>
+      <p class="more-all"><a class="btn btn-ghost" href="/en/blog.html">All articles</a></p>
+    </div>
+  </section>
+
 </main>
 
-<section class="cta-full">
-  <div class="wrap-wide">
-    <div class="chapter reveal"><span class="num">→</span><span>Next step</span><span class="line"></span></div>
-    <h2 class="reveal">Ready to stop<br><em>losing</em> leads?</h2>
-    <p class="reveal">Take the free growth scan. Response within 1 business day.</p>
-    <a href="/en/groeiscan.html" class="btn btn-primary magnetic reveal">Start the growth scan
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap-wide">
-    <div class="foot-grid">
-      <div class="foot-brand"><h3>Harte<em> Growth.</em></h3><p>Growth marketing for businesses ready to grow. Website and funnel as foundation, content, SEO, video and ads as engine. Working from the Netherlands and Spain, remote across Europe.</p></div>
-      <div><h4>Services</h4><ul class="foot-links"><li><a href="/en/diensten.html">Website &amp; funnel</a></li><li><a href="/en/diensten.html">Google &amp; SEO</a></li><li><a href="/en/diensten.html">Content &amp; video</a></li><li><a href="/en/diensten.html">AI &amp; automation</a></li></ul></div>
-      <div><h4>Studio</h4><ul class="foot-links"><li><a href="/en/cases.html">Cases</a></li><li><a href="/en/blog.html">Blog</a></li><li><a href="/en/over-ons.html">About</a></li></ul></div>
-      <div><h4>Contact</h4><ul class="foot-links"><li><a href="/en/contact.html">Contact form</a></li><li><a href="https://wa.me/31634455762">WhatsApp</a></li></ul><h4 style="margin-top:22px;">Social</h4><ul class="foot-links"><li><a href="https://www.instagram.com/hartegrowth" rel="me">Instagram</a></li><li><a href="https://www.facebook.com/profile.php?id=61592600399432" rel="me">Facebook</a></li><li><a href="https://www.tiktok.com/@hartegrowth" rel="me">TikTok</a></li></ul></div>
-
-      <div><h4>Legal</h4><ul class="foot-links"><li><a href="/en/privacy.html">Privacy statement</a></li><li><a href="/en/cookies.html">Cookie statement</a></li></ul></div>
+<footer class="site-foot">
+  <div class="footer-row">
+    <div class="logo-text"><b>Harte</b><i>Growth</i><span>.</span></div>
+    <div class="footer-links">
+      <a href="/en/#media">How it works</a>
+      <a href="/en/diensten.html">Services</a>
+      <a href="/en/blog.html">Blog</a>
+      <a href="/en/cases.html">Cases</a>
+      <a href="/en/over-ons.html">About us</a>
+      <a href="/en/contact.html">Contact</a>
     </div>
-    <div class="foot-bottom"><span>© 2026 Harte Growth</span><span>Netherlands · Costa Blanca · Remote</span><span><button type="button" class="hg-cookie-link" onclick="hgOpenCookiePrefs()">Cookie settings</button></span></div>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/hartegrowth" target="_blank" rel="me noopener">Instagram</a>
+      <a href="https://www.facebook.com/profile.php?id=61592600399432" target="_blank" rel="me noopener">Facebook</a>
+      <a href="https://www.tiktok.com/@hartegrowth" target="_blank" rel="me noopener">TikTok</a>
+    </div>
+    <p>© 2026 Harte Growth</p>
   </div>
 </footer>
 
-<a href="https://wa.me/31634455762?text=Hi%20Harte%20Growth%2C%20I%27d%20like%20to%20request%20a%20free%20growth%20scan." class="wa-float" aria-label="WhatsApp">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
-  WhatsApp
+<a class="wa-fab" href="https://wa.me/31634455762?text=Hi%20Harte%20Growth%2C%20I%20read%20your%20blog%20and%20would%20like%20to%20discuss%20my%20situation." target="_blank" rel="noopener" aria-label="Send us a WhatsApp message">
+  <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path fill="#fff" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3Z"/></svg>
 </a>
 
-<script src="/script.js?v=20260914a"></script>
+<script src="/pagina.js?v=20260925c" defer></script>
 </body>
 </html>
