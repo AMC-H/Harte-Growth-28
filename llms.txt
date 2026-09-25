@@ -1,58 +1,84 @@
 # Harte Growth
 
-> Groeimarketing-studio voor bedrijven die serieus door willen groeien. Website en funnel als fundament, content, SEO, video en ads als motor. Werkzaam vanuit Nederland en Costa Blanca (Spanje), remote door heel Europa. Meertalig: Nederlands, Engels, Spaans.
+> Harte Growth maakt van foto's en ruwe clips binnen 48 uur een gemonteerde video (€35 per video, tijdelijke actie, normaal €50), bouwt websites die aanvragen opleveren (vanaf €550) en zorgt voor lokale SEO, vindbaarheid in AI-zoekmachines (GEO) en automatische opvolging via WhatsApp. Actief vanuit Nederland en de Costa Blanca (Spanje), remote door heel Europa. Je kunt ons spreken in het Nederlands, Engels en Spaans. Alle prijzen excl. btw.
 
-## Wat we doen
+Harte Growth is een kleine groeimarketing-studio voor ondernemers en MKB-bedrijven. In plaats van losse diensten zetten we video, website, vindbaarheid en opvolging in als één systeem: content trekt aandacht, de website zet bezoekers om in aanvragen, SEO en AI-zoekmachines brengen verkeer, en elke aanvraag wordt direct opgepakt. We beloven geen posities in Google; wel zie je elke maand wat we deden en wat het opleverde. Maandpakketten zijn maandelijks opzegbaar.
 
-Harte Growth bouwt groeimarketing voor ondernemers en organisaties. Geen bureau met veel praatjes — een klein team dat website, SEO, content, video, ads en AI-automatisering samen inzet. Van familiebedrijf tot organisatie met eigen marketingteam.
+## Diensten en prijzen
 
-## Gratis tools (openbaar, geen login)
+- [Video van jouw foto's of clips](https://hartegrowth.eu/): 5 tot 6 foto's of een paar ruwe clips zijn genoeg. Binnen 48 uur een gemonteerde video in 9:16, 16:9 of 1:1. €35 per video (actie, normaal €50), één revisieronde, geld terug als we er samen niet uitkomen. De video is van jou.
+- [Website](https://hartegrowth.eu/diensten): snelle website die bezoekers naar contact stuurt, met formulier, WhatsApp-knop en video. Vanaf €550, binnen twee weken online. Meertalig mogelijk.
+- [Online Care](https://hartegrowth.eu/diensten): €195 per maand. Website-onderhoud, beheer van het Google Business-profiel en een maandelijkse SEO-check.
+- [Growth](https://hartegrowth.eu/diensten): €495 per maand. Lokale SEO, GEO (vindbaarheid in ChatGPT, Perplexity en Google AI-overzichten), content en conversieverbeteringen.
+- [Growth Partner](https://hartegrowth.eu/diensten): vanaf €995 per maand. Doorlopende samenwerking als externe online groeipartner.
+- [AI & Automation](https://hartegrowth.eu/diensten): automatische opvolging van aanvragen via WhatsApp, eenmalig ingericht, vaste prijs vooraf.
+- [Google Business-profiel inrichten](https://hartegrowth.eu/diensten): vanaf €250.
+- [Gratis groeiscan](https://hartegrowth.eu/groeiscan): check van je website op SEO, snelheid, mobiel en techniek, met binnen 1 werkdag een rapport.
 
-- [Groeiscan](https://hartegrowth.eu/groeiscan): live SEO + snelheid + techniek scan van elke URL binnen 30 seconden, met complete rapport per mail. Bron: Google Lighthouse + eigen HTML-parse (hreflang, JSON-LD, Open Graph, image alts, robots, sitemap).
-- [Concurrent-scan](https://hartegrowth.eu/tools/concurrent-scan): twee URL's naast elkaar vergelijken op alle SEO-signalen. Direct actiepuntenlijst.
-- [Blog-ideeën generator](https://hartegrowth.eu/tools/blog-ideeen): plak je URL, krijg 10 SEO-onderwerpen die Google zoekt met complete H2-structuur.
+## Veelgestelde vragen
 
-## Diensten
+- Hoe snel zie ik resultaat? Een video binnen 48 uur, een website binnen twee weken. Bij lokale SEO zie je de eerste resultaten meestal binnen 6 tot 12 weken.
+- Zit ik ergens aan vast? Nee. Maandpakketten zijn maandelijks opzegbaar met één maand opzegtermijn. Video's en automatiseringen betaal je eenmalig.
+- Werken jullie in Spanje en meertalig? Ja, vanuit Nederland en de Costa Blanca, en remote door heel Europa. Websites gebouwd in vijf en zes talen.
+- Hoe lever ik beeldmateriaal aan? Via WeTransfer of Google Drive, met de link via WhatsApp of mail.
 
-- [Website & funnel](https://hartegrowth.eu/diensten)
-- [Google & SEO](https://hartegrowth.eu/diensten)
-- [Content & video](https://hartegrowth.eu/diensten)
-- [AI & automatisering](https://hartegrowth.eu/diensten)
+## Cases (echte klanten, cijfers uit Google Search Console en Instagram Insights)
 
-## Cases
+- [The A/C Men](https://hartegrowth.eu/cases): airco-installateur aan de Costa Blanca. Meertalige website in zes talen; vindbaar in de hele regio zonder ad-budget.
+- [Time Cargo Europe](https://hartegrowth.eu/cases): meertalige site met snelle offerteroute; aanvragen over landsgrenzen, 13,6% CTR in Google.
+- [Sunkey Property Care](https://hartegrowth.eu/cases): nieuw bedrijf aan de Costa Blanca. Zichtbaar in acht plaatsen, administratie in één systeem.
+- [Art of Race](https://hartegrowth.eu/cases): racing-merk; van nul naar 4.000+ volgers op Instagram, zonder ads.
 
-- [Cases overzicht](https://hartegrowth.eu/cases): meetbare resultaten voor MKB en corporate.
+## Artikelen
 
-## Blog
+- [SEO voor MKB: wat werkt, wat niet, en waar je begint](https://hartegrowth.eu/blog-seo-mkb)
+- [Lokale SEO voor dienstverleners: waar wij mee beginnen](https://hartegrowth.eu/blog-lokale-seo)
+- [De 5 redenen dat je website geen aanvragen oplevert](https://hartegrowth.eu/blog-waarom-website-geen-aanvragen)
+- [AI-automatisering voor MKB: wat het oplevert en waar je begint](https://hartegrowth.eu/blog-ai-automatisering-mkb)
+- [Zo bouwen we AI-opvolging via WhatsApp voor MKB-klanten](https://hartegrowth.eu/blog-ai-whatsapp)
 
-- [Waarom je website geen aanvragen oplevert](https://hartegrowth.eu/blog-waarom-website-geen-aanvragen)
-- [Lokale SEO uitgelegd](https://hartegrowth.eu/blog-lokale-seo)
-- [AI + WhatsApp voor MKB](https://hartegrowth.eu/blog-ai-whatsapp)
+## Lokaal: Costa Blanca
 
-## Lokale pagina's (Costa Blanca)
+- [Costa Blanca overzicht](https://hartegrowth.eu/costa-blanca/)
+- [Moraira](https://hartegrowth.eu/costa-blanca/moraira), [Jávea](https://hartegrowth.eu/costa-blanca/javea), [Altea](https://hartegrowth.eu/costa-blanca/altea), [Dénia](https://hartegrowth.eu/costa-blanca/denia), [Benidorm](https://hartegrowth.eu/costa-blanca/benidorm)
 
-- [Costa Blanca hub](https://hartegrowth.eu/costa-blanca/)
-- [Moraira](https://hartegrowth.eu/costa-blanca/moraira)
-- [Jávea](https://hartegrowth.eu/costa-blanca/javea)
-- [Altea](https://hartegrowth.eu/costa-blanca/altea)
-- [Dénia](https://hartegrowth.eu/costa-blanca/denia)
-- [Benidorm](https://hartegrowth.eu/costa-blanca/benidorm)
+## Gratis tools
 
-## Talen
+- [Groeiscan](https://hartegrowth.eu/groeiscan): SEO-, snelheid- en technische scan van elke URL.
+- [Concurrent-scan](https://hartegrowth.eu/tools/concurrent-scan): twee websites naast elkaar vergelijken op SEO-signalen.
+- [Blog-ideeën](https://hartegrowth.eu/tools/blog-ideeen): tien SEO-onderwerpen voor je website, met H2-structuur.
 
-- Nederlands (primair): https://hartegrowth.eu/
-- English: https://hartegrowth.eu/en/
-- Español: https://hartegrowth.eu/es/
+## English
+
+Harte Growth turns photos and raw clips into an edited video within 48 hours (€35 per video, limited offer), builds websites that bring in enquiries (from €550) and handles local SEO, AI search visibility and WhatsApp follow-up. Monthly plans from €195. Based in the Netherlands and on the Costa Blanca, Spain.
+
+- [Home (EN)](https://hartegrowth.eu/en/)
+- [Services](https://hartegrowth.eu/en/diensten.html)
+- [Case studies](https://hartegrowth.eu/en/cases.html)
+- [Free growth scan](https://hartegrowth.eu/en/groeiscan.html)
+- [Contact](https://hartegrowth.eu/en/contact.html)
+
+## Español
+
+Harte Growth convierte fotos y clips en un vídeo montado en 48 horas (35 € por vídeo, oferta), crea webs que generan solicitudes (desde 550 €) y se encarga del SEO local, la visibilidad en buscadores con IA y el seguimiento por WhatsApp. Planes mensuales desde 195 €. Con base en los Países Bajos y en la Costa Blanca.
+
+- [Inicio (ES)](https://hartegrowth.eu/es/)
+- [Servicios](https://hartegrowth.eu/es/diensten.html)
+- [Casos](https://hartegrowth.eu/es/cases.html)
+- [Escaneo de crecimiento gratis](https://hartegrowth.eu/es/groeiscan.html)
+- [Contacto](https://hartegrowth.eu/es/contact.html)
 
 ## Contact
 
 - [Contactformulier](https://hartegrowth.eu/contact)
-- WhatsApp: https://wa.me/31634455762
+- E-mail: hallo@hartegrowth.eu
+- WhatsApp: +31 6 34455762 (https://wa.me/31634455762)
 - Instagram: https://www.instagram.com/hartegrowth
 - Facebook: https://www.facebook.com/profile.php?id=61592600399432
 - TikTok: https://www.tiktok.com/@hartegrowth
 
-## Juridisch
+## Optional
 
+- [Over ons](https://hartegrowth.eu/over-ons)
 - [Privacyverklaring](https://hartegrowth.eu/privacy)
 - [Cookieverklaring](https://hartegrowth.eu/cookies)
