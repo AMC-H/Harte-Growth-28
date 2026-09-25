@@ -49,7 +49,7 @@
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://hartegrowth.eu/#org", "name": "Harte Growth", "url": "https://hartegrowth.eu/", "logo": "https://hartegrowth.eu/logo-nav.svg", "email": "hallo@hartegrowth.eu", "telephone": "+31634455762", "sameAs": ["https://wa.me/31634455762", "https://www.instagram.com/hartegrowth", "https://www.facebook.com/profile.php?id=61592600399432", "https://www.tiktok.com/@hartegrowth"]}, {"@type": "WebSite", "@id": "https://hartegrowth.eu/#site", "url": "https://hartegrowth.eu/", "name": "Harte Growth", "inLanguage": "nl", "publisher": {"@id": "https://hartegrowth.eu/#org"}}, {"@type": "ProfessionalService", "@id": "https://hartegrowth.eu/#service", "name": "Harte Growth", "description": "Stuur je foto's of ruwe clips. Binnen 48 uur een gemonteerde video in 9:16, 16:9 of 1:1 naar keuze. Actieprijs €35 per video, geen offertetraject.", "url": "https://hartegrowth.eu/", "image": "https://hartegrowth.eu/og-image.png", "logo": "https://hartegrowth.eu/logo-nav.svg", "telephone": "+31634455762", "email": "hallo@hartegrowth.eu", "areaServed": [{"@type": "Country", "name": "Netherlands"}, {"@type": "Country", "name": "Spain"}], "sameAs": ["https://wa.me/31634455762", "https://www.instagram.com/hartegrowth", "https://www.facebook.com/profile.php?id=61592600399432", "https://www.tiktok.com/@hartegrowth"], "makesOffer": [{"@type": "Offer", "price": "35", "priceCurrency": "EUR", "description": "Actieprijs per video, normaal €50", "itemOffered": {"@type": "Service", "name": "Foto's en video naar een gemonteerde video", "description": "Van foto's, ruwe clips of een mix naar een gemonteerde video binnen 48 uur, in 9:16, 16:9 of 1:1 naar keuze. Eén revisieronde inbegrepen."}, "priceSpecification": {"@type": "UnitPriceSpecification", "price": "35", "priceCurrency": "EUR", "valueAddedTaxIncluded": false, "referenceQuantity": {"@type": "QuantitativeValue", "value": 1, "unitText": "video"}}}]}, {"@type": "FAQPage", "@id": "https://hartegrowth.eu/#faq", "mainEntity": [{"@type": "Question", "name": "Hoeveel materiaal heb ik nodig?", "acceptedAnswer": {"@type": "Answer", "text": "Een stuk of 5 tot 6 foto's of een paar korte clips is genoeg voor één video. Heb je meer? Stuur alles mee, wij kiezen wat het beste werkt."}}, {"@type": "Question", "name": "Hoe lever ik bestanden aan?", "acceptedAnswer": {"@type": "Answer", "text": "Via WeTransfer of Google Drive. Stuur de link via WhatsApp of mail. Niet via WhatsApp zelf, dan comprimeert het en gaat de kwaliteit omlaag."}}, {"@type": "Question", "name": "Mag ik de video overal gebruiken?", "acceptedAnswer": {"@type": "Answer", "text": "Ja, de video is van jou. Gebruik hem op social, je website, in een listing of in advertenties."}}, {"@type": "Question", "name": "Wat als ik niet tevreden ben?", "acceptedAnswer": {"@type": "Answer", "text": "Er zit één revisieronde bij. Komen we er samen niet uit? Dan krijg je je geld terug."}}]}]}
 </script>
-<link rel="stylesheet" href="/film.css?v=20260925c">
+<link rel="stylesheet" href="/film.css?v=20260925d">
 </head>
 <body>
 
@@ -224,11 +224,40 @@
     <div class="scene" aria-hidden="true">
       <div class="scene-in">
         <div class="browser">
-          <div class="br-bar"><i></i><i></i><i></i><span class="br-url">theacmen.es</span></div>
-          <!-- Echte klantsite (The A/C Men). De pagina scrollt mee in het venster terwijl je door dit hoofdstuk scrolt. -->
-          <div class="br-page br-shot">
-            <img class="br-shot-d" src="/media/diensten/acmen-lang.webp" width="960" height="1501" alt="Homepage van theacmen.es, de website die we bouwden voor The A/C Men" decoding="async">
-            <img class="br-shot-m" src="/media/diensten/acmen-mobiel.webp" width="585" height="1266" alt="Homepage van theacmen.es, de website die we bouwden voor The A/C Men" decoding="async">
+          <div class="br-bar"><i></i><i></i><i></i><span class="br-url">casamirador.es</span></div>
+          <!-- Demosite (fictieve villaverhuur), gewoon HTML. Scrollt mee met dit hoofdstuk; de hero-video (dezelfde
+               villabeelden als de opening) loopt mee met het scrollen. -->
+          <div class="br-page demo">
+            <div class="d-page">
+              <div class="d-nav"><b class="d-logo">Casa Mirador</b><span class="d-link">De villa</span><span class="d-link">Omgeving</span><span class="d-link">Reviews</span><span class="d-cta">Boek nu</span></div>
+              <div class="d-hero">
+                <video class="d-video" muted playsinline preload="none" poster="/media/opening-16x9-960.webp"
+                       data-src="/media/opening-16x9-960.mp4" data-src-mobile="/media/opening-9x16-540.mp4" data-poster-mobile="/media/opening-9x16-540.webp"></video>
+                <span class="d-shade"></span>
+                <div class="d-hero-copy">
+                  <p class="d-kicker">Moraira · Costa Blanca</p>
+                  <p class="d-h">Wakker worden met zeezicht.</p>
+                  <p class="d-sub">Moderne villa voor 8 gasten, met privézwembad en het strand op 600 meter.</p>
+                  <div class="d-ctas"><span class="d-btn">Bekijk beschikbaarheid</span><span class="d-wa"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>WhatsApp</span></div>
+                </div>
+              </div>
+              <ul class="d-facts"><li><b>4</b> slaapkamers</li><li><b>3</b> badkamers</li><li><b>12 m</b> zwembad</li><li><b>600 m</b> tot het strand</li></ul>
+              <div class="d-about">
+                <p class="d-eyebrow">De villa</p>
+                <p class="d-h2">Licht, rust en de zee voor de deur.</p>
+                <p class="d-txt">Grote glazen puien, een terras op het zuiden en een keuken waar je echt kunt koken. Alles op loopafstand van het strand en de haven van Moraira.</p>
+              </div>
+              <div class="d-review">
+                <p class="d-stars" aria-hidden="true">★★★★★</p>
+                <p class="d-quote">"Het uitzicht is nog mooier dan op de foto's. Binnen tien minuten hadden we antwoord op onze vraag."</p>
+                <p class="d-who">Sanne, augustus · 4,9 uit 38 reviews</p>
+              </div>
+              <div class="d-book">
+                <p class="d-h2">Beschikbaarheid</p>
+                <div class="d-form"><span class="d-field"><i>Aankomst</i>12 jul.</span><span class="d-field"><i>Vertrek</i>19 jul.</span><span class="d-field"><i>Gasten</i>4</span><span class="d-btn">Vraag aan</span></div>
+                <p class="d-fine">Of stuur een bericht: <span class="d-wa d-wa-sm"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>WhatsApp</span></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -490,6 +519,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollToPlugin.min.js" defer></script>
-<script src="/film.js?v=20260925c" defer></script>
+<script src="/film.js?v=20260925d" defer></script>
 </body>
 </html>
