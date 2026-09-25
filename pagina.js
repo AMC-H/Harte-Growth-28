@@ -186,9 +186,10 @@
       add(hero.querySelector('.hero-h'), { y: 22 * d, opacity: 0, duration: 0.5 }, 0);
       add(hero.querySelector('.hero-copy .lede'), { y: 16 * d, opacity: 0, duration: 0.45 }, 0.1);
       add(hero.querySelectorAll('.hero-copy .ctas > *'), { y: 12 * d, opacity: 0, duration: 0.4, stagger: 0.06 }, 0.18);
-      add(hero.querySelectorAll('.hero-ticks li'), { y: 10 * d, opacity: 0, duration: 0.35, stagger: 0.06 }, 0.22);
+      // formulierpagina's: vinkjes of info-regels na de lede; autoAlpha zodat de kaart pas klikbaar is als hij zichtbaar is
+      add(hero.querySelectorAll('.hero-ticks li, .info-list li'), { y: 10 * d, autoAlpha: 0, duration: 0.35, stagger: 0.06 }, 0.22);
       add(frame, { y: 40 * d, duration: 0.6 }, 0.12);
-      add(hero.querySelector('.form-card'), { y: 30 * d, opacity: 0, duration: 0.6 }, 0.14);
+      add(hero.querySelector('.form-card'), { y: 30 * d, autoAlpha: 0, duration: 0.6 }, 0.14);
       add(phone, { xPercent: -30, autoAlpha: 0, duration: 0.45, stagger: 0.08 }, 0.45);
       var started = false;
       var go = function () {
