@@ -436,7 +436,7 @@ img, video, svg { display: block; max-width: 100%; }
   .is-extra { display: none !important; }
 }
 
-/* ---------- Scène 3: fundament (voorbeeldsite van een villaverhuur, hero in WebGL) ---------- */
+/* ---------- Scène 3: fundament (echte klantsite die meescrollt) ---------- */
 /* De site zelf is licht: het is de site van de klant, niet die van ons. */
 .browser {
   container-type: inline-size;
@@ -451,36 +451,11 @@ img, video, svg { display: block; max-width: 100%; }
 .ln { display: block; height: 1cqw; width: 7cqw; border-radius: 99px; background: #D5D0C8; }
 .ln-m { width: 70%; }
 .ln-s { width: 45%; }
-.br-h { font: 800 4.4cqw/1 var(--f-head); letter-spacing: -.035em; max-width: 14ch; }
-.br-ctas { display: flex; gap: 1.2cqw; margin-top: 2.6cqw; }
-.br-btn, .br-wa { display: inline-flex; align-items: center; gap: .7cqw; padding: 1cqw 1.8cqw; border-radius: 99px; font: 600 1.5cqw/1 var(--f-body); color: #fff; white-space: nowrap; }
-.br-btn { background: #121417; }
-.br-wa { background: var(--wa); }
-.br-wa svg { width: 1.7cqw; height: 1.7cqw; }
 
-/* de pagina is één schermvullende hero: poster (zonder WebGL), canvas, verloop voor leesbaarheid, tekst erboven */
-.vs { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #c9a878; color: #fff; }
-.vs-poster, .vs-gl { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.vs-gl { opacity: 0; transition: opacity .6s ease; }
-.vs.is-live .vs-gl { opacity: 1; }
-.vs-shade {
-  position: absolute; inset: 0; pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(8, 10, 14, .55) 0%, rgba(8, 10, 14, 0) 26%, rgba(8, 10, 14, 0) 60%, rgba(8, 10, 14, .6) 100%),
-    linear-gradient(90deg, rgba(8, 10, 14, .5) 0%, rgba(8, 10, 14, 0) 55%),
-    radial-gradient(120% 90% at 50% 50%, transparent 60%, rgba(0, 0, 0, .35) 100%);
-}
-.vs-nav { position: absolute; left: 4cqw; right: 4cqw; top: 2.6cqw; display: flex; align-items: center; gap: 2.6cqw; font: 500 1.35cqw/1 var(--f-body); }
-.vs-logo { margin-right: auto; font: 400 2.5cqw/1 'Instrument Serif', Georgia, serif; font-style: italic; letter-spacing: -.01em; }
-.vs-link { opacity: .85; }
-.vs-hero { position: absolute; left: 4cqw; right: 4cqw; top: 22%; }
-.vs-kicker { font: 500 1.25cqw/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; opacity: .9; }
-.vs-h { margin-top: 1.4cqw; font-size: 5.2cqw; max-width: 11ch; text-shadow: 0 2px 30px rgba(0, 0, 0, .25); }
-.vs-book { position: absolute; left: 4cqw; right: 4cqw; bottom: 3.6cqw; display: flex; align-items: flex-end; justify-content: space-between; gap: 2cqw; }
-.vs-facts { list-style: none; margin: 0; padding: 0; display: flex; gap: .8cqw; }
-.vs-facts li { padding: .8cqw 1.4cqw; border-radius: 99px; background: rgba(255, 255, 255, .16); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); font: 500 1.25cqw/1 var(--f-body); white-space: nowrap; }
-.vs .br-ctas { margin: 0; }
-.vs .br-btn { background: #fff; color: #121417; }
+/* echte klantsite als lange screenshot; film.js schuift hem mee met het scrollen */
+.br-shot { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #fff; }
+.br-shot img { display: block; width: 100%; height: auto; }
+.br-shot-m { display: none !important; }
 
 @media (max-width: 767px) {
   /* mobiel: dezelfde site, maar op een telefoon */
@@ -491,21 +466,9 @@ img, video, svg { display: block; max-width: 100%; }
   .br-bar i { display: none; }
   .br-url { margin: 0; font-size: 3.6cqw; text-align: center; }
   .ln { height: 2cqw; width: 12cqw; }
-  .br-h { font-size: 9cqw; }
-  .br-ctas { gap: 2.4cqw; margin-top: 4cqw; }
-  .br-btn, .br-wa { font-size: 3.4cqw; padding: 2.4cqw 3.6cqw; gap: 1.4cqw; }
-  .br-wa svg { width: 3.8cqw; height: 3.8cqw; }
-  .vs-nav { left: 5cqw; right: 5cqw; top: 5cqw; font-size: 3.2cqw; }
-  .vs-link { display: none; }
-  .vs-logo { font-size: 6cqw; }
-  .vs-hero { left: 5cqw; right: 5cqw; top: 17%; }
-  .vs-kicker { font-size: 2.9cqw; }
-  .vs-h { margin-top: 3cqw; font-size: 11cqw; }
-  .vs-book { left: 5cqw; right: 5cqw; bottom: 5cqw; flex-direction: column; align-items: stretch; gap: 3.4cqw; }
-  .vs-facts { flex-wrap: wrap; gap: 2cqw; }
-  .vs-facts li { padding: 2cqw 3cqw; font-size: 3cqw; }
-  .vs .br-ctas { display: grid; grid-template-columns: 1fr 1fr; }
-  .vs .br-btn, .vs .br-wa { justify-content: center; }
+  .br-shot-d { display: none !important; }
+  .br-shot-m { display: block !important; }
+}
 }
 
 /* ---------- Scène 4: verkeer (zoekresultaat + lijn, zonder cijfers) ---------- */

@@ -36,17 +36,9 @@ Maak de poster van het eerste frame zoals de browser het rendert (video op 0:00 
 en als WebP opslaan). Een PNG uit een videotool heeft vaak een BT.709-kleurprofiel en wordt in de browser
 dan lichter getoond dan de video zelf.
 
-## Scène 3 (Fundament): villa-tour in WebGL
 
-De hero van de voorbeeldsite in scène 3 is een cinematische tour in WebGL (`/villa.js`, Three.js r170 via jsDelivr)
-door vier fotorealistische stills in `media/villa/`, gescrubd met het scrollen (GSAP ScrollTrigger in film.js):
+## Scène 3 (Fundament)
 
-| Bestand | Beeld |
-|---|---|
-| `villa/villa-1.png` | vanaf zee op de villa aan de kust (ook de poster zonder WebGL / bij reduced motion) |
-| `villa/villa-2.png` | op het terras aan het zwembad, richting de open pui |
-| `villa/villa-3.png` | op het dek voor de open pui, kijkend naar binnen |
-| `villa/villa-4.png` | binnen, uitzicht over het zwembad op zee |
-
-16:9 (PNG zoals Higgsfield ze levert; later om te zetten naar WebP onder ~250 kB). Het focuspunt en de mate van inzoomen per beeld staan
-bovenaan `villa.js` (`SHOTS`).
+Toont de echte klantsite theacmen.es: `diensten/acmen-lang.webp` (desktop) en `diensten/acmen-mobiel.webp`
+(mobiel). film.js schuift de screenshot mee met het scrollen. Een andere klantsite: vervang de twee paden in
+`index.html` (en `en/`, `es/`) en de URL in de adresbalk.
