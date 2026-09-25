@@ -124,8 +124,8 @@
   <section class="chapter" id="opening" style="--len:1.7" aria-labelledby="opening-h">
     <div class="scene" aria-hidden="true">
       <div class="scene-in">
-        <!-- Ruw materiaal (16:9) en resultaat (9:16) spelen niet vanzelf: ze scrubben mee met het scrollen.
-             Halverwege de opening wordt het frame staand. Zelfde video, zelfde lengte, zelfde currentTime. -->
+        <!-- Ruw materiaal (16:9) en resultaat (9:16) spelen af in een loop. Halverwege de opening (bij het
+             scrollen) wordt het frame staand; de staande video neemt de tijd van de liggende over. -->
         <div class="monitor op-mon">
           <video class="op-v16" muted playsinline preload="none" poster="/media/opening-16x9-1280.webp">
             <source src="/media/opening-16x9-960.mp4" type="video/mp4" media="(max-width: 767px)">
@@ -156,7 +156,7 @@
         <div class="ctas">
           <a class="btn" href="https://wa.me/31634455762?text=Hi%21%20I%27d%20like%20to%20turn%20photos%20or%20video%20into%20a%20video." target="_blank" rel="noopener">Send your footage on WhatsApp</a>
         </div>
-        <p class="cue"><span class="cue-line" aria-hidden="true"></span>Scroll to play</p>
+        <p class="cue"><span class="cue-line" aria-hidden="true"></span>Scroll to 9:16</p>
       </div>
     </div>
   </section>
@@ -173,7 +173,7 @@
               <div class="shot" data-r="-5" style="--x:2%;--y:18%;--r:-5deg"><img data-src="/media/media-foto-1.webp" alt="" width="540" height="960" decoding="async"></div>
               <div class="shot" data-r="4" style="--x:19%;--y:8%;--r:4deg"><img data-src="/media/media-foto-2.webp" alt="" width="540" height="960" decoding="async"></div>
               <div class="shot is-extra" data-r="-3" style="--x:36%;--y:20%;--r:-3deg"><img data-src="/media/media-foto-3.webp" alt="" width="540" height="960" decoding="async"></div>
-              <div class="shot is-extra" data-r="6" style="--x:53%;--y:6%;--r:6deg"><img data-src="/media/media-foto-4.webp" alt="" width="540" height="960" decoding="async"></div>
+              <div class="shot" data-r="6" style="--x:53%;--y:6%;--r:6deg"><img data-src="/media/media-foto-4.webp" alt="" width="540" height="960" decoding="async"></div>
               <div class="shot" data-r="-4" style="--x:66%;--y:18%;--r:-4deg"><img data-src="/media/media-foto-5.webp" alt="" width="540" height="960" decoding="async"></div>
               <div class="shot is-clip" data-r="3" style="--x:80%;--y:4%;--r:3deg"><video class="shot-video" data-src="/media/media-clip.mp4" data-poster="/media/media-clip.webp" muted loop playsinline preload="none"></video><span class="shot-rec">0:03</span></div>
             </div>
@@ -185,7 +185,7 @@
                   <div class="clip" data-len="2"><img class="clip-thumb" data-src="/media/media-foto-1.webp" alt="" decoding="async"></div>
                   <div class="clip" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-2.webp" alt="" decoding="async"></div>
                   <div class="clip is-extra" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-3.webp" alt="" decoding="async"></div>
-                  <div class="clip is-extra" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-4.webp" alt="" decoding="async"></div>
+                  <div class="clip" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-4.webp" alt="" decoding="async"></div>
                   <div class="clip" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-5.webp" alt="" decoding="async"></div>
                   <div class="clip" data-len="3"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-clip.webp" alt="" decoding="async"></div>
                 </div>
@@ -519,6 +519,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollToPlugin.min.js" defer></script>
-<script src="/film.js?v=20260925d" defer></script>
+<script src="/film.js?v=20260925e" defer></script>
 </body>
 </html>

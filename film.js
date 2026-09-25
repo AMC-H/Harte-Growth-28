@@ -291,17 +291,16 @@
   }
   function play(v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
 
-  // Scrub-motor: de scroll bepaalt één virtuele tijd (met lichte smoothing via gsap.quickTo). Een ticker zet
-  // die hooguit één keer per frame op de zichtbare video('s), en nooit terwijl een video nog aan het zoeken
-  // is: zo bouwt snel scrollen geen achterstand aan seeks op en schokt het beeld niet.
-  var scrub = { t: 0, dur: 11.1 };
-  function seek(v, t, force) {
-    if (v.readyState < 1 || (v.seeking && !force)) return;
-    if (force || Math.abs(v.currentTime - t) > 1 / 60) { try { v.currentTime = t; } catch (e) {} }
+  // De opening speelt gewoon af, in een loop. Alleen de wissel 16:9 -> 9:16 hangt aan het scrollen; bij de
+  // wissel neemt de ene video de tijd van de andere over, zodat het beeld doorloopt.
+  function seek(v, t) {
+    if (v.readyState < 1) return;
+    try { v.currentTime = t; } catch (e) {}
   }
-  function scrubTick() {
-    if (+gsap.getProperty(op.v16, 'opacity') > 0.001) seek(op.v16, scrub.t);
-    if (op.loaded && +gsap.getProperty(op.v9, 'opacity') > 0.001) seek(op.v9, scrub.t);
+  var openingVisible = true;
+  function playOpening() {
+    if (!openingVisible) return;
+    play(op.portrait && op.loaded ? op.v9 : op.v16);
   }
 
   // Transform voor de staande stand: de 9:16-strook wordt zo groot als (en staat waar) het
@@ -344,24 +343,26 @@
     gsap.to(q('.op-window'), { autoAlpha: portrait ? 1 : 0, duration: d * 0.6, delay: portrait ? d * 0.4 : 0, overwrite: 'auto' });
     gsap.delayedCall(d * 0.5, function () { op.fmt.textContent = op.portrait ? '9:16' : '16:9'; });
 
-    // Beide video's staan op dezelfde currentTime (scrub.t), dus het beeld loopt bij de wissel door.
+    // De staande video neemt bij de wissel de tijd van de liggende over, dus het beeld loopt door.
     if (portrait) {
       loadV9();
       var fadeIn = function () {
         if (!op.portrait) return;
-        seek(op.v9, scrub.t, true);
+        seek(op.v9, op.v16.currentTime);
+        playOpening();
         gsap.to(op.v9, {
           autoAlpha: 1, duration: d * 0.45, delay: instant ? 0 : d * 0.25, overwrite: 'auto',
           // 16:9 verbergen: anders lekt een haarlijn langs de afgeronde rand (en hij hoeft niet mee te zoeken)
-          onComplete: function () { if (op.portrait) gsap.set(op.v16, { autoAlpha: 0 }); }
+          onComplete: function () { if (op.portrait) { gsap.set(op.v16, { autoAlpha: 0 }); op.v16.pause(); } }
         });
       };
       if (op.v9.readyState >= 2) fadeIn();
       else op.v9.addEventListener('loadeddata', fadeIn, { once: true });
     } else {
       gsap.set(op.v16, { autoAlpha: 1 });
-      seek(op.v16, scrub.t, true);
-      gsap.to(op.v9, { autoAlpha: 0, duration: d * 0.45, overwrite: 'auto' });
+      if (op.loaded && !op.v9.paused) seek(op.v16, op.v9.currentTime);
+      playOpening();
+      gsap.to(op.v9, { autoAlpha: 0, duration: d * 0.45, overwrite: 'auto', onComplete: function () { if (!op.portrait) op.v9.pause(); } });
     }
   }
 
@@ -544,20 +545,24 @@
       onLeaveBack: function () { if (media.video) media.video.currentTime = 0; }
     });
 
-    // Opening: de video scrubt mee met het scrollen (0:00 bovenaan, einde waar de scène begint te vervagen).
-    // Halverwege wordt het frame staand (getriggerde animatie van ±0,8 s); beide video's volgen dezelfde tijd.
+    // Opening: de video speelt af in een loop (gedempt). Halverwege de opening wordt het frame staand
+    // (getriggerde animatie van ±0,8 s); de staande video neemt de tijd van de liggende over.
     if (op.mon) {
+      op.v16.loop = true; op.v9.loop = true;
       op.v16.preload = 'auto';
       op.v16.load();
-      op.v16.addEventListener('loadedmetadata', function () { if (op.v16.duration) scrub.dur = op.v16.duration; }, { once: true });
+      op.v16.addEventListener('loadeddata', playOpening, { once: true });
       afterFirstRender(loadV9);
 
-      var scrubTo = gsap.quickTo(scrub, 't', { duration: mobile ? 0.15 : 0.25, ease: 'power2.out' });
-      var scrubST = ScrollTrigger.create({
-        trigger: '#opening', start: 'top top', end: mobile ? 'bottom 75%' : 'bottom 45%',
-        onUpdate: function (self) { scrubTo(self.progress * (scrub.dur - 1 / 30)); }
+      var scrubST = ScrollTrigger.create({ trigger: '#opening', start: 'top top', end: mobile ? 'bottom 75%' : 'bottom 45%' });
+      // alleen afspelen zolang de opening in beeld is
+      ScrollTrigger.create({
+        trigger: '#opening', start: 'top bottom', end: 'bottom top',
+        onToggle: function (self) {
+          openingVisible = self.isActive;
+          if (self.isActive) playOpening(); else { op.v16.pause(); if (op.loaded) op.v9.pause(); }
+        }
       });
-      gsap.ticker.add(scrubTick);
 
       ScrollTrigger.create({
         trigger: '#opening', end: 'max',
@@ -567,7 +572,6 @@
       });
       // binnengekomen voorbij de wissel (bv. herladen halverwege): direct staand, op de juiste tijd
       requestAnimationFrame(function () {
-        scrub.t = scrubST.progress * (scrub.dur - 1 / 30);
         if (scrubST.progress >= 0.5) setOpening(true, mobile, true);
       });
     }
@@ -603,7 +607,7 @@
     });
 
     return function () {
-      gsap.ticker.remove(scrubTick);
+      op.v16.pause(); if (op.loaded) op.v9.pause();
       root.classList.remove('film-on', 'intro');
       film = null;
       op.portrait = false;
@@ -651,7 +655,7 @@
   var lastActive = -1;
   function update(self) {
     var p = self.progress || 0;
-    root.classList.toggle('has-scrolled', window.scrollY > 8); // 'Scroll om af te spelen' verdwijnt
+    root.classList.toggle('has-scrolled', window.scrollY > 8); // scroll-hint verdwijnt
     fill.style.transform = 'scaleX(' + p.toFixed(4) + ')';
     head.style.transform = 'translateX(' + (p * 100).toFixed(3) + '%)';
 
