@@ -146,7 +146,7 @@ html { scroll-padding-top: calc(var(--hdr) + 12px); }
 .case-wide .case-body { padding: 0; }
 .case-wide .case-stats { grid-template-columns: repeat(3, auto); justify-content: start; gap: 1rem 2rem; margin: 0; }
 .case-wide .case-src { margin: 0; align-self: end; }
-#resultaten .ctas { margin-top: 1.5rem; }
+#resultaten .ctas, #results .ctas, #resultados .ctas { margin-top: 1.5rem; }
 
 /* ---------- 6. Automation ---------- */
 .auto { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 2rem 4rem; align-items: center; }
@@ -216,7 +216,7 @@ html { scroll-padding-top: calc(var(--hdr) + 12px); }
   .hero-copy .btn { flex: 1 1 100%; }
   .hero-grid { gap: 1.5rem; }
   .hero-shot { margin: 0; }
-  #instappen { padding-top: 2.75rem; }
+  #instappen, #get-started, #empezar { padding-top: 2.75rem; }
   .entries, .plans, .cases { margin-top: 1.25rem; }
   .entry, .plan { padding: 1.25rem; }
   .hero-phone { display: none; }
@@ -251,3 +251,47 @@ html { scroll-padding-top: calc(var(--hdr) + 12px); }
 /* prijs in overleg (AI & Automation) */
 .price-talk strong { font-size: clamp(1.6rem, 1.3rem + 1vw, 2rem); }
 .price-note { margin-top: .5rem; max-width: 46ch; color: var(--ink); }
+
+/* ---------- Formulierpagina's (groeiscan, contact) en over ons ---------- */
+.hero-grid-form { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); align-items: start; }
+.hero-grid-form .hero-h { max-width: 17ch; }
+.hero-ticks { margin-top: 1.5rem; }
+.form-card { padding: 1.5rem; border-radius: 14px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2), 0 40px 90px -40px #000; }
+.form-card-h { font: 700 1.25rem/1.2 var(--f-head); letter-spacing: -.01em; }
+.form-card .form { margin-top: 1rem; max-width: none; }
+.field-hint { color: var(--mute); font-size: .8125rem; }
+.scan-example { min-height: 32px; padding: 0 .2rem; border: 0; background: none; color: var(--ink); font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.scan-example:hover { color: var(--accent); }
+.form .btn-submit { margin-top: .25rem; }
+.form .btn-submit:disabled { opacity: .7; cursor: default; transform: none; }
+.form-status:empty { display: none; }
+.form-status.is-ok { color: #4ADE80; }
+.form-status.is-err { color: #FF8A82; }
+.form-status a { color: var(--ink); text-underline-offset: 3px; }
+.form-legal { color: var(--mute); font-size: .8125rem; line-height: 1.5; }
+.form-legal a { color: var(--ink); text-underline-offset: 3px; }
+.info-list { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; gap: 1rem; max-width: 34rem; }
+.info-list li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: .15rem .9rem; align-items: start; }
+.info-ic { grid-row: span 2; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line-2); color: var(--accent); }
+.info-k { font-weight: 600; }
+.info-v { color: var(--mute); font-size: .9375rem; }
+.info-v a { color: var(--ink); text-underline-offset: 3px; }
+.entry-num { color: var(--accent); font: 500 .8125rem/1 var(--f-mono); }
+.step-when { color: var(--accent); font: 500 .75rem/1.2 var(--f-mono); letter-spacing: .02em; }
+.compare-wrap { margin-top: 2rem; overflow-x: auto; border-radius: 14px; box-shadow: inset 0 0 0 1px var(--line); }
+.compare { width: 100%; min-width: 40rem; border-collapse: collapse; background: var(--surface); font-size: .9375rem; }
+.compare th, .compare td { padding: .9rem 1.1rem; border-bottom: 1px solid var(--line); text-align: center; }
+.compare tr:last-child > * { border-bottom: 0; }
+.compare thead th { color: var(--mute); font: 500 .75rem/1.3 var(--f-mono); text-transform: uppercase; letter-spacing: .04em; }
+.compare tbody th { text-align: left; font-weight: 500; }
+.compare td { color: var(--mute); }
+.compare .is-us { background: rgba(255, 59, 48, .08); color: var(--ink); }
+.compare thead .is-us { color: var(--accent); }
+.compare .yes { color: #4ADE80; font-weight: 700; }
+@media (max-width: 1023px) {
+  .hero-grid-form { grid-template-columns: 1fr; }
+}
+@media (max-width: 767px) {
+  .form-card { padding: 1.25rem; margin-inline: calc(var(--gutter) * -.25); }
+  .page-form .tl-now { width: 7.4em; }
+}

@@ -1,4 +1,5 @@
-/* Harte Growth, gedeelde code voor /diensten en /cases (pagina.js).
+/* Harte Growth, gedeelde code voor de pagina's in de nieuwe stijl (pagina.js): diensten, cases, blog,
+ * groeiscan, contact en over ons, in NL, EN en ES.
  * Menu, WhatsApp-knop, voortgangsbalk en de scroll-animaties (GSAP 3.13 + ScrollTrigger, zoals de homepage).
  * De HTML staat altijd in eindstand: alle begintoestanden worden hier gezet, pas als GSAP geladen is.
  * Zonder JS of GSAP, en bij prefers-reduced-motion, blijft alles gewoon staan.
@@ -9,6 +10,41 @@
 
   var toArray = function (l) { return Array.prototype.slice.call(l); };
   var counters = [];
+  var LANG = (document.documentElement.lang || 'nl').slice(0, 2).toLowerCase();
+  if (['nl', 'en', 'es'].indexOf(LANG) < 0) LANG = 'nl';
+  // teksten die dit script zelf schrijft, per taal van de pagina
+  var TXT = {
+    nl: {
+      months: ['jan.', 'feb.', 'mrt.', 'apr.', 'mei', 'jun.', 'jul.', 'aug.', 'sep.', 'okt.', 'nov.', 'dec.'],
+      play: 'Speel video af: ', yt: 'Bekijk op YouTube', ytVideo: 'YouTube-video',
+      posts: function (n) { return n + (n === 1 ? ' artikel' : ' artikelen'); },
+      sending: 'Versturen...', required: 'Vul de verplichte velden in.', email: 'Vul een geldig e-mailadres in.',
+      fail: 'Versturen is niet gelukt. Je gegevens staan er nog. Probeer het opnieuw, of stuur ons direct een bericht via ',
+      waFail: 'Hoi Harte Growth, het formulier lukte niet, dus ik stuur het zo. Mijn naam is ',
+      scanBtn: 'Aanvraag verstuurd ✓', scanOk: function (e) { return 'Bedankt! We nemen je site binnen 1 werkdag door en mailen het rapport naar ' + e + '.'; },
+      contactBtn: 'Bericht verzonden ✓', contactOk: function (e) { return 'Bedankt! We reageren binnen 1 werkdag op ' + e + '.'; }
+    },
+    en: {
+      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      play: 'Play video: ', yt: 'Watch on YouTube', ytVideo: 'YouTube video',
+      posts: function (n) { return n + (n === 1 ? ' article' : ' articles'); },
+      sending: 'Sending...', required: 'Please fill in the required fields.', email: 'Please enter a valid email address.',
+      fail: "Sending didn't work. Your details are still here. Try again, or message us directly on ",
+      waFail: "Hi Harte Growth, the form didn't work, so I'm sending it this way. My name is ",
+      scanBtn: 'Request sent ✓', scanOk: function (e) { return "Thanks! We'll review your site within 1 working day and email the report to " + e + '.'; },
+      contactBtn: 'Message sent ✓', contactOk: function (e) { return "Thanks! We'll reply to " + e + ' within 1 working day.'; }
+    },
+    es: {
+      months: ['ene.', 'feb.', 'mar.', 'abr.', 'may.', 'jun.', 'jul.', 'ago.', 'sept.', 'oct.', 'nov.', 'dic.'],
+      play: 'Reproducir vídeo: ', yt: 'Ver en YouTube', ytVideo: 'Vídeo de YouTube',
+      posts: function (n) { return n + (n === 1 ? ' artículo' : ' artículos'); },
+      sending: 'Enviando...', required: 'Rellena los campos obligatorios.', email: 'Introduce un correo electrónico válido.',
+      fail: 'No se ha podido enviar. Tus datos siguen aquí. Inténtalo de nuevo o escríbenos directamente por ',
+      waFail: 'Hola Harte Growth, el formulario no funcionó, así que os lo envío por aquí. Me llamo ',
+      scanBtn: 'Solicitud enviada ✓', scanOk: function (e) { return '¡Gracias! Revisamos tu web en 1 día laborable y te enviamos el informe a ' + e + '.'; },
+      contactBtn: 'Mensaje enviado ✓', contactOk: function (e) { return '¡Gracias! Te respondemos en 1 día laborable en ' + e + '.'; }
+    }
+  }[LANG];
 
   setupMenu();
   setupFab();
@@ -18,6 +54,7 @@
   setupVideos();
   setupChips();
   setupFacade();
+  setupForms();
 
   /* ---------- Voortgangsbalk: vulling, afspeelkop en actieve sectie ---------- */
   function setupProgress() {
@@ -137,7 +174,6 @@
     var frame = hero.querySelector('.hero-shot > .bframe');
     var phone = toArray(hero.querySelectorAll('.hero-phone, .hero-mini')); // diensten: telefoon, cases: kleine frames
     var proofNum = hero.querySelector('.proof strong');
-    if (!frame) return;
     if (intro) {
       // Begintoestand staat meteen; het afspelen wacht tot de webfonts binnen zijn (max. 0,7 s). Anders
       // rendert GSAP elk frame en wordt de tussenstand van de font-wissel (één font wel, één niet) als
@@ -150,7 +186,9 @@
       add(hero.querySelector('.hero-h'), { y: 22 * d, opacity: 0, duration: 0.5 }, 0);
       add(hero.querySelector('.hero-copy .lede'), { y: 16 * d, opacity: 0, duration: 0.45 }, 0.1);
       add(hero.querySelectorAll('.hero-copy .ctas > *'), { y: 12 * d, opacity: 0, duration: 0.4, stagger: 0.06 }, 0.18);
+      add(hero.querySelectorAll('.hero-ticks li'), { y: 10 * d, opacity: 0, duration: 0.35, stagger: 0.06 }, 0.22);
       add(frame, { y: 40 * d, duration: 0.6 }, 0.12);
+      add(hero.querySelector('.form-card'), { y: 30 * d, opacity: 0, duration: 0.6 }, 0.14);
       add(phone, { xPercent: -30, autoAlpha: 0, duration: 0.45, stagger: 0.08 }, 0.45);
       var started = false;
       var go = function () {
@@ -163,7 +201,7 @@
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(go);
       setTimeout(go, 700);
     }
-    if (m) return; // mobiel: geen kanteling, geen parallax (telefoon is daar ook verborgen)
+    if (m || !frame) return; // mobiel: geen kanteling, geen parallax (telefoon is daar ook verborgen)
     // het frame ligt iets achterover en vlakt af terwijl de hero uit beeld scrolt
     gsap.fromTo(frame, { rotationX: 8, transformPerspective: 1400, transformOrigin: '50% 100%' }, {
       rotationX: 0, ease: 'none',
@@ -359,10 +397,9 @@
      Blog: filters (artikelen en video's), videostrook en click-to-load video.
      Zonder JS: alle artikelen zichtbaar, de filters verborgen, video's zijn gewone links naar YouTube.
      ===================================================================== */
-  var MONTHS = ['jan.', 'feb.', 'mrt.', 'apr.', 'mei', 'jun.', 'jul.', 'aug.', 'sep.', 'okt.', 'nov.', 'dec.'];
-  function nlDate(iso) {
+  function nlDate(iso) { // datum in de taal van de pagina: 24 sep. 2026 / 24 Sep 2026 / 24 sept. 2026
     var p = String(iso).slice(0, 10).split('-');
-    return (+p[2]) + ' ' + MONTHS[+p[1] - 1] + ' ' + p[0];
+    return (+p[2]) + ' ' + TXT.months[+p[1] - 1] + ' ' + p[0];
   }
   function escHtml(t) {
     return String(t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
@@ -387,7 +424,7 @@
           if (on) shown++;
         });
         var count = document.getElementById('post-count');
-        if (count) count.textContent = shown + (shown === 1 ? ' artikel' : ' artikelen');
+        if (count) count.textContent = TXT.posts(shown);
         measureProgress();
       });
     });
@@ -406,11 +443,11 @@
       var t = escHtml(v.title);
       var thumb = /^https:\/\/i\d?\.ytimg\.com\//.test(v.thumbnail) ? v.thumbnail : 'https://i.ytimg.com/vi/' + encodeURIComponent(v.videoId) + '/hqdefault.jpg';
       return '<article class="vcard" data-platform="' + escHtml(v.platform) + '">' +
-        '<a class="vthumb" href="' + watch + '" target="_blank" rel="noopener" data-video="' + escHtml(v.videoId) + '" data-title="' + t + '" aria-label="Speel video af: ' + t + '">' +
+        '<a class="vthumb" href="' + watch + '" target="_blank" rel="noopener" data-video="' + escHtml(v.videoId) + '" data-title="' + t + '" aria-label="' + escHtml(TXT.play) + t + '">' +
         '<img src="' + escHtml(thumb) + '" width="480" height="360" loading="lazy" decoding="async" alt=""><span class="vplay" aria-hidden="true"></span></a>' +
         '<p class="vmeta"><span>' + escHtml(v.channel) + '</span> · <time datetime="' + escHtml(String(v.published).slice(0, 10)) + '">' + nlDate(v.published) + '</time></p>' +
         '<h3 class="vtitle">' + t + '</h3>' +
-        '<a class="vyt" href="' + watch + '" target="_blank" rel="noopener">Bekijk op YouTube</a></article>';
+        '<a class="vyt" href="' + watch + '" target="_blank" rel="noopener">' + TXT.yt + '</a></article>';
     }
     // platformknop verbergen als er minder dan 3 video's van dat platform zijn
     function syncChips() {
@@ -456,13 +493,70 @@
       box.className = 'vplayer';
       var f = document.createElement('iframe');
       f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
-      f.title = a.dataset.title || 'YouTube-video';
+      f.title = a.dataset.title || TXT.ytVideo;
       f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       f.allowFullscreen = true;
       f.referrerPolicy = 'strict-origin-when-cross-origin';
       box.appendChild(f);
       a.replaceWith(box);
       f.focus();
+    });
+  }
+
+  /* =====================================================================
+     Formulieren: groeiscan (send-lead) en contact (send-contact). De taal van de pagina gaat mee in de payload.
+     Zonder JS posten ze gewoon naar de function.
+     ===================================================================== */
+  function setupForms() {
+    toArray(document.querySelectorAll('.scan-example')).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var input = document.getElementById('groeiscanUrl');
+        if (input) { input.value = b.dataset.url || ''; input.focus(); }
+      });
+    });
+    wireForm('groeiscanForm', '/.netlify/functions/send-lead', ['url', 'name', 'email', 'company'], {
+      extra: { consent: true }, okBtn: TXT.scanBtn, ok: TXT.scanOk, event: 'groeiscan_request_submit', formName: 'groeiscan'
+    });
+    wireForm('contactForm', '/.netlify/functions/send-contact', ['name', 'email', 'company', 'url', 'message'], {
+      extra: {}, okBtn: TXT.contactBtn, ok: TXT.contactOk, event: 'contact_form_submit', formName: 'contact'
+    });
+  }
+  function wireForm(id, endpoint, fields, o) {
+    var form = document.getElementById(id);
+    if (!form || !window.fetch) return;
+    var btn = form.querySelector('button[type="submit"]');
+    var status = form.querySelector('.form-status');
+    var label = btn.textContent;
+    function say(html, cls) { status.className = 'form-status' + (cls ? ' ' + cls : ''); status.innerHTML = html; }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      // eigen controle (novalidate): melding in de taal van de pagina, focus op het eerste lege veld
+      var bad = toArray(form.querySelectorAll('[required]')).filter(function (el) { return !el.value.trim(); })[0];
+      if (bad) { say(escHtml(TXT.required), 'is-err'); bad.focus(); return; }
+      var mail = form.querySelector('[type="email"]');
+      if (mail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail.value.trim())) { say(escHtml(TXT.email), 'is-err'); mail.focus(); return; }
+      var data = { lang: LANG, page: location.pathname, referrer: document.referrer || '' };
+      fields.forEach(function (f) { data[f] = form.elements[f] ? form.elements[f].value.trim() : ''; });
+      Object.keys(o.extra).forEach(function (k) { data[k] = o.extra[k]; });
+      var hp = form.elements['bot-field'];
+      if (hp) data['bot-field'] = hp.value;
+      btn.disabled = true;
+      btn.textContent = TXT.sending;
+      say('');
+      fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+        .then(function (res) { if (!res.ok) throw new Error('status ' + res.status); })
+        .then(function () {
+          form.reset();
+          btn.textContent = o.okBtn;
+          say(escHtml(o.ok(data.email)), 'is-ok');
+          if (window.hgTrack) window.hgTrack(o.event, { page_path: location.pathname, form_name: o.formName, language: LANG });
+        })
+        .catch(function () {
+          var wa = 'https://wa.me/31634455762?text=' + encodeURIComponent(TXT.waFail + (data.name || '...') + '.');
+          say(escHtml(TXT.fail) + '<a href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a>.', 'is-err');
+          btn.disabled = false;
+          btn.textContent = label;
+        });
     });
   }
 
