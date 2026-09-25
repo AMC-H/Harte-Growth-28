@@ -168,3 +168,16 @@
   from = "/costa-blanca/benidorm.html"
   to = "/costa-blanca/benidorm"
   status = 301
+
+# Skills voor Claude (.agents/, .claude/) staan in de repo maar horen niet op de site
+[[redirects]]
+  from = "/.agents/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.claude/*"
+  to = "/404.html"
+  status = 404
+  force = true
