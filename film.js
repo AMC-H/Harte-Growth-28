@@ -149,24 +149,49 @@
     }, { once: true });
   }
 
-  // 4. Verkeer: jouw resultaat klimt van onder naar boven, de lijn loopt op. Illustratie, geen cijfers.
-  //    In de HTML staat jouw resultaat al bovenaan (eindbeeld); de animatie start het onderaan.
+  // 4. Verkeer: een zoekpagina die meescrollt. De vraag wordt getypt, het AI-overzicht noemt de villa, op de
+  //    kaart springt zijn pin eruit en in de gewone resultaten klimt hij van onder naar plek 1. Illustratie.
+  //    In de HTML staat alles al in het eindbeeld; de animatie bouwt het op.
+  var typedQuery = null; // oorspronkelijke zoekvraag, terug bij opruimen (reduced motion)
   SCENES.verkeer = function (tl, s) {
+    var page = s.scene.querySelector('.s-page'), view = s.scene.querySelector('.s-view'), stick = s.scene.querySelector('.s-stick');
+    var typed = s.scene.querySelector('.s-typed'), query = typedQuery = typedQuery || typed.textContent, type = { n: 0 };
     var rows = toArray(s.q('.res')).filter(visible);
     var you = rows[0];
     var others = rows.slice(1);
     var step = function () { return rows[1].offsetTop - rows[0].offsetTop; };
+    var travel = function () { return Math.max(0, page.offsetHeight - view.clientHeight); };
+    // pagina zo ver omhoog dat een blok net onder de bovenrand staat (nooit verder dan de pagina lang is)
+    var scrollTo = function (sel) {
+      var el = s.scene.querySelector(sel);
+      return function () { return -Math.min(travel(), Math.max(0, el.offsetTop - stick.offsetHeight - view.clientHeight * 0.03)); };
+    };
 
-    tl.fromTo(s.q('.serp-q'), { autoAlpha: 0, y: -8 }, { autoAlpha: 1, y: 0, duration: 0.08 }, 0)
-      .fromTo(rows, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.08, stagger: 0.03 }, 0.06)
-      .fromTo(you, { y: function () { return step() * others.length; } }, { y: 0, duration: 0.5, ease: 'power2.inOut' }, 0.2)
-      .fromTo(s.q('.chart'), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.1, ease: 'power2.out' }, 0.2)
-      .fromTo(s.q('.chart-cover'), { scaleX: 1 }, { scaleX: 0, duration: 0.6, ease: 'power1.inOut' }, 0.28);
+    tl.fromTo(s.q('.br-url'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.03 }, 0.12)
+      .fromTo(type, { n: 0 }, { n: query.length, duration: 0.12, onUpdate: function () { typed.textContent = query.slice(0, Math.round(type.n)); } }, 0.16)
+      .fromTo(s.q('.s-tabs'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.03 }, 0.28)
+      // AI-overzicht: blok opent, tekst komt in, de villanaam wordt gemarkeerd
+      .fromTo(s.q('.s-ai'), { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.06, ease: 'power2.out' }, 0.3)
+      .fromTo(s.q('.s-ai-t'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.05 }, 0.33)
+      .fromTo(s.q('.s-ai mark'), { '--hl': '0%' }, { '--hl': '100%', duration: 0.06, ease: 'power2.inOut' }, 0.38)
+      .fromTo(s.q('.s-local'), { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.06, ease: 'power2.out' }, 0.34)
+      // naar de kaart: pins vallen, die van jou springt en jouw vermelding licht op
+      .fromTo(stick, { autoAlpha: 0, yPercent: -100 }, { autoAlpha: 1, yPercent: 0, duration: 0.04, ease: 'power2.out' }, 0.44)
+      .fromTo(page, { y: 0 }, { y: scrollTo('.s-local'), duration: 0.1, ease: 'power2.inOut' }, 0.44)
+      .fromTo(s.q('.pin'), { autoAlpha: 0, yPercent: -120 }, { autoAlpha: 1, yPercent: 0, duration: 0.05, stagger: 0.02, ease: 'bounce.out' }, 0.49)
+      .fromTo(s.q('.pin-you'), { scale: 1 }, { scale: 1.35, duration: 0.04, yoyo: true, repeat: 1, ease: 'power1.inOut', transformOrigin: '0% 100%' }, 0.57)
+      .fromTo(s.q('.pl-you'), { backgroundColor: 'rgba(255,246,244,0)', boxShadow: 'inset 0px 0 0 #FF3B30' }, { backgroundColor: 'rgba(255,246,244,1)', boxShadow: 'inset 3px 0 0 #FF3B30', duration: 0.05 }, 0.58)
+      // naar de gewone resultaten: jouw site klimt naar boven
+      .to(page, { y: scrollTo('.serp-list'), duration: 0.1, ease: 'power2.inOut' }, 0.65)
+      .fromTo(rows, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.05, stagger: 0.015 }, 0.66)
+      .fromTo(you, { y: function () { return step() * others.length; } }, { y: 0, duration: 0.24, ease: 'power2.inOut' }, 0.72)
+      .fromTo(s.q('.chart'), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.08, ease: 'power2.out' }, 0.72)
+      .fromTo(s.q('.chart-cover'), { scaleX: 1 }, { scaleX: 0, duration: 0.26, ease: 'power1.inOut' }, 0.74);
 
     // de anderen schuiven één plek omlaag op het moment dat jij ze passeert (onderste eerst)
     others.forEach(function (row, i) {
-      var passAt = 0.2 + 0.5 * ((others.length - 1 - i) + 0.5) / others.length;
-      tl.fromTo(row, { y: function () { return -step(); } }, { y: 0, duration: 0.1, ease: 'power2.inOut' }, passAt - 0.05);
+      var passAt = 0.72 + 0.24 * ((others.length - 1 - i) + 0.5) / others.length;
+      tl.fromTo(row, { y: function () { return -step(); } }, { y: 0, duration: 0.07, ease: 'power2.inOut' }, passAt - 0.035);
     });
   };
 
@@ -611,6 +636,7 @@
       root.classList.remove('film-on', 'intro');
       film = null;
       op.portrait = false;
+      if (typedQuery) document.querySelector('.s-typed').textContent = typedQuery;
       if (op.mon) gsap.set([op.mon].concat(toArray(op.mon.querySelectorAll('.op-mask, .corner, .mon-meta, .op-format, .op-ring, .op-window, .op-v9, .op-v16'))), { clearProps: 'all' });
     };
   });
