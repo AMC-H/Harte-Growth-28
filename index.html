@@ -4,20 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script>
-/* Filmlayout meteen bij de eerste paint (geen layout-verspringing als film.js laadt).
-   Alleen als beweging mag; laadt GSAP niet, dan terug naar de statische versie. */
+/* Animatic: de stage staat meteen aan (geen layout-verspringing). Laadt GSAP niet, dan terug naar de
+   gewone tekstpagina. Reduced motion houdt de stage, maar zonder beweging (film.js-opvolger: js/growth/). */
 (function (h) {
-  h.classList.add('js');
-  if (window.matchMedia && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-    h.classList.add('film-on', 'intro');
-    addEventListener('load', function () {
-      if (!window.gsap || !window.ScrollTrigger) h.classList.remove('film-on', 'intro');
-    });
-  }
+  h.classList.add('js', 'stage-on');
+  addEventListener('load', function () { if (!window.gsap || !window.ScrollTrigger) h.classList.remove('stage-on'); });
 })(document.documentElement);
 </script>
-<title>Harte Growth | Van foto's naar een video die verkoopt, binnen 48 uur</title>
-<meta name="description" content="Stuur je foto's of ruwe clips. Binnen 48 uur een gemonteerde video in 9:16, 16:9 of 1:1 naar keuze. Actieprijs €35 per video, geen offertetraject.">
+<title>Harte Growth | Eén online groeisysteem, van aandacht tot omzet</title>
+<meta name="description" content="HarteGrowth bouwt en draait het complete online groeisysteem van je bedrijf: content, distributie, web, search, CRM, AI en data in één gesloten lus.">
 <link rel="canonical" href="https://hartegrowth.eu/">
 <link rel="alternate" hreflang="nl" href="https://hartegrowth.eu/">
 <link rel="alternate" hreflang="en" href="https://hartegrowth.eu/en/">
@@ -27,53 +22,34 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Harte Growth">
 <meta property="og:locale" content="nl_NL">
-<meta property="og:title" content="Harte Growth | Van foto's naar een video die verkoopt, binnen 48 uur">
-<meta property="og:description" content="Van losse foto's naar een video die verkoopt, binnen 48 uur. Plus de website, vindbaarheid en WhatsApp-opvolging eromheen.">
+<meta property="og:title" content="Harte Growth | Eén online groeisysteem, van aandacht tot omzet">
+<meta property="og:description" content="Content, distributie, web, search, CRM, AI en data in één gesloten lus. Omzet stuurt de volgende video.">
 <meta property="og:url" content="https://hartegrowth.eu/">
 <meta property="og:image" content="https://hartegrowth.eu/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Harte Growth | Van foto's naar een video die verkoopt, binnen 48 uur">
-<meta name="twitter:description" content="Van losse foto's naar een video die verkoopt, binnen 48 uur. Plus de website, vindbaarheid en WhatsApp-opvolging eromheen.">
+<meta name="twitter:title" content="Harte Growth | Eén online groeisysteem, van aandacht tot omzet">
+<meta name="twitter:description" content="Content, distributie, web, search, CRM, AI en data in één gesloten lus. Omzet stuurt de volgende video.">
 <meta name="twitter:image" content="https://hartegrowth.eu/og-image.png">
 <meta name="theme-color" content="#0F1113">
-<link rel="preload" as="image" href="/media/opening-16x9-1280.webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@800&amp;family=Instrument+Serif:ital@1&amp;display=swap" as="style">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@800&amp;family=Instrument+Serif:ital@1&amp;display=swap" rel="stylesheet">
 <script src="/analytics.js?v=20260925b" defer></script>
-<!-- LET OP: de prijs (€35, normaal €50) staat ook in de meta description hierboven en in de JSON-LD hieronder. -->
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://hartegrowth.eu/#org", "name": "Harte Growth", "url": "https://hartegrowth.eu/", "logo": "https://hartegrowth.eu/logo-nav.svg", "email": "hallo@hartegrowth.eu", "telephone": "+31634455762", "sameAs": ["https://wa.me/31634455762", "https://www.instagram.com/hartegrowth", "https://www.facebook.com/profile.php?id=61592600399432", "https://www.tiktok.com/@hartegrowth"]}, {"@type": "WebSite", "@id": "https://hartegrowth.eu/#site", "url": "https://hartegrowth.eu/", "name": "Harte Growth", "inLanguage": "nl", "publisher": {"@id": "https://hartegrowth.eu/#org"}}, {"@type": "ProfessionalService", "@id": "https://hartegrowth.eu/#service", "name": "Harte Growth", "description": "Stuur je foto's of ruwe clips. Binnen 48 uur een gemonteerde video in 9:16, 16:9 of 1:1 naar keuze. Actieprijs €35 per video, geen offertetraject.", "url": "https://hartegrowth.eu/", "image": "https://hartegrowth.eu/og-image.png", "logo": "https://hartegrowth.eu/logo-nav.svg", "telephone": "+31634455762", "email": "hallo@hartegrowth.eu", "areaServed": [{"@type": "Country", "name": "Netherlands"}, {"@type": "Country", "name": "Spain"}], "sameAs": ["https://wa.me/31634455762", "https://www.instagram.com/hartegrowth", "https://www.facebook.com/profile.php?id=61592600399432", "https://www.tiktok.com/@hartegrowth"], "makesOffer": [{"@type": "Offer", "price": "35", "priceCurrency": "EUR", "description": "Actieprijs per video, normaal €50", "itemOffered": {"@type": "Service", "name": "Foto's en video naar een gemonteerde video", "description": "Van foto's, ruwe clips of een mix naar een gemonteerde video binnen 48 uur, in 9:16, 16:9 of 1:1 naar keuze. Eén revisieronde inbegrepen."}, "priceSpecification": {"@type": "UnitPriceSpecification", "price": "35", "priceCurrency": "EUR", "valueAddedTaxIncluded": false, "referenceQuantity": {"@type": "QuantitativeValue", "value": 1, "unitText": "video"}}}]}, {"@type": "FAQPage", "@id": "https://hartegrowth.eu/#faq", "mainEntity": [{"@type": "Question", "name": "Hoeveel materiaal heb ik nodig?", "acceptedAnswer": {"@type": "Answer", "text": "Een stuk of 5 tot 6 foto's of een paar korte clips is genoeg voor één video. Heb je meer? Stuur alles mee, wij kiezen wat het beste werkt."}}, {"@type": "Question", "name": "Hoe lever ik bestanden aan?", "acceptedAnswer": {"@type": "Answer", "text": "Via WeTransfer of Google Drive. Stuur de link via WhatsApp of mail. Niet via WhatsApp zelf, dan comprimeert het en gaat de kwaliteit omlaag."}}, {"@type": "Question", "name": "Mag ik de video overal gebruiken?", "acceptedAnswer": {"@type": "Answer", "text": "Ja, de video is van jou. Gebruik hem op social, je website, in een listing of in advertenties."}}, {"@type": "Question", "name": "Wat als ik niet tevreden ben?", "acceptedAnswer": {"@type": "Answer", "text": "Er zit één revisieronde bij. Komen we er samen niet uit? Dan krijg je je geld terug."}}]}]}
+{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://hartegrowth.eu/#org", "name": "Harte Growth", "url": "https://hartegrowth.eu/", "logo": "https://hartegrowth.eu/logo-nav.svg", "email": "hallo@hartegrowth.eu", "telephone": "+31634455762", "sameAs": ["https://www.instagram.com/hartegrowth", "https://www.facebook.com/profile.php?id=61592600399432", "https://www.tiktok.com/@hartegrowth"], "description": "Harte Growth maakt van foto's en ruwe clips binnen 48 uur een gemonteerde video, bouwt websites die aanvragen opleveren en zorgt voor lokale SEO, vindbaarheid in AI-zoekmachines en opvolging via WhatsApp. Actief in Nederland en aan de Costa Blanca in Spanje, in het Nederlands, Engels en Spaans.", "areaServed": [{"@type": "Country", "name": "Netherlands"}, {"@type": "Country", "name": "Spain"}], "knowsLanguage": ["nl", "en", "es"], "contactPoint": {"@type": "ContactPoint", "contactType": "customer service", "telephone": "+31634455762", "email": "hallo@hartegrowth.eu", "availableLanguage": ["Dutch", "English", "Spanish"]}}, {"@type": "WebSite", "@id": "https://hartegrowth.eu/#site", "url": "https://hartegrowth.eu/", "name": "Harte Growth", "inLanguage": "nl", "publisher": {"@id": "https://hartegrowth.eu/#org"}}, {"@type": "WebPage", "@id": "https://hartegrowth.eu/#home", "url": "https://hartegrowth.eu/", "name": "Harte Growth | Eén online groeisysteem, van aandacht tot omzet", "inLanguage": "nl", "isPartOf": {"@id": "https://hartegrowth.eu/#site"}, "about": {"@id": "https://hartegrowth.eu/#org"}}]}
 </script>
-<link rel="stylesheet" href="/film.css?v=20260925f">
+<link rel="stylesheet" href="/growth.css?v=20260926a">
 </head>
 <body>
 
-<!-- Beeldmateriaal voor hoofdstuk Media: één woning, getekend in SVG. Eén keer gedefinieerd, overal hergebruikt. -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <linearGradient id="g-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fb9dc"/><stop offset="1" stop-color="#e7d8c0"/></linearGradient>
-  </defs>
-  <symbol id="art-zwembad" viewBox="0 0 300 400">
-    <rect width="300" height="400" fill="url(#g-sky)"/>
-    <rect x="0" y="170" width="300" height="230" fill="#dcc7a8"/>
-    <polygon points="40,210 260,210 300,400 0,400" fill="#2d8db5"/>
-    <path d="M40 250q30-8 60 0t60 0 60 0 60 0M20 300q40-10 80 0t80 0 80 0M10 350q45-10 90 0t90 0 90 0" stroke="#7cc6e2" stroke-width="3" fill="none" opacity=".7"/>
-    <rect x="200" y="176" width="70" height="14" rx="4" fill="#f3efe8"/><path d="M206 190v12M262 190v12" stroke="#8a7b66" stroke-width="3"/>
-    <circle cx="60" cy="120" r="20" fill="#f8e3b5"/>
-  </symbol>
-</svg>
-
-<a class="skip" href="#contact">Direct naar het contactformulier</a>
+<a class="skip" href="#scan">Direct naar de Growth Scan</a>
 
 <header class="hdr">
   <div class="hdr-row">
     <a class="logo" href="/" aria-label="Harte Growth, home">
-      <!-- Logo: zelfde inline SVG als op alle andere pagina's (26px hoog, punt direct na "Growth"). -->
       <svg width="116" height="26" viewBox="0 0 151 34" fill="none" aria-hidden="true" focusable="false">
         <text x="0" y="25" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="800" letter-spacing="-.9" textLength="61.5" lengthAdjust="spacingAndGlyphs" fill="#f6f3ef">Harte</text>
         <text x="72" y="25" font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-weight="400" font-size="28" letter-spacing="-.7" textLength="69.6" lengthAdjust="spacingAndGlyphs" fill="#ff4d1a">Growth</text>
@@ -89,7 +65,7 @@
         <li><a href="/diensten">Diensten</a></li>
         <li><a href="/cases">Cases</a></li>
         <li><a href="/blog">Blog</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#scan">Growth Scan</a></li>
       </ul>
       <ul class="hdr-lang" aria-label="Taal">
         <li><a href="/" hreflang="nl" lang="nl" aria-current="page">NL</a></li>
@@ -102,460 +78,284 @@
     <p class="tc" aria-hidden="true"><span class="tc-rec"></span><span id="tc">00:00:00:00</span></p>
     <nav class="tl-track" aria-label="Hoofdstukken">
       <ol class="tl-clips">
-        <li style="flex-grow:1.7"><a href="#opening" aria-current="location"><span class="tl-name">Opening</span></a></li>
-        <li style="flex-grow:3.4"><a href="#media"><span class="tl-name">Media</span></a></li>
-        <li style="flex-grow:2.3"><a href="#fundament"><span class="tl-name">Fundament</span></a></li>
-        <li style="flex-grow:2.3"><a href="#verkeer"><span class="tl-name">Verkeer</span></a></li>
-        <li style="flex-grow:2.5"><a href="#opvolging"><span class="tl-name">Opvolging</span></a></li>
-        <li style="flex-grow:2.1"><a href="#prijs"><span class="tl-name">Prijs</span></a></li>
-        <li style="flex-grow:1.5"><a href="#contact"><span class="tl-name">Contact</span></a></li>
+        <li><a href="#origin" aria-current="location"><span class="tl-name">01 Origin</span></a></li>
+        <li><a href="#create"><span class="tl-name">02 Create</span></a></li>
+        <li><a href="#distribute"><span class="tl-name">03 Distribute</span></a></li>
+        <li><a href="#attract"><span class="tl-name">04 Attract</span></a></li>
+        <li><a href="#capture"><span class="tl-name">05 Capture</span></a></li>
+        <li><a href="#operate"><span class="tl-name">06 Operate</span></a></li>
+        <li><a href="#convert"><span class="tl-name">07 Convert</span></a></li>
+        <li><a href="#learn"><span class="tl-name">08 Learn</span></a></li>
+        <li><a href="#reveal"><span class="tl-name">09 Reveal</span></a></li>
+        <li><a href="#scan"><span class="tl-name">Scan</span></a></li>
       </ol>
       <div class="tl-fill" aria-hidden="true"></div>
       <div class="tl-head" aria-hidden="true"><span></span></div>
     </nav>
-    <p class="tl-now" id="tl-now" aria-hidden="true">Opening</p>
+    <p class="tl-now" id="tl-now" aria-hidden="true">01 Origin</p>
   </div>
 </header>
 
-<div class="stage-dim" aria-hidden="true"></div>
-<main id="film">
+<!-- ===================================================================================================
+     STAGE: één vaste, schermvullende beeldlaag. De secties hieronder sturen alleen de voortgang.
+     Lagen (onder naar boven): wereld (canvas: diepteraster + systeemrail), interfaces (DOM, in wereld-
+     coördinaten achter één camera-transform), Growth Signal (canvas: signaal, netwerk, publiek),
+     typografie (schermcoördinaten), effecten (sluiter, dim).
+     ANIMATIC: alle beelden zijn placeholders; namen, cijfers en gesprekken zijn illustraties.
+     =================================================================================================== -->
+<div class="stage" aria-hidden="true">
+  <canvas class="st-bg"></canvas>
 
-  <!-- 1. OPENING -->
-  <section class="chapter" id="opening" style="--len:1.7" aria-labelledby="opening-h">
-    <div class="scene" aria-hidden="true">
-      <div class="scene-in">
-        <!-- Ruw materiaal (16:9) en resultaat (9:16) spelen af in een loop. Halverwege de opening (bij het
-             scrollen) wordt het frame staand; de staande video neemt de tijd van de liggende over. -->
-        <div class="monitor op-mon">
-          <video class="op-v16" muted playsinline preload="none" poster="/media/opening-16x9-1280.webp">
-            <source src="/media/opening-16x9-960.mp4" type="video/mp4" media="(max-width: 767px)">
-            <source src="/media/opening-16x9-1280.mp4" type="video/mp4">
-          </video>
-          <video class="op-v9" muted playsinline preload="none"
-                 data-src-mobile="/media/opening-9x16-540.mp4" data-src="/media/opening-9x16-720.mp4"
-                 data-poster-mobile="/media/opening-9x16-540.webp" data-poster="/media/opening-9x16-720.webp"></video>
-          <span class="op-mask op-mask-l"></span><span class="op-mask op-mask-r"></span>
-          <span class="op-ring"></span><span class="op-window"></span>
-          <p class="mon-meta"><span class="mon-rec"></span>A001</p>
-          <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
-          <p class="op-format">16:9</p>
-          <div class="bar bar-top"></div><div class="bar bar-bot"></div>
-        </div>
-      </div>
-    </div>
-    <div class="copy">
-      <div class="copy-body">
-        <h1 id="opening-h" class="h1" tabindex="-1">Stuur je foto's of video's. Wij leveren een video die verkoopt.</h1>
-        <p class="lede">Binnen 48 uur een strak gemonteerde video, uit 5 tot 6 foto's, ruwe clips of een mix.</p>
-        <details class="more" open>
-          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
-          <div class="more-body">
-            <p class="lede lede-rest">In 9:16, 16:9 of 1:1 naar keuze, klaar voor Instagram, TikTok en je website.</p>
-          </div>
-        </details>
-        <div class="ctas">
-          <a class="btn" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20foto%27s%20of%20video%20laten%20omzetten%20naar%20een%20video." target="_blank" rel="noopener">Stuur je beelden via WhatsApp</a>
-        </div>
-        <p class="cue"><span class="cue-line" aria-hidden="true"></span>Scroll naar 9:16</p>
-      </div>
-    </div>
-  </section>
+  <div class="st-ui">
+    <div class="w">
 
-  <!-- 2. MEDIA -->
-  <section class="chapter" id="media" style="--len:3.4" aria-labelledby="media-h">
-    <span class="alias" id="werkwijze"></span><span class="alias" id="voorbeeld"></span><!-- oude homepage-ankers -->
-    <div class="scene" aria-hidden="true">
-      <div class="scene-in">
-        <div class="edit">
-          <div class="edit-main">
-            <div class="bin">
-              <p class="edit-label">Bron: 5 foto's, 1 clip</p>
-              <div class="shot" data-r="-5" style="--x:2%;--y:18%;--r:-5deg"><img data-src="/media/media-foto-1.webp" alt="" width="540" height="960" decoding="async"></div>
-              <div class="shot" data-r="4" style="--x:19%;--y:8%;--r:4deg"><img data-src="/media/media-foto-2.webp" alt="" width="540" height="960" decoding="async"></div>
-              <div class="shot is-extra" data-r="-3" style="--x:36%;--y:20%;--r:-3deg"><img data-src="/media/media-foto-3.webp" alt="" width="540" height="960" decoding="async"></div>
-              <div class="shot" data-r="6" style="--x:53%;--y:6%;--r:6deg"><img data-src="/media/media-foto-4.webp" alt="" width="540" height="960" decoding="async"></div>
-              <div class="shot" data-r="-4" style="--x:66%;--y:18%;--r:-4deg"><img data-src="/media/media-foto-5.webp" alt="" width="540" height="960" decoding="async"></div>
-              <div class="shot is-clip" data-r="3" style="--x:80%;--y:4%;--r:3deg"><video class="shot-video" data-src="/media/media-clip.mp4" data-poster="/media/media-clip.webp" muted loop playsinline preload="none"></video><span class="shot-rec">0:03</span></div>
-            </div>
-            <div class="tlp">
-              <div class="tlp-ruler"><span>00:00</span><span>00:04</span><span>00:08</span><span>00:12</span></div>
-              <div class="trk"><span class="trk-name">V2</span><div class="lane"><div class="title-clip" style="width:42%"><span>Tekst</span></div></div></div>
-              <div class="trk trk-v1"><span class="trk-name">V1</span>
-                <div class="lane lane-v1">
-                  <div class="clip" data-len="2"><img class="clip-thumb" data-src="/media/media-foto-1.webp" alt="" decoding="async"></div>
-                  <div class="clip" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-2.webp" alt="" decoding="async"></div>
-                  <div class="clip is-extra" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-3.webp" alt="" decoding="async"></div>
-                  <div class="clip" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-4.webp" alt="" decoding="async"></div>
-                  <div class="clip" data-len="2"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-foto-5.webp" alt="" decoding="async"></div>
-                  <div class="clip" data-len="3"><i class="cut"></i><img class="clip-thumb" data-src="/media/media-clip.webp" alt="" decoding="async"></div>
-                </div>
-              </div>
-              <div class="trk"><span class="trk-name">A1</span><div class="lane"><svg class="wave" viewBox="0 0 200 20" preserveAspectRatio="none"><rect x="0.00" y="7.5" width="2" height="5"/><rect x="3.12" y="6.5" width="2" height="7"/><rect x="6.25" y="7.5" width="2" height="5"/><rect x="9.38" y="7.5" width="2" height="5"/><rect x="12.50" y="5.5" width="2" height="9"/><rect x="15.62" y="7.5" width="2" height="5"/><rect x="18.75" y="5.0" width="2" height="10"/><rect x="21.88" y="7.0" width="2" height="6"/><rect x="25.00" y="5.0" width="2" height="10"/><rect x="28.12" y="7.5" width="2" height="5"/><rect x="31.25" y="7.0" width="2" height="6"/><rect x="34.38" y="7.5" width="2" height="5"/><rect x="37.50" y="3.5" width="2" height="13"/><rect x="40.62" y="5.5" width="2" height="9"/><rect x="43.75" y="6.5" width="2" height="7"/><rect x="46.88" y="7.0" width="2" height="6"/><rect x="50.00" y="3.0" width="2" height="14"/><rect x="53.12" y="3.0" width="2" height="14"/><rect x="56.25" y="5.5" width="2" height="9"/><rect x="59.38" y="7.0" width="2" height="6"/><rect x="62.50" y="7.5" width="2" height="5"/><rect x="65.62" y="6.0" width="2" height="8"/><rect x="68.75" y="4.5" width="2" height="11"/><rect x="71.88" y="4.5" width="2" height="11"/><rect x="75.00" y="5.5" width="2" height="9"/><rect x="78.12" y="5.0" width="2" height="10"/><rect x="81.25" y="4.5" width="2" height="11"/><rect x="84.38" y="1.0" width="2" height="18"/><rect x="87.50" y="4.5" width="2" height="11"/><rect x="90.62" y="2.5" width="2" height="15"/><rect x="93.75" y="4.5" width="2" height="11"/><rect x="96.88" y="4.0" width="2" height="12"/><rect x="100.00" y="5.0" width="2" height="10"/><rect x="103.12" y="6.0" width="2" height="8"/><rect x="106.25" y="4.5" width="2" height="11"/><rect x="109.38" y="5.5" width="2" height="9"/><rect x="112.50" y="5.0" width="2" height="10"/><rect x="115.62" y="3.5" width="2" height="13"/><rect x="118.75" y="4.5" width="2" height="11"/><rect x="121.88" y="2.5" width="2" height="15"/><rect x="125.00" y="4.0" width="2" height="12"/><rect x="128.12" y="5.5" width="2" height="9"/><rect x="131.25" y="5.0" width="2" height="10"/><rect x="134.38" y="2.0" width="2" height="16"/><rect x="137.50" y="8.0" width="2" height="4"/><rect x="140.62" y="4.5" width="2" height="11"/><rect x="143.75" y="2.0" width="2" height="16"/><rect x="146.88" y="7.5" width="2" height="5"/><rect x="150.00" y="8.0" width="2" height="4"/><rect x="153.12" y="6.0" width="2" height="8"/><rect x="156.25" y="7.0" width="2" height="6"/><rect x="159.38" y="8.0" width="2" height="4"/><rect x="162.50" y="4.0" width="2" height="12"/><rect x="165.62" y="6.0" width="2" height="8"/><rect x="168.75" y="6.0" width="2" height="8"/><rect x="171.88" y="5.5" width="2" height="9"/><rect x="175.00" y="4.0" width="2" height="12"/><rect x="178.12" y="7.0" width="2" height="6"/><rect x="181.25" y="8.0" width="2" height="4"/><rect x="184.38" y="4.5" width="2" height="11"/><rect x="187.50" y="6.5" width="2" height="7"/><rect x="190.62" y="6.5" width="2" height="7"/><rect x="193.75" y="7.0" width="2" height="6"/><rect x="196.88" y="4.5" width="2" height="11"/></svg></div></div>
-              <div class="edit-head"><span></span></div>
-            </div>
-          </div>
-          <div class="program">
-            <p class="edit-label">Resultaat 9:16</p>
-            <div class="program-frame">
-              <!-- Het echte 9:16-resultaat; de poster is het eerste frame. Scrubt mee met de montage. -->
-              <video data-slot="media-result" data-src="/media/result.mp4" data-poster="/media/result.webp" muted playsinline preload="none" tabindex="-1"></video>
-            </div>
-          </div>
-        </div>
+      <!-- 02 CREATE: één bron, zes varianten -->
+      <div class="ent src" data-ent="src">
+        <p class="fr-top"><span class="rec"></span>BRON · 1 opname</p>
+        <span class="fr-play"></span>
+        <p class="fr-ph">placeholder beeld</p>
+        <p class="fr-bot"><span>00:00:42</span><span>4K · 9:16</span></p>
       </div>
-    </div>
-    <div class="copy">
-      <div class="copy-body">
-        <h2 id="media-h" class="h2" tabindex="-1">Jij stuurt wat je hebt. Wij monteren.</h2>
-        <p class="lede">Een stuk of 5 tot 6 foto's of een paar ruwe clips is genoeg.</p>
-        <details class="more" open>
-          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
-          <div class="more-body">
-            <p class="lede lede-rest">Gewoon zoals het uit je telefoon komt. Wij knippen, kiezen de muziek, zetten er tekst op en bepalen het tempo.</p>
-            <p class="note">Aanleveren via WeTransfer of Google Drive. Niet via WhatsApp zelf, dan gaat de kwaliteit omlaag.</p>
-          </div>
-        </details>
+      <div class="ent var" data-ent="var" data-v="A" data-weak>
+        <p class="v-top"><b>A</b><span>9:16 · NL</span></p><p class="v-hook">Probleem eerst</p>
+        <p class="v-m"><span class="v-bar"><i style="--s:.38"></i></span><span class="v-val">38%</span></p><p class="v-stop">gestopt</p>
       </div>
-    </div>
-  </section>
+      <div class="ent var" data-ent="var" data-v="B" data-win>
+        <p class="v-top"><b>B</b><span>9:16 · EN</span></p><p class="v-hook">Prijs in 3 seconden</p>
+        <p class="v-m"><span class="v-bar"><i style="--s:.61"></i></span><span class="v-val">61%</span></p><p class="v-stop">gestopt</p>
+      </div>
+      <div class="ent var" data-ent="var" data-v="C" data-win>
+        <p class="v-top"><b>C</b><span>9:16 · NL</span></p><p class="v-hook">Voor / na</p>
+        <p class="v-m"><span class="v-bar"><i style="--s:.82"></i></span><span class="v-val">82%</span></p><p class="v-stop">gestopt</p>
+      </div>
+      <div class="ent var" data-ent="var" data-v="D" data-weak>
+        <p class="v-top"><b>D</b><span>1:1 · NL</span></p><p class="v-hook">Klantverhaal</p>
+        <p class="v-m"><span class="v-bar"><i style="--s:.29"></i></span><span class="v-val">29%</span></p><p class="v-stop">gestopt</p>
+      </div>
+      <div class="ent var" data-ent="var" data-v="E">
+        <p class="v-top"><b>E</b><span>9:16 · ES</span></p><p class="v-hook">Vraag aan de kijker</p>
+        <p class="v-m"><span class="v-bar"><i style="--s:.44"></i></span><span class="v-val">44%</span></p><p class="v-stop">gestopt</p>
+      </div>
+      <div class="ent var" data-ent="var" data-v="F" data-weak>
+        <p class="v-top"><b>F</b><span>16:9 · NL</span></p><p class="v-hook">Achter de schermen</p>
+        <p class="v-m"><span class="v-bar"><i style="--s:.33"></i></span><span class="v-val">33%</span></p><p class="v-stop">gestopt</p>
+      </div>
+      <p class="ent w-note" data-ent="testNote">Kijkduur, eerste 3 seconden</p>
 
-  <!-- 3. FUNDAMENT -->
-  <section class="chapter" id="fundament" style="--len:2.3" aria-labelledby="fundament-h">
-    <div class="scene" aria-hidden="true">
-      <div class="scene-in">
-        <div class="browser">
-          <div class="br-bar"><i></i><i></i><i></i><span class="br-url">casamirador.es</span></div>
-          <!-- Demosite (fictieve villaverhuur), gewoon HTML. Scrollt mee met dit hoofdstuk; de hero-video (dezelfde
-               villabeelden als de opening) loopt mee met het scrollen. -->
-          <div class="br-page demo">
-            <div class="d-page">
-              <div class="d-nav"><b class="d-logo">Casa Mirador</b><span class="d-link">De villa</span><span class="d-link">Omgeving</span><span class="d-link">Reviews</span><span class="d-cta">Boek nu</span></div>
-              <div class="d-hero">
-                <video class="d-video" muted playsinline preload="none" poster="/media/opening-16x9-960.webp"
-                       data-src="/media/opening-16x9-960.mp4" data-src-mobile="/media/opening-9x16-540.mp4" data-poster-mobile="/media/opening-9x16-540.webp"></video>
-                <span class="d-shade"></span>
-                <div class="d-hero-copy">
-                  <p class="d-kicker">Moraira · Costa Blanca</p>
-                  <p class="d-h">Wakker worden met zeezicht.</p>
-                  <p class="d-sub">Moderne villa voor 8 gasten, met privézwembad en het strand op 600 meter.</p>
-                  <div class="d-ctas"><span class="d-btn">Bekijk beschikbaarheid</span><span class="d-wa"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>WhatsApp</span></div>
-                </div>
-              </div>
-              <ul class="d-facts"><li><b>4</b> slaapkamers</li><li><b>3</b> badkamers</li><li><b>12 m</b> zwembad</li><li><b>600 m</b> tot het strand</li></ul>
-              <div class="d-about">
-                <p class="d-eyebrow">De villa</p>
-                <p class="d-h2">Licht, rust en de zee voor de deur.</p>
-                <p class="d-txt">Grote glazen puien, een terras op het zuiden en een keuken waar je echt kunt koken. Alles op loopafstand van het strand en de haven van Moraira.</p>
-              </div>
-              <div class="d-review">
-                <p class="d-stars" aria-hidden="true">★★★★★</p>
-                <p class="d-quote">"Het uitzicht is nog mooier dan op de foto's. Binnen tien minuten hadden we antwoord op onze vraag."</p>
-                <p class="d-who">Sanne, augustus · 4,9 uit 38 reviews</p>
-              </div>
-              <div class="d-book">
-                <p class="d-h2">Beschikbaarheid</p>
-                <div class="d-form"><span class="d-field"><i>Aankomst</i>12 jul.</span><span class="d-field"><i>Vertrek</i>19 jul.</span><span class="d-field"><i>Gasten</i>4</span><span class="d-btn">Vraag aan</span></div>
-                <p class="d-fine">Of stuur een bericht: <span class="d-wa d-wa-sm"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>WhatsApp</span></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="copy">
-      <div class="copy-body">
-        <h2 id="fundament-h" class="h2" tabindex="-1">Een website die aanvragen oplevert.</h2>
-        <p class="lede">Geen template die eruitziet als die van je concurrent.</p>
-        <details class="more" open>
-          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
-          <div class="more-body">
-            <p class="lede lede-rest">Een snelle site die bezoekers naar contact stuurt, met formulier, WhatsApp-knop en je video's op de plek waar ze werken.</p>
-          </div>
-        </details>
-        <p class="note">Binnen twee weken online, vanaf €550. <a class="link" href="/diensten">Meer over websites</a></p>
-      </div>
-    </div>
-  </section>
+      <!-- 03 DISTRIBUTE: kanalen als knooppunten van een levend netwerk -->
+      <div class="ent chn" data-ent="chn" data-c="0" data-win><b>Instagram Reels</b><span class="chn-n">0</span></div>
+      <div class="ent chn" data-ent="chn" data-c="1"><b>TikTok</b><span class="chn-n">0</span></div>
+      <div class="ent chn" data-ent="chn" data-c="2"><b>Facebook</b><span class="chn-n">0</span></div>
+      <div class="ent chn" data-ent="chn" data-c="3"><b>YouTube Shorts</b><span class="chn-n">0</span></div>
+      <div class="ent chn" data-ent="chn" data-c="4" data-win><b>Betaald · Meta &amp; Google</b><span class="chn-n">0</span></div>
+      <p class="ent w-note w-note-acc" data-ent="budgetNote">Budget schuift naar C en B</p>
 
-  <!-- 4. VERKEER (illustratie, geen echte cijfers of posities) -->
-  <section class="chapter" id="verkeer" style="--len:2.3" aria-labelledby="verkeer-h">
-    <div class="scene" aria-hidden="true">
-      <div class="scene-in">
-        <div class="serp-wrap">
-          <!-- Zoekpagina (illustratie, fictieve namen): de vraag wordt getypt, het AI-overzicht noemt de villa,
-               de kaart zet hem bovenaan en in de gewone resultaten klimt hij naar plek 1. -->
-          <div class="s-win">
-            <div class="br-bar"><i></i><i></i><i></i><span class="br-url">zoeken</span></div>
-            <div class="s-view">
-              <div class="s-stick"><span class="s-mini"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>vakantiewoning huren moraira</span></div>
-              <div class="s-page">
-                <div class="s-top">
-                  <div class="s-q"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="s-typed">vakantiewoning huren moraira</span><i class="s-caret"></i></div>
-                  <div class="s-tabs"><span class="on">Alles</span><span>Kaarten</span><span>Afbeeldingen</span><span>Nieuws</span></div>
-                </div>
-                <div class="s-ai">
-                  <p class="s-ai-h"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1l2.2 6.8L19 10l-6.8 2.2L10 19l-2.2-6.8L1 10l6.8-2.2z" fill="currentColor"/></svg>AI-overzicht</p>
-                  <p class="s-ai-t">Voor een vakantiewoning met eigen zwembad in Moraira wordt vaak <mark>Casa Mirador</mark> genoemd: vier slaapkamers, zeezicht en op loopafstand van het strand.</p>
-                </div>
-                <div class="s-local">
-                  <div class="s-map">
-                    <svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                      <rect width="400" height="150" fill="#E8EEE4"/>
-                      <path d="M250 0C236 30 262 52 244 78S262 122 236 150H400V0Z" fill="#AAD3EC"/>
-                      <path d="M0 96C60 88 120 104 180 90S232 60 244 78M40 0C60 40 70 90 58 150M150 0C140 40 170 70 180 90M180 90C170 116 196 134 190 150" fill="none" stroke="#fff" stroke-width="5"/>
-                      <path d="M20 30h50v26H20zM98 112h40v24H98z" fill="#D6E4CC"/>
-                    </svg>
-                    <span class="pin" style="left:28%;top:34%"></span>
-                    <span class="pin" style="left:44%;top:74%"></span>
-                    <span class="pin pin-you" style="left:58%;top:46%"></span>
-                  </div>
-                  <ul class="s-places">
-                    <li class="pl pl-you"><b>Casa Mirador</b><span class="st"><em>4,9</em> ★★★★★ (86)</span><span class="pl-m">Vakantiewoning · Moraira</span></li>
-                    <li class="pl"><b>Villa Las Rocas</b><span class="st"><em>4,4</em> ★★★★☆ (31)</span><span class="pl-m">Vakantiewoning · Moraira</span></li>
-                    <li class="pl"><b>Apartamentos Sol y Mar</b><span class="st"><em>4,1</em> ★★★★☆ (54)</span><span class="pl-m">Appartement · El Portet</span></li>
-                  </ul>
-                </div>
-                <ol class="serp-list">
-                  <li class="res res-you">
-                    <span class="res-site"><svg class="res-fav" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><use href="#art-zwembad"/></svg><span class="res-url">casamirador.es</span></span>
-                    <span class="res-title">Casa Mirador · Villa met eigen zwembad in Moraira</span>
-                    <span class="res-snip"><span class="st"><em>4,9</em> ★★★★★</span> Vier slaapkamers, zeezicht en 400 m van het strand. Direct boeken via WhatsApp.</span>
-                  </li>
-                  <li class="res">
-                    <span class="res-site"><i class="res-fav"></i><span class="res-url">vakantieportaal.nl › spanje</span></span>
-                    <span class="res-title">Vakantiehuizen in Moraira | 240 accommodaties</span>
-                    <span class="res-snip">Vergelijk prijzen van vakantiehuizen aan de Costa Blanca en boek online.</span>
-                  </li>
-                  <li class="res">
-                    <span class="res-site"><i class="res-fav"></i><span class="res-url">costablanca-verhuur.com</span></span>
-                    <span class="res-title">Villa's huren aan de Costa Blanca</span>
-                    <span class="res-snip">Villa's met privézwembad in Moraira, Jávea en Calpe.</span>
-                  </li>
-                  <li class="res">
-                    <span class="res-site"><i class="res-fav"></i><span class="res-url">reisforum.nl › moraira</span></span>
-                    <span class="res-title">Tips voor een vakantiewoning in Moraira?</span>
-                    <span class="res-snip">Wij zoeken voor augustus een huis met zwembad. Iemand ervaring?</span>
-                  </li>
-                </ol>
-              </div>
-            </div>
-          </div>
-          <div class="chart">
-            <p class="chart-label">Zichtbaarheid <span>Illustratie</span></p>
-            <div class="chart-plot">
-              <svg viewBox="0 0 200 80" preserveAspectRatio="none">
-                <defs><linearGradient id="g-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF3B30" stop-opacity=".28"/><stop offset="1" stop-color="#FF3B30" stop-opacity="0"/></linearGradient></defs>
-                <path d="M0 74 C30 72 45 70 60 64 S90 58 105 48 S140 34 155 24 S185 10 200 6 V80 H0Z" fill="url(#g-area)"/>
-                <path d="M0 74 C30 72 45 70 60 64 S90 58 105 48 S140 34 155 24 S185 10 200 6" fill="none" stroke="#FF3B30" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
-              </svg>
-              <div class="chart-cover"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="copy">
-      <div class="copy-body">
-        <h2 id="verkeer-h" class="h2" tabindex="-1">Gevonden worden op het moment dat iemand zoekt.</h2>
-        <p class="lede">Lokale SEO, zodat je in je regio bovenaan komt.</p>
-        <details class="more" open>
-          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
-          <div class="more-body">
-            <p class="lede lede-rest">Google Ads of Meta Ads als het sneller moet. En vindbaar in ChatGPT en andere AI-zoekmachines.</p>
-            <p class="note">Dit beeld is een illustratie, geen belofte van een positie of een cijfer.</p>
-          </div>
-        </details>
-      </div>
-    </div>
-  </section>
+      <!-- 04 ATTRACT -->
+      <div class="ent reach" data-ent="reach"><p>Bereik, 7 dagen</p><b class="reach-n">0</b><span>weergaven · illustratie</span></div>
+      <div class="ent ptag" data-ent="ptag"><span class="pt-1">Kijker</span><span class="pt-2">Bezoeker</span><span class="pt-3">Prospect</span></div>
+      <p class="ent w-note" data-ent="audNote">Doelgroep: huiseigenaren 35–55</p>
 
-  <!-- 5. OPVOLGING (voorbeeldgesprek, geen echte klant) -->
-  <section class="chapter" id="opvolging" style="--len:2.5" aria-labelledby="opvolging-h">
-    <div class="scene" aria-hidden="true">
-      <div class="scene-in">
-        <div class="chat-wrap">
-          <div class="phone">
-            <div class="ph-head"><span class="ph-av">JB</span><span class="ph-name">Jouw bedrijf<small>online</small></span></div>
-            <div class="ph-body">
-              <p class="ph-day">Vandaag</p>
-              <div class="msg in"><p>Hoi! Ik zag jullie woning in Moraira. Is die vrij in de zomer?</p><time>21:14</time></div>
-              <div class="out-slot">
-                <div class="typing"><i></i><i></i><i></i></div>
-                <div class="msg out"><span class="msg-ai">Automatisch antwoord</span><p>Hoi, bedankt voor je bericht! Voor welke data en met hoeveel personen? Dan krijg je vandaag nog prijs en beschikbaarheid.</p><time>21:14</time></div>
-              </div>
-              <div class="msg in"><p>12 tot 19 juli, met z'n vieren.</p><time>21:15</time></div>
-            </div>
-          </div>
-          <div class="summary">
-            <p class="sum-title">Samenvatting voor jou</p>
-            <dl>
-              <div class="is-extra"><dt>Wat</dt><dd>Woning Moraira</dd></div>
-              <div><dt>Wanneer</dt><dd>12 t/m 19 juli</dd></div>
-              <div class="is-extra"><dt>Wie</dt><dd>4 personen</dd></div>
-              <div><dt>Volgende stap</dt><dd>Prijs sturen</dd></div>
-            </dl>
-          </div>
+      <!-- 05 CAPTURE: één realistische route, Reel → landingspagina -->
+      <div class="ent lp" data-ent="lp">
+        <p class="lp-bar">jouwbedrijf.nl/advies</p>
+        <div class="lp-hero">
+          <p class="lp-k">Gezien op Instagram</p>
+          <p class="lp-h">Plan je gratis adviesgesprek</p>
+          <p class="lp-s">Reactie binnen 5 minuten, in jouw taal.</p>
+          <span class="lp-cta">Ik wil advies</span>
         </div>
+        <div class="lp-form">
+          <p class="lp-f"><i>Naam</i><b>Sofie Martens</b></p>
+          <p class="lp-f"><i>Telefoon</i><b>+31 6 •• •• •• 21</b></p>
+          <p class="lp-f"><i>Taal</i><b class="lp-pills"><span class="on">NL</span><span>EN</span><span>ES</span></b></p>
+          <p class="lp-f"><i>Interesse</i><b>Pakket Premium</b></p>
+          <span class="lp-send">Verstuur</span>
+        </div>
+        <p class="lp-utm">bron: reels · hook_c · nl</p>
       </div>
-    </div>
-    <div class="copy">
-      <div class="copy-body">
-        <h2 id="opvolging-h" class="h2" tabindex="-1">Elke aanvraag wordt opgepakt, ook als jij bezig bent.</h2>
-        <p class="lede">Een klant stuurt 's avonds een bericht. Onze AI antwoordt binnen 30 seconden via WhatsApp.</p>
-        <details class="more" open>
-          <summary><span class="more-open">Lees meer</span><span class="more-close">Minder</span></summary>
-          <div class="more-body">
-            <p class="lede lede-rest">Hij stelt de juiste vragen en vat de aanvraag voor je samen. Jij belt terug wanneer het jou uitkomt.</p>
-            <p class="note">Dit gesprek is een voorbeeld.</p>
-          </div>
-        </details>
-      </div>
-    </div>
-  </section>
+      <div class="ent lead" data-ent="lead"><span class="av">SM</span><span class="lead-t"><b>Sofie Martens</b><small>Nieuwe lead · NL · reels_c</small></span></div>
 
-  <!-- 6. PRIJS -->
-  <section class="chapter" id="prijs" style="--len:2.1" aria-labelledby="prijs-h">
-    <span class="alias" id="prijzen"></span><!-- oud homepage-anker -->
-    <div class="scene" aria-hidden="true">
-      <div class="scene-in">
-        <div class="export">
-          <div class="ex-bar"><i></i><i></i><i></i><span>Exporteren</span></div>
-          <dl class="ex-rows">
-            <div class="is-extra"><dt>Bestand</dt><dd>jouw-video</dd></div>
-            <div><dt>Formaat</dt><dd>9:16, 16:9 of 1:1 naar keuze</dd></div>
-            <div><dt>Levering</dt><dd>Binnen 48 uur</dd></div>
-            <div class="is-extra"><dt>Offerte</dt><dd>Niet nodig</dd></div>
-            <div class="ex-price"><dt>Prijs</dt><dd><s class="ex-was" data-price-copy="was"></s> <b data-price-copy="now"></b> per video</dd></div>
-            <div><dt>Garantie</dt><dd>Niet tevreden? Geld terug.</dd></div>
+      <!-- 06 OPERATE: HarteGrowth Growth OS (eigen interface) -->
+      <div class="ent os" data-ent="os">
+        <div class="os-top"><b class="os-logo">HarteGrowth <em>OS</em></b><span class="os-live">Live</span><span class="os-rev">Omzet deze maand <b class="rev-n">€ 38.200</b></span></div>
+        <p class="os-nav"><span>Overzicht</span><span class="on">Leads</span><span>Pipeline</span><span>Content</span><span>Kanalen</span><span>Inzichten</span></p>
+        <div class="os-rec">
+          <div class="os-head"><span class="av">SM</span><p><b>Sofie Martens</b><small>+31 6 •• •• •• 21 · WhatsApp</small></p><span class="os-status">Nieuw</span></div>
+          <dl class="os-fields">
+            <div class="os-f" data-f="src"><dt>Bron</dt><dd>Instagram Reels · betaald</dd></div>
+            <div class="os-f" data-f="cre"><dt>Creatief</dt><dd>Hook C · Voor / na</dd></div>
+            <div class="os-f" data-f="aud"><dt>Doelgroep</dt><dd>Huiseigenaren 35–55</dd></div>
+            <div class="os-f" data-f="lang"><dt>Taal</dt><dd>Nederlands</dd></div>
+            <div class="os-f" data-f="int"><dt>Interesse</dt><dd>Pakket Premium</dd></div>
           </dl>
-          <div class="ex-render">
-            <div class="ex-track"><span class="ex-fill"></span></div>
-            <p class="ex-status"><span class="ex-busy">Renderen</span><span class="ex-done">Klaar</span></p>
-          </div>
+          <div class="os-score"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" class="sc-bg"/><circle cx="20" cy="20" r="17" class="sc-fg" pathLength="100"/></svg><b class="score-n">0</b><small>Leadscore</small></div>
+          <div class="os-qual"><p>AI-kwalificatie</p><ul><li>Budget past</li><li>Start in maart</li><li>Regio Alicante</li></ul></div>
+          <div class="os-next"><small>Volgende actie</small><b>Adviesgesprek do 10:30</b><span>Ingepland door AI · bevestigd via WhatsApp</span></div>
+        </div>
+        <div class="os-chat">
+          <p class="os-h">Gesprek · WhatsApp</p>
+          <p class="cm in">Hoi! Zag jullie video. Wat kost Premium?</p>
+          <p class="cm ai"><i>AI</i>Hoi Sofie! Premium start vanaf € 4.800. Voor wanneer en waar?</p>
+          <p class="cm in">Maart, regio Alicante.</p>
+          <p class="cm ai"><i>AI</i>Past goed. Zal ik do 10:30 een adviesgesprek plannen?</p>
+          <p class="cm in">Graag!</p>
+        </div>
+        <div class="os-ai">
+          <p class="os-h">AI-acties</p>
+          <p class="ai-a">Bron gekoppeld aan Hook C</p>
+          <p class="ai-a">Taal herkend: Nederlands</p>
+          <p class="ai-a">3 kwalificatievragen gesteld</p>
+          <p class="ai-a">Leadscore berekend: 86</p>
+          <p class="ai-a">Afspraak gepland: do 10:30</p>
         </div>
       </div>
-    </div>
-    <div class="copy">
-      <div class="copy-body">
-        <h2 id="prijs-h" class="h2" tabindex="-1">Eén vaste prijs. Geen offertetraject.</h2>
-        <!-- PRIJS: pas het bedrag hier aan; film.js neemt het over in het exportvenster. Staat ook in de <head> (meta description en JSON-LD). Alle prijzen excl. btw. -->
-        <p class="price"><strong data-price>€35</strong> per video <s data-price-was>€50</s> <span class="price-tag">Actieprijs</span> <span class="vat">excl. btw</span></p>
-        <ul class="facts">
-          <li>Klaar binnen 48 uur</li>
-          <li>9:16, 16:9 of 1:1 naar keuze</li>
-          <li>Eén revisieronde inbegrepen</li>
-          <li>Niet tevreden? Geld terug.</li>
-        </ul>
-        <p class="note">Veel materiaal? Dan overleggen we dat kort vooraf.</p>
-        <div class="ctas">
-          <a class="btn" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20een%20video%20laten%20maken." target="_blank" rel="noopener">Stuur je materiaal via WhatsApp</a>
+
+      <!-- 07 CONVERT: pipeline in hetzelfde OS -->
+      <div class="ent board" data-ent="board">
+        <div class="bd-top"><b class="os-logo">HarteGrowth <em>OS</em> · Pipeline</b><span class="os-rev">Omzet deze maand <b class="rev-n">€ 38.200</b></span></div>
+        <div class="bd-cols">
+          <div class="bd-col"><p class="bd-h">Nieuw <span>7</span></p><i class="gh"></i><i class="gh"></i></div>
+          <div class="bd-col"><p class="bd-h">Gekwalificeerd <span>4</span></p><i class="gh"></i><i class="gh"></i></div>
+          <div class="bd-col"><p class="bd-h">Afspraak <span>3</span></p><i class="gh"></i></div>
+          <div class="bd-col"><p class="bd-h">Kans <span>2</span></p><i class="gh"></i></div>
+          <div class="bd-col bd-won"><p class="bd-h">Gewonnen <span>5</span></p><i class="gh"></i></div>
         </div>
       </div>
+      <div class="ent deal" data-ent="deal">
+        <p class="deal-t"><span class="av">SM</span><b>Sofie Martens</b></p>
+        <p class="deal-s"><span>Nieuw · via Reels C</span><span>Score 86 · AI-gekwalificeerd</span><span>Afspraak do 10:30</span><span>Offerte € 4.800</span><span>Gewonnen</span></p>
+        <b class="deal-v">€ 4.800</b>
+      </div>
+
+      <!-- 08 LEARN: nieuw creatief, gebouwd op omzet -->
+      <div class="ent var var-new" data-ent="varNew">
+        <p class="v-top"><b>C2</b><span>9:16 · NL</span></p><p class="v-hook">Voor / na, 35–55</p>
+        <p class="v-m v-new">Gebouwd op € 4.800 omzet</p>
+      </div>
     </div>
+  </div>
+
+  <canvas class="st-sig"></canvas>
+
+  <div class="st-type">
+    <div class="t-origin"><div class="t-origin-in"><p class="t-word">HarteGrowth</p><p class="t-sub">Eén signaal. Eén systeem.</p></div></div>
+    <p class="t-big" data-t="attract"><b>1</b> van 128.400</p>
+    <p class="t-big" data-t="capture">Anoniem <span>→</span> Sofie</p>
+    <p class="t-big t-rev" data-t="convert">+ € 4.800</p>
+    <p class="t-big" data-t="learn">Gesloten lus</p>
+    <div class="t-learn">
+      <p class="tlr-h">Wat het systeem leerde</p>
+      <ol>
+        <li><i>Creatief</i>Voor / na</li>
+        <li><i>Hook</i>C</li>
+        <li><i>Doelgroep</i>35–55</li>
+        <li><i>Kanaal</i>Instagram Reels</li>
+        <li><i>Taal</i>NL</li>
+        <li class="tlr-sum"><i>Omzet</i>€ 4.800</li>
+      </ol>
+    </div>
+    <div class="t-labels">
+      <p data-st="1">Content</p><p data-st="2">Distributie &amp; ads</p><p data-st="3">Bereik &amp; search</p>
+      <p data-st="4">Web &amp; funnels</p><p data-st="5">CRM &amp; AI</p><p data-st="6">Sales</p>
+    </div>
+    <div class="t-final"><p class="t-final-w">HarteGrowth</p><p class="t-final-s">Data verbindt alles</p></div>
+  </div>
+
+  <div class="st-fx"><i class="fx-bar fx-top"></i><i class="fx-bar fx-bot"></i><i class="fx-dim"></i></div>
+</div>
+
+<main id="story">
+  <span class="alias" id="media"></span><span class="alias" id="werkwijze"></span><span class="alias" id="voorbeeld"></span>
+
+  <section class="ch" id="origin" style="--len:1.6" aria-labelledby="origin-h">
+    <div class="cap is-on"><div class="cap-body">
+      <p class="cap-k">01 · Origin</p>
+      <h1 id="origin-h" class="cap-h" tabindex="-1">Eén groeisysteem. Van eerste aandacht tot terugkerende omzet.</h1>
+      <p class="cap-p">HarteGrowth bouwt en draait het complete online groeisysteem van je bedrijf.</p>
+      <p class="cue"><span class="cue-line" aria-hidden="true"></span>Scroll om het systeem te volgen</p>
+    </div></div>
   </section>
 
-  <!-- 7. CONTACT (vrij scrollen, geen snap) -->
-  <section class="chapter" id="contact" aria-labelledby="contact-h">
-    <div class="scene" aria-hidden="true">
-      <div class="scene-in">
-        <div class="monitor monitor-end">
-          <img class="room" src="/media/opening-16x9-960.webp" alt="" loading="lazy" decoding="async">
-          <div class="bar bar-top"></div><div class="bar bar-bot"></div>
-        </div>
-      </div>
-    </div>
-    <div class="copy">
-      <div class="contact-main">
-      <h2 id="contact-h" class="h2" tabindex="-1">Stuur je materiaal, wij doen de rest.</h2>
-      <p class="lede">Snelst gaat het via <a class="link" href="https://wa.me/31634455762?text=Hoi!%20Ik%20wil%20foto%27s%20of%20video%20laten%20omzetten%20naar%20een%20video." target="_blank" rel="noopener">WhatsApp</a>. Liever eerst iets vragen? Vul het formulier in, dan reageren we dezelfde dag.</p>
-      <p class="kicker">Jouw video is de volgende.</p>
-
-      <form id="lead-form" class="form" method="post" action="/.netlify/functions/send-video-lead">
-        <p class="hp" aria-hidden="true"><label>Laat dit veld leeg: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-        <div class="field-row">
-          <div class="field">
-            <label for="f-naam">Naam</label>
-            <input id="f-naam" name="naam" type="text" required autocomplete="name" placeholder="Je naam">
-          </div>
-          <div class="field">
-            <label for="f-contact">WhatsApp-nummer of e-mail</label>
-            <input id="f-contact" name="contact" type="text" required autocomplete="email" placeholder="06 ... of naam@voorbeeld.nl">
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="f-materiaal">Wat stuur je?</label>
-            <select id="f-materiaal" name="materiaal">
-              <option>Foto's</option>
-              <option>Video</option>
-              <option>Allebei</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="f-type">Waar is het van?</label>
-            <select id="f-type" name="type">
-              <option>Woning</option>
-              <option>Airbnb-verhuur</option>
-              <option>Auto's</option>
-              <option>Horeca</option>
-              <option>Product / webshop</option>
-              <option>Evenement</option>
-              <option>Anders</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label for="f-fotos">Hoeveelheid materiaal</label>
-          <input id="f-fotos" name="aantalFotos" type="text" placeholder="Bijv. 6 foto's, of 2 clips van 30 sec">
-        </div>
-        <div class="field">
-          <label for="f-bericht">Opmerking <span class="opt">(optioneel)</span></label>
-          <textarea id="f-bericht" name="bericht" rows="3" placeholder="Adres, deadline of andere wensen"></textarea>
-        </div>
-        <button class="btn btn-submit" type="submit">Verstuur aanvraag</button>
-        <div class="form-status" role="alert" hidden></div>
-      </form>
-      <div class="form-done" id="lead-done" role="status" tabindex="-1" hidden>
-        <p class="form-done-h">Aanvraag verstuurd.</p>
-        <p>We reageren dezelfde dag. Bestanden kun je alvast sturen via een WeTransfer- of Google Drive-link.</p>
-      </div>
-      </div>
-
-      <div class="contact-side">
-      <div class="direct">
-        <p><a class="link" href="https://wa.me/31634455762" target="_blank" rel="noopener">WhatsApp</a> <span>+31 6 34455762</span></p>
-        <p><span class="direct-k">Mail</span> <span>hallo@hartegrowth.eu</span></p>
-      </div>
-
-      <div class="faq" id="faq">
-        <h3 class="faq-h">Vaak gevraagd</h3>
-        <details>
-          <summary>Hoeveel materiaal heb ik nodig?</summary>
-          <p>Een stuk of 5 tot 6 foto's of een paar korte clips is genoeg voor één video. Heb je meer? Stuur alles mee, wij kiezen wat het beste werkt.</p>
-        </details>
-        <details>
-          <summary>Hoe lever ik bestanden aan?</summary>
-          <p>Via WeTransfer of Google Drive. Stuur de link via WhatsApp of mail. Niet via WhatsApp zelf, dan comprimeert het en gaat de kwaliteit omlaag.</p>
-        </details>
-        <details>
-          <summary>Mag ik de video overal gebruiken?</summary>
-          <p>Ja, de video is van jou. Gebruik hem op social, je website, in een listing of in advertenties.</p>
-        </details>
-        <details>
-          <summary>Wat als ik niet tevreden ben?</summary>
-          <p>Er zit één revisieronde bij. Komen we er samen niet uit? Dan krijg je je geld terug.</p>
-        </details>
-      </div>
-      </div>
-
-      <footer class="foot">
-        <p>© 2026 Harte Growth</p>
-        <a href="/privacy">Privacy</a>
-      </footer>
-    </div>
+  <section class="ch" id="create" style="--len:2.2" aria-labelledby="create-h">
+    <div class="cap"><div class="cap-body">
+      <p class="cap-k">02 · Create</p>
+      <h2 id="create-h" class="cap-h" tabindex="-1">Eén opname wordt zes concepten.</h2>
+      <p class="cap-p">Hooks, varianten, formaten en talen, getest voordat er budget op gaat.</p>
+    </div></div>
   </section>
 
+  <section class="ch" id="distribute" style="--len:2.2" aria-labelledby="distribute-h">
+    <span class="alias" id="fundament"></span>
+    <div class="cap"><div class="cap-body">
+      <p class="cap-k">03 · Distribute</p>
+      <h2 id="distribute-h" class="cap-h" tabindex="-1">Verspreid, gemeten, bijgestuurd.</h2>
+      <p class="cap-p">Organisch en betaald. Wat niet werkt stopt, wat werkt krijgt meer bereik.</p>
+    </div></div>
+  </section>
+
+  <section class="ch" id="attract" style="--len:2" aria-labelledby="attract-h">
+    <span class="alias" id="verkeer"></span>
+    <div class="cap"><div class="cap-body">
+      <p class="cap-k">04 · Attract</p>
+      <h2 id="attract-h" class="cap-h" tabindex="-1">Uit duizenden kijkers, één echte prospect.</h2>
+      <p class="cap-p">Bereik telt pas als iemand opstaat. Wij volgen die ene persoon.</p>
+    </div></div>
+  </section>
+
+  <section class="ch" id="capture" style="--len:2.2" aria-labelledby="capture-h">
+    <div class="cap"><div class="cap-body">
+      <p class="cap-k">05 · Capture</p>
+      <h2 id="capture-h" class="cap-h" tabindex="-1">Aandacht wordt een aanvraag met een naam.</h2>
+      <p class="cap-p">Landingspagina, zoekresultaat, DM of WhatsApp: gemeten tot op de bron.</p>
+    </div></div>
+  </section>
+
+  <section class="ch" id="operate" style="--len:3" aria-labelledby="operate-h">
+    <span class="alias" id="opvolging"></span>
+    <div class="cap"><div class="cap-body">
+      <p class="cap-k">06 · Operate</p>
+      <h2 id="operate-h" class="cap-h" tabindex="-1">Je Growth OS doet het voorwerk.</h2>
+      <p class="cap-p">Bron, creatief, taal, interesse en score in één beeld. AI stelt de vragen, kwalificeert en plant de volgende stap.</p>
+    </div></div>
+  </section>
+
+  <section class="ch" id="convert" style="--len:2.2" aria-labelledby="convert-h">
+    <div class="cap"><div class="cap-body">
+      <p class="cap-k">07 · Convert</p>
+      <h2 id="convert-h" class="cap-h" tabindex="-1">Van nieuwe lead tot gewonnen klant.</h2>
+      <p class="cap-p">Elke stap zichtbaar, tot de omzet binnen is.</p>
+    </div></div>
+  </section>
+
+  <section class="ch" id="learn" style="--len:2.8" aria-labelledby="learn-h">
+    <div class="cap"><div class="cap-body">
+      <p class="cap-k">08 · Learn</p>
+      <h2 id="learn-h" class="cap-h" tabindex="-1">Omzet stuurt de volgende video.</h2>
+      <p class="cap-p">Het systeem leert welke creatief, hook, doelgroep, kanaal en taal echt klanten opleverden. Niet likes: omzet.</p>
+    </div></div>
+  </section>
+
+  <section class="ch" id="reveal" style="--len:2.2" aria-labelledby="reveal-h">
+    <span class="alias" id="prijs"></span><span class="alias" id="prijzen"></span>
+    <div class="cap"><div class="cap-body">
+      <p class="cap-k">09 · Reveal</p>
+      <h2 id="reveal-h" class="cap-h" tabindex="-1">Het was steeds één systeem.</h2>
+      <p class="cap-p">Content, distributie, web en search, CRM, AI, sales en data. Verbonden in één lus: HarteGrowth.</p>
+    </div></div>
+  </section>
 </main>
+
+<section class="scan" id="scan" aria-labelledby="scan-h">
+  <span class="alias" id="contact"></span><span class="alias" id="faq"></span>
+  <div class="scan-in">
+    <p class="cap-k">Volgende stap</p>
+    <h2 id="scan-h" class="scan-h" tabindex="-1">Waar lekt jouw groeisysteem?</h2>
+    <p class="scan-p">De gratis Growth Scan laat zien waar aandacht nu verloren gaat: in content, vindbaarheid, website of opvolging. Binnen 1 werkdag een rapport.</p>
+    <p class="scan-ctas"><a class="btn" href="/groeiscan">Doe de gratis Growth Scan</a></p>
+    <p class="scan-alt">Liever direct contact? <a class="link" href="https://wa.me/31634455762" target="_blank" rel="noopener">WhatsApp</a> of hallo@hartegrowth.eu</p>
+    <footer class="foot"><p>© 2026 Harte Growth</p><a href="/privacy">Privacy</a><a href="/cookies">Cookies</a></footer>
+  </div>
+</section>
 
 <a class="wa-fab" href="https://wa.me/31634455762" target="_blank" rel="noopener" aria-label="Stuur ons een WhatsApp-bericht">
   <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path fill="#fff" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3Z"/></svg>
@@ -564,6 +364,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollToPlugin.min.js" defer></script>
-<script src="/film.js?v=20260925f" defer></script>
+<script type="module" src="/js/growth/main.js?v=20260926a"></script>
 </body>
 </html>

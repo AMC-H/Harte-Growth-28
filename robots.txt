@@ -66,4 +66,19 @@ Allow: /
 User-agent: MistralAI-User
 Allow: /
 
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Google-CloudVertexBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
 Sitemap: https://hartegrowth.eu/sitemap.xml
