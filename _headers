@@ -18,11 +18,6 @@
   Cache-Control: public, max-age=0, must-revalidate
 /film.js
   Cache-Control: public, max-age=0, must-revalidate
-/growth.css
-  Cache-Control: public, max-age=0, must-revalidate
-# ES-modules van de homepage importeren elkaar zonder ?v=, dus altijd hervalideren
-/js/*
-  Cache-Control: public, max-age=0, must-revalidate
 /pagina.css
   Cache-Control: public, max-age=0, must-revalidate
 /pagina.js
