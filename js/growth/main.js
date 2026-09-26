@@ -85,7 +85,7 @@ function run() {
     var caps = sections.map(function (sec) { return sec.querySelector('.cap'); });
     sections.forEach(function (sec, i) {
       ST.create({
-        trigger: sec, start: 'top 50%', end: 'bottom 50%',
+        trigger: sec, start: 'top 20%', end: 'bottom 20%',
         onToggle: function (self) { caps[i].classList.toggle('is-on', self.isActive); }
       });
     });
