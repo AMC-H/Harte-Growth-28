@@ -58,6 +58,9 @@
 
   /* ---------- Scènes: per hoofdstuk een functie die de bouw-tijdlijn vult ---------- */
   var SCENES = {};
+  // Mobiel: in deze hoofdstukken komt eerst het beeld (de opbouw, zonder tekst), daarna de tekst over het
+  // eindbeeld. Show, then tell. Opening en Media houden de tekst vooraf: daar is de tekst de aanloop.
+  var PAYOFF = { fundament: 1, verkeer: 1, opvolging: 1, prijs: 1 };
 
   // 2. Media: losse foto's vallen in de bak, schuiven op de tijdlijn, krijgen cuts, tekst en geluid,
   //    en spelen af als afgewerkte 9:16-video in het programmascherm.
@@ -135,6 +138,8 @@
       .fromTo(s.q('.d-kicker, .d-h, .d-sub, .d-ctas'), { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.07, stagger: 0.025, ease: 'power2.out' }, 0.06)
       .fromTo(page, { y: 0 }, { y: function () { return -travel(); }, duration: 0.62, ease: 'power1.inOut' }, 0.26)
       .fromTo(s.q('.d-book .d-wa'), { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.06, ease: 'back.out(2.6)' }, 0.84);
+    // mobiel: de camera duwt in op de WhatsApp-knop onderaan de boekingssectie
+    if (s.mobile) tl.fromTo(s.q('.browser'), { scale: 1 }, { scale: 1.16, transformOrigin: '30% 90%', duration: 0.1, ease: 'power2.inOut' }, 0.8);
   };
   function scrubDemo() {
     var v = demoVideo;
@@ -196,6 +201,8 @@
       .fromTo(you, { y: function () { return step() * others.length; } }, { y: 0, duration: 0.24, ease: 'power2.inOut' }, 0.72)
       .fromTo(s.q('.chart'), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.08, ease: 'power2.out' }, 0.72)
       .fromTo(s.q('.chart-cover'), { scaleX: 1 }, { scaleX: 0, duration: 0.26, ease: 'power1.inOut' }, 0.74);
+    // mobiel: de camera komt dichterbij op het moment dat jij omhoog klimt
+    if (s.mobile) tl.fromTo(s.q('.serp-wrap'), { scale: 1 }, { scale: 1.08, transformOrigin: '50% 40%', duration: 0.22, ease: 'power2.inOut' }, 0.7);
 
     // de anderen schuiven één plek omlaag op het moment dat jij ze passeert (onderste eerst)
     others.forEach(function (row, i) {
@@ -475,6 +482,8 @@
       var id = chapter.id;
       var scene = chapter.querySelector('.scene');
       var inner = scene.querySelector('.scene-in');
+      var payoff = mobile && PAYOFF[id];
+      var body = chapter.querySelector('.copy-body');
       var s = {
         chapter: chapter, scene: scene, inner: inner, mobile: mobile,
         q: function (sel) { return scene.querySelectorAll(sel); }
@@ -526,7 +535,9 @@
           defaults: { ease: 'none' },
           scrollTrigger: {
             // de opbouw begint al tijdens het invaden, zodat een scène nooit als lege huls in beeld staat
-            trigger: chapter, start: id === 'opening' ? 'top top' : 'top 45%', end: 'bottom bottom',
+            trigger: chapter, start: id === 'opening' ? 'top top' : 'top 45%',
+            // mobiel payoff: de opbouw is af op het moment dat de tekst onderin binnenkomt
+            end: payoff ? 'top bottom' : 'bottom bottom', endTrigger: payoff ? body : chapter,
             scrub: mobile ? 0.4 : 0.6, // mobiel ook iets vertraagd: voelt als een camerabeweging i.p.v. schokkerig
             invalidateOnRefresh: true
           }
@@ -536,6 +547,33 @@
         tl.set({}, {}, tl.duration() / 0.9);
         builds[id] = tl.scrollTrigger;
         if (id === 'media') mediaResultAt = 0.66 / tl.duration(); // resultaatlaag is op bij tijd 0.66
+      }
+
+      if (payoff) {
+        // Tijdens de opbouw staat er geen tekst: het beeld zakt naar het midden van het hele scherm en onderin
+        // staat alleen een klapbordje (scènenummer + naam). Komt de tekst binnen, dan kantelt de camera omhoog
+        // (beeld schuift naar boven de tekstzone) en verdwijnt het klapbordje.
+        var n = chapters.indexOf(chapter) + 1;
+        var cap = document.createElement('p');
+        cap.className = 'scene-cap';
+        cap.setAttribute('aria-hidden', 'true');
+        cap.innerHTML = '<i></i>SC ' + (n < 10 ? '0' : '') + n + ' · ' + (links[n - 1] ? links[n - 1].textContent.trim() : id);
+        inner.appendChild(cap); // in de beeldlaag: vaagt in en uit met de scène
+        var drop = function () {
+          var cs = getComputedStyle(inner);
+          return Math.max(0, (parseFloat(cs.paddingBottom) - parseFloat(cs.paddingTop)) / 2);
+        };
+        var payoffTl = gsap.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: { trigger: body, start: 'top bottom', end: 'top 55%', scrub: 0.4, invalidateOnRefresh: true }
+        });
+        payoffTl
+          .fromTo(inner, { y: drop }, { y: 0, duration: 1, ease: 'power2.inOut' }, 0)
+          // het klapbordje beweegt tegen de kanteling in, zodat het stil onderin het scherm blijft staan
+          .fromTo(cap, { y: function () { return -drop(); } }, { y: 0, duration: 1, ease: 'power2.inOut' }, 0)
+          .fromTo(cap, { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.35 }, 0);
+        // Prijs: de tekst herhaalt het bedrag en is lang; het exportvenster treedt terug zodra de tekst er is
+        if (id === 'prijs') payoffTl.fromTo(s.q('.export'), { opacity: 1 }, { opacity: 0.2, duration: 0.8 }, 0.2);
       }
 
       if (id === 'opening') {
@@ -661,6 +699,7 @@
       film = null;
       op.portrait = false;
       if (typedQuery) document.querySelector('.s-typed').textContent = typedQuery;
+      toArray(document.querySelectorAll('.scene-cap')).forEach(function (el) { el.remove(); });
       if (op.mon) gsap.set([op.mon].concat(toArray(op.mon.querySelectorAll('.op-mask, .corner, .mon-meta, .op-format, .op-ring, .op-window, .op-v9, .op-v16'))), { clearProps: 'all' });
     };
   });
@@ -680,7 +719,9 @@
     var rests = chapters.map(function (ch) {
       if (ch.id === 'opening') return 0;
       if (ch.id === 'contact') return Math.min(max, ch.offsetTop - hdr);
-      if (mobile) return ch.offsetTop; // mobiel: het tekstblok staat dan onderin in beeld
+      // mobiel: het tekstblok staat dan onderin in beeld; bij payoff-hoofdstukken is dat aan het eind,
+      // over het afgebouwde beeld
+      if (mobile) return PAYOFF[ch.id] ? Math.min(max, ch.offsetTop + ch.offsetHeight - vh) : ch.offsetTop;
       var st = builds[ch.id];
       return st ? st.end - vh * REST_OFFSET : ch.offsetTop;
     });
@@ -874,6 +915,10 @@
     };
     apply();
     if (mq.addEventListener) mq.addEventListener('change', apply);
+    // open/dicht verandert de hoogte van het tekstblok, en daarmee waar de opbouw eindigt
+    Array.prototype.forEach.call(all, function (d) {
+      d.addEventListener('toggle', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
+    });
   }
 
   /* ---------- Menu (onder 900px achter een knop) ---------- */

@@ -542,7 +542,6 @@ img, video, svg { display: block; max-width: 100%; }
   .d-fine { margin-top: 4cqw; font-size: 3.2cqw; gap: 2.4cqw; }
   .d-wa-sm { padding: 2.2cqw 3.4cqw; font-size: 3cqw; }
 }
-}
 
 /* ---------- Scène 4: verkeer (zoekpagina die meescrollt, fictieve namen, zonder cijfers over jou) ---------- */
 /* Licht, zoals scène 3: het is een zoekpagina, niet onze site. Maten in --u (1cqw van het venster, groter op mobiel). */
@@ -848,6 +847,39 @@ img, video, svg { display: block; max-width: 100%; }
   }
   .film-on #media .program > .edit-label { display: none; }
   .film-on #media .program-frame { width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; box-shadow: none; }
+}
+
+/* ---------- Mobiel, fase 2: eerst beeld, dan tekst (film.js: PAYOFF) ----------
+   In Fundament, Verkeer, Opvolging en Prijs staat de tekst aan het eind van het hoofdstuk: je ziet eerst
+   de opbouw schoon in beeld, daarna schuift de tekst over het eindbeeld. Iets langer (+0,25 scherm) zodat
+   zowel de opbouw als de tekst een eigen moment krijgt. */
+@media (max-width: 767px) {
+  .film-on #fundament, .film-on #verkeer, .film-on #opvolging, .film-on #prijs {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    height: calc((var(--len, 2) + .25) * 100svh);
+  }
+  /* klapbordje onderin tijdens de opbouw */
+  .scene-cap { display: none; }
+  .film-on .scene-cap {
+    display: flex; align-items: center; gap: .55rem;
+    position: absolute; left: var(--gutter); bottom: calc(26px + var(--safe-b)); margin: 0;
+    font: 500 .75rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--mute);
+  }
+  .scene-cap i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+  /* Opvolging: geen telefoonrand, het gesprek vult het scherm; het is jouw eigen telefoon */
+  .film-on #opvolging .scene-in { padding: 0; }
+  .film-on #opvolging .phone { border-radius: 0; box-shadow: none; background: var(--bg); }
+  .film-on #opvolging .ph-head { padding: 4cqw var(--gutter); background: var(--surface); }
+  .film-on #opvolging .ph-body { padding: 5cqw var(--gutter); gap: 3cqw; }
+  .film-on #opvolging .msg { font-size: 4.1cqw; }
+  .film-on #opvolging .msg-ai { font-size: 2.8cqw; }
+  .film-on #opvolging .msg time { font-size: 2.8cqw; }
+  /* de samenvatting blijft boven de tekstzone, zodat de tekst hem straks niet bedekt */
+  .film-on #opvolging .summary { right: var(--gutter); bottom: calc(var(--text-zone) + 12px); }
+
+  /* Prijs: het bedrag in het exportvenster is het moment, dus groot */
+  .film-on #prijs .ex-price b { font-size: 2.1rem; }
 }
 
 /* btw-vermelding bij prijzen (klein, gedempt) */
