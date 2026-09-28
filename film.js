@@ -42,14 +42,25 @@
   setupForm();
   setupMenu();
   setupMore();
+  setupTuck();
 
   if (!window.gsap || !window.ScrollTrigger) return; // CDN niet geladen: statische versie blijft staan
+
+  // Lichte modus: databesparing aan of een toestel met weinig geheugen. De film blijft, maar video's
+  // spelen gewoon af in plaats van mee te lopen met het scrollen (terugspoelen is zwaar voor zo'n toestel).
+  var conn = navigator.connection || {};
+  var LITE = !!conn.saveData || (navigator.deviceMemory && navigator.deviceMemory <= 2) ||
+    /(^|-)2g$/.test(conn.effectiveType || '');
+  if (LITE) root.classList.add('film-lite');
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
   ScrollTrigger.config({ ignoreMobileResize: true });
 
   /* ---------- Scènes: per hoofdstuk een functie die de bouw-tijdlijn vult ---------- */
   var SCENES = {};
+  // Mobiel: in deze hoofdstukken komt eerst het beeld (de opbouw, zonder tekst), daarna de tekst over het
+  // eindbeeld. Show, then tell. Opening en Media houden de tekst vooraf: daar is de tekst de aanloop.
+  var PAYOFF = { fundament: 1, verkeer: 1, opvolging: 1, prijs: 1 };
 
   // 2. Media: losse foto's vallen in de bak, schuiven op de tijdlijn, krijgen cuts, tekst en geluid,
   //    en spelen af als afgewerkte 9:16-video in het programmascherm.
@@ -117,7 +128,7 @@
 
   // 3. Fundament: een demosite (fictieve villaverhuur) in het browservenster. De pagina scrollt mee met de
   //    scrub-tijdlijn; in de hero loopt de villavideo mee met het scrollen, zodat je door de villa beweegt.
-  var demo = { t: 0 }, demoVideo = null;
+  var demo = { t: 0 }, demoVideo = null, demoLite = null, demoActive = false;
   SCENES.fundament = function (tl, s) {
     var page = s.scene.querySelector('.d-page'), view = s.scene.querySelector('.demo');
     var travel = function () { return Math.max(0, page.offsetHeight - view.clientHeight); };
@@ -127,6 +138,8 @@
       .fromTo(s.q('.d-kicker, .d-h, .d-sub, .d-ctas'), { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.07, stagger: 0.025, ease: 'power2.out' }, 0.06)
       .fromTo(page, { y: 0 }, { y: function () { return -travel(); }, duration: 0.62, ease: 'power1.inOut' }, 0.26)
       .fromTo(s.q('.d-book .d-wa'), { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.06, ease: 'back.out(2.6)' }, 0.84);
+    // mobiel: de camera duwt in op de WhatsApp-knop onderaan de boekingssectie
+    if (s.mobile) tl.fromTo(s.q('.browser'), { scale: 1 }, { scale: 1.16, transformOrigin: '30% 90%', duration: 0.1, ease: 'power2.inOut' }, 0.8);
   };
   function scrubDemo() {
     var v = demoVideo;
@@ -143,6 +156,7 @@
     v.preload = 'auto';
     v.addEventListener('loadedmetadata', function () {
       if (!isFinite(v.duration) || !v.duration) return; // kapot bestand: de poster blijft staan
+      if (LITE) { v.loop = true; demoLite = v; if (demoActive) play(v); return; } // lichte modus: gewoon afspelen
       demoVideo = v;
       var p = v.play(); // iOS toont pas beelden na een eerste play()
       if (p && p.then) p.then(function () { v.pause(); scrubDemo(); }).catch(scrubDemo); else { v.pause(); scrubDemo(); }
@@ -187,6 +201,8 @@
       .fromTo(you, { y: function () { return step() * others.length; } }, { y: 0, duration: 0.24, ease: 'power2.inOut' }, 0.72)
       .fromTo(s.q('.chart'), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.08, ease: 'power2.out' }, 0.72)
       .fromTo(s.q('.chart-cover'), { scaleX: 1 }, { scaleX: 0, duration: 0.26, ease: 'power1.inOut' }, 0.74);
+    // mobiel: de camera komt dichterbij op het moment dat jij omhoog klimt
+    if (s.mobile) tl.fromTo(s.q('.serp-wrap'), { scale: 1 }, { scale: 1.08, transformOrigin: '50% 40%', duration: 0.22, ease: 'power2.inOut' }, 0.7);
 
     // de anderen schuiven één plek omlaag op het moment dat jij ze passeert (onderste eerst)
     others.forEach(function (row, i) {
@@ -466,6 +482,8 @@
       var id = chapter.id;
       var scene = chapter.querySelector('.scene');
       var inner = scene.querySelector('.scene-in');
+      var payoff = mobile && PAYOFF[id];
+      var body = chapter.querySelector('.copy-body');
       var s = {
         chapter: chapter, scene: scene, inner: inner, mobile: mobile,
         q: function (sel) { return scene.querySelectorAll(sel); }
@@ -517,8 +535,10 @@
           defaults: { ease: 'none' },
           scrollTrigger: {
             // de opbouw begint al tijdens het invaden, zodat een scène nooit als lege huls in beeld staat
-            trigger: chapter, start: id === 'opening' ? 'top top' : 'top 45%', end: 'bottom bottom',
-            scrub: mobile ? true : 0.6,
+            trigger: chapter, start: id === 'opening' ? 'top top' : 'top 45%',
+            // mobiel payoff: de opbouw is af op het moment dat de tekst onderin binnenkomt
+            end: payoff ? 'top bottom' : 'bottom bottom', endTrigger: payoff ? body : chapter,
+            scrub: mobile ? 0.4 : 0.6, // mobiel ook iets vertraagd: voelt als een camerabeweging i.p.v. schokkerig
             invalidateOnRefresh: true
           }
         });
@@ -529,6 +549,33 @@
         if (id === 'media') mediaResultAt = 0.66 / tl.duration(); // resultaatlaag is op bij tijd 0.66
       }
 
+      if (payoff) {
+        // Tijdens de opbouw staat er geen tekst: het beeld zakt naar het midden van het hele scherm en onderin
+        // staat alleen een klapbordje (scènenummer + naam). Komt de tekst binnen, dan kantelt de camera omhoog
+        // (beeld schuift naar boven de tekstzone) en verdwijnt het klapbordje.
+        var n = chapters.indexOf(chapter) + 1;
+        var cap = document.createElement('p');
+        cap.className = 'scene-cap';
+        cap.setAttribute('aria-hidden', 'true');
+        cap.innerHTML = '<i></i>SC ' + (n < 10 ? '0' : '') + n + ' · ' + (links[n - 1] ? links[n - 1].textContent.trim() : id);
+        inner.appendChild(cap); // in de beeldlaag: vaagt in en uit met de scène
+        var drop = function () {
+          var cs = getComputedStyle(inner);
+          return Math.max(0, (parseFloat(cs.paddingBottom) - parseFloat(cs.paddingTop)) / 2);
+        };
+        var payoffTl = gsap.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: { trigger: body, start: 'top bottom', end: 'top 55%', scrub: 0.4, invalidateOnRefresh: true }
+        });
+        payoffTl
+          .fromTo(inner, { y: drop }, { y: 0, duration: 1, ease: 'power2.inOut' }, 0)
+          // het klapbordje beweegt tegen de kanteling in, zodat het stil onderin het scherm blijft staan
+          .fromTo(cap, { y: function () { return -drop(); } }, { y: 0, duration: 1, ease: 'power2.inOut' }, 0)
+          .fromTo(cap, { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.35 }, 0);
+        // Prijs: de tekst herhaalt het bedrag en is lang; het exportvenster treedt terug zodra de tekst er is
+        if (id === 'prijs') payoffTl.fromTo(s.q('.export'), { opacity: 1 }, { opacity: 0.2, duration: 0.8 }, 0.2);
+      }
+
       if (id === 'opening') {
         if (window.scrollY < window.innerHeight * 0.5) openingIntro(s);
         else root.classList.remove('intro'); // halverwege de pagina binnengekomen: geen intro
@@ -537,6 +584,16 @@
 
     // villavideo van de demosite: laden ruim voordat Fundament in beeld komt
     ScrollTrigger.create({ trigger: '#fundament', start: 'top 250%', once: true, onEnter: function () { loadDemoVideo(mobile); } });
+    if (LITE) {
+      ScrollTrigger.create({
+        trigger: '#fundament', start: 'top 45%', end: 'bottom 45%',
+        onToggle: function (self) {
+          demoActive = self.isActive;
+          if (!demoLite) return;
+          if (self.isActive) play(demoLite); else demoLite.pause();
+        }
+      });
+    }
 
     // Resultaat (3,5 MB) pas laden als Media in zicht komt (Media begint 1,7 scherm lager, dus pas na
     // de eerste scroll); de ruwe clip speelt alleen in Media.
@@ -562,8 +619,13 @@
         ? function () { return mediaBuild.start + (mediaBuild.end - mediaBuild.start) * mediaResultAt; }
         : 'top 15%',
       end: 'bottom 75%',
+      onToggle: function (self) {
+        if (!LITE || !media.hasVideo) return;
+        media.video.loop = true;
+        if (self.isActive) play(media.video); else media.video.pause();
+      },
       onUpdate: function (self) {
-        if (!media.hasVideo || !media.video.duration) return;
+        if (LITE || !media.hasVideo || !media.video.duration) return;
         var t = self.progress * (media.video.duration - 1 / 30);
         if (Math.abs(media.video.currentTime - t) > 1 / 60) media.video.currentTime = t;
       },
@@ -637,6 +699,7 @@
       film = null;
       op.portrait = false;
       if (typedQuery) document.querySelector('.s-typed').textContent = typedQuery;
+      toArray(document.querySelectorAll('.scene-cap')).forEach(function (el) { el.remove(); });
       if (op.mon) gsap.set([op.mon].concat(toArray(op.mon.querySelectorAll('.op-mask, .corner, .mon-meta, .op-format, .op-ring, .op-window, .op-v9, .op-v16'))), { clearProps: 'all' });
     };
   });
@@ -656,7 +719,9 @@
     var rests = chapters.map(function (ch) {
       if (ch.id === 'opening') return 0;
       if (ch.id === 'contact') return Math.min(max, ch.offsetTop - hdr);
-      if (mobile) return ch.offsetTop; // mobiel: het tekstblok staat dan onderin in beeld
+      // mobiel: het tekstblok staat dan onderin in beeld; bij payoff-hoofdstukken is dat aan het eind,
+      // over het afgebouwde beeld
+      if (mobile) return PAYOFF[ch.id] ? Math.min(max, ch.offsetTop + ch.offsetHeight - vh) : ch.offsetTop;
       var st = builds[ch.id];
       return st ? st.end - vh * REST_OFFSET : ch.offsetTop;
     });
@@ -812,6 +877,35 @@
     });
   }
 
+  /* ---------- Mobiel: header klapt in bij naar beneden scrollen, komt terug bij omhoog ----------
+   * Alleen de rij met logo en menu schuift weg; de tijdlijn met tijdcode blijft als dun balkje staan.
+   * Het beeld loopt al door tot onder dat balkje (film.css), dus het podium wordt ~48px hoger. */
+  function setupTuck() {
+    var hdr = document.querySelector('.hdr');
+    var btn = document.querySelector('.menu-btn');
+    if (!hdr) return;
+    var mq = window.matchMedia('(max-width: 767px)');
+    var lastY = window.scrollY, acc = 0, tucked = false;
+    var set = function (v) {
+      if (v === tucked) return;
+      tucked = v;
+      root.classList.toggle('hdr-tuck', v);
+    };
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY, d = y - lastY;
+      lastY = y;
+      var menuOpen = btn && btn.getAttribute('aria-expanded') === 'true';
+      if (!mq.matches || !root.classList.contains('film-on') || y < 80 || menuOpen) { acc = 0; set(false); return; }
+      if (d === 0) return;
+      if ((d > 0) !== (acc > 0)) acc = 0; // richting gewisseld: opnieuw tellen
+      acc += d;
+      if (acc > 24) set(true);
+      else if (acc < -24) set(false);
+    }, { passive: true });
+    hdr.addEventListener('focusin', function () { set(false); }); // toetsenbord: header altijd bereikbaar
+    if (btn) btn.addEventListener('click', function () { set(false); });
+  }
+
   /* ---------- Lees meer: op mobiel dicht (kop + één zin zichtbaar), op desktop altijd open ---------- */
   function setupMore() {
     var mq = window.matchMedia('(max-width: 767px)');
@@ -821,6 +915,10 @@
     };
     apply();
     if (mq.addEventListener) mq.addEventListener('change', apply);
+    // open/dicht verandert de hoogte van het tekstblok, en daarmee waar de opbouw eindigt
+    Array.prototype.forEach.call(all, function (d) {
+      d.addEventListener('toggle', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
+    });
   }
 
   /* ---------- Menu (onder 900px achter een knop) ---------- */
