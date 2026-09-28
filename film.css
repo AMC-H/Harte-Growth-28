@@ -155,6 +155,20 @@ img, video, svg { display: block; max-width: 100%; }
   .tl-now { display: block; color: var(--mute); white-space: nowrap; min-width: 5.5em; text-align: right; }
 }
 
+/* Mobiel: header klapt in bij naar beneden scrollen (film.js zet .hdr-tuck). De rij met logo en menu schuift
+   weg, de tijdlijn blijft als dun balkje. Het beeld begint al onder dat balkje (--hdr-min), dus als de volle
+   header terugkomt valt die tijdelijk over de bovenrand van het beeld, zoals de bediening bij een Reel. */
+@media (max-width: 767px) {
+  :root { --hdr-min: calc(44px + var(--safe-t)); }
+  .hdr { transition: transform .35s cubic-bezier(.2, .7, .2, 1); will-change: transform; }
+  .hdr-row { transition: opacity .2s ease; }
+  .hdr-tuck .hdr { transform: translateY(-48px); }
+  .hdr-tuck .hdr-row { opacity: 0; pointer-events: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hdr, .hdr-row { transition: none; }
+}
+
 /* ---------- Typografie ---------- */
 .h1, .h2 {
   font-family: var(--f-head); font-weight: 800; letter-spacing: -.03em; line-height: .98;
@@ -242,11 +256,11 @@ img, video, svg { display: block; max-width: 100%; }
   /* Mobiel: het beeld vult het hele scherm onder header en tijdlijn; de tekst loopt er als ondertitel
      overheen, op een zachte scrim. UI-scènes blijven boven de tekstzone (--text-zone). */
   :root { --text-zone: 40svh; }
-  .film-on .scene { z-index: 1; left: 0; right: 0; top: var(--hdr); bottom: 0; height: auto; padding: 0; }
+  .film-on .scene { z-index: 1; left: 0; right: 0; top: var(--hdr-min); bottom: 0; height: auto; padding: 0; }
   .film-on .scene-in { padding: 14px var(--gutter) var(--text-zone); }
   /* lichte dimlaag tijdens het lezen (film.js), tussen de tekstblokken helder */
   .film-on .stage-dim {
-    display: block; position: fixed; z-index: 2; left: 0; right: 0; top: var(--hdr); bottom: 0;
+    display: block; position: fixed; z-index: 2; left: 0; right: 0; top: var(--hdr-min); bottom: 0;
     background: #000; opacity: 0; pointer-events: none;
   }
   .film-on .copy {

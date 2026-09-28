@@ -42,8 +42,16 @@
   setupForm();
   setupMenu();
   setupMore();
+  setupTuck();
 
   if (!window.gsap || !window.ScrollTrigger) return; // CDN niet geladen: statische versie blijft staan
+
+  // Lichte modus: databesparing aan of een toestel met weinig geheugen. De film blijft, maar video's
+  // spelen gewoon af in plaats van mee te lopen met het scrollen (terugspoelen is zwaar voor zo'n toestel).
+  var conn = navigator.connection || {};
+  var LITE = !!conn.saveData || (navigator.deviceMemory && navigator.deviceMemory <= 2) ||
+    /(^|-)2g$/.test(conn.effectiveType || '');
+  if (LITE) root.classList.add('film-lite');
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
   ScrollTrigger.config({ ignoreMobileResize: true });
@@ -117,7 +125,7 @@
 
   // 3. Fundament: een demosite (fictieve villaverhuur) in het browservenster. De pagina scrollt mee met de
   //    scrub-tijdlijn; in de hero loopt de villavideo mee met het scrollen, zodat je door de villa beweegt.
-  var demo = { t: 0 }, demoVideo = null;
+  var demo = { t: 0 }, demoVideo = null, demoLite = null, demoActive = false;
   SCENES.fundament = function (tl, s) {
     var page = s.scene.querySelector('.d-page'), view = s.scene.querySelector('.demo');
     var travel = function () { return Math.max(0, page.offsetHeight - view.clientHeight); };
@@ -143,6 +151,7 @@
     v.preload = 'auto';
     v.addEventListener('loadedmetadata', function () {
       if (!isFinite(v.duration) || !v.duration) return; // kapot bestand: de poster blijft staan
+      if (LITE) { v.loop = true; demoLite = v; if (demoActive) play(v); return; } // lichte modus: gewoon afspelen
       demoVideo = v;
       var p = v.play(); // iOS toont pas beelden na een eerste play()
       if (p && p.then) p.then(function () { v.pause(); scrubDemo(); }).catch(scrubDemo); else { v.pause(); scrubDemo(); }
@@ -518,7 +527,7 @@
           scrollTrigger: {
             // de opbouw begint al tijdens het invaden, zodat een scène nooit als lege huls in beeld staat
             trigger: chapter, start: id === 'opening' ? 'top top' : 'top 45%', end: 'bottom bottom',
-            scrub: mobile ? true : 0.6,
+            scrub: mobile ? 0.4 : 0.6, // mobiel ook iets vertraagd: voelt als een camerabeweging i.p.v. schokkerig
             invalidateOnRefresh: true
           }
         });
@@ -537,6 +546,16 @@
 
     // villavideo van de demosite: laden ruim voordat Fundament in beeld komt
     ScrollTrigger.create({ trigger: '#fundament', start: 'top 250%', once: true, onEnter: function () { loadDemoVideo(mobile); } });
+    if (LITE) {
+      ScrollTrigger.create({
+        trigger: '#fundament', start: 'top 45%', end: 'bottom 45%',
+        onToggle: function (self) {
+          demoActive = self.isActive;
+          if (!demoLite) return;
+          if (self.isActive) play(demoLite); else demoLite.pause();
+        }
+      });
+    }
 
     // Resultaat (3,5 MB) pas laden als Media in zicht komt (Media begint 1,7 scherm lager, dus pas na
     // de eerste scroll); de ruwe clip speelt alleen in Media.
@@ -562,8 +581,13 @@
         ? function () { return mediaBuild.start + (mediaBuild.end - mediaBuild.start) * mediaResultAt; }
         : 'top 15%',
       end: 'bottom 75%',
+      onToggle: function (self) {
+        if (!LITE || !media.hasVideo) return;
+        media.video.loop = true;
+        if (self.isActive) play(media.video); else media.video.pause();
+      },
       onUpdate: function (self) {
-        if (!media.hasVideo || !media.video.duration) return;
+        if (LITE || !media.hasVideo || !media.video.duration) return;
         var t = self.progress * (media.video.duration - 1 / 30);
         if (Math.abs(media.video.currentTime - t) > 1 / 60) media.video.currentTime = t;
       },
@@ -810,6 +834,35 @@
           btn.textContent = label;
         });
     });
+  }
+
+  /* ---------- Mobiel: header klapt in bij naar beneden scrollen, komt terug bij omhoog ----------
+   * Alleen de rij met logo en menu schuift weg; de tijdlijn met tijdcode blijft als dun balkje staan.
+   * Het beeld loopt al door tot onder dat balkje (film.css), dus het podium wordt ~48px hoger. */
+  function setupTuck() {
+    var hdr = document.querySelector('.hdr');
+    var btn = document.querySelector('.menu-btn');
+    if (!hdr) return;
+    var mq = window.matchMedia('(max-width: 767px)');
+    var lastY = window.scrollY, acc = 0, tucked = false;
+    var set = function (v) {
+      if (v === tucked) return;
+      tucked = v;
+      root.classList.toggle('hdr-tuck', v);
+    };
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY, d = y - lastY;
+      lastY = y;
+      var menuOpen = btn && btn.getAttribute('aria-expanded') === 'true';
+      if (!mq.matches || !root.classList.contains('film-on') || y < 80 || menuOpen) { acc = 0; set(false); return; }
+      if (d === 0) return;
+      if ((d > 0) !== (acc > 0)) acc = 0; // richting gewisseld: opnieuw tellen
+      acc += d;
+      if (acc > 24) set(true);
+      else if (acc < -24) set(false);
+    }, { passive: true });
+    hdr.addEventListener('focusin', function () { set(false); }); // toetsenbord: header altijd bereikbaar
+    if (btn) btn.addEventListener('click', function () { set(false); });
   }
 
   /* ---------- Lees meer: op mobiel dicht (kop + één zin zichtbaar), op desktop altijd open ---------- */
