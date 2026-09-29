@@ -1,0 +1,79 @@
+/* Videopagina (/video): echt werk eerst, dan werkwijze en prijs. Bouwt op film.css + pagina.css. */
+
+.vid-hero .hero-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.vid-hero .hero-h { max-width: 16ch; }
+.kick {
+  display: inline-flex; align-items: center; gap: .6rem; margin-bottom: 1.1rem;
+  font: 500 .8125rem/1 var(--f-mono); color: var(--mute); letter-spacing: .02em;
+}
+.kick::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(255, 59, 48, .18); }
+.vid-ticks { display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; margin-top: 1.4rem; }
+.btn-ghost-l {
+  display: inline-flex; align-items: center; min-height: 48px; padding: .75rem 1.2rem; border-radius: 999px;
+  color: var(--ink); text-decoration: none; font-weight: 500; box-shadow: inset 0 0 0 1px var(--line-2);
+}
+.btn-ghost-l:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+
+/* Telefoon met het resultaat */
+.phone {
+  position: relative; width: min(340px, 78vw); margin-inline: auto; aspect-ratio: 9 / 16;
+  border: 8px solid #000; border-radius: 34px; overflow: hidden; background: #000;
+  box-shadow: 0 0 0 1px var(--line-2), 0 50px 110px -40px rgba(255, 59, 48, .35), 0 40px 90px -30px #000;
+}
+.phone video, .phone img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.phone-tag {
+  position: absolute; left: 12px; bottom: 12px; padding: 6px 10px; border-radius: 8px;
+  background: rgba(15, 17, 19, .78); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  font: 500 .75rem/1.2 var(--f-mono); color: var(--ink);
+}
+
+/* Werk */
+.reels { display: grid; gap: 1rem; margin-top: 2rem; grid-template-columns: repeat(12, minmax(0, 1fr)); }
+.reel { position: relative; margin: 0; border-radius: 14px; overflow: hidden; background: #000; box-shadow: 0 0 0 1px var(--line); }
+.reel video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.reel-wide { grid-column: span 12; aspect-ratio: 16 / 9; }
+.reel-half { grid-column: span 6; aspect-ratio: 16 / 9; }
+.reel-tall { grid-column: span 4; aspect-ratio: 9 / 16; }
+.reel-cta {
+  grid-column: span 8; display: flex; flex-direction: column; justify-content: flex-end; gap: 1rem;
+  padding: clamp(1.5rem, 4vw, 3rem); border-radius: 14px;
+  background: radial-gradient(120% 90% at 100% 0%, rgba(255, 59, 48, .22), transparent 60%), var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.reel-cta .h2 { font-size: clamp(1.8rem, 1rem + 2.6vw, 3.2rem); max-width: 14ch; }
+.reel-cta p { color: var(--mute); max-width: 40ch; }
+.reel figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-wrap: wrap; gap: .25rem .75rem; align-items: baseline;
+  padding: 2.5rem 1rem .9rem; background: linear-gradient(transparent, rgba(0, 0, 0, .78));
+  font-size: .9375rem; pointer-events: none;
+}
+.reel figcaption b { font-weight: 600; }
+.reel figcaption span { color: #C9CDD1; font: 400 .75rem/1.2 var(--f-mono); }
+.reel-play {
+  position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border-radius: 50%; border: 0;
+  display: grid; place-items: center; background: rgba(15, 17, 19, .7); color: var(--ink); cursor: pointer;
+}
+.reel-play svg { width: 14px; height: 14px; }
+.reel-play .i-play { display: none; }
+.reel.is-paused .reel-play .i-play { display: block; }
+.reel.is-paused .reel-play .i-pause { display: none; }
+
+/* Prijs: één kaart */
+.vid-price { max-width: 520px; margin-top: 2rem; }
+
+@media (max-width: 1023px) {
+  .vid-hero .hero-grid { grid-template-columns: 1fr; gap: 0; }
+  /* mobiel: de video direct onder de kop, zodat Facebook-bezoekers meteen werk zien */
+  .vid-hero .hero-copy { display: contents; }
+  .vid-hero .kick { order: 1; } .vid-hero .hero-h { order: 2; }
+  .vid-hero .phone { order: 3; margin-top: 1.4rem; }
+  .vid-hero .lede { order: 4; } .vid-hero .vid-ticks { order: 5; } .vid-hero .ctas { order: 6; }
+  .reel-half { grid-column: span 12; }
+  .reel-tall { grid-column: span 6; }
+  .reel-cta { grid-column: span 12; }
+}
+@media (max-width: 599px) {
+  .reels { gap: .75rem; }
+  .reel-tall { grid-column: span 12; max-width: 380px; width: 100%; justify-self: center; }
+  .phone { width: min(260px, 64vw); }
+}

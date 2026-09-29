@@ -332,4 +332,8 @@
   <url><loc>https://hartegrowth.eu/costa-blanca/denia</loc><priority>0.6</priority></url>
   <url><loc>https://hartegrowth.eu/costa-blanca/benidorm</loc><priority>0.6</priority></url>
   <url><loc>https://hartegrowth.eu/llms.txt</loc><priority>0.3</priority></url>
+  <url>
+    <loc>https://hartegrowth.eu/video</loc>
+    <lastmod>2026-09-29</lastmod>
+  </url>
 </urlset>
