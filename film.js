@@ -60,7 +60,7 @@
   var SCENES = {};
   // Mobiel: in deze hoofdstukken komt eerst het beeld (de opbouw, zonder tekst), daarna de tekst over het
   // eindbeeld. Show, then tell. Opening en Media houden de tekst vooraf: daar is de tekst de aanloop.
-  var PAYOFF = { fundament: 1, verkeer: 1, opvolging: 1, prijs: 1 };
+  var PAYOFF = { fundament: 1, verkeer: 1, opvolging: 1, prijs: 1 }; // prijs = Pakketten
 
   // 2. Media: losse foto's vallen in de bak, schuiven op de tijdlijn, krijgen cuts, tekst en geluid,
   //    en spelen af als afgewerkte 9:16-video in het programmascherm.
@@ -231,17 +231,30 @@
       .fromTo(s.q('.summary dl > div'), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.05, stagger: 0.03 }, 0.78);
   };
 
-  // 6. Prijs: exportvenster vult zich, oude prijs wordt doorgestreept, render loopt vol.
+  // 6. Pakketten: drie maandpakketten komen één voor één binnen, de bedragen tellen op van 0, daarna
+  //    stappen de andere twee terug en licht Growth op (ring + label). Onderaan schuift de website-regel in.
+  //    De bedragen staan in de HTML al goed (statische versie); hier tellen ze alleen op tijdens het scrollen.
   SCENES.prijs = function (tl, s) {
-    tl.fromTo(s.q('.export'), { scale: 0.96, y: 16 }, { scale: 1, y: 0, duration: 0.1, ease: 'power2.out' }, 0)
-      .fromTo(s.q('.ex-rows > div'), { autoAlpha: 0, x: -10 }, { autoAlpha: 1, x: 0, duration: 0.06, stagger: 0.05, ease: 'power2.out' }, 0.1)
-      .fromTo(s.q('.ex-was'), { '--strike': 0 }, { '--strike': 1, duration: 0.06 }, 0.42)
-      .fromTo(s.q('.ex-price b'), { autoAlpha: 0, scale: 0.7 }, { autoAlpha: 1, scale: 1, duration: 0.06, ease: 'back.out(2.4)', transformOrigin: 'left center' }, 0.47)
-      .fromTo(s.q('.ex-busy'), { autoAlpha: 1 }, { autoAlpha: 1, duration: 0.01 }, 0.55)
-      .fromTo(s.q('.ex-done'), { autoAlpha: 0 }, { autoAlpha: 0, duration: 0.01 }, 0.55)
-      .fromTo(s.q('.ex-fill'), { scaleX: 0 }, { scaleX: 1, duration: 0.32, ease: 'power1.inOut' }, 0.55)
-      .to(s.q('.ex-busy'), { autoAlpha: 0, duration: 0.02 }, 0.87)
-      .to(s.q('.ex-done'), { autoAlpha: 1, duration: 0.02 }, 0.88);
+    var cards = toArray(s.q('.pl-card'));
+    var pick = s.scene.querySelector('.pl-card.is-pick');
+    var rest = cards.filter(function (c) { return c !== pick; });
+    tl.fromTo(s.q('.pl-label'), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.05, ease: 'power2.out' }, 0.02)
+      .fromTo(cards, { autoAlpha: 0, y: 46, scale: 0.94 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.14, stagger: 0.09, ease: 'power3.out' }, 0.05)
+      .fromTo(s.q('.pl-line'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.05, stagger: 0.06 }, 0.2);
+    toArray(s.q('.pl-price b[data-to]')).forEach(function (b, i) {
+      var to = Number(b.dataset.to), n = { v: 0 };
+      tl.fromTo(n, { v: 0 }, {
+        v: to, duration: 0.18, ease: 'power2.out',
+        onUpdate: function () { b.textContent = String(Math.round(n.v)); }
+      }, 0.1 + i * 0.09);
+    });
+    tl.fromTo(s.q('.pl-ring'), { autoAlpha: 0, scale: 1.06 }, { autoAlpha: 1, scale: 1, duration: 0.08, ease: 'power2.out' }, 0.52)
+      .to(rest, { opacity: 0.5, duration: 0.1 }, 0.52)
+      .to(pick, { scale: 1.035, duration: 0.1, ease: 'power2.inOut' }, 0.52)
+      .fromTo(s.q('.pl-tag'), { autoAlpha: 0, yPercent: -10, scale: 0.7 }, { autoAlpha: 1, yPercent: -50, scale: 1, duration: 0.06, ease: 'back.out(2.6)' }, 0.58)
+      .fromTo(s.q('.pl-site'), { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.08, ease: 'power2.out' }, 0.7);
+    // mobiel: de camera duwt in op het gekozen pakket
+    if (s.mobile) tl.fromTo(s.q('.plans'), { scale: 1 }, { scale: 1.03, transformOrigin: '50% 45%', duration: 0.2, ease: 'power2.inOut' }, 0.6);
   };
 
   // Laadt pas na de eerste render (load-event + idle), zodat de homepage snel verschijnt.
@@ -572,8 +585,8 @@
           // het klapbordje beweegt tegen de kanteling in, zodat het stil onderin het scherm blijft staan
           .fromTo(cap, { y: function () { return -drop(); } }, { y: 0, duration: 1, ease: 'power2.inOut' }, 0)
           .fromTo(cap, { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.35 }, 0);
-        // Prijs: de tekst herhaalt het bedrag en is lang; het exportvenster treedt terug zodra de tekst er is
-        if (id === 'prijs') payoffTl.fromTo(s.q('.export'), { opacity: 1 }, { opacity: 0.2, duration: 0.8 }, 0.2);
+        // Pakketten: de tekst is lang; de kaarten treden terug zodra de tekst er is
+        if (id === 'prijs') payoffTl.fromTo(s.q('.plans'), { opacity: 1 }, { opacity: 0.2, duration: 0.8 }, 0.2);
       }
 
       if (id === 'opening') {
@@ -699,6 +712,8 @@
       film = null;
       op.portrait = false;
       if (typedQuery) document.querySelector('.s-typed').textContent = typedQuery;
+      // tellers terug op hun echte bedrag (statische versie)
+      toArray(document.querySelectorAll('.pl-price b[data-to]')).forEach(function (b) { b.textContent = b.dataset.to; });
       toArray(document.querySelectorAll('.scene-cap')).forEach(function (el) { el.remove(); });
       if (op.mon) gsap.set([op.mon].concat(toArray(op.mon.querySelectorAll('.op-mask, .corner, .mon-meta, .op-format, .op-ring, .op-window, .op-v9, .op-v16'))), { clearProps: 'all' });
     };
@@ -778,7 +793,7 @@
 
   /* ---------- Ankerlinks (tijdlijn, menu, oude homepage-ankers): naar het juiste hoofdstuk ---------- */
   // Oude ankers van de vorige homepage blijven werken (links van buitenaf, bladwijzers).
-  var ALIASES = { werkwijze: 'media', voorbeeld: 'media', prijzen: 'prijs' };
+  var ALIASES = { werkwijze: 'media', voorbeeld: 'media', prijzen: 'prijs', pakketten: 'prijs' };
 
   function targetFor(hash) {
     var id = decodeURIComponent((hash || '').replace(/^#/, ''));
@@ -842,9 +857,10 @@
       var data = {
         naam: form.naam.value.trim(),
         contact: form.contact.value.trim(),
-        materiaal: form.materiaal.value,
-        type: form.type.value,
-        aantalFotos: form.aantalFotos.value.trim(),
+        wens: form.wens.value,
+        branche: form.branche.value,
+        website: form.website.value.trim(),
+        talen: form.talen.value.trim(),
         bericht: form.bericht.value.trim(),
         'bot-field': form['bot-field'].value,
         lang: LANG,

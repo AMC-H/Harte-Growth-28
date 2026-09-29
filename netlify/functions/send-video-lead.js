@@ -19,7 +19,11 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers: cors, body: JSON.stringify({ error: 'invalid json' }) };
   }
 
-  const { naam, contact, materiaal, type, aantalFotos, bericht } = data;
+  const { naam, contact, materiaal, type, aantalFotos, bericht, wens, branche, website, talen } = data;
+  // Homepage stuurt sinds sept. 2026 een website-/pakketaanvraag (wens, branche, website, talen);
+  // oudere pagina's sturen nog een video-aanvraag (materiaal, type, aantalFotos).
+  const isSite = Boolean(wens || branche || website || talen);
+  const kind = isSite ? 'website-aanvraag' : 'video-aanvraag';
 
   const lang = ['nl', 'en', 'es'].includes(String(data.lang || '').toLowerCase()) ? String(data.lang).toLowerCase() : 'nl';
   const page = typeof data.page === 'string' ? data.page.slice(0, 200) : '';
@@ -51,12 +55,16 @@ exports.handler = async (event) => {
       <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #e9e1d1;border-radius:14px;overflow:hidden;max-width:100%;">
         <tr><td style="padding:32px 32px 20px;">
           <div style="font-family:'Georgia',serif;font-size:14px;color:#ff4d1a;letter-spacing:.05em;text-transform:uppercase;">Harte Growth</div>
-          <h1 style="color:#17140f;font-size:24px;line-height:1.25;margin:8px 0 4px;font-weight:800;letter-spacing:-.02em;">Nieuwe video-aanvraag</h1>
-          <p style="color:#6b6a63;font-size:14px;margin:0 0 22px;">Iemand wil foto's laten omzetten naar een video.</p>
+          <h1 style="color:#17140f;font-size:24px;line-height:1.25;margin:8px 0 4px;font-weight:800;letter-spacing:-.02em;">Nieuwe ${kind}</h1>
+          <p style="color:#6b6a63;font-size:14px;margin:0 0 22px;">${isSite ? 'Iemand wil een website of maandpakket bespreken.' : 'Iemand wil foto\'s laten omzetten naar een video.'}</p>
 
           <table width="100%" cellpadding="0" cellspacing="0" style="background:#f6f1e7;border:1px solid #e9e1d1;border-radius:10px;padding:20px 22px;color:#17140f;font-size:15px;line-height:1.6;">
             <tr><td style="padding:6px 0;color:#6b6a63;width:130px;">Naam</td><td style="padding:6px 0;font-weight:600;">${escape(naam)}</td></tr>
             <tr><td style="padding:6px 0;color:#6b6a63;">WhatsApp / e-mail</td><td style="padding:6px 0;">${escape(contact)}</td></tr>
+            ${wens ? `<tr><td style="padding:6px 0;color:#6b6a63;">Zoekt</td><td style="padding:6px 0;">${escape(wens)}</td></tr>` : ''}
+            ${branche ? `<tr><td style="padding:6px 0;color:#6b6a63;">Branche</td><td style="padding:6px 0;">${escape(branche)}</td></tr>` : ''}
+            ${website ? `<tr><td style="padding:6px 0;color:#6b6a63;">Huidige site</td><td style="padding:6px 0;">${escape(website)}</td></tr>` : ''}
+            ${talen ? `<tr><td style="padding:6px 0;color:#6b6a63;">Talen</td><td style="padding:6px 0;">${escape(talen)}</td></tr>` : ''}
             ${materiaal ? `<tr><td style="padding:6px 0;color:#6b6a63;">Wat stuurt hij/zij</td><td style="padding:6px 0;">${escape(materiaal)}</td></tr>` : ''}
             ${type ? `<tr><td style="padding:6px 0;color:#6b6a63;">Waar van</td><td style="padding:6px 0;">${escape(type)}</td></tr>` : ''}
             ${aantalFotos ? `<tr><td style="padding:6px 0;color:#6b6a63;">Hoeveelheid</td><td style="padding:6px 0;">${escape(aantalFotos)}</td></tr>` : ''}
@@ -75,11 +83,11 @@ exports.handler = async (event) => {
 </body>
 </html>`;
 
-  const text = `Nieuwe video-aanvraag
+  const text = `Nieuwe ${kind}
 
 Naam: ${naam}
 WhatsApp/e-mail: ${contact}
-${materiaal ? 'Wat stuurt hij/zij: ' + materiaal + '\n' : ''}${type ? 'Waar van: ' + type + '\n' : ''}${aantalFotos ? 'Hoeveelheid: ' + aantalFotos + '\n' : ''}Tijd: ${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}
+${wens ? 'Zoekt: ' + wens + '\n' : ''}${branche ? 'Branche: ' + branche + '\n' : ''}${website ? 'Huidige site: ' + website + '\n' : ''}${talen ? 'Talen: ' + talen + '\n' : ''}${materiaal ? 'Wat stuurt hij/zij: ' + materiaal + '\n' : ''}${type ? 'Waar van: ' + type + '\n' : ''}${aantalFotos ? 'Hoeveelheid: ' + aantalFotos + '\n' : ''}Tijd: ${new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' })}
 ${bericht ? '\nOpmerking:\n' + bericht : ''}`;
 
   try {
@@ -93,7 +101,7 @@ ${bericht ? '\nOpmerking:\n' + bericht : ''}`;
         from: FROM,
         to: [TO],
         ...(looksLikeEmail ? { reply_to: contact } : {}),
-        subject: `${lang !== 'nl' ? '[' + lang.toUpperCase() + '] ' : ''}Nieuwe video-aanvraag: ${naam}`,
+        subject: `${lang !== 'nl' ? '[' + lang.toUpperCase() + '] ' : ''}Nieuwe ${kind}: ${naam}`,
         html,
         text
       })

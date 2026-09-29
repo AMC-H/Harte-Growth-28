@@ -878,10 +878,66 @@ img, video, svg { display: block; max-width: 100%; }
   /* de samenvatting blijft boven de tekstzone, zodat de tekst hem straks niet bedekt */
   .film-on #opvolging .summary { right: var(--gutter); bottom: calc(var(--text-zone) + 12px); }
 
-  /* Prijs: het bedrag in het exportvenster is het moment, dus groot */
-  .film-on #prijs .ex-price b { font-size: 2.1rem; }
 }
 
 /* btw-vermelding bij prijzen (klein, gedempt) */
 .vat { font: 400 .75rem/1 var(--f-body); color: var(--mute); white-space: nowrap; }
 .film-on .copy-body .vat { color: #C4C8CC; }
+
+/* ---------- Hoofdstuk 6: pakketten (vervangt het exportvenster) ----------
+   Drie maandpakketten komen één voor één binnen, de bedragen tellen op, Growth licht op.
+   Statisch (geen JS / reduced motion): alles staat meteen in het eindbeeld. */
+.plans { width: min(100cqw, 31rem); display: grid; gap: .75rem; }
+.pl-label { font: 500 .75rem/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--mute); margin: 0 0 .15rem; }
+.pl-card {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .3rem 1rem;
+  padding: 1.05rem 1.25rem; border-radius: 14px; background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line-2), 0 24px 60px -34px #000;
+  will-change: transform, opacity;
+}
+.pl-name { grid-column: 1; font: 700 1.1rem/1.15 var(--f-head); letter-spacing: -.01em; margin: 0; }
+.pl-price { grid-column: 2; grid-row: 1 / span 2; margin: 0; text-align: right; white-space: nowrap; font: 800 2rem/1 var(--f-head); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.pl-price small { font: 400 .75rem/1 var(--f-body); color: var(--mute); letter-spacing: 0; margin-right: .1rem; }
+.pl-price span { font: 400 .8125rem/1 var(--f-body); color: var(--mute); letter-spacing: 0; margin-left: .15rem; }
+.pl-line { grid-column: 1; margin: 0; font-size: .875rem; line-height: 1.35; color: var(--mute); }
+.pl-card.is-pick { background: #1C1717; margin-top: .6rem; } /* ruimte voor het label erboven */
+.pl-ring { position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 2px var(--accent), 0 0 40px -8px rgba(255, 59, 48, .45); pointer-events: none; }
+.pl-tag {
+  position: absolute; z-index: 1; top: 0; left: 1.25rem; transform: translateY(-50%);
+  padding: .3rem .55rem; border-radius: 5px; background: var(--accent); color: var(--bg);
+  font: 600 .6875rem/1 var(--f-mono); letter-spacing: .04em; text-transform: uppercase;
+}
+.pl-site {
+  display: flex; align-items: baseline; justify-content: space-between; gap: .75rem;
+  margin-top: .25rem; padding: .85rem 1.25rem; border-radius: 14px; border: 1px dashed var(--line-2);
+  font-size: .875rem; color: var(--mute);
+}
+.pl-site b { font: 700 1.1rem/1 var(--f-head); color: var(--ink); }
+
+.price .from { font-size: 1rem; }
+
+/* Bewijs in Verkeer: echte cijfers (Search Console) naast de illustratie */
+.proof-stat { display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem 1.1rem; margin-top: 1rem; color: var(--mute); }
+.proof-stat strong { font: 800 1.7rem/1 var(--f-head); letter-spacing: -.02em; color: var(--ink); margin-right: .2rem; }
+.proof-stat small { flex-basis: 100%; font: 400 .75rem/1.3 var(--f-mono); color: var(--mute); }
+.film-on .copy-body .proof-stat { color: #DCDFE2; }
+
+.ctas .link { font-weight: 500; }
+
+@media (max-width: 767px) {
+  .plans { width: 100%; max-width: 26rem; gap: .5rem; }
+  .pl-card { padding: .7rem .9rem; border-radius: 12px; gap: .15rem .75rem; }
+  .pl-name { font-size: .95rem; }
+  .pl-price { font-size: 1.55rem; }
+  .pl-line { font-size: .75rem; }
+  .pl-tag { left: .9rem; font-size: .625rem; }
+  .pl-site { padding: .6rem .9rem; font-size: .8125rem; }
+  .pl-site b { font-size: .95rem; }
+  .proof-stat { margin-top: .6rem; gap: .2rem .9rem; }
+  .proof-stat strong { font-size: 1.35rem; }
+}
+@media (max-width: 767px) and (max-height: 700px) {
+  .pl-line { display: none; }
+}
+/* statische versie (geen JS / reduced motion): de pakketten-scène mag zo hoog worden als nodig */
+:root:not(.film-on) #prijs .scene-in { aspect-ratio: auto; padding: 1rem 0; }
