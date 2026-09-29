@@ -62,6 +62,109 @@
   // eindbeeld. Show, then tell. Opening en Media houden de tekst vooraf: daar is de tekst de aanloop.
   var PAYOFF = { fundament: 1, verkeer: 1, opvolging: 1, prijs: 1 }; // prijs = Pakketten
 
+  // 1. Opening: echte klantsites zweven los in de ruimte (3D). Scrollen schuift ze samen: de telefoons vliegen
+  //    weg, de sites vormen een stapel, de achterste zakken weg en The A/C Men wordt één grote site die
+  //    vervolgens van boven naar beneden doorscrollt. Alles via transform/opacity; posities als deel van het podium.
+  var stack = document.querySelector('.stack');
+  var STACK_LAYOUT = {
+    desk: {
+      amexpat: { x: .27, y: .25, s: .36, ry: -24, rx: -8, rz: -4 },
+      sunkey: { x: -.28, y: .26, s: .34, ry: 22, rx: -8, rz: 3 },
+      timecargo: { x: .26, y: -.25, s: .36, ry: -26, rx: 8, rz: 4 },
+      'p-tc': { x: .03, y: -.27, s: .8, ry: -14, rx: 6, rz: -8 },
+      'p-acmen': { x: .04, y: .29, s: .8, ry: 12, rx: -6, rz: 7 },
+      acmen: { x: -.23, y: -.21, s: .42, ry: 24, rx: 6, rz: -3 }
+    },
+    mob: {
+      amexpat: { x: .25, y: .21, s: .42, ry: -20, rx: -6, rz: -4 },
+      sunkey: { x: -.25, y: .24, s: .4, ry: 18, rx: -6, rz: 3 },
+      timecargo: { x: .25, y: -.22, s: .42, ry: -22, rx: 6, rz: 4 },
+      acmen: { x: -.24, y: -.2, s: .46, ry: 20, rx: 6, rz: -3 }
+    }
+  };
+  SCENES.opening = function (tl, s) {
+    if (!stack) return;
+    var L = STACK_LAYOUT[s.mobile ? 'mob' : 'desk'];
+    var cards = toArray(s.q('.st-card')).filter(function (c) { return L[c.dataset.k] && visible(c); });
+    var main = s.scene.querySelector('.st-main');
+    var browsers = cards.filter(function (c) { return c.classList.contains('st-browser'); });
+    var back = browsers.filter(function (c) { return c !== main; });
+    var phones = cards.filter(function (c) { return c.classList.contains('st-phone'); });
+    var W = function () { return stack.offsetWidth; }, H = function () { return stack.offsetHeight; };
+    var get = function (c, k) { return L[c.dataset.k][k]; };
+    var depth = function (c) { return c === main ? 0 : back.length - back.indexOf(c); };
+    var DECK = s.mobile ? 0.58 : 0.52;
+    var scatter = function (extra) {
+      return Object.assign({
+        x: function (i, c) { return get(c, 'x') * W(); },
+        y: function (i, c) { return get(c, 'y') * H(); },
+        scale: function (i, c) { return get(c, 's'); },
+        rotationY: function (i, c) { return get(c, 'ry'); },
+        rotationX: function (i, c) { return get(c, 'rx'); },
+        rotation: function (i, c) { return get(c, 'rz'); },
+        transformPerspective: 1200
+      }, extra || {});
+    };
+    // sites naar een stapel in het midden
+    tl.fromTo(browsers, scatter(), {
+      x: 0,
+      y: function (i, c) { return -depth(c) * H() * 0.045; },
+      scale: function (i, c) { return DECK - depth(c) * 0.035; },
+      rotationY: 0, rotationX: 0,
+      rotation: function (i, c) { var d = depth(c); return d ? (d % 2 ? 1.4 : -1.4) * d : 0; },
+      duration: 0.4, ease: 'power2.inOut' // geen stagger: dan zet GSAP elke kaart meteen op zijn beginpositie
+    }, 0.06);
+    // telefoons vliegen het beeld uit
+    if (phones.length) tl.fromTo(phones, scatter({ autoAlpha: 1 }), {
+      x: function (i) { return (i % 2 ? 1 : -1) * W() * 0.8; },
+      y: function (i) { return (i % 2 ? 1 : -1) * H() * 0.2; },
+      rotation: function (i) { return i % 2 ? 28 : -28; },
+      rotationY: 0, rotationX: 0, autoAlpha: 0,
+      duration: 0.3, ease: 'power2.in'
+    }, 0.1);
+    // de achterste zakken weg, The A/C Men wordt één grote site
+    tl.to(back, { y: function () { return H() * 0.14; }, scale: '-=0.06', autoAlpha: 0, duration: 0.14, stagger: 0.03, ease: 'power2.in' }, 0.5)
+      .to(main, { scale: 1, y: 0, rotation: 0, duration: 0.2, ease: 'power3.inOut' }, 0.5);
+    // en scrollt dan zelf door, van hero tot footer
+    var page = main.querySelector('.st-page'), view = main.querySelector('.st-view');
+    tl.fromTo(page, { y: 0 }, {
+      y: function () { return -Math.max(0, page.offsetHeight - view.clientHeight); },
+      duration: 0.3, ease: 'power1.inOut'
+    }, 0.7);
+  };
+  // Binnenkomst: de sites komen uit de diepte aanvliegen (eenmalig, niet aan scroll gekoppeld).
+  function stackIntro(s) {
+    var ins = toArray(s.q('.st-card')).filter(visible).map(function (c) { return c.querySelector('.st-in'); });
+    return gsap.timeline()
+      .call(function () { root.classList.remove('intro'); })
+      .fromTo(ins, { autoAlpha: 0, scale: 0.55, y: 70, rotationX: -18, transformPerspective: 1000 }, {
+        autoAlpha: 1, scale: 1, y: 0, rotationX: 0, duration: 1.3, ease: 'expo.out',
+        stagger: { each: 0.09, from: 'random' }
+      }, 0.1);
+  }
+  // Leven in de hero: zacht zweven (pauzeert buiten beeld) en op desktop meekantelen met de muis (quickTo).
+  function stackLife(mobile) {
+    var bodies = toArray(document.querySelectorAll('.st-card .st-body')).filter(visible);
+    var floats = LITE ? [] : bodies.map(function (b, i) {
+      return gsap.to(b, { y: i % 2 ? 9 : -9, rotation: i % 2 ? -0.6 : 0.6, duration: 2.4 + i * 0.37, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+    });
+    ScrollTrigger.create({
+      trigger: '#opening', start: 'top bottom', end: 'bottom top',
+      onToggle: function (self) { floats.forEach(function (t) { if (self.isActive) t.resume(); else t.pause(); }); }
+    });
+    if (mobile || !window.matchMedia('(pointer: fine)').matches) return function () {};
+    gsap.set(stack, { transformPerspective: 1600 });
+    var rx = gsap.quickTo(stack, 'rotationX', { duration: 0.8, ease: 'power3' });
+    var ry = gsap.quickTo(stack, 'rotationY', { duration: 0.8, ease: 'power3' });
+    var move = function (e) {
+      if (window.scrollY > window.innerHeight) return;
+      ry((e.clientX / window.innerWidth - 0.5) * 10);
+      rx((e.clientY / window.innerHeight - 0.5) * -8);
+    };
+    window.addEventListener('mousemove', move, { passive: true });
+    return function () { window.removeEventListener('mousemove', move); };
+  }
+
   // 2. Media: losse foto's vallen in de bak, schuiven op de tijdlijn, krijgen cuts, tekst en geluid,
   //    en spelen af als afgewerkte 9:16-video in het programmascherm.
   var media = { video: null, hasVideo: false, t0: 0.64, span: 0.3 };
@@ -531,7 +634,7 @@
         var beforeContact = chapter.nextElementSibling && chapter.nextElementSibling.id === 'contact';
         // desktop: de staande opening landt op het 9:16-scherm van Media en lost daar kort over in het
         // resultaat (ander materiaal, dus een korte cross-dissolve in plaats van een lange overlap)
-        var intoMedia = id === 'opening' && !mobile;
+        var intoMedia = id === 'opening' && !mobile && !!op.mon; // alleen met de oude video-opening
         gsap.fromTo(scene, { autoAlpha: 1 }, {
           autoAlpha: 0, ease: 'none',
           scrollTrigger: {
@@ -548,7 +651,7 @@
           defaults: { ease: 'none' },
           scrollTrigger: {
             // de opbouw begint al tijdens het invaden, zodat een scène nooit als lege huls in beeld staat
-            trigger: chapter, start: id === 'opening' ? 'top top' : 'top 45%',
+            trigger: chapter, start: id === 'opening' ? (mobile && stack ? 'top -75%' : 'top top') : 'top 45%', // mobiel: pas na de openingstekst
             // mobiel payoff: de opbouw is af op het moment dat de tekst onderin binnenkomt
             end: payoff ? 'top bottom' : 'bottom bottom', endTrigger: payoff ? body : chapter,
             scrub: mobile ? 0.4 : 0.6, // mobiel ook iets vertraagd: voelt als een camerabeweging i.p.v. schokkerig
@@ -590,10 +693,12 @@
       }
 
       if (id === 'opening') {
-        if (window.scrollY < window.innerHeight * 0.5) openingIntro(s);
+        if (window.scrollY < window.innerHeight * 0.5) { if (stack) stackIntro(s); else openingIntro(s); }
         else root.classList.remove('intro'); // halverwege de pagina binnengekomen: geen intro
       }
     });
+
+    var stackOff = stack ? stackLife(mobile) : function () {};
 
     // villavideo van de demosite: laden ruim voordat Fundament in beeld komt
     ScrollTrigger.create({ trigger: '#fundament', start: 'top 250%', once: true, onEnter: function () { loadDemoVideo(mobile); } });
@@ -707,7 +812,8 @@
     });
 
     return function () {
-      op.v16.pause(); if (op.loaded) op.v9.pause();
+      if (op.v16) { op.v16.pause(); if (op.loaded) op.v9.pause(); }
+      stackOff();
       root.classList.remove('film-on', 'intro');
       film = null;
       op.portrait = false;
