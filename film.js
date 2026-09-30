@@ -62,72 +62,25 @@
   // eindbeeld. Show, then tell. Opening en Media houden de tekst vooraf: daar is de tekst de aanloop.
   var PAYOFF = { fundament: 1, verkeer: 1, opvolging: 1, prijs: 1 }; // prijs = Pakketten
 
-  // 1. Opening: echte klantsites zweven los in de ruimte (3D). Scrollen schuift ze samen: de telefoons vliegen
-  //    weg, de sites vormen een stapel, de achterste zakken weg en The A/C Men wordt één grote site die
-  //    vervolgens van boven naar beneden doorscrollt. Alles via transform/opacity; posities als deel van het podium.
+  // 1. Opening: een schermvullende wand van echte klantsites (desktop + mobiel) op een schuin 3D-vlak.
+  //    Scrollen: de rijen schuiven open (om en om naar links/rechts), het vlak kantelt vlakker en treedt terug,
+  //    en de grote A/C Men-site komt eruit naar voren. Die wisselt bovenaan van taal en scrollt dan door.
   var stack = document.querySelector('.stack');
-  var STACK_LAYOUT = {
-    desk: {
-      amexpat: { x: .27, y: .25, s: .36, ry: -24, rx: -8, rz: -4 },
-      sunkey: { x: -.28, y: .26, s: .34, ry: 22, rx: -8, rz: 3 },
-      timecargo: { x: .26, y: -.25, s: .36, ry: -26, rx: 8, rz: 4 },
-      'p-tc': { x: .03, y: -.27, s: .8, ry: -14, rx: 6, rz: -8 },
-      'p-acmen': { x: .04, y: .29, s: .8, ry: 12, rx: -6, rz: 7 },
-      acmen: { x: -.23, y: -.21, s: .42, ry: 24, rx: 6, rz: -3 }
-    },
-    mob: {
-      amexpat: { x: .25, y: .21, s: .42, ry: -20, rx: -6, rz: -4 },
-      sunkey: { x: -.25, y: .24, s: .4, ry: 18, rx: -6, rz: 3 },
-      timecargo: { x: .25, y: -.22, s: .42, ry: -22, rx: 6, rz: 4 },
-      acmen: { x: -.24, y: -.2, s: .46, ry: 20, rx: 6, rz: -3 }
-    }
-  };
+  var wall = document.querySelector('.wall');
   SCENES.opening = function (tl, s) {
-    if (!stack) return;
-    var L = STACK_LAYOUT[s.mobile ? 'mob' : 'desk'];
-    var cards = toArray(s.q('.st-card')).filter(function (c) { return L[c.dataset.k] && visible(c); });
     var main = s.scene.querySelector('.st-main');
-    var browsers = cards.filter(function (c) { return c.classList.contains('st-browser'); });
-    var back = browsers.filter(function (c) { return c !== main; });
-    var phones = cards.filter(function (c) { return c.classList.contains('st-phone'); });
-    var W = function () { return stack.offsetWidth; }, H = function () { return stack.offsetHeight; };
-    var get = function (c, k) { return L[c.dataset.k][k]; };
-    var depth = function (c) { return c === main ? 0 : back.length - back.indexOf(c); };
-    var DECK = s.mobile ? 0.58 : 0.52;
-    var scatter = function (extra) {
-      return Object.assign({
-        x: function (i, c) { return get(c, 'x') * W(); },
-        y: function (i, c) { return get(c, 'y') * H(); },
-        scale: function (i, c) { return get(c, 's'); },
-        rotationY: function (i, c) { return get(c, 'ry'); },
-        rotationX: function (i, c) { return get(c, 'rx'); },
-        rotation: function (i, c) { return get(c, 'rz'); },
-        transformPerspective: 1200
-      }, extra || {});
-    };
-    // sites naar een stapel in het midden
-    tl.fromTo(browsers, scatter(), {
-      x: 0,
-      y: function (i, c) { return -depth(c) * H() * 0.045; },
-      scale: function (i, c) { return DECK - depth(c) * 0.035; },
-      rotationY: 0, rotationX: 0,
-      rotation: function (i, c) { var d = depth(c); return d ? (d % 2 ? 1.4 : -1.4) * d : 0; },
-      duration: 0.4, ease: 'power2.inOut' // geen stagger: dan zet GSAP elke kaart meteen op zijn beginpositie
-    }, 0.06);
-    // telefoons vliegen het beeld uit
-    if (phones.length) tl.fromTo(phones, scatter({ autoAlpha: 1 }), {
-      x: function (i) { return (i % 2 ? 1 : -1) * W() * 0.8; },
-      y: function (i) { return (i % 2 ? 1 : -1) * H() * 0.2; },
-      rotation: function (i) { return i % 2 ? 28 : -28; },
-      rotationY: 0, rotationX: 0, autoAlpha: 0,
-      duration: 0.3, ease: 'power2.in'
-    }, 0.1);
-    // de achterste zakken weg, The A/C Men wordt één grote site
-    tl.to(back, { y: function () { return H() * 0.14; }, scale: '-=0.06', autoAlpha: 0, duration: 0.14, stagger: 0.03, ease: 'power2.in' }, 0.5)
-      .to(main, { scale: 1, y: 0, rotation: 0, duration: 0.2, ease: 'power3.inOut' }, 0.5);
-    // en scrollt dan zelf door, van hero tot footer
-    // ... terwijl hij van taal wisselt: de taalversies verschijnen na elkaar en de adresbalk loopt mee.
-    //     Hij eindigt in de taal van de bezoeker (volgorde staat in de HTML).
+    if (!stack || !main) return;
+    var Hs = function () { return stack.offsetHeight; };
+    if (wall) {
+      var plane = wall.querySelector('.wall-plane'), rows = toArray(wall.querySelectorAll('.wall-row'));
+      gsap.set(plane, { xPercent: -50, yPercent: -50 });
+      tl.fromTo(plane, { rotationX: 24, rotation: -12, scale: 1 }, { rotationX: 6, rotation: -3, scale: 1.3, duration: 0.5, ease: 'power1.inOut' }, 0.02)
+        .fromTo(rows, { x: 0 }, { x: function (i) { return (i % 2 ? 1 : -1) * window.innerWidth * 0.6; }, duration: 0.5, ease: 'power2.in' }, 0.04)
+        .fromTo(wall, { autoAlpha: 1 }, { autoAlpha: 0.14, duration: 0.42, ease: 'none' }, 0.12);
+    }
+    tl.fromTo(main, { autoAlpha: 0, y: function () { return Hs() * 0.4; }, scale: 0.55, rotationX: 30, transformPerspective: 1200 },
+      { autoAlpha: 1, y: 0, scale: 1, rotationX: 0, duration: 0.42, ease: 'power3.out' }, 0.14);
+    // taalwissel bovenaan, daarna doorscrollen (eindigt in de taal van de bezoeker, volgorde in de HTML)
     var pages = toArray(main.querySelectorAll('.st-page')), view = main.querySelector('.st-view');
     var urlEl = main.querySelector('.st-url'), urls = pages.map(function (pg) { return pg.dataset.url; });
     var syncUrl = function () {
@@ -135,13 +88,35 @@
       pages.forEach(function (pg, k) { if (k && Number(gsap.getProperty(pg, 'opacity')) > 0.5) i = k; });
       if (urlEl && urls[i] && urlEl.textContent !== urls[i]) urlEl.textContent = urls[i];
     };
+    if (pages.length > 1) tl.fromTo(pages.slice(1), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.035, stagger: 0.08, ease: 'none', onUpdate: syncUrl }, 0.6);
     tl.fromTo(pages, { y: 0 }, {
       y: function () { return -Math.max(0, pages[0].offsetHeight - view.clientHeight); },
-      duration: 0.22, ease: 'power1.inOut', onUpdate: syncUrl
-    }, 0.8); // eerst de taalwissel bovenaan in beeld, daarna doorscrollen
-    if (pages.length > 1) tl.fromTo(pages.slice(1), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.035, stagger: 0.08, ease: 'none', onUpdate: syncUrl }, 0.63);
+      duration: 0.2, ease: 'power1.inOut', onUpdate: syncUrl
+    }, 0.8);
   };
-  // Binnenkomst: de sites komen uit de diepte aanvliegen (eenmalig, niet aan scroll gekoppeld).
+  // Leven in de wand: rijen schuiven eindeloos om en om (pauzeert buiten beeld); desktop: camera volgt de muis.
+  function wallLife(mobile) {
+    if (!wall) return function () {};
+    var loops = toArray(wall.querySelectorAll('.wall-track')).map(function (t, i) {
+      var left = i % 2 === 0;
+      return gsap.fromTo(t, { xPercent: left ? 0 : -50 }, { xPercent: left ? -50 : 0, duration: (mobile ? 55 : 80) + i * 14, ease: 'none', repeat: -1 });
+    });
+    ScrollTrigger.create({
+      trigger: '#opening', start: 'top bottom', end: 'bottom top',
+      onToggle: function (self) { loops.forEach(function (t) { if (self.isActive) t.resume(); else t.pause(); }); }
+    });
+    if (mobile || !window.matchMedia('(pointer: fine)').matches) return function () {};
+    var cam = wall.querySelector('.wall-cam');
+    var cx = gsap.quickTo(cam, 'x', { duration: 1.2, ease: 'power3' }), cy = gsap.quickTo(cam, 'y', { duration: 1.2, ease: 'power3' });
+    var move = function (e) {
+      if (window.scrollY > window.innerHeight) return;
+      cx((e.clientX / window.innerWidth - 0.5) * -60);
+      cy((e.clientY / window.innerHeight - 0.5) * -40);
+    };
+    window.addEventListener('mousemove', move, { passive: true });
+    return function () { window.removeEventListener('mousemove', move); };
+  }
+
   // Kop in losse woorden (één keer), zodat hij woord voor woord kan opkomen. De tekst zelf blijft gelijk.
   function splitWords(h) {
     if (!h) return [];
@@ -154,39 +129,17 @@
   }
   function stackIntro(s) {
     var ins = toArray(s.q('.st-card')).filter(visible).map(function (c) { return c.querySelector('.st-in'); });
+    var cam = wall && wall.querySelector('.wall-cam');
     var words = splitWords(document.getElementById('opening-h'));
     var rest = toArray(document.querySelectorAll('#opening .copy-body > :not(h1)'));
     return gsap.timeline()
       .fromTo(words, { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger: 0.055, ease: 'expo.out' }, 0)
       .fromTo(rest, { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.07, ease: 'power3.out' }, 0.55)
       .call(function () { root.classList.remove('intro'); }, null, 0)
-      .fromTo(ins, { autoAlpha: 0, scale: 0.55, y: 70, rotationX: -18, transformPerspective: 1000 }, {
-        autoAlpha: 1, scale: 1, y: 0, rotationX: 0, duration: 1.3, ease: 'expo.out',
-        stagger: { each: 0.09, from: 'random' }
-      }, 0.1);
+      .set(ins, { autoAlpha: 1 }, 0)
+      .fromTo(cam, { autoAlpha: 0, scale: 1.12 }, { autoAlpha: 1, scale: 1, duration: 2, ease: 'expo.out' }, 0);
   }
-  // Leven in de hero: zacht zweven (pauzeert buiten beeld) en op desktop meekantelen met de muis (quickTo).
-  function stackLife(mobile) {
-    var bodies = toArray(document.querySelectorAll('.st-card .st-body')).filter(visible);
-    var floats = LITE ? [] : bodies.map(function (b, i) {
-      return gsap.to(b, { y: i % 2 ? 9 : -9, rotation: i % 2 ? -0.6 : 0.6, duration: 2.4 + i * 0.37, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-    });
-    ScrollTrigger.create({
-      trigger: '#opening', start: 'top bottom', end: 'bottom top',
-      onToggle: function (self) { floats.forEach(function (t) { if (self.isActive) t.resume(); else t.pause(); }); }
-    });
-    if (mobile || !window.matchMedia('(pointer: fine)').matches) return function () {};
-    gsap.set(stack, { transformPerspective: 1600 });
-    var rx = gsap.quickTo(stack, 'rotationX', { duration: 0.8, ease: 'power3' });
-    var ry = gsap.quickTo(stack, 'rotationY', { duration: 0.8, ease: 'power3' });
-    var move = function (e) {
-      if (window.scrollY > window.innerHeight) return;
-      ry((e.clientX / window.innerWidth - 0.5) * 10);
-      rx((e.clientY / window.innerHeight - 0.5) * -8);
-    };
-    window.addEventListener('mousemove', move, { passive: true });
-    return function () { window.removeEventListener('mousemove', move); };
-  }
+
 
   // 2. Media: losse foto's vallen in de bak, schuiven op de tijdlijn, krijgen cuts, tekst en geluid,
   //    en spelen af als afgewerkte 9:16-video in het programmascherm.
@@ -721,7 +674,7 @@
       }
     });
 
-    var stackOff = stack ? stackLife(mobile) : function () {};
+    var stackOff = wallLife(mobile);
 
     // villavideo van de demosite: laden ruim voordat Fundament in beeld komt
     ScrollTrigger.create({ trigger: '#fundament', start: 'top 250%', once: true, onEnter: function () { loadDemoVideo(mobile); } });

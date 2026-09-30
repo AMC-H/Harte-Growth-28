@@ -1002,3 +1002,46 @@ img, video, svg { display: block; max-width: 100%; }
 @media (max-width: 767px) {
   .hero-proof { margin-top: 1rem; font-size: .875rem; }
 }
+
+/* ---------- Hero: de wand ----------
+   Schermvullend, achter de tekst. Vier rijen echte sites op een schuin 3D-vlak die langzaam langs elkaar
+   schuiven (film.js). Alleen transform/opacity. Een donkere overgang houdt de tekst leesbaar. */
+.wall { display: none; }
+.film-on .wall { display: block; position: absolute; inset: 0; overflow: hidden; perspective: 1500px; }
+.wall-cam { position: absolute; inset: 0; will-change: transform; }
+.intro .wall-cam { opacity: 0; }
+.wall-plane {
+  position: absolute; left: 50%; top: 50%; width: 200vw;
+  display: flex; flex-direction: column; gap: 2.4vh; will-change: transform;
+}
+.wall-row { height: 23vh; will-change: transform; }
+.wall-track { display: flex; gap: 1.6vh; height: 100%; width: max-content; will-change: transform; }
+.wt {
+  flex: none; height: 100%; margin: 0; overflow: hidden; border-radius: 10px; background: #fff;
+  box-shadow: 0 0 0 1px rgba(242, 240, 236, .1), 0 30px 60px -28px rgba(0, 0, 0, .9);
+}
+.wt img { display: block; height: 100%; width: auto; }
+.wt-m { border-radius: 18px; border: 4px solid #0B0C0D; background: #0B0C0D; }
+.wall::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(15, 17, 19, .96) 0%, rgba(15, 17, 19, .9) 31%, rgba(15, 17, 19, .4) 46%, rgba(15, 17, 19, 0) 60%),
+    linear-gradient(180deg, rgba(15, 17, 19, .45) 0%, transparent 10%, transparent 88%, rgba(15, 17, 19, .6) 100%);
+}
+/* de wand vult het hele scherm; de grote site staat rechts in zijn eigen vak */
+.film-on #opening > .scene { left: 0; padding: 0; }
+.film-on #opening .scene-in::before { display: none; }
+.film-on #opening .stack {
+  position: absolute; top: 3vh; bottom: 4vh; left: 42vw; right: calc(100px + var(--safe-r));
+  width: auto; height: auto; container-type: size;
+}
+@media (max-width: 767px) {
+  .film-on #opening .scene-in { padding: 0; }
+  .film-on #opening .stack { top: 14px; left: var(--gutter); right: var(--gutter); bottom: var(--text-zone); }
+  .wall-row { height: 17vh; }
+  .wall-plane { width: 320vw; gap: 1.6vh; }
+  .wall::after {
+    background:
+      linear-gradient(0deg, rgba(15, 17, 19, .96) 0%, rgba(15, 17, 19, .8) 30%, rgba(15, 17, 19, .1) 50%, rgba(15, 17, 19, 0) 80%, rgba(15, 17, 19, .25) 100%);
+  }
+}
