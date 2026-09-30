@@ -126,17 +126,40 @@
     tl.to(back, { y: function () { return H() * 0.14; }, scale: '-=0.06', autoAlpha: 0, duration: 0.14, stagger: 0.03, ease: 'power2.in' }, 0.5)
       .to(main, { scale: 1, y: 0, rotation: 0, duration: 0.2, ease: 'power3.inOut' }, 0.5);
     // en scrollt dan zelf door, van hero tot footer
-    var page = main.querySelector('.st-page'), view = main.querySelector('.st-view');
-    tl.fromTo(page, { y: 0 }, {
-      y: function () { return -Math.max(0, page.offsetHeight - view.clientHeight); },
-      duration: 0.3, ease: 'power1.inOut'
-    }, 0.7);
+    // ... terwijl hij van taal wisselt: de taalversies verschijnen na elkaar en de adresbalk loopt mee.
+    //     Hij eindigt in de taal van de bezoeker (volgorde staat in de HTML).
+    var pages = toArray(main.querySelectorAll('.st-page')), view = main.querySelector('.st-view');
+    var urlEl = main.querySelector('.st-url'), urls = pages.map(function (pg) { return pg.dataset.url; });
+    var syncUrl = function () {
+      var i = 0;
+      pages.forEach(function (pg, k) { if (k && Number(gsap.getProperty(pg, 'opacity')) > 0.5) i = k; });
+      if (urlEl && urls[i] && urlEl.textContent !== urls[i]) urlEl.textContent = urls[i];
+    };
+    tl.fromTo(pages, { y: 0 }, {
+      y: function () { return -Math.max(0, pages[0].offsetHeight - view.clientHeight); },
+      duration: 0.22, ease: 'power1.inOut', onUpdate: syncUrl
+    }, 0.8); // eerst de taalwissel bovenaan in beeld, daarna doorscrollen
+    if (pages.length > 1) tl.fromTo(pages.slice(1), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.035, stagger: 0.08, ease: 'none', onUpdate: syncUrl }, 0.63);
   };
   // Binnenkomst: de sites komen uit de diepte aanvliegen (eenmalig, niet aan scroll gekoppeld).
+  // Kop in losse woorden (één keer), zodat hij woord voor woord kan opkomen. De tekst zelf blijft gelijk.
+  function splitWords(h) {
+    if (!h) return [];
+    if (!h.dataset.split) {
+      h.dataset.split = '1';
+      var esc = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+      h.innerHTML = h.textContent.trim().split(/\s+/).map(function (w) { return '<span class="w"><i>' + esc(w) + '</i></span>'; }).join(' ');
+    }
+    return toArray(h.querySelectorAll('.w > i'));
+  }
   function stackIntro(s) {
     var ins = toArray(s.q('.st-card')).filter(visible).map(function (c) { return c.querySelector('.st-in'); });
+    var words = splitWords(document.getElementById('opening-h'));
+    var rest = toArray(document.querySelectorAll('#opening .copy-body > :not(h1)'));
     return gsap.timeline()
-      .call(function () { root.classList.remove('intro'); })
+      .fromTo(words, { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger: 0.055, ease: 'expo.out' }, 0)
+      .fromTo(rest, { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.07, ease: 'power3.out' }, 0.55)
+      .call(function () { root.classList.remove('intro'); }, null, 0)
       .fromTo(ins, { autoAlpha: 0, scale: 0.55, y: 70, rotationX: -18, transformPerspective: 1000 }, {
         autoAlpha: 1, scale: 1, y: 0, rotationX: 0, duration: 1.3, ease: 'expo.out',
         stagger: { each: 0.09, from: 'random' }
