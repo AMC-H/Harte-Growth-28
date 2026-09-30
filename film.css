@@ -887,7 +887,7 @@ img, video, svg { display: block; max-width: 100%; }
 /* ---------- Hoofdstuk 6: pakketten (vervangt het exportvenster) ----------
    Drie maandpakketten komen één voor één binnen, de bedragen tellen op, Growth licht op.
    Statisch (geen JS / reduced motion): alles staat meteen in het eindbeeld. */
-.plans { width: min(100cqw, 31rem); display: grid; gap: .75rem; }
+#prijs .plans { width: min(100cqw, 31rem); display: grid; gap: .75rem; } /* alleen homepage: /diensten gebruikt .plans ook */
 .pl-label { font: 500 .75rem/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--mute); margin: 0 0 .15rem; }
 .pl-card {
   position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .3rem 1rem;
@@ -925,7 +925,7 @@ img, video, svg { display: block; max-width: 100%; }
 .ctas .link { font-weight: 500; }
 
 @media (max-width: 767px) {
-  .plans { width: 100%; max-width: 26rem; gap: .5rem; }
+  #prijs .plans { width: 100%; max-width: 26rem; gap: .5rem; }
   .pl-card { padding: .7rem .9rem; border-radius: 12px; gap: .15rem .75rem; }
   .pl-name { font-size: .95rem; }
   .pl-price { font-size: 1.55rem; }
