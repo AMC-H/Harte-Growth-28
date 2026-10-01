@@ -58,6 +58,16 @@
 .reel.is-paused .reel-play .i-play { display: block; }
 .reel.is-paused .reel-play .i-pause { display: none; }
 
+/* Short-form: rij 9:16-video's (desktop 3 naast elkaar, mobiel swipen) */
+.reels-label {
+  grid-column: span 12; display: flex; justify-content: space-between; align-items: baseline; margin: 1.2rem 0 -.25rem;
+  font: 500 .8125rem/1 var(--f-mono); color: var(--mute); letter-spacing: .02em;
+}
+.reels-label span { display: none; color: var(--ink); }
+.reels-row { grid-column: span 12; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.reels-row .reel { aspect-ratio: 9 / 16; }
+.reels .reel-cta { grid-column: span 12; }
+
 /* Prijs: één kaart */
 .vid-price { max-width: 520px; margin-top: 2rem; }
 
@@ -70,10 +80,18 @@
   .vid-hero .lede { order: 4; } .vid-hero .vid-ticks { order: 5; } .vid-hero .ctas { order: 6; }
   .reel-half { grid-column: span 12; }
   .reel-tall { grid-column: span 6; }
+  .reels-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .reel-cta { grid-column: span 12; }
 }
 @media (max-width: 599px) {
   .reels { gap: .75rem; }
+  .reels-label span { display: inline; }
+  .reels-row {
+    display: flex; gap: .75rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    margin-inline: calc(-1 * var(--gutter, 16px)); padding: 0 var(--gutter, 16px) .25rem; scrollbar-width: none;
+  }
+  .reels-row::-webkit-scrollbar { display: none; }
+  .reels-row .reel { flex: 0 0 72vw; max-width: 300px; scroll-snap-align: center; }
   .reel-tall { grid-column: span 12; max-width: 380px; width: 100%; justify-self: center; }
   .phone { width: min(260px, 64vw); }
 }
