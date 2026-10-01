@@ -62,61 +62,93 @@
   // eindbeeld. Show, then tell. Opening en Media houden de tekst vooraf: daar is de tekst de aanloop.
   var PAYOFF = { fundament: 1, verkeer: 1, opvolging: 1, prijs: 1 }; // prijs = Pakketten
 
-  // 1. Opening: een schermvullende wand van echte klantsites (desktop + mobiel) op een schuin 3D-vlak.
-  //    Scrollen: de rijen schuiven open (om en om naar links/rechts), het vlak kantelt vlakker en treedt terug,
-  //    en de grote A/C Men-site komt eruit naar voren. Die wisselt bovenaan van taal en scrollt dan door.
-  var stack = document.querySelector('.stack');
-  var wall = document.querySelector('.wall');
+  // 1. Opening: showreel van alle klantsites, elk in al hun echte talen (telefoon eerst).
+  //    Eén scrub-tijdlijn, één stap per taalversie. Binnen een site schuift de site als een swipe naar de
+  //    volgende taal en wisselt de taalnaam groot boven het toestel; bij een nieuwe klant schuift de nieuwe
+  //    site van onder in beeld en wisselen naam, gloed en taalknoppen. Alleen transform/opacity.
+  var reel = document.querySelector('.reel');
+  var stack = reel; // tijdlijn-start op mobiel kijkt hiernaar
+  var REEL_T = 0.55; // duur van een overgang, in stappen
   SCENES.opening = function (tl, s) {
-    var main = s.scene.querySelector('.st-main');
-    if (!stack || !main) return;
-    var Hs = function () { return stack.offsetHeight; };
-    if (wall) {
-      var plane = wall.querySelector('.wall-plane'), rows = toArray(wall.querySelectorAll('.wall-row'));
-      gsap.set(plane, { xPercent: -50, yPercent: -50 });
-      tl.fromTo(plane, { rotationX: 24, rotation: -12, scale: 1 }, { rotationX: 6, rotation: -3, scale: 1.3, duration: 0.5, ease: 'power1.inOut' }, 0.02)
-        .fromTo(rows, { x: 0 }, { x: function (i) { return (i % 2 ? 1 : -1) * window.innerWidth * 0.6; }, duration: 0.5, ease: 'power2.in' }, 0.04)
-        .fromTo(wall, { autoAlpha: 1 }, { autoAlpha: 0.14, duration: 0.42, ease: 'none' }, 0.12);
+    if (!reel) return;
+    var steps = toArray(reel.querySelectorAll('.reel-data > i')).map(function (el) { return { s: Number(el.dataset.s), url: el.dataset.url }; });
+    var N = steps.length;
+    var shots = function (sel) { return toArray(reel.querySelectorAll(sel + ' .rd-screen > img')); };
+    var screens = s.mobile ? [shots('.rd-phone')] : [shots('.rd-browser'), shots('.rd-phone')];
+    var words = toArray(reel.querySelectorAll('.ri-words > span'));
+    var sites = toArray(reel.querySelectorAll('.ri-site'));
+    var chipsets = toArray(reel.querySelectorAll('.ri-chips'));
+    var glows = toArray(reel.querySelectorAll('.reel-glow > i'));
+    var chips = toArray(reel.querySelectorAll('.ri-chips > span'));
+    var urlEl = reel.querySelector('.rd-url');
+    var first = function (i) { return i ? 0 : 1; };
+    var IR = { immediateRender: false };
+
+    // begintoestand: stap 1 in beeld
+    screens.forEach(function (list) { gsap.set(list, { xPercent: 0, yPercent: 0, scale: 1, autoAlpha: first }); });
+    gsap.set(words, { yPercent: 0, autoAlpha: first });
+    gsap.set(sites, { y: 0, autoAlpha: first });
+    gsap.set(chipsets, { y: 0, autoAlpha: first });
+    gsap.set(glows, { autoAlpha: first });
+
+    for (var i = 1; i < N; i++) {
+      var at = i, newSite = steps[i].s !== steps[i - 1].s;
+      screens.forEach(function (list) {
+        var prev = list[i - 1], next = list[i];
+        if (newSite) {
+          tl.fromTo(prev, { yPercent: 0, xPercent: 0, scale: 1, autoAlpha: 1 }, Object.assign({ yPercent: -12, scale: 0.9, autoAlpha: 0, duration: REEL_T, ease: 'power2.in' }, IR), at)
+            .fromTo(next, { yPercent: 100, xPercent: 0, scale: 1, autoAlpha: 1 }, Object.assign({ yPercent: 0, duration: REEL_T, ease: 'power3.out' }, IR), at + 0.12);
+        } else {
+          tl.fromTo(prev, { xPercent: 0, yPercent: 0, autoAlpha: 1 }, Object.assign({ xPercent: -100, duration: REEL_T, ease: 'power2.inOut' }, IR), at)
+            .fromTo(next, { xPercent: 100, yPercent: 0, scale: 1, autoAlpha: 1 }, Object.assign({ xPercent: 0, duration: REEL_T, ease: 'power2.inOut' }, IR), at);
+        }
+      });
+      tl.fromTo(words[i - 1], { yPercent: 0, autoAlpha: 1 }, Object.assign({ yPercent: -110, autoAlpha: 0, duration: REEL_T * 0.7, ease: 'power2.in' }, IR), at)
+        .fromTo(words[i], { yPercent: 110, autoAlpha: 1 }, Object.assign({ yPercent: 0, duration: REEL_T * 0.7, ease: 'power3.out' }, IR), at + REEL_T * 0.3);
+      if (newSite) {
+        var a = steps[i - 1].s, b = steps[i].s;
+        tl.fromTo(sites[a], { y: 0, autoAlpha: 1 }, Object.assign({ y: -16, autoAlpha: 0, duration: REEL_T * 0.6 }, IR), at)
+          .fromTo(sites[b], { y: 16, autoAlpha: 0 }, Object.assign({ y: 0, autoAlpha: 1, duration: REEL_T * 0.6, ease: 'power2.out' }, IR), at + REEL_T * 0.4)
+          .fromTo(chipsets[a], { y: 0, autoAlpha: 1 }, Object.assign({ y: 10, autoAlpha: 0, duration: REEL_T * 0.5 }, IR), at)
+          .fromTo(chipsets[b], { y: -10, autoAlpha: 0 }, Object.assign({ y: 0, autoAlpha: 1, duration: REEL_T * 0.5, ease: 'power2.out' }, IR), at + REEL_T * 0.45)
+          .fromTo(glows[a], { autoAlpha: 1 }, Object.assign({ autoAlpha: 0, duration: REEL_T }, IR), at)
+          .fromTo(glows[b], { autoAlpha: 0 }, Object.assign({ autoAlpha: 1, duration: REEL_T }, IR), at);
+      }
     }
-    tl.fromTo(main, { autoAlpha: 0, y: function () { return Hs() * 0.4; }, scale: 0.55, rotationX: 30, transformPerspective: 1200 },
-      { autoAlpha: 1, y: 0, scale: 1, rotationX: 0, duration: 0.42, ease: 'power3.out' }, 0.14);
-    // taalwissel bovenaan, daarna doorscrollen (eindigt in de taal van de bezoeker, volgorde in de HTML)
-    var pages = toArray(main.querySelectorAll('.st-page')), view = main.querySelector('.st-view');
-    var urlEl = main.querySelector('.st-url'), urls = pages.map(function (pg) { return pg.dataset.url; });
-    var syncUrl = function () {
-      var i = 0;
-      pages.forEach(function (pg, k) { if (k && Number(gsap.getProperty(pg, 'opacity')) > 0.5) i = k; });
-      if (urlEl && urls[i] && urlEl.textContent !== urls[i]) urlEl.textContent = urls[i];
-    };
-    if (pages.length > 1) tl.fromTo(pages.slice(1), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.035, stagger: 0.08, ease: 'none', onUpdate: syncUrl }, 0.6);
-    tl.fromTo(pages, { y: 0 }, {
-      y: function () { return -Math.max(0, pages[0].offsetHeight - view.clientHeight); },
-      duration: 0.2, ease: 'power1.inOut', onUpdate: syncUrl
-    }, 0.8);
-  };
-  // Leven in de wand: rijen schuiven eindeloos om en om (pauzeert buiten beeld); desktop: camera volgt de muis.
-  function wallLife(mobile) {
-    if (!wall) return function () {};
-    var loops = toArray(wall.querySelectorAll('.wall-track')).map(function (t, i) {
-      var left = i % 2 === 0;
-      return gsap.fromTo(t, { xPercent: left ? 0 : -50 }, { xPercent: left ? -50 : 0, duration: (mobile ? 55 : 80) + i * 14, ease: 'none', repeat: -1 });
+    tl.set({}, {}, N - 1 + REEL_T + 0.7); // laatste site even laten staan
+
+    // actieve taalknop + adresbalk volgen de stap (wisselt op het midden van elke overgang)
+    var last = -1;
+    tl.eventCallback('onUpdate', function () {
+      var k = Math.max(0, Math.min(N - 1, Math.floor(tl.time() - REEL_T / 2))); // aantal gepasseerde overgangsmiddens
+      if (k === last) return;
+      last = k;
+      chips.forEach(function (c) { c.classList.toggle('on', Number(c.dataset.i) === k); });
+      if (urlEl) urlEl.textContent = steps[k].url;
     });
-    ScrollTrigger.create({
-      trigger: '#opening', start: 'top bottom', end: 'bottom top',
-      onToggle: function (self) { loops.forEach(function (t) { if (self.isActive) t.resume(); else t.pause(); }); }
+    chips.forEach(function (c) { c.classList.toggle('on', c.dataset.i === '0'); });
+  };
+  // Binnenkomst en leven: beelden pas na de eerste render laden (alleen wat dit scherm toont);
+  // desktop: het toestel kantelt licht mee met de muis (quickTo).
+  function wallLife(mobile) {
+    if (!reel) return function () {};
+    afterFirstRender(function () {
+      var sel = mobile ? '.rd-phone img[data-src]' : '.rd-screen img[data-src]';
+      toArray(reel.querySelectorAll(sel)).forEach(function (img) { img.src = img.dataset.src; img.removeAttribute('data-src'); });
     });
     if (mobile || !window.matchMedia('(pointer: fine)').matches) return function () {};
-    var cam = wall.querySelector('.wall-cam');
-    var cx = gsap.quickTo(cam, 'x', { duration: 1.2, ease: 'power3' }), cy = gsap.quickTo(cam, 'y', { duration: 1.2, ease: 'power3' });
+    var stage = reel.querySelector('.reel-stage');
+    gsap.set(stage, { transformPerspective: 1600 });
+    var ry = gsap.quickTo(stage, 'rotationY', { duration: 0.9, ease: 'power3' }), rx = gsap.quickTo(stage, 'rotationX', { duration: 0.9, ease: 'power3' });
     var move = function (e) {
-      if (window.scrollY > window.innerHeight) return;
-      cx((e.clientX / window.innerWidth - 0.5) * -60);
-      cy((e.clientY / window.innerHeight - 0.5) * -40);
+      var r = reel.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) return;
+      ry((e.clientX / window.innerWidth - 0.5) * 8);
+      rx((e.clientY / window.innerHeight - 0.5) * -6);
     };
     window.addEventListener('mousemove', move, { passive: true });
     return function () { window.removeEventListener('mousemove', move); };
   }
-
   // Kop in losse woorden (één keer), zodat hij woord voor woord kan opkomen. De tekst zelf blijft gelijk.
   function splitWords(h) {
     if (!h) return [];
@@ -128,18 +160,15 @@
     return toArray(h.querySelectorAll('.w > i'));
   }
   function stackIntro(s) {
-    var ins = toArray(s.q('.st-card')).filter(visible).map(function (c) { return c.querySelector('.st-in'); });
-    var cam = wall && wall.querySelector('.wall-cam');
     var words = splitWords(document.getElementById('opening-h'));
     var rest = toArray(document.querySelectorAll('#opening .copy-body > :not(h1)'));
+    var parts = reel ? [reel.querySelector('.reel-info'), reel.querySelector('.reel-stage'), reel.querySelector('.ri-langs')] : [];
     return gsap.timeline()
+      .call(function () { root.classList.remove('intro'); }, null, 0)
       .fromTo(words, { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger: 0.055, ease: 'expo.out' }, 0)
       .fromTo(rest, { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.07, ease: 'power3.out' }, 0.55)
-      .call(function () { root.classList.remove('intro'); }, null, 0)
-      .set(ins, { autoAlpha: 1 }, 0)
-      .fromTo(cam, { autoAlpha: 0, scale: 1.12 }, { autoAlpha: 1, scale: 1, duration: 2, ease: 'expo.out' }, 0);
+      .fromTo(parts, { autoAlpha: 0, y: 50 }, { autoAlpha: 1, y: 0, duration: 1.3, stagger: 0.12, ease: 'expo.out' }, 0.15);
   }
-
 
   // 2. Media: losse foto's vallen in de bak, schuiven op de tijdlijn, krijgen cuts, tekst en geluid,
   //    en spelen af als afgewerkte 9:16-video in het programmascherm.
@@ -627,7 +656,7 @@
           defaults: { ease: 'none' },
           scrollTrigger: {
             // de opbouw begint al tijdens het invaden, zodat een scène nooit als lege huls in beeld staat
-            trigger: chapter, start: id === 'opening' ? (mobile && stack ? 'top -75%' : 'top top') : 'top 45%', // mobiel: pas na de openingstekst
+            trigger: chapter, start: id === 'opening' ? (mobile && stack ? 'top -35%' : 'top top') : 'top 45%', // mobiel: kort na de openingstekst
             // mobiel payoff: de opbouw is af op het moment dat de tekst onderin binnenkomt
             end: payoff ? 'top bottom' : 'bottom bottom', endTrigger: payoff ? body : chapter,
             scrub: mobile ? 0.4 : 0.6, // mobiel ook iets vertraagd: voelt als een camerabeweging i.p.v. schokkerig
