@@ -64,7 +64,7 @@
   font: 500 .8125rem/1 var(--f-mono); color: var(--mute); letter-spacing: .02em;
 }
 .reels-label span { display: none; color: var(--ink); }
-.reels-row { grid-column: span 12; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.reels-row { grid-column: span 12; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
 .reels-row .reel { aspect-ratio: 9 / 16; }
 .reels .reel-cta { grid-column: span 12; }
 
@@ -80,7 +80,7 @@
   .vid-hero .lede { order: 4; } .vid-hero .vid-ticks { order: 5; } .vid-hero .ctas { order: 6; }
   .reel-half { grid-column: span 12; }
   .reel-tall { grid-column: span 6; }
-  .reels-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reels-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .reel-cta { grid-column: span 12; }
 }
 @media (max-width: 599px) {
