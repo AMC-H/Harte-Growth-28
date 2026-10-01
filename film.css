@@ -942,54 +942,7 @@ img, video, svg { display: block; max-width: 100%; }
 /* statische versie (geen JS / reduced motion): de pakketten-scène mag zo hoog worden als nodig */
 :root:not(.film-on) #prijs .scene-in { aspect-ratio: auto; padding: 1rem 0; }
 
-/* ---------- Scène 1 (nieuw): echte klantsites in 3D ----------
-   Kaarten staan in de layout op hun EINDmaat (één grote site) en worden door film.js kleiner/gedraaid
-   neergezet; zo blijft de grote site scherp. Statisch (geen JS/reduced motion): alleen de hoofdsite. */
-#opening .scene-in::before {
-  content: ""; position: absolute; inset: 8% 10%; pointer-events: none;
-  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 59, 48, .16), transparent 70%);
-}
-.stack { position: relative; width: 100%; height: 100%; }
-.st-card { position: absolute; inset: 0; margin: auto; will-change: transform, opacity; } /* gecentreerd via inset + margin: auto (geen CSS translate: GSAP beheert de transform) */
-.st-in, .st-body { width: 100%; height: 100%; }
-.st-body {
-  display: flex; flex-direction: column; overflow: hidden; border-radius: 14px; background: #fff;
-  box-shadow: 0 0 0 1px rgba(242, 240, 236, .1), 0 60px 120px -40px rgba(0, 0, 0, .95);
-}
-.st-browser { width: min(94cqw, 150cqh); aspect-ratio: 16 / 10.4; }
-.st-bar { flex: none; display: flex; align-items: center; gap: 7px; height: 34px; padding: 0 14px; background: #E9E6E0; }
-.st-bar i { width: 10px; height: 10px; border-radius: 50%; background: #C6C1B8; }
-.st-bar span {
-  margin-left: 10px; padding: 4px 14px; border-radius: 99px; background: #fff; min-width: 40%;
-  font: 400 12px/1.3 var(--f-mono); color: #54585c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.st-view { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #F4F1EC; }
-.st-page { display: block; width: 100%; height: auto; }
-.st-phone { width: min(24cqw, 36cqh); aspect-ratio: 9 / 19.5; }
-.st-phone .st-body { border-radius: 28px; border: 6px solid #0B0C0D; background: #000; }
-.st-phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-.intro .st-in { opacity: 0; }
-
-/* statisch: alleen de hoofdsite, recht */
-:root:not(.film-on) .st-card:not(.st-main) { display: none; }
-:root:not(.film-on) .st-browser { width: min(96cqw, 140cqh); }
-
-@media (max-width: 767px) {
-  .film-on #opening .scene-in { padding: 14px var(--gutter) var(--text-zone); }
-  .st-browser { width: min(92cqw, 62cqh); aspect-ratio: 10 / 16; }
-  .st-bar { height: 26px; gap: 5px; padding: 0 10px; }
-  .st-bar i { width: 7px; height: 7px; }
-  .st-bar span { font-size: 10px; padding: 3px 10px; }
-  .st-body { border-radius: 12px; }
-  .st-phone { display: none; }
-  /* opening iets langer: eerst de tekst, daarna schuiven de sites samen tot één */
-  .film-on #opening { height: calc((var(--len, 2) + .4) * 100svh); }
-}
-
 /* ---------- Hero v2 ---------- */
-/* grote site: taalversies liggen over elkaar; film.js laat ze na elkaar verschijnen */
-.st-view .st-alt { position: absolute; left: 0; top: 0; opacity: 0; }
-:root:not(.film-on) .st-view .st-alt { display: none; }
 .hero-proof { margin-top: 1.5rem; max-width: 40ch; font-size: .9375rem; line-height: 1.5; color: var(--mute); }
 .hero-proof a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(242, 240, 236, .35); }
 .hero-proof a:hover { text-decoration-color: var(--accent); }
@@ -1003,113 +956,46 @@ img, video, svg { display: block; max-width: 100%; }
   .hero-proof { margin-top: 1rem; font-size: .875rem; }
 }
 
-/* ---------- Hero: de wand ----------
-   Schermvullend, achter de tekst. Vier rijen echte sites op een schuin 3D-vlak die langzaam langs elkaar
-   schuiven (film.js). Alleen transform/opacity. Een donkere overgang houdt de tekst leesbaar. */
-.wall { display: none; }
-.film-on .wall { display: block; position: absolute; inset: 0; overflow: hidden; perspective: 1500px; }
-.wall-cam { position: absolute; inset: 0; will-change: transform; }
-.intro .wall-cam { opacity: 0; }
-.wall-plane {
-  position: absolute; left: 50%; top: 50%; width: 200vw;
-  display: flex; flex-direction: column; gap: 2.4vh; will-change: transform;
-}
-.wall-row { height: 23vh; will-change: transform; }
-.wall-track { display: flex; gap: 1.6vh; height: 100%; width: max-content; will-change: transform; }
-.wt {
-  flex: none; height: 100%; margin: 0; overflow: hidden; border-radius: 10px; background: #fff;
-  box-shadow: 0 0 0 1px rgba(242, 240, 236, .1), 0 30px 60px -28px rgba(0, 0, 0, .9);
-}
-.wt img { display: block; height: 100%; width: auto; }
-.wt-m { border-radius: 18px; border: 4px solid #0B0C0D; background: #0B0C0D; }
-.wall::after {
+
+/* ---------- Hero: echte klantsites los in 3D ----------
+   Alle kaarten staan in de layout op hun EINDmaat en worden door film.js kleiner en gedraaid verspreid,
+   zodat de site die naar voren komt scherp blijft. Drie lagen: .fl (scroll), .fl-f (zweven), .fl-in (intro).
+   Mobiel: alleen de telefoonversies. Zonder film: alleen de hoofdsite. */
+.fly { position: absolute; inset: 0; container-type: size; }
+.fly::before {
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(15, 17, 19, .96) 0%, rgba(15, 17, 19, .9) 31%, rgba(15, 17, 19, .4) 46%, rgba(15, 17, 19, 0) 60%),
-    linear-gradient(180deg, rgba(15, 17, 19, .45) 0%, transparent 10%, transparent 88%, rgba(15, 17, 19, .6) 100%);
+  background: radial-gradient(46% 42% at 50% 50%, rgba(255, 59, 48, .2), transparent 70%);
 }
-/* de wand vult het hele scherm; de grote site staat rechts in zijn eigen vak */
-.film-on #opening > .scene { left: 0; padding: 0; }
-.film-on #opening .scene-in::before { display: none; }
-.film-on #opening .stack {
-  position: absolute; top: 3vh; bottom: 4vh; left: 42vw; right: calc(100px + var(--safe-r));
-  width: auto; height: auto; container-type: size;
+.fl { position: absolute; inset: 0; margin: auto; will-change: transform, opacity; }
+.fl-f, .fl-in { width: 100%; height: 100%; }
+.fl-in { overflow: hidden; background: #fff; box-shadow: 0 0 0 1px rgba(242, 240, 236, .12), 0 50px 100px -30px rgba(0, 0, 0, .9); }
+.fl-d { --w: min(96cqw, calc((94cqh - 30px) * 1.6)); width: var(--w); height: calc(var(--w) / 1.6 + 30px); }
+.fl-d .fl-in { border-radius: 12px; }
+.fl-bar { display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; background: #E9E6E0; }
+.fl-bar i { width: 9px; height: 9px; border-radius: 50%; background: #C6C1B8; }
+.fl-bar span {
+  margin-left: 8px; min-width: 44%; padding: 3px 12px; border-radius: 99px; background: #fff;
+  font: 400 11px/1.3 var(--f-mono); color: #3d4246; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
+.fl-d img { display: block; width: 100%; height: calc(100% - 30px); object-fit: cover; object-position: top; }
+.fl-m { height: 82cqh; aspect-ratio: 600 / 1280; }
+.fl-m .fl-in { border: 6px solid #0B0C0D; border-radius: 30px; background: #0B0C0D; }
+.fl-m img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 24px; }
+.fl[data-k="d-acmen"] { z-index: 5; }
+.fl[data-k="m-acmen"], .fl[data-k="m-sunkey"] { z-index: 4; }
+.intro .fl-in { opacity: 0; }
+/* zonder film (geen JS / minder beweging): alleen de hoofdsite, recht */
+:root:not(.film-on) .fl:not(.fl-main), :root:not(.film-on) .fl-m { display: none; }
+:root:not(.film-on) #opening .scene-in { aspect-ratio: 16 / 11; height: auto; }
 @media (max-width: 767px) {
-  .film-on #opening .scene-in { padding: 0; }
-  .film-on #opening .stack { top: 14px; left: var(--gutter); right: var(--gutter); bottom: var(--text-zone); }
-  .wall-row { height: 17vh; }
-  .wall-plane { width: 320vw; gap: 1.6vh; }
-  .wall::after {
-    background:
-      linear-gradient(0deg, rgba(15, 17, 19, .96) 0%, rgba(15, 17, 19, .8) 30%, rgba(15, 17, 19, .1) 50%, rgba(15, 17, 19, 0) 80%, rgba(15, 17, 19, .25) 100%);
-  }
-}
-
-/* ---------- Hero: showreel van alle klantsites (vervangt de wand) ----------
-   Telefoon eerst. Boven: welke klant + de taal in die taal zelf (groot). Midden: het toestel. Onder: de talen.
-   film.js stuurt alles met één scrub-tijdlijn; zonder film staat stap 1 stil in beeld. */
-.film-on .wall { display: none; }
-.reel { position: relative; display: flex; flex-direction: column; gap: 12px; width: 100%; height: 100%; }
-.film-on #opening .reel { position: absolute; top: 3vh; bottom: 4vh; left: 42vw; right: calc(100px + var(--safe-r)); width: auto; height: auto; }
-.reel-glow { position: absolute; inset: -6% -4%; pointer-events: none; z-index: 0; }
-.reel-glow > i { position: absolute; inset: 0; background: radial-gradient(48% 46% at 55% 58%, color-mix(in srgb, var(--c) 34%, transparent), transparent 72%); }
-.reel-glow > i + i, .ri-site + .ri-site, .ri-words > span + span, .ri-chips + .ri-chips { opacity: 0; }
-.reel-info, .reel-stage, .ri-langs { position: relative; z-index: 1; }
-
-.reel-info { flex: none; }
-.ri-sites { position: relative; height: 2.9rem; }
-.ri-site { position: absolute; inset: 0 auto auto 0; margin: 0; display: flex; flex-direction: column; gap: .15rem; white-space: nowrap; }
-.ri-site b { display: flex; align-items: center; gap: .55rem; font: 700 1.2rem/1.1 var(--f-head); letter-spacing: -.01em; }
-.ri-site b::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 25%, transparent); }
-.ri-site span { color: var(--mute); font-size: .875rem; }
-.ri-words { position: relative; height: 1.05em; margin-top: .35rem; overflow: hidden; font: 800 clamp(2.6rem, 2rem + 2.6vw, 4.4rem)/1 var(--f-head); letter-spacing: -.03em; }
-.ri-words > span { position: absolute; left: 0; top: 0; white-space: nowrap; will-change: transform, opacity; }
-
-.reel-stage { flex: 1; min-height: 0; container-type: size; }
-.rd-browser {
-  position: absolute; left: 0; top: 0; width: min(86cqw, calc((94cqh - 32px) * 1.6));
-  border-radius: 12px; overflow: hidden; background: #fff; will-change: transform;
-  box-shadow: 0 0 0 1px rgba(242, 240, 236, .12), 0 50px 100px -40px rgba(0, 0, 0, .95);
-}
-.rd-bar { display: flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; background: #E9E6E0; }
-.rd-bar i { width: 10px; height: 10px; border-radius: 50%; background: #C6C1B8; }
-.rd-url { margin-left: 10px; min-width: 46%; padding: 4px 14px; border-radius: 99px; background: #fff; font: 400 12px/1.3 var(--f-mono); color: #3d4246; white-space: nowrap; }
-.rd-screen { position: relative; overflow: hidden; background: #F4F1EC; }
-.rd-browser .rd-screen { aspect-ratio: 16 / 10; }
-.rd-screen > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; will-change: transform; }
-.rd-screen > img + img { opacity: 0; }
-.rd-phone {
-  position: absolute; right: 1cqw; bottom: 0; height: min(84cqh, calc(30cqw * 2.164)); aspect-ratio: 585 / 1266;
-  padding: 7px; border-radius: 32px; background: #0B0C0D; will-change: transform;
-  box-shadow: 0 0 0 1px rgba(242, 240, 236, .16), 0 40px 80px -30px rgba(0, 0, 0, .95);
-}
-.rd-phone .rd-screen { height: 100%; border-radius: 25px; }
-.rd-notch { position: absolute; z-index: 2; top: 13px; left: 50%; width: 30%; height: 16px; margin-left: -15%; border-radius: 99px; background: #0B0C0D; }
-
-.ri-langs { flex: none; position: relative; height: 40px; }
-.ri-chips { position: absolute; inset: 0 auto auto 0; display: flex; gap: 6px; }
-.ri-chips > span {
-  display: grid; place-items: center; min-width: 46px; height: 40px; padding: 0 10px; border-radius: 99px;
-  font: 600 .875rem/1 var(--f-mono); color: var(--mute); box-shadow: inset 0 0 0 1px var(--line-2);
-  transition: background-color .25s ease, color .25s ease, box-shadow .25s ease;
-}
-.ri-chips > span.on { background: var(--c); color: #0F1113; box-shadow: none; }
-
-/* statisch (geen film): stap 1 */
-:root:not(.film-on) #opening .scene-in { aspect-ratio: auto; height: min(78vh, 760px); }
-
-@media (max-width: 767px) {
-  .film-on #opening .reel { top: 10px; left: var(--gutter); right: var(--gutter); bottom: calc(14px + var(--safe-b)); gap: 10px; }
-  .ri-sites { height: 2.6rem; }
-  .ri-site b { font-size: 1.05rem; }
-  .ri-site span { font-size: .8125rem; }
-  .ri-words { font-size: clamp(2rem, 9vw, 2.6rem); margin-top: .2rem; }
-  .rd-browser { display: none; }
-  .rd-phone { left: 50%; right: auto; bottom: 0; height: 100cqh; max-width: 100cqw; margin-left: calc(min(100cqh / 2.164, 100cqw) / -2); padding: 6px; border-radius: 30px; }
-  .rd-phone .rd-screen { border-radius: 24px; }
-  .ri-langs { height: 36px; }
-  .ri-chips { left: 50%; transform: translateX(-50%); }
-  .ri-chips > span { min-width: 42px; height: 36px; }
-  .reel-glow > i { background: radial-gradient(60% 40% at 50% 55%, color-mix(in srgb, var(--c) 40%, transparent), transparent 72%); }
+  .film-on #opening .fly { top: 6px; bottom: calc(8px + var(--safe-b)); }
+  .film-on #opening { height: calc((var(--len, 2) + .6) * 100svh); } /* eerst de tekst weg, dan staat de site schermvullend */
+  .fl-d { display: none; }
+  .fl-m { height: min(94cqh, calc(94cqw * 2.13)); }
+  .fl-m .fl-in { border-width: 5px; border-radius: 34px; }
+  .fl-m img { border-radius: 29px; }
+  .fly::before { background: radial-gradient(60% 34% at 50% 28%, rgba(255, 59, 48, .22), transparent 72%); }
+  :root:not(.film-on) .fl-m.fl-main { display: block; }
+  :root:not(.film-on) .fl-d { display: none; }
+  :root:not(.film-on) #opening .scene-in { aspect-ratio: 9 / 16; }
 }
