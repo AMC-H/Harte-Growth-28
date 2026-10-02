@@ -36,7 +36,7 @@ exports.handler = async (event) => {
   }
 
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const TO = process.env.LEAD_TO_EMAIL || 'alainh1990@gmail.com';
+  const TO = process.env.LEAD_TO_EMAIL || 'info@hartegrowth.eu';
   const FROM = process.env.LEAD_FROM_EMAIL || 'Harte Growth <onboarding@resend.dev>';
 
   if (!RESEND_API_KEY) {

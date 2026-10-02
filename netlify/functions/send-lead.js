@@ -1,7 +1,7 @@
 // Netlify Function: ontvangt scan-lead data en stuurt via Resend een e-mail naar Harte Growth.
 // Environment variables (in te stellen in Netlify dashboard → Site settings → Environment variables):
 //   RESEND_API_KEY   - je Resend API-key (re_xxxxx)
-//   LEAD_TO_EMAIL    - adres waar de notificatie heen moet, bijv. alainh1990@gmail.com
+//   LEAD_TO_EMAIL    - adres waar de notificatie heen moet, bijv. info@hartegrowth.eu
 //   LEAD_FROM_EMAIL  - afzender, bijv. "Harte Growth <noreply@hartegrowth.eu>" (domein moet in Resend geverifieerd zijn)
 
 exports.handler = async (event) => {
@@ -40,7 +40,7 @@ exports.handler = async (event) => {
   }
 
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const TO = process.env.LEAD_TO_EMAIL || 'alainh1990@gmail.com';
+  const TO = process.env.LEAD_TO_EMAIL || 'info@hartegrowth.eu';
   const FROM = process.env.LEAD_FROM_EMAIL || 'Harte Growth <onboarding@resend.dev>';
 
   if (!RESEND_API_KEY) {
