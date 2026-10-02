@@ -553,7 +553,7 @@
           if (window.hgTrack) window.hgTrack(o.event, { page_path: location.pathname, form_name: o.formName, language: LANG });
         })
         .catch(function () {
-          var wa = 'https://wa.me/31634455762?text=' + encodeURIComponent(TXT.waFail + (data.name || '...') + '.');
+          var wa = 'https://wa.me/34603103974?text=' + encodeURIComponent(TXT.waFail + (data.name || '...') + '.');
           say(escHtml(TXT.fail) + '<a href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a>.', 'is-err');
           btn.disabled = false;
           btn.textContent = label;

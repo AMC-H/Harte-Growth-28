@@ -972,7 +972,7 @@
         .catch(function () {
           var text = encodeURIComponent(TXT.waFail + (data.naam || '...') + '.');
           status.innerHTML = '<p>' + TXT.fail + '</p>' +
-            '<p><a class="link" href="https://wa.me/31634455762?text=' + text + '" target="_blank" rel="noopener">' + TXT.waBtn + '</a></p>';
+            '<p><a class="link" href="https://wa.me/34603103974?text=' + text + '" target="_blank" rel="noopener">' + TXT.waBtn + '</a></p>';
           status.hidden = false;
           btn.disabled = false;
           btn.textContent = label;

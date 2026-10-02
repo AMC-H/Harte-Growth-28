@@ -215,7 +215,7 @@ exports.handler = async (event) => {
             </ul>
             <p style="color:#6b6a63;font-size:13px;line-height:1.55;margin:0 0 20px;font-style:italic;">${escape(t.reassure)}</p>
             <a href="https://hartegrowth.eu/${LANG === 'nl' ? '' : LANG + '/'}landing.html#book" style="display:inline-block;background:#ff4d1a;color:#fff;text-decoration:none;padding:15px 28px;border-radius:9px;font-weight:700;font-size:15px;letter-spacing:-.01em;margin-right:6px;margin-bottom:8px;">${escape(ctaLabel)} →</a>
-            <a href="https://wa.me/31634455762?text=${encodeURIComponent((LANG === 'es' ? 'Hola Harte Growth, acabo de hacer el escaneo para ' : LANG === 'en' ? 'Hi Harte Growth, I just did the scan for ' : 'Hoi Harte Growth, ik heb net de scan gedaan voor ') + dom)}" style="display:inline-block;background:#ffffff;color:#6b6a63;text-decoration:none;padding:15px 22px;border-radius:9px;border:1px solid #e9e1d1;font-weight:500;font-size:14px;">${escape(t.or)}</a>
+            <a href="https://wa.me/34603103974?text=${encodeURIComponent((LANG === 'es' ? 'Hola Harte Growth, acabo de hacer el escaneo para ' : LANG === 'en' ? 'Hi Harte Growth, I just did the scan for ' : 'Hoi Harte Growth, ik heb net de scan gedaan voor ') + dom)}" style="display:inline-block;background:#ffffff;color:#6b6a63;text-decoration:none;padding:15px 22px;border-radius:9px;border:1px solid #e9e1d1;font-weight:500;font-size:14px;">${escape(t.or)}</a>
           </div>
         </td></tr>
 
@@ -250,7 +250,7 @@ ${ctaBullets.map(b => '- ' + b).join('\n')}
 ${t.reassure}
 
 ${ctaLabel}: https://hartegrowth.eu/${LANG === 'nl' ? '' : LANG + '/'}landing.html#book
-${t.or}: https://wa.me/31634455762
+${t.or}: https://wa.me/34603103974
 
 Harte Growth
 hartegrowth.eu`;

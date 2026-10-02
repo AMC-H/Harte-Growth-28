@@ -78,7 +78,7 @@ exports.handler = async (event) => {
           </div>
 
           <div style="margin-top:28px;">
-            <a href="https://wa.me/${escape(email).replace(/[^\d]/g, '') || '31634455762'}" style="display:inline-block;background:#ff4d1a;color:#fff;text-decoration:none;padding:12px 22px;border-radius:8px;font-weight:600;font-size:14px;">Mail direct terug →</a>
+            <a href="https://wa.me/${escape(email).replace(/[^\d]/g, '') || '34603103974'}" style="display:inline-block;background:#ff4d1a;color:#fff;text-decoration:none;padding:12px 22px;border-radius:8px;font-weight:600;font-size:14px;">Mail direct terug →</a>
           </div>
         </td></tr>
         <tr><td style="padding:14px 32px;background:#f6f1e7;border-top:1px solid #e9e1d1;color:#8f897c;font-size:12px;font-family:'SF Mono',Consolas,monospace;">
