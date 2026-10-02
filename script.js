@@ -316,8 +316,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const bookForm = document.getElementById('bookForm');
   const bookStatus = document.getElementById('bookStatus');
   if(bookDays && bookTimes && bookForm){
-    const dayNames = ['Zo','Ma','Di','Wo','Do','Vr','Za'];
-    const monthNames = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+    const BOOK_LANG = (document.documentElement.lang || 'nl').slice(0, 2).toLowerCase();
+    const dayNames = {
+      en: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+      es: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb']
+    }[BOOK_LANG] || ['Zo','Ma','Di','Wo','Do','Vr','Za'];
+    const monthNames = {
+      en: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+      es: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic']
+    }[BOOK_LANG] || ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
     // Weekdagen die als 'vol' worden getoond (0=zo, 1=ma, ... 6=za)
     const FULL_WEEKDAYS = new Set([4, 5]); // donderdag en vrijdag
     const days = [];
