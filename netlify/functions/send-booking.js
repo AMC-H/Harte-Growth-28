@@ -1,5 +1,7 @@
 // Netlify Function: ontvangt een booking (dag + tijd + contact) via de landing-widget en mailt Harte Growth via Resend.
 
+const { sendConfirmation } = require('./_confirm');
+
 exports.handler = async (event) => {
   const cors = {
     'Access-Control-Allow-Origin': '*',
@@ -18,6 +20,7 @@ exports.handler = async (event) => {
   }
 
   const { name, company, contact, day, time } = data;
+  const lang = ['nl', 'en', 'es'].includes(String(data.lang || '').toLowerCase()) ? String(data.lang).toLowerCase() : 'nl';
 
   if (data['bot-field']) {
     return { statusCode: 200, headers: cors, body: JSON.stringify({ ok: true }) };
@@ -110,6 +113,11 @@ Bevestig of stel een alternatief voor. Antwoord op deze mail komt direct bij de 
       const errText = await res.text();
       console.error('Resend booking error', res.status, errText);
       return { statusCode: 502, headers: cors, body: JSON.stringify({ error: 'email send failed' }) };
+    }
+
+    if (replyTo) {
+      await sendConfirmation({ apiKey: RESEND_API_KEY, from: FROM, to: replyTo, lang, name, kind: 'booking', when: `${day} ${time}`,
+        rows: [['name', name], ['company', company], ['when', `${day} ${time}`]] });
     }
 
     return { statusCode: 200, headers: cors, body: JSON.stringify({ ok: true }) };

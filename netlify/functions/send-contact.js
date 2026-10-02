@@ -1,5 +1,7 @@
 // Netlify Function: ontvangt een bericht via het contactformulier en mailt Harte Growth via Resend.
 
+const { sendConfirmation } = require('./_confirm');
+
 exports.handler = async (event) => {
   const cors = {
     'Access-Control-Allow-Origin': '*',
@@ -109,6 +111,9 @@ ${message}`;
       console.error('Resend contact error', res.status, errText);
       return { statusCode: 502, headers: cors, body: JSON.stringify({ error: 'email send failed' }) };
     }
+
+    await sendConfirmation({ apiKey: RESEND_API_KEY, from: FROM, to: email, lang, name, kind: 'contact',
+      rows: [['name', name], ['company', company], ['website', url], ['message', message]] });
 
     return { statusCode: 200, headers: cors, body: JSON.stringify({ ok: true }) };
   } catch (err) {

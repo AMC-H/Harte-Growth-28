@@ -4,6 +4,8 @@
 //   LEAD_TO_EMAIL    - adres waar de notificatie heen moet, bijv. info@hartegrowth.eu
 //   LEAD_FROM_EMAIL  - afzender, bijv. "Harte Growth <noreply@hartegrowth.eu>" (domein moet in Resend geverifieerd zijn)
 
+const { sendConfirmation } = require('./_confirm');
+
 exports.handler = async (event) => {
   const cors = {
     'Access-Control-Allow-Origin': '*',
@@ -122,6 +124,9 @@ Pak binnen 1 werkdag op — deze lead is actief aan het vergelijken.`;
       console.error('Resend API error', res.status, errText);
       return { statusCode: 502, headers: cors, body: JSON.stringify({ error: 'email send failed', detail: errText }) };
     }
+
+    await sendConfirmation({ apiKey: RESEND_API_KEY, from: FROM, to: email, lang, name, kind: 'groeiscan',
+      rows: [['name', name], ['company', company], ['website', url]] });
 
     return { statusCode: 200, headers: cors, body: JSON.stringify({ ok: true }) };
   } catch (err) {

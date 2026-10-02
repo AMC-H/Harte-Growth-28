@@ -2,6 +2,8 @@
 // Zelfde patroon als send-contact.js / send-lead.js — gebruikt dezelfde env vars, dus geen
 // extra configuratie nodig in Netlify (RESEND_API_KEY / LEAD_TO_EMAIL / LEAD_FROM_EMAIL).
 
+const { sendConfirmation } = require('./_confirm');
+
 exports.handler = async (event) => {
   const cors = {
     'Access-Control-Allow-Origin': '*',
@@ -111,6 +113,11 @@ ${bericht ? '\nOpmerking:\n' + bericht : ''}`;
       const errText = await res.text();
       console.error('Resend video-lead error', res.status, errText);
       return { statusCode: 502, headers: cors, body: JSON.stringify({ error: 'email send failed' }) };
+    }
+
+    if (looksLikeEmail) {
+      await sendConfirmation({ apiKey: RESEND_API_KEY, from: FROM, to: contact, lang, name: naam, kind: isSite ? 'website' : 'video',
+        rows: [['name', naam], ['wants', wens], ['branche', branche], ['website', website], ['languages', talen], ['material', materiaal], ['amount', aantalFotos], ['note', bericht]] });
     }
 
     return { statusCode: 200, headers: cors, body: JSON.stringify({ ok: true }) };

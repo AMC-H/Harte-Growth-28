@@ -396,7 +396,8 @@ document.addEventListener('DOMContentLoaded', () => {
         company: bookForm.querySelector('[name=company]').value.trim(),
         contact: bookForm.querySelector('[name=contact]').value.trim(),
         day: selDay.label + ' ' + selDay.num + ' ' + selDay.mon,
-        time: selTime
+        time: selTime,
+        lang: (document.documentElement.lang || 'nl').slice(0, 2).toLowerCase(),
       };
 
       try {
@@ -499,7 +500,8 @@ document.addEventListener('DOMContentLoaded', () => {
       company: form.company.value.trim(),
       url: form.url.value.trim(),
       consent: true,
-      referrer: document.referrer || ''
+      referrer: document.referrer || '',
+      lang: (document.documentElement.lang || 'nl').slice(0, 2).toLowerCase(),
     };
     submitBtn.disabled = true;
     submitBtn.textContent = T.sending;
@@ -546,7 +548,8 @@ document.addEventListener('DOMContentLoaded', () => {
       email: form.email.value.trim(),
       company: form.company.value.trim(),
       url: form.url.value.trim(),
-      message: form.message.value.trim()
+      message: form.message.value.trim(),
+      lang: (document.documentElement.lang || 'nl').slice(0, 2).toLowerCase(),
     };
 
     try {
