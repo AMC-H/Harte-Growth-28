@@ -848,6 +848,11 @@ img, video, svg { display: block; max-width: 100%; }
   .film-on #media .program > .edit-label { display: none; }
   .film-on #media .program-frame { width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; box-shadow: none; }
 }
+@media (max-width: 767px) {
+  /* Media: de tekst blijft onderin het scherm staan zolang de scène loopt (montage, daarna de Porsche
+     schermvullend erachter), in plaats van aan het begin voorbij te scrollen. */
+  .film-on #media .copy { position: sticky; top: var(--hdr-min); min-height: calc(100svh - var(--hdr-min)); }
+}
 
 /* ---------- Mobiel, fase 2: eerst beeld, dan tekst (film.js: PAYOFF) ----------
    In Fundament, Verkeer, Opvolging en Prijs staat de tekst aan het eind van het hoofdstuk: je ziet eerst

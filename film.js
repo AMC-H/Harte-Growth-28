@@ -769,8 +769,10 @@
       var dims = bodies.map(function () { return 0; });
       var applyDim = function () { dimEl.style.opacity = (Math.max.apply(null, dims) * 0.3).toFixed(3); };
       bodies.forEach(function (body, i) {
+        // Media: de tekst plakt daar de hele scène onderin (film.css), dus meten over het hoofdstuk
+        var sticky = body.closest('#media');
         ScrollTrigger.create({
-          trigger: body, start: 'top bottom', end: 'bottom top',
+          trigger: sticky || body, start: 'top bottom', end: 'bottom top',
           onUpdate: function (self) {
             var p = self.progress;
             dims[i] = p < 0.18 ? p / 0.18 : p > 0.82 ? (1 - p) / 0.18 : 1; // zacht in, vast, zacht uit
