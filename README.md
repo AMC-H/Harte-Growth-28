@@ -47,4 +47,4 @@ Geen framework, geen dependencies. Aanpassen = bestand openen, opslaan, ververse
 
 ## Contact
 
-+34 603 103 974 · hello@hartegrowth.eu
++34 603 103 974 · info@hartegrowth.eu

@@ -266,7 +266,7 @@ hartegrowth.eu`;
       body: JSON.stringify({
         from: FROM,
         to: [email],
-        reply_to: 'hello@hartegrowth.eu',
+        reply_to: 'info@hartegrowth.eu',
         subject: t.subjectClient,
         html: clientHtml,
         text: clientText
