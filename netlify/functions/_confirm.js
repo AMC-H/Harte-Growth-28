@@ -8,54 +8,54 @@ const MAIL = 'info@hartegrowth.eu';
 
 const T = {
   nl: {
-    labels: { name: 'Naam', company: 'Bedrijf', website: 'Website', message: 'Bericht', wants: 'Je zoekt', branche: 'Branche', languages: 'Talen', contact: 'Contact', when: 'Moment', material: 'Materiaal', amount: 'Hoeveelheid', note: 'Opmerking' },
+    labels: { name: 'Naam', company: 'Bedrijf', website: 'Website', message: 'Bericht', wants: 'Je zoekt', branche: 'Branche', languages: 'Talen', contact: 'Contact', when: 'Wanneer', material: 'Materiaal', amount: 'Hoeveel', note: 'Opmerking' },
     hi: (n) => `Hoi ${n},`,
-    sign: 'Groet,<br>Alain — Harte Growth',
-    signText: 'Groet,\nAlain — Harte Growth',
-    sumTitle: 'Wat je ons stuurde',
-    faster: 'Liever sneller? Stuur ons een WhatsApp:',
-    waBtn: 'WhatsApp ons',
-    foot: 'Je krijgt deze mail omdat je een formulier invulde op hartegrowth.eu. Antwoorden op deze mail komt gewoon bij ons aan.',
+    sign: 'Groet,<br>Alain<br>Harte Growth',
+    signText: 'Groet,\nAlain\nHarte Growth',
+    sumTitle: 'Je gegevens',
+    faster: 'Haast? App ons gerust.',
+    waBtn: 'WhatsApp',
+    foot: 'Je krijgt deze mail omdat je een formulier invulde op hartegrowth.eu.',
     kinds: {
-      contact: { subject: 'We hebben je bericht ontvangen', body: 'Bedankt voor je bericht. Het is goed bij ons aangekomen. We lezen het persoonlijk en reageren meestal binnen één werkdag.' },
-      groeiscan: { subject: 'Je groeiscan is aangevraagd', body: 'Bedankt voor je aanvraag. We bekijken je website op vindbaarheid, snelheid, mobiel en techniek, en mailen je binnen één werkdag een rapport met concrete tips.' },
-      website: { subject: 'We hebben je aanvraag ontvangen', body: 'Bedankt voor je aanvraag. We kijken naar je bedrijf en je huidige site, en nemen binnen één werkdag contact met je op om te bespreken wat bij je past.' },
-      video: { subject: 'We hebben je video-aanvraag ontvangen', body: 'Bedankt voor je aanvraag. We nemen binnen één werkdag contact met je op. Dan hoor je hoe je je foto\'s of clips aanlevert en wanneer je video klaar is.' },
-      booking: { subject: (w) => `Je gesprek staat genoteerd: ${w}`, body: (w) => `Bedankt. Je groeigesprek staat genoteerd voor <strong>${w}</strong>. We bevestigen het moment nog even, of stellen een ander tijdstip voor als het niet uitkomt.`, bodyText: (w) => `Bedankt. Je groeigesprek staat genoteerd voor ${w}. We bevestigen het moment nog even, of stellen een ander tijdstip voor als het niet uitkomt.` }
+      contact: { subject: 'Bericht ontvangen', body: 'Bedankt voor je bericht. We hebben het ontvangen en reageren meestal binnen een werkdag.' },
+      groeiscan: { subject: 'Groeiscan aangevraagd', body: 'Bedankt voor je aanvraag. We bekijken je website en sturen je binnen een werkdag een rapport met tips.' },
+      website: { subject: 'Aanvraag ontvangen', body: 'Bedankt voor je aanvraag. We kijken naar je bedrijf en je site, en nemen binnen een werkdag contact met je op.' },
+      video: { subject: 'Video-aanvraag ontvangen', body: 'Bedankt voor je aanvraag. We nemen binnen een werkdag contact met je op over je foto\'s of filmpjes.' },
+      booking: { subject: (w) => `Gesprek genoteerd: ${w}`, body: (w) => `Bedankt. We hebben je gesprek genoteerd voor <strong>${w}</strong>. We laten je nog weten of dat tijdstip lukt.`, bodyText: (w) => `Bedankt. We hebben je gesprek genoteerd voor ${w}. We laten je nog weten of dat tijdstip lukt.` }
     }
   },
   en: {
-    labels: { name: 'Name', company: 'Company', website: 'Website', message: 'Message', wants: 'Looking for', branche: 'Industry', languages: 'Languages', contact: 'Contact', when: 'Time', material: 'Material', amount: 'Amount', note: 'Note' },
+    labels: { name: 'Name', company: 'Company', website: 'Website', message: 'Message', wants: 'Looking for', branche: 'Industry', languages: 'Languages', contact: 'Contact', when: 'When', material: 'Material', amount: 'How many', note: 'Note' },
     hi: (n) => `Hi ${n},`,
-    sign: 'Best,<br>Alain — Harte Growth',
-    signText: 'Best,\nAlain — Harte Growth',
-    sumTitle: 'What you sent us',
-    faster: 'Want it quicker? Send us a WhatsApp:',
-    waBtn: 'WhatsApp us',
-    foot: 'You received this email because you filled in a form on hartegrowth.eu. Replying to this email reaches us directly.',
+    sign: 'Best,<br>Alain<br>Harte Growth',
+    signText: 'Best,\nAlain\nHarte Growth',
+    sumTitle: 'Your details',
+    faster: 'In a hurry? Just send us a WhatsApp.',
+    waBtn: 'WhatsApp',
+    foot: 'You got this email because you filled in a form on hartegrowth.eu.',
     kinds: {
-      contact: { subject: 'We received your message', body: 'Thanks for your message. It has reached us. We read every message personally and usually reply within one working day.' },
-      groeiscan: { subject: 'Your growth scan has been requested', body: 'Thanks for your request. We\'ll check your website for findability, speed, mobile and technical issues, and email you a report with concrete tips within one working day.' },
-      website: { subject: 'We received your request', body: 'Thanks for your request. We\'ll look at your business and your current site, and get in touch within one working day to discuss what fits you.' },
-      video: { subject: 'We received your video request', body: 'Thanks for your request. We\'ll get in touch within one working day to explain how to send your photos or clips and when your video will be ready.' },
-      booking: { subject: (w) => `Your call is noted: ${w}`, body: (w) => `Thanks. Your growth call is noted for <strong>${w}</strong>. We'll confirm the time, or suggest another one if it doesn't work for us.`, bodyText: (w) => `Thanks. Your growth call is noted for ${w}. We'll confirm the time, or suggest another one if it doesn't work for us.` }
+      contact: { subject: 'Message received', body: 'Thanks for your message. We got it and usually reply within one working day.' },
+      groeiscan: { subject: 'Growth scan requested', body: 'Thanks for your request. We\'ll look at your website and send you a report with tips within one working day.' },
+      website: { subject: 'Request received', body: 'Thanks for your request. We\'ll look at your business and your site, and get back to you within one working day.' },
+      video: { subject: 'Video request received', body: 'Thanks for your request. We\'ll get back to you within one working day about your photos or clips.' },
+      booking: { subject: (w) => `Call noted: ${w}`, body: (w) => `Thanks. We've noted your call for <strong>${w}</strong>. We'll let you know if that time works.`, bodyText: (w) => `Thanks. We've noted your call for ${w}. We'll let you know if that time works.` }
     }
   },
   es: {
-    labels: { name: 'Nombre', company: 'Empresa', website: 'Web', message: 'Mensaje', wants: 'Buscas', branche: 'Sector', languages: 'Idiomas', contact: 'Contacto', when: 'Momento', material: 'Material', amount: 'Cantidad', note: 'Comentario' },
+    labels: { name: 'Nombre', company: 'Empresa', website: 'Web', message: 'Mensaje', wants: 'Buscas', branche: 'Sector', languages: 'Idiomas', contact: 'Contacto', when: 'Cuándo', material: 'Material', amount: 'Cuántas', note: 'Comentario' },
     hi: (n) => `Hola ${n}:`,
-    sign: 'Un saludo,<br>Alain — Harte Growth',
-    signText: 'Un saludo,\nAlain — Harte Growth',
-    sumTitle: 'Lo que nos enviaste',
-    faster: '¿Lo quieres más rápido? Escríbenos por WhatsApp:',
-    waBtn: 'Escríbenos por WhatsApp',
-    foot: 'Recibes este correo porque rellenaste un formulario en hartegrowth.eu. Si respondes a este correo, nos llega directamente.',
+    sign: 'Un saludo,<br>Alain<br>Harte Growth',
+    signText: 'Un saludo,\nAlain\nHarte Growth',
+    sumTitle: 'Tus datos',
+    faster: '¿Tienes prisa? Escríbenos por WhatsApp.',
+    waBtn: 'WhatsApp',
+    foot: 'Recibes este correo porque rellenaste un formulario en hartegrowth.eu.',
     kinds: {
-      contact: { subject: 'Hemos recibido tu mensaje', body: 'Gracias por tu mensaje. Nos ha llegado bien. Lo leemos personalmente y solemos responder en un día laborable.' },
-      groeiscan: { subject: 'Has solicitado tu escaneo de crecimiento', body: 'Gracias por tu solicitud. Revisamos tu web en visibilidad, velocidad, móvil y aspectos técnicos, y te enviamos un informe con consejos concretos en un día laborable.' },
-      website: { subject: 'Hemos recibido tu solicitud', body: 'Gracias por tu solicitud. Miramos tu negocio y tu web actual, y te contactamos en un día laborable para hablar de lo que mejor te encaja.' },
-      video: { subject: 'Hemos recibido tu solicitud de vídeo', body: 'Gracias por tu solicitud. Te contactamos en un día laborable para explicarte cómo enviarnos tus fotos o clips y cuándo estará listo tu vídeo.' },
-      booking: { subject: (w) => `Tu llamada está anotada: ${w}`, body: (w) => `Gracias. Tu llamada está anotada para el <strong>${w}</strong>. Te confirmamos la hora o te proponemos otra si no nos viene bien.`, bodyText: (w) => `Gracias. Tu llamada está anotada para el ${w}. Te confirmamos la hora o te proponemos otra si no nos viene bien.` }
+      contact: { subject: 'Mensaje recibido', body: 'Gracias por tu mensaje. Lo hemos recibido y solemos responder en un día laborable.' },
+      groeiscan: { subject: 'Escaneo solicitado', body: 'Gracias por tu solicitud. Revisamos tu web y te enviamos un informe con consejos en un día laborable.' },
+      website: { subject: 'Solicitud recibida', body: 'Gracias por tu solicitud. Miramos tu negocio y tu web, y te contactamos en un día laborable.' },
+      video: { subject: 'Solicitud de vídeo recibida', body: 'Gracias por tu solicitud. Te contactamos en un día laborable sobre tus fotos o clips.' },
+      booking: { subject: (w) => `Llamada anotada: ${w}`, body: (w) => `Gracias. Hemos anotado tu llamada para el <strong>${w}</strong>. Te confirmamos si esa hora nos va bien.`, bodyText: (w) => `Gracias. Hemos anotado tu llamada para el ${w}. Te confirmamos si esa hora nos va bien.` }
     }
   }
 };
@@ -67,7 +67,7 @@ function extractEmail(s) {
   return m ? m[0] : null;
 }
 
-// rows: [[sleutel, waarde], ...] met sleutels uit labels (name, company, ...) — lege waarden worden overgeslagen
+// rows: [[sleutel, waarde], ...] met sleutels uit labels; lege waarden worden overgeslagen
 async function sendConfirmation({ apiKey, from, to, lang, name, kind, when, rows }) {
   const email = extractEmail(to);
   if (!apiKey || !email) return { skipped: true };
@@ -95,11 +95,11 @@ async function sendConfirmation({ apiKey, from, to, lang, name, kind, when, rows
             ${list.map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;color:#6b6a63;width:120px;vertical-align:top;">${esc(k)}</td><td style="padding:4px 0;white-space:pre-wrap;">${esc(String(v).slice(0, 1500))}</td></tr>`).join('')}
           </table>` : ''}
           <p style="color:#17140f;font-size:15px;line-height:1.6;margin:22px 0 12px;">${esc(L.faster)}</p>
-          <a href="${WA}" style="display:inline-block;background:#ff4d1a;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:999px;font-weight:600;font-size:15px;">${esc(L.waBtn)} · ${PHONE}</a>
+          <a href="${WA}" style="display:inline-block;background:#ff4d1a;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:999px;font-weight:600;font-size:15px;">${esc(L.waBtn)} ${PHONE}</a>
           <p style="color:#17140f;font-size:15px;line-height:1.6;margin:26px 0 0;">${L.sign}</p>
         </td></tr>
         <tr><td style="padding:22px 32px 28px;">
-          <p style="color:#6b6a63;font-size:12px;line-height:1.5;margin:0;border-top:1px solid #e9e1d1;padding-top:16px;">${esc(L.foot)}<br><a href="https://hartegrowth.eu" style="color:#6b6a63;">hartegrowth.eu</a> · <a href="mailto:${MAIL}" style="color:#6b6a63;">${MAIL}</a> · ${PHONE}</p>
+          <p style="color:#6b6a63;font-size:12px;line-height:1.5;margin:0;border-top:1px solid #e9e1d1;padding-top:16px;">${esc(L.foot)}<br><a href="https://hartegrowth.eu" style="color:#6b6a63;">hartegrowth.eu</a><br><a href="mailto:${MAIL}" style="color:#6b6a63;">${MAIL}</a><br>${PHONE}</p>
         </td></tr>
       </table>
     </td></tr>
@@ -111,13 +111,15 @@ async function sendConfirmation({ apiKey, from, to, lang, name, kind, when, rows
 
 ${bodyText}
 ${list.length ? '\n' + L.sumTitle + ':\n' + list.map(([k, v]) => `${k}: ${v}`).join('\n') + '\n' : ''}
-${L.faster} ${WA} (${PHONE})
+${L.faster} ${WA}
 
 ${L.signText}
 
 --
 ${L.foot}
-hartegrowth.eu · ${MAIL} · ${PHONE}`;
+hartegrowth.eu
+${MAIL}
+${PHONE}`;
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
