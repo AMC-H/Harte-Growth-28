@@ -1016,5 +1016,21 @@ img, video, svg { display: block; max-width: 100%; }
     height: calc((var(--len, 2) + .25) * .66 * 100svh);
   }
   /* cookiebalk open: de hero-tekst en knoppen schuiven erboven, zodat de knop nooit onder de balk zit */
-  .hg-cc-open #opening .copy-body { padding-bottom: calc(var(--hg-cc-h, 0px) + 14px); }
+  .film-on.hg-cc-open #opening .copy-body { padding-bottom: calc(var(--hg-cc-h, 0px) + 14px); }
+}
+
+/* ---------- Telefoon: gewone pagina zonder scroll-film (3 okt 2026) ----------
+   Op telefoons draaide eerst dezelfde scroll-film als op desktop. Daar viel de helft weg achter vaste beelden
+   en moest je eindeloos scrollen. Nu krijgt een telefoon een gewone pagina: per hoofdstuk het beeld en de
+   tekst onder elkaar, alles meteen zichtbaar. De film draait alleen vanaf 768px breed (film.js + head-script). */
+@media (max-width: 767px) {
+  :root:not(.film-on) .chapter { gap: 1.5rem; padding-block: 2.75rem; }
+  /* hero: eerst kop en knoppen, dan de klantsite in een telefoon */
+  :root:not(.film-on) #opening { padding-top: 1.75rem; }
+  :root:not(.film-on) #opening > .copy { order: -1; }
+  :root:not(.film-on) #opening .scene-in { aspect-ratio: auto; height: min(68svh, 560px); }
+  :root:not(.film-on) #opening .fl-m.fl-main { display: block; }
+  :root:not(.film-on) .cue { display: none; }
+  /* pakketten: de kaarten kregen geen hoogte (container-type size zonder vaste hoogte) en vielen weg */
+  :root:not(.film-on) #prijs .scene-in { container-type: inline-size; }
 }

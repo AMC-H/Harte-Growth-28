@@ -562,7 +562,8 @@
 
   var mm = gsap.matchMedia();
   mm.add({
-    motion: '(prefers-reduced-motion: no-preference)',
+    // film alleen vanaf 768px breed; op een telefoon is het een gewone pagina (zie film.css, 'Telefoon')
+    motion: '(prefers-reduced-motion: no-preference) and (min-width: 768px)',
     reduce: '(prefers-reduced-motion: reduce)', // zonder deze roept matchMedia de functie niet aan op desktop
     mobile: '(max-width: 767px)'
   }, function (ctx) {
