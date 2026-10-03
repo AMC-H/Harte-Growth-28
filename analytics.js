@@ -174,12 +174,14 @@
     '#hg-cookie-banner .hg-cc-toggle{display:flex;align-items:center;gap:10px;min-height:44px;color:#F2F0EC;font-size:14px;cursor:pointer}' +
     '#hg-cookie-banner .hg-cc-toggle input{width:18px;height:18px;margin:0;accent-color:#FF3B30}' +
     '@media (max-width:899px){' +
-      '#hg-cookie-banner{left:12px;right:12px;max-width:none;bottom:calc(84px + env(safe-area-inset-bottom,0px))}' +
-      '#hg-cookie-banner .hg-cc-inner{grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;padding:10px 12px}' +
-      '#hg-cookie-banner .hg-cc-body{grid-column:1 / -1;font-size:13px;line-height:1.4}' +
+      /* mobiel: smalle balk helemaal onderin (zat eerst midden over de hero-knop heen) */
+      '#hg-cookie-banner{left:0;right:0;bottom:0;max-width:none;border-radius:16px 16px 0 0;border-width:1px 0 0;box-shadow:0 -12px 30px -12px rgba(0,0,0,.7)}' +
+      '#hg-cookie-banner .hg-cc-inner{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px))}' +
+      '#hg-cookie-banner .hg-cc-body{grid-column:1 / -1;font-size:12.5px;line-height:1.35;color:#C9CDD1}' +
       '#hg-cookie-banner .hg-cc-actions{grid-column:1;grid-row:2}' +
-      '#hg-cookie-banner .hg-cc-btn{flex:1 1 auto;padding:0 10px;font-size:14px;white-space:nowrap}' +
-      '#hg-cookie-banner .hg-cc-more{grid-column:2;grid-row:2;min-height:44px}' +
+      '#hg-cookie-banner .hg-cc-btn{min-height:40px;padding:0 12px;font-size:14px}' +
+      '#hg-cookie-banner .hg-cc-more{grid-column:2;grid-row:2;min-height:40px;font-size:12.5px}' +
+      'body.hg-cc-open .wa-fab,body.hg-cc-open .wa-float{margin-bottom:calc(var(--hg-cc-h,0px) - 8px)}' +
     '}';
   function injectStyle(){
     if (document.getElementById('hg-cc-style')) return;
@@ -214,6 +216,12 @@
         '</div>' +
       '</div>';
     document.body.appendChild(wrap);
+    /* hoogte doorgeven, zodat WhatsApp-knop en hero-tekst er op mobiel boven blijven */
+    var setH = function(){ if (wrap.isConnected) document.documentElement.style.setProperty('--hg-cc-h', wrap.offsetHeight + 'px'); };
+    document.documentElement.classList.add('hg-cc-open');
+    document.body.classList.add('hg-cc-open');
+    setH();
+    window.addEventListener('resize', setH);
     wrap.addEventListener('click', function(e){
       var b = e.target.closest('[data-hg]');
       if (!b) return;
@@ -236,6 +244,9 @@
     applyConsent(state);
     var b = document.getElementById('hg-cookie-banner');
     if (b) b.remove();
+    document.documentElement.classList.remove('hg-cc-open');
+    document.body.classList.remove('hg-cc-open');
+    document.documentElement.style.removeProperty('--hg-cc-h');
   }
   function showBannerIfNeeded(){
     if (readConsent()) return;

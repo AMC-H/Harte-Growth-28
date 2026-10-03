@@ -31,10 +31,12 @@
 /*.svg
   Cache-Control: public, max-age=86400
 
-# Video's en posters van de homepage: vaste bestandsnamen die vervangen worden, dus altijd hervalideren
-# (ETag -> 304). Met max-age=86400 zag een terugkerende bezoeker tot een dag lang een oude encode.
+# Video's en beelden: 1 uur vers, daarna nog een week direct uit de cache terwijl de browser op de
+# achtergrond controleert of er een nieuwe versie is. Eerst was dit max-age=0: op mobiel kostte dat bij
+# elk bezoek een extra rondje naar de server per beeld. Een vervangen bestand is na hooguit één bezoek
+# bijgewerkt; met een nieuwe ?v= in de html meteen.
 /media/*
-  Cache-Control: public, max-age=0, must-revalidate
+  Cache-Control: public, max-age=3600, stale-while-revalidate=604800
 
 # PNG's (og-images): 1 week
 /*.png

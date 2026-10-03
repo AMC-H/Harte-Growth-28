@@ -88,12 +88,13 @@
 
 @media (max-width: 1023px) {
   .vid-hero .hero-grid { grid-template-columns: 1fr; gap: 0; }
-  /* mobiel: de video direct onder de kop, zodat Facebook-bezoekers meteen werk zien */
+  /* mobiel: kop, prijs en knop meteen in beeld (eerst stond de knop pas na ruim anderhalf scherm onder de
+     video), daarna direct de video. */
   .vid-hero .hero-copy { display: contents; }
   .vid-hero .kick { order: 1; } .vid-hero .hero-h { order: 2; }
-  .vid-hero .phone { order: 3; margin-top: 1.4rem; }
-  .vid-hero .lede { order: 4; } .vid-hero .vid-ticks { order: 5; } .vid-hero .ctas { order: 6; }
-  .vid-hero .vid-tip { order: 7; }
+  .vid-hero .vid-ticks { order: 3; } .vid-hero .ctas { order: 4; }
+  .vid-hero .phone { order: 5; margin-top: 1.6rem; }
+  .vid-hero .lede { order: 6; margin-top: 1.4rem; } .vid-hero .vid-tip { order: 7; }
   .reel-half { grid-column: span 12; }
   .reel-third { grid-column: span 12; }
   .reel-tall { grid-column: span 6; }

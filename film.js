@@ -141,9 +141,9 @@
     var parts = fly ? toArray(fly.querySelectorAll('.fl-in')).filter(visible) : [];
     return gsap.timeline()
       .call(function () { root.classList.remove('intro'); }, null, 0)
-      .fromTo(words, { yPercent: 110 }, { yPercent: 0, duration: 1.1, stagger: 0.055, ease: 'expo.out' }, 0)
-      .fromTo(rest, { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.07, ease: 'power3.out' }, 0.55)
-      .fromTo(parts, { autoAlpha: 0, y: 90, scale: 0.7 }, { autoAlpha: 1, y: 0, scale: 1, duration: 1.4, stagger: { each: 0.08, from: 'random' }, ease: 'expo.out' }, 0.1);
+      .fromTo(words, { yPercent: 110 }, { yPercent: 0, duration: 0.8, stagger: 0.04, ease: 'expo.out' }, 0)
+      .fromTo(rest, { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out' }, 0.25)
+      .fromTo(parts, { autoAlpha: 0, y: 90, scale: 0.7 }, { autoAlpha: 1, y: 0, scale: 1, duration: 1, stagger: { each: 0.06, from: 'random' }, ease: 'expo.out' }, 0.05);
   }
 
   // 2. Media: losse foto's vallen in de bak, schuiven op de tijdlijn, krijgen cuts, tekst en geluid,
@@ -575,7 +575,7 @@
     root.classList.add('film-on');
 
     var builds = {};
-    chapters.forEach(function (chapter) {
+    var buildChapter = function (chapter) {
       var id = chapter.id;
       var scene = chapter.querySelector('.scene');
       var inner = scene.querySelector('.scene-in');
@@ -674,10 +674,39 @@
       }
 
       if (id === 'opening') {
-        if (window.scrollY < window.innerHeight * 0.5) { if (stack) stackIntro(s); else openingIntro(s); }
+        if (window.scrollY < window.innerHeight * 0.5) introTl = stack ? stackIntro(s) : openingIntro(s);
         else root.classList.remove('intro'); // halverwege de pagina binnengekomen: geen intro
       }
+    };
+
+    // Snelheid op mobiel: alleen Opening en Media meteen opbouwen; de andere hoofdstukken (die pas na een
+    // paar schermen scrollen in beeld komen) in losse stukjes direct daarna. Eerst bouwde film.js alles in
+    // één keer, waardoor een gemiddelde telefoon bij het openen ruim een halve seconde niet reageerde.
+    var later = [], dead = false, introTl = null, started = false;
+    chapters.forEach(function (chapter) {
+      if (chapter.id === 'opening' || chapter.id === 'media') buildChapter(chapter); else later.push(chapter);
     });
+    var buildNext = function () {
+      if (dead) return;
+      var ch = later.shift();
+      if (!ch) { ScrollTrigger.refresh(); return; }
+      ctx.add(function () { buildChapter(ch); });
+      setTimeout(buildNext, 0);
+    };
+    // pas beginnen als de openingsanimatie klaar is (anders hapert die), of meteen bij de eerste scroll/tik
+    var startLater = function () {
+      if (started) return;
+      started = true;
+      window.removeEventListener('scroll', startLater);
+      window.removeEventListener('touchstart', startLater);
+      setTimeout(buildNext, 0);
+    };
+    if (introTl) {
+      introTl.eventCallback('onComplete', startLater);
+      window.addEventListener('scroll', startLater, { passive: true });
+      window.addEventListener('touchstart', startLater, { passive: true });
+      setTimeout(startLater, 2500); // vangnet
+    } else startLater();
 
     var stackOff = wallLife(mobile);
 
@@ -795,6 +824,7 @@
     });
 
     return function () {
+      dead = true;
       if (op.v16) { op.v16.pause(); if (op.loaded) op.v9.pause(); }
       stackOff();
       root.classList.remove('film-on', 'intro');
@@ -1021,8 +1051,15 @@
     apply();
     if (mq.addEventListener) mq.addEventListener('change', apply);
     // open/dicht verandert de hoogte van het tekstblok, en daarmee waar de opbouw eindigt
+    // Eén refresh per frame: bij het laden klappen alle blokken tegelijk dicht (vijf toggles), en elke
+    // refresh kost op een telefoon ruim 100 ms.
+    var queued = 0;
+    var refreshSoon = function () {
+      if (queued) return;
+      queued = requestAnimationFrame(function () { queued = 0; if (window.ScrollTrigger) ScrollTrigger.refresh(); });
+    };
     Array.prototype.forEach.call(all, function (d) {
-      d.addEventListener('toggle', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
+      d.addEventListener('toggle', refreshSoon);
     });
   }
 

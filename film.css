@@ -1004,3 +1004,17 @@ img, video, svg { display: block; max-width: 100%; }
   :root:not(.film-on) .fl-d { display: none; }
   :root:not(.film-on) #opening .scene-in { aspect-ratio: 9 / 16; }
 }
+
+/* ---------- Mobiel korter (3 okt 2026) ----------
+   Op mobiel was de film ruim 18 schermen lang: bezoekers moesten eindeloos scrollen voor ze bij de prijzen
+   of het formulier kwamen. Elk hoofdstuk is nu ongeveer een derde korter; de animaties lopen gewoon sneller
+   mee met het scrollen. Staat bewust onderaan, zodat het de eerdere mobiele hoogtes overschrijft. */
+@media (max-width: 767px) {
+  .film-on #opening { height: 175svh; }
+  .film-on #media { height: calc(var(--len, 2) * .62 * 100svh); }
+  .film-on #fundament, .film-on #verkeer, .film-on #opvolging, .film-on #prijs {
+    height: calc((var(--len, 2) + .25) * .66 * 100svh);
+  }
+  /* cookiebalk open: de hero-tekst en knoppen schuiven erboven, zodat de knop nooit onder de balk zit */
+  .hg-cc-open #opening .copy-body { padding-bottom: calc(var(--hg-cc-h, 0px) + 14px); }
+}
