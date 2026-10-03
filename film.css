@@ -1034,3 +1034,56 @@ img, video, svg { display: block; max-width: 100%; }
   /* pakketten: de kaarten kregen geen hoogte (container-type size zonder vaste hoogte) en vielen weg */
   :root:not(.film-on) #prijs .scene-in { container-type: inline-size; }
 }
+
+/* ---------- Telefoon: brede sites en het hele WhatsApp-gesprek (3 okt 2026) ----------
+   Hero en Fundament tonen op de telefoon de brede (desktop)weergave in een browservenster, zoals een
+   screenshot. Opvolging: de telefoon met het gesprek blijft staan terwijl de berichten één voor één binnenkomen
+   (film.js, setupPhone); de tekst staat eronder en komt pas als het gesprek af is. */
+.m-only { display: none; }
+@media (max-width: 767px) {
+  /* Hero: brede A/C Men-site in een browser, wisselt van taal */
+  :root:not(.film-on) #opening .scene-in { aspect-ratio: auto; height: auto; display: block; place-items: normal; container-type: inline-size; }
+  :root:not(.film-on) #opening .fly { position: relative; inset: auto; container-type: normal; padding: 4px 0 6px; perspective: 1100px; }
+  :root:not(.film-on) #opening .fly::before { inset: -10% -20%; background: radial-gradient(50% 50% at 50% 55%, rgba(255, 59, 48, .22), transparent 70%); }
+  :root:not(.film-on) #opening .fl-m { display: none; }
+  :root:not(.film-on) #opening .fl-d.fl-main { display: block; position: relative; inset: auto; margin: 0; width: 100%; height: auto; }
+  :root:not(.film-on) #opening .fl-d .fl-f { height: auto; }
+  :root:not(.film-on) #opening .fl-d .fl-in { position: relative; height: auto; border-radius: 10px; box-shadow: 0 0 0 1px rgba(242, 240, 236, .14), 0 34px 60px -24px rgba(0, 0, 0, .9); }
+  :root:not(.film-on) #opening .fl-d .fl-bar { height: 26px; padding: 0 10px; gap: 5px; }
+  :root:not(.film-on) #opening .fl-d .fl-bar i { width: 7px; height: 7px; }
+  :root:not(.film-on) #opening .fl-d .fl-bar span { font-size: 10.5px; padding: 2px 10px; min-width: 52%; }
+  :root:not(.film-on) #opening .fl-d img { height: auto; aspect-ratio: 960 / 600; }
+  .fl-shot { position: relative; }
+  .fl-shot .fl-next { position: absolute; inset: 0; opacity: 0; }
+  .fl-langs { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
+  .fl-langs span {
+    padding: 5px 10px; border-radius: 99px; font: 500 .6875rem/1 var(--f-mono); letter-spacing: .06em;
+    color: var(--mute); box-shadow: inset 0 0 0 1px var(--line-2); transition: color .3s, background-color .3s, box-shadow .3s;
+  }
+  .fl-langs span.is-on { color: var(--bg); background: var(--ink); box-shadow: none; }
+
+  /* Fundament: de demosite in de brede weergave (720px breed ontworpen, film.js schaalt hem naar de schermbreedte) */
+  :root:not(.film-on) #fundament .scene-in { aspect-ratio: auto; height: calc(480px * var(--bs, .5)); display: block; place-items: normal; container-type: normal; }
+  :root:not(.film-on) #fundament .browser {
+    width: 720px; aspect-ratio: 3 / 2; border-radius: 16px; transform-origin: 0 0; transform: scale(var(--bs, .5));
+    box-shadow: 0 0 0 1px var(--line-2), 0 50px 90px -40px #000;
+  }
+  :root:not(.film-on) #fundament .d-page { will-change: transform; }
+
+  /* Opvolging: het hele gesprek, de samenvatting eronder */
+  :root:not(.film-on) #opvolging .scene { overflow: visible; }
+  :root:not(.film-on) #opvolging .scene-in { aspect-ratio: auto; height: auto; display: block; place-items: normal; container-type: normal; }
+  :root:not(.film-on) #opvolging .chat-wrap { width: 100%; height: auto; }
+  :root:not(.film-on) #opvolging .phone { position: relative; left: auto; top: auto; width: 100%; height: auto; border-radius: 22px; box-shadow: 0 0 0 5px #1d2125, 0 0 0 6px var(--line-2), 0 30px 60px -30px #000; }
+  :root:not(.film-on) #opvolging .ph-head { padding: 3.6cqw 4.4cqw; }
+  :root:not(.film-on) #opvolging .ph-body { gap: 2.6cqw; padding: 4cqw 4cqw 5cqw; }
+  :root:not(.film-on) #opvolging .ph-day { display: block; }
+  :root:not(.film-on) #opvolging .msg { font-size: 4cqw; }
+  :root:not(.film-on) #opvolging .msg time { font-size: 2.7cqw; }
+  :root:not(.film-on) #opvolging .msg-ai { font-size: 2.7cqw; }
+  :root:not(.film-on) #opvolging .m-only { display: flex; }
+  :root:not(.film-on) #opvolging .msg.m-only { display: block; }
+  :root:not(.film-on) #opvolging .typing { position: absolute; right: 0; top: 0; display: flex; opacity: 0; }
+  :root:not(.film-on) #opvolging .summary { position: relative; right: auto; bottom: auto; width: 100%; margin-top: 18px; padding: 1rem 1.1rem; }
+  :root:not(.film-on) #opvolging .summary .is-extra { display: grid !important; }
+}

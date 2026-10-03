@@ -55,6 +55,7 @@
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
   ScrollTrigger.config({ ignoreMobileResize: true });
+  setupPhone(); // telefoon zonder film: brede sites + WhatsApp-gesprek op scroll
 
   /* ---------- Scènes: per hoofdstuk een functie die de bouw-tijdlijn vult ---------- */
   var SCENES = {};
@@ -1010,6 +1011,154 @@
           btn.disabled = false;
           btn.textContent = label;
         });
+    });
+  }
+
+  /* ---------- Telefoon (< 768px, geen film): brede sites en het WhatsApp-gesprek op scroll ----------
+   * Hero: de brede A/C Men-site wisselt rustig van taal (adresbalk en taallabels lopen mee).
+   * Fundament: de demosite staat in de brede weergave (720px ontworpen, geschaald naar de schermbreedte) en
+   *   scrollt mee met de pagina; de villavideo laadt pas als het hoofdstuk dichtbij is.
+   * Opvolging: de telefoon blijft staan (pin) terwijl het gesprek bericht voor bericht binnenkomt; de tekst
+   *   staat eronder en komt pas in beeld als het gesprek af is. Bij minder beweging staat alles meteen. */
+  function setupPhone() {
+    var pm = gsap.matchMedia();
+    pm.add({ phone: '(max-width: 767px)', motion: '(prefers-reduced-motion: no-preference)' }, function (c) {
+      if (!c.conditions.phone || root.classList.contains('film-on')) return;
+      var motion = c.conditions.motion;
+      var offs = [];
+
+      // Fundament: schaal van het browservenster
+      var fScene = document.querySelector('#fundament .scene-in');
+      var browser = fScene && fScene.querySelector('.browser');
+      var fit = function () {
+        if (!browser) return;
+        fScene.style.setProperty('--bs', (fScene.clientWidth / 720).toFixed(4));
+      };
+      fit();
+      window.addEventListener('resize', fit);
+      offs.push(function () { window.removeEventListener('resize', fit); if (fScene) fScene.style.removeProperty('--bs'); });
+
+      // villavideo laden als Fundament dichtbij is; alleen spelen zolang hij in beeld is
+      var dv = document.querySelector('#fundament .d-video');
+      if (dv && dv.dataset.src) {
+        ScrollTrigger.create({
+          trigger: '#fundament', start: 'top 180%', end: 'bottom top',
+          onToggle: function (self) {
+            if (self.isActive) {
+              if (!dv.getAttribute('src')) { dv.muted = true; dv.loop = true; dv.src = dv.dataset.src; }
+              if (motion) { var p = dv.play(); if (p && p.catch) p.catch(function () {}); }
+            } else dv.pause();
+          }
+        });
+      }
+
+      // Hero: taalwissel
+      var fig = document.querySelector('#opening .fl-d.fl-main');
+      var img = fig && fig.querySelector('img');
+      var url = fig && fig.querySelector('.fl-bar span');
+      var langs = [LANG].concat(['nl', 'en', 'es'].filter(function (l) { return l !== LANG; }));
+      var timer = null, chips = null, shot = null, next = null;
+      if (img) {
+        shot = document.createElement('div');
+        shot.className = 'fl-shot';
+        img.parentNode.insertBefore(shot, img);
+        shot.appendChild(img);
+        next = img.cloneNode(false);
+        next.className = 'fl-next'; next.alt = ''; next.removeAttribute('fetchpriority');
+        shot.appendChild(next);
+        chips = document.createElement('div');
+        chips.className = 'fl-langs';
+        chips.setAttribute('aria-hidden', 'true');
+        chips.innerHTML = langs.map(function (l) { return '<span>' + l.toUpperCase() + '</span>'; }).join('');
+        fig.appendChild(chips);
+        var at = 0;
+        var mark = function () { toArray(chips.children).forEach(function (el, i) { el.classList.toggle('is-on', i === at); }); };
+        mark();
+        var src = function (l) { return '/media/reel/acmen-' + l + '-d.webp'; };
+        var step = function () {
+          at = (at + 1) % langs.length;
+          var l = langs[at];
+          var pre = new Image();
+          pre.onload = function () {
+            next.src = pre.src;
+            gsap.fromTo(next, { autoAlpha: 0 }, {
+              autoAlpha: 1, duration: 0.6, ease: 'power1.inOut',
+              onComplete: function () { img.src = pre.src; gsap.set(next, { autoAlpha: 0 }); }
+            });
+            if (url) url.textContent = 'theacmen.es/' + l;
+            mark();
+          };
+          pre.src = src(l);
+        };
+        if (motion) {
+          // binnenkomst: de site kantelt zacht naar voren
+          gsap.fromTo(fig, { rotationX: 14, y: 26, scale: 0.95, transformOrigin: '50% 100%' }, { rotationX: 0, y: 0, scale: 1, duration: 1.2, ease: 'expo.out', delay: 0.15 });
+          ScrollTrigger.create({
+            trigger: fig, start: 'top bottom', end: 'bottom top',
+            onToggle: function (self) {
+              clearInterval(timer);
+              if (self.isActive) timer = setInterval(step, 2600);
+            }
+          });
+        }
+        offs.push(function () {
+          clearInterval(timer);
+          if (shot && shot.parentNode) { shot.parentNode.insertBefore(img, shot); shot.remove(); }
+          if (chips) chips.remove();
+          img.src = src(LANG); if (url) url.textContent = 'theacmen.es/' + LANG;
+        });
+      }
+
+      if (motion) {
+        // Fundament: de site scrollt mee terwijl het hoofdstuk voorbij komt
+        var page = browser && browser.querySelector('.d-page');
+        var view = browser && browser.querySelector('.demo');
+        if (page && view) {
+          gsap.fromTo(page, { y: 0 }, {
+            y: function () { return -Math.max(0, page.offsetHeight - view.clientHeight); }, ease: 'none',
+            scrollTrigger: { trigger: fScene, start: 'top 40%', end: 'bottom -40%', scrub: 0.6, invalidateOnRefresh: true }
+          });
+        }
+
+        // Opvolging: het gesprek komt binnen terwijl de telefoon blijft staan
+        var phone = document.querySelector('#opvolging .phone');
+        if (phone) {
+          var hdr = document.querySelector('.hdr');
+          var parts = toArray(phone.querySelectorAll('.ph-body > .msg, .ph-body > .out-slot'));
+          var tl = gsap.timeline({
+            defaults: { ease: 'none' },
+            scrollTrigger: {
+              trigger: phone, pin: true, scrub: 0.5, anticipatePin: 1, invalidateOnRefresh: true,
+              start: function () { return 'top ' + ((hdr ? hdr.offsetHeight : 0) + 16); },
+              end: function () { return '+=' + Math.round(window.innerHeight * 1.4); }
+            }
+          });
+          var t = 0.04;
+          parts.forEach(function (el) {
+            if (el.classList.contains('out-slot')) {
+              var typing = el.querySelector('.typing'), msg = el.querySelector('.msg');
+              tl.fromTo(msg, { autoAlpha: 0 }, { autoAlpha: 0, duration: 0.001 }, 0);
+              tl.fromTo(typing, { autoAlpha: 0, scale: 0.8 }, { autoAlpha: 1, scale: 1, duration: 0.04 }, t)
+                .to(typing.children, { y: -3, duration: 0.03, yoyo: true, repeat: 3, stagger: 0.012, ease: 'sine.inOut' }, t + 0.03)
+                .to(typing, { autoAlpha: 0, duration: 0.03 }, t + 0.13);
+              t += 0.14;
+              tl.fromTo(msg, { autoAlpha: 0, scale: 0.88, y: 12 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.06, ease: 'back.out(2)', immediateRender: false }, t);
+            } else {
+              tl.fromTo(el, { autoAlpha: 0, scale: 0.88, y: 12 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.06, ease: 'back.out(2)' }, t);
+            }
+            t += 0.14;
+          });
+          tl.set({}, {}, t + 0.08); // even rust: het hele gesprek staat er
+          // samenvatting komt op als je verder scrollt
+          gsap.fromTo('#opvolging .summary dl > div', { autoAlpha: 0, y: 10 }, {
+            autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out',
+            scrollTrigger: { trigger: '#opvolging .summary', start: 'top 85%', toggleActions: 'play none none reverse' }
+          });
+        }
+      }
+
+      ScrollTrigger.refresh();
+      return function () { offs.forEach(function (f) { f(); }); };
     });
   }
 
