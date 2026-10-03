@@ -340,7 +340,42 @@
       .fromTo(s.q('.pl-site'), { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.08, ease: 'power2.out' }, 0.7);
     // mobiel: de camera duwt in op het gekozen pakket
     if (s.mobile) tl.fromTo(s.q('.plans'), { scale: 1 }, { scale: 1.03, transformOrigin: '50% 45%', duration: 0.2, ease: 'power2.inOut' }, 0.6);
+    growthChart(tl, s, 0.95);
   };
+
+  // Pakketten, tweede deel: de kaarten maken plaats voor een groeigrafiek. De lijn tekent zichzelf (met gloed en
+  // een stip die meeloopt), wordt per pakket steiler en de pakketlabels springen op als de lijn ze passeert.
+  // Daarna het echte A/C Men-cijfer. Alles loopt mee met het scrollen.
+  function growthChart(tl, s, t0) {
+    var g = s.scene.querySelector('.growth');
+    if (!g || s.mobile) return;
+    var line = g.querySelector('.gr-line'), glow = g.querySelector('.gr-glow');
+    var dot = g.querySelector('.gr-dot'), halo = g.querySelector('.gr-halo');
+    var clip = g.querySelector('.gr-clip');
+    var len = line.getTotalLength();
+    var chips = toArray(g.querySelectorAll('.gr-chip'));
+    var draw = { p: 0 };
+    var at = function (p) {
+      var pt = line.getPointAtLength(p * len);
+      dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
+      halo.setAttribute('cx', pt.x); halo.setAttribute('cy', pt.y);
+      clip.setAttribute('width', Math.max(0, pt.x));
+      g.style.setProperty('--glow', p.toFixed(3));
+    };
+    gsap.set([line, glow], { strokeDasharray: len, strokeDashoffset: len });
+    at(0);
+    tl.to(s.q('.plans'), { autoAlpha: 0, y: -40, scale: 0.94, duration: 0.14, ease: 'power2.in' }, t0)
+      .fromTo(g, { autoAlpha: 0, y: 50, scale: 0.95 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.16, ease: 'power3.out' }, t0 + 0.08)
+      .fromTo(g.querySelectorAll('.gr-grid line'), { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, duration: 0.12, stagger: 0.025, ease: 'power2.out' }, t0 + 0.14)
+      .fromTo(g.querySelectorAll('.gr-phase line'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.05, stagger: 0.18 }, t0 + 0.34)
+      .fromTo([line, glow], { strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.62, ease: 'power1.inOut' }, t0 + 0.26)
+      .fromTo(draw, { p: 0 }, { p: 1, duration: 0.62, ease: 'power1.inOut', onUpdate: function () { at(draw.p); } }, t0 + 0.26);
+    [0.22, 0.56, 0.9].forEach(function (f, i) {
+      tl.fromTo(chips[i], { autoAlpha: 0, scale: 0.6, xPercent: -50, yPercent: -135 }, { autoAlpha: 1, scale: 1, xPercent: -50, yPercent: -135, duration: 0.06, ease: 'back.out(2.4)' }, t0 + 0.26 + 0.62 * f);
+    });
+    tl.fromTo(g.querySelector('.gr-proof'), { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.1, ease: 'power2.out' }, t0 + 0.9)
+      .to(g, { scale: 1.02, duration: 0.25, ease: 'power1.inOut' }, t0 + 0.9);
+  }
 
   // Laadt pas na de eerste render (load-event + idle), zodat de homepage snel verschijnt.
   function afterFirstRender(fn) {
@@ -623,8 +658,8 @@
           scrollTrigger: {
             trigger: chapter, scrub: true,
             // mobiel heeft geen sluiter-overgang naar Contact: daar blijft Prijs staan tot Contact opkomt
-            start: beforeContact ? (mobile ? 'bottom 55%' : 'bottom bottom') : intoMedia ? 'bottom 45%' : 'bottom 75%',
-            end: beforeContact ? (mobile ? 'bottom 25%' : 'bottom 90%') : intoMedia ? 'bottom 25%' : 'bottom 45%'
+            start: beforeContact ? (mobile ? 'bottom 55%' : 'bottom 92%') : intoMedia ? 'bottom 45%' : 'bottom 75%',
+            end: beforeContact ? (mobile ? 'bottom 25%' : 'bottom 68%') /* desktop: de groeigrafiek blijft staan tot Contact opkomt */ : intoMedia ? 'bottom 25%' : 'bottom 45%'
           }
         });
       }
