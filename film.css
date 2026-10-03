@@ -1045,7 +1045,7 @@ img, video, svg { display: block; max-width: 100%; }
   :root:not(.film-on) #opening .scene-in { aspect-ratio: auto; height: auto; display: block; place-items: normal; container-type: inline-size; }
   :root:not(.film-on) #opening .fly { position: relative; inset: auto; container-type: normal; padding: 4px 0 6px; perspective: 1100px; }
   :root:not(.film-on) #opening .fly::before { inset: -10% -20%; background: radial-gradient(50% 50% at 50% 55%, rgba(255, 59, 48, .22), transparent 70%); }
-  :root:not(.film-on) #opening .fl-m { display: none; }
+  :root:not(.film-on) #opening .fl-m, :root:not(.film-on) #opening .fl-m.fl-main { display: none; }
   :root:not(.film-on) #opening .fl-d.fl-main { display: block; position: relative; inset: auto; margin: 0; width: 100%; height: auto; }
   :root:not(.film-on) #opening .fl-d .fl-f { height: auto; }
   :root:not(.film-on) #opening .fl-d .fl-in { position: relative; height: auto; border-radius: 10px; box-shadow: 0 0 0 1px rgba(242, 240, 236, .14), 0 34px 60px -24px rgba(0, 0, 0, .9); }
