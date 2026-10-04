@@ -324,7 +324,7 @@
      alle video's tegelijk te laden en bleef de video die je bekeek zwart. Nu:
      - telefoon: alleen de video die het meest in beeld is speelt (ook als die maar deels in beeld is,
        zoals de hero bij binnenkomst), de rest pauzeert;
-     - computer: elke video die minstens 35% in beeld is speelt;
+     - computer: de twee meest zichtbare video's spelen;
      - een video die helemaal uit beeld is en nog niet genoeg geladen had, stopt met downloaden;
      - een video die bijna in beeld komt laadt alvast het begin, zodat hij niet zwart start. */
   var phone = window.matchMedia('(max-width: 767px)');
@@ -335,11 +335,14 @@
     v.dataset.idle = '1'; v.preload = 'none'; v.load(); // breekt de download af; de poster blijft staan
   };
   var update = function () {
-    var best = null, bestR = 0;
-    vids.forEach(function (v) { var r = ratio.get(v) || 0; if (r > bestR && !v.userPaused) { best = v; bestR = r; } });
+    // telefoon: 1 video tegelijk; computer: hooguit 2 (de meest zichtbare, minstens half in beeld).
+    // Eerst speelden op de computer tot 12 video's in 1080p tegelijk: dat liet de pagina vastlopen.
+    var max = phone.matches ? 1 : 2, min = phone.matches ? 0.001 : 0.5;
+    var ranked = vids.filter(function (v) { return !v.userPaused && (ratio.get(v) || 0) >= min; })
+      .sort(function (a, b) { return (ratio.get(b) || 0) - (ratio.get(a) || 0); }).slice(0, max);
     vids.forEach(function (v) {
       var r = ratio.get(v) || 0;
-      var on = phone.matches ? (v === best && r > 0) : r >= 0.35;
+      var on = ranked.indexOf(v) >= 0;
       if (on) { delete v.dataset.idle; play(v); }
       else { if (!v.paused) v.pause(); if (r === 0) stopLoading(v); }
     });
