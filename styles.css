@@ -354,6 +354,8 @@ footer{padding:70px 0 30px;background:var(--bg-2);border-top:1px solid var(--bor
 @media(max-width:500px){.foot-grid{grid-template-columns:1fr;}}
 .foot-brand h3{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:48px;letter-spacing:-.02em;font-weight:400;line-height:1;margin-bottom:16px;}
 .foot-brand h3 em{color:var(--accent);}
+.foot-brand h3.foot-logo{font-style:normal;font-family:inherit;line-height:0;}
+.foot-brand h3 svg{display:block;}
 .foot-brand p{color:var(--text-dim);font-size:14px;max-width:320px;}
 footer h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin-bottom:14px;font-weight:600;font-family:'JetBrains Mono',monospace;}
 footer .foot-links li{margin-bottom:9px;font-size:14px;}

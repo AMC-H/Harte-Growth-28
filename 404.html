@@ -24,6 +24,7 @@
 .err-links ul{display:flex;flex-wrap:wrap;gap:12px 20px;list-style:none;padding:0;}
 .err-links a{color:var(--text-dim);font-size:15px;text-decoration:none;border-bottom:1px solid var(--border-2);padding-bottom:2px;transition:color .18s,border-color .18s;}
 .err-links a:hover{color:var(--accent);border-color:var(--accent);}
+.err-logo{position:absolute;top:22px;left:22px;display:inline-flex;z-index:2;}
 .err-lang{position:absolute;top:22px;right:22px;display:flex;gap:4px;font-family:'JetBrains Mono',monospace;font-size:12px;}
 .err-lang button{background:none;border:1px solid var(--border);color:var(--text-dim);padding:6px 10px;border-radius:6px;cursor:pointer;font:inherit;transition:color .18s,border-color .18s;}
 .err-lang button:hover, .err-lang button.on{color:var(--accent);border-color:var(--accent);}
@@ -32,6 +33,7 @@
 <body>
 <canvas class="bg-canvas"></canvas>
 
+<a class="err-logo" href="/" aria-label="Harte Growth, home"><svg width="116" height="26" viewBox="0 0 151 34" fill="none" aria-hidden="true" focusable="false"><text x="0" y="25" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="800" letter-spacing="-.9" textLength="61.5" lengthAdjust="spacingAndGlyphs" fill="#f6f3ef">Harte</text><text x="72" y="25" font-family="'Instrument Serif', Georgia, serif" font-style="italic" font-weight="400" font-size="28" letter-spacing="-.7" textLength="69.6" lengthAdjust="spacingAndGlyphs" fill="#ff4d1a">Growth</text><rect x="145" y="21" width="4.5" height="4.5" fill="#ff4d1a"/></svg></a>
 <div class="err-lang" role="navigation" aria-label="Taal">
   <button type="button" data-lang="nl" class="on">NL</button>
   <button type="button" data-lang="en">EN</button>

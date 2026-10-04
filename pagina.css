@@ -194,7 +194,8 @@ html { scroll-padding-top: calc(var(--hdr) + 12px); }
 .footer-links { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font: 400 .78rem/1 var(--f-mono); }
 .footer-links a { color: var(--mute); text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
 .footer-links a:hover { color: var(--ink); }
-.logo-text { font-size: 1rem; }
+.logo-text { font-size: 1rem; display: inline-flex; }
+.logo-text svg { display: block; }
 .logo-text b { font-weight: 700; letter-spacing: -.01em; }
 .logo-text i { font-style: normal; font-weight: 500; color: var(--accent); }
 .logo-text span { color: var(--accent); }
