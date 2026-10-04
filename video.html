@@ -319,14 +319,43 @@
   });
   if (reduce) { vids.forEach(function (v) { v.pause(); v.removeAttribute('autoplay'); var f = v.closest('.reel'); if (f) f.classList.add('is-paused'); }); return; }
   if (!('IntersectionObserver' in window)) { vids.forEach(function (v) { v.play && v.play().catch(function(){}); }); return; }
+  /* Eerst bleef een video die je voorbij scrolde gewoon doorspelen (bij een enkele drempel van 35% is een
+     video die half uit beeld gaat nog 'zichtbaar', dus kreeg hij opnieuw play). Op een telefoon liepen zo
+     alle video's tegelijk te laden en bleef de video die je bekeek zwart. Nu:
+     - telefoon: alleen de video die het meest in beeld is speelt (ook als die maar deels in beeld is,
+       zoals de hero bij binnenkomst), de rest pauzeert;
+     - computer: elke video die minstens 35% in beeld is speelt;
+     - een video die helemaal uit beeld is en nog niet genoeg geladen had, stopt met downloaden;
+     - een video die bijna in beeld komt laadt alvast het begin, zodat hij niet zwart start. */
+  var phone = window.matchMedia('(max-width: 767px)');
+  var ratio = new Map();
+  var play = function (v) { if (v.userPaused) return; var p = v.play(); if (p && p.catch) p.catch(function(){}); };
+  var stopLoading = function (v) {
+    if (!v.paused || v.readyState >= 3 || v.dataset.idle) return;
+    v.dataset.idle = '1'; v.preload = 'none'; v.load(); // breekt de download af; de poster blijft staan
+  };
+  var update = function () {
+    var best = null, bestR = 0;
+    vids.forEach(function (v) { var r = ratio.get(v) || 0; if (r > bestR && !v.userPaused) { best = v; bestR = r; } });
+    vids.forEach(function (v) {
+      var r = ratio.get(v) || 0;
+      var on = phone.matches ? (v === best && r > 0) : r >= 0.35;
+      if (on) { delete v.dataset.idle; play(v); }
+      else { if (!v.paused) v.pause(); if (r === 0) stopLoading(v); }
+    });
+  };
   var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { ratio.set(e.target, e.isIntersecting ? e.intersectionRatio : 0); });
+    update();
+  }, { threshold: [0, 0.2, 0.35, 0.5, 0.65, 0.8, 1] });
+  // vooraf laden: één scherm voordat een video in beeld komt alvast het begin ophalen
+  var near = new IntersectionObserver(function (es) {
     es.forEach(function (e) {
       var v = e.target;
-      if (e.isIntersecting && !v.userPaused) { var p = v.play(); if (p && p.catch) p.catch(function(){}); }
-      else if (!e.isIntersecting) v.pause();
+      if (e.isIntersecting && v.preload === 'none') { delete v.dataset.idle; v.preload = 'metadata'; }
     });
-  }, { threshold: 0.35 });
-  vids.forEach(function (v) { io.observe(v); });
+  }, { rootMargin: '100% 0px 100% 0px' });
+  vids.forEach(function (v) { io.observe(v); near.observe(v); });
 })();
 </script>
 </body>
