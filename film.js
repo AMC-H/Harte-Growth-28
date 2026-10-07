@@ -150,6 +150,7 @@
   // 2. Media: losse foto's vallen in de bak, schuiven op de tijdlijn, krijgen cuts, tekst en geluid,
   //    en spelen af als afgewerkte 9:16-video in het programmascherm.
   var media = { video: null, hasVideo: false, t0: 0.64, span: 0.3 };
+  var mediaActive = false; // resultaatvideo in beeld -> afspelen
   var mediaResultAt = 0.7; // deel van de Media-opbouw waarop de resultaatlaag (mobiel) volledig op is; zie hieronder
   var clipVideo = document.querySelector('.shot-video'); // ruwe clip in de bak
 
@@ -435,9 +436,9 @@
         video.setAttribute('aria-label', TXT.video);
         video.closest('.scene').removeAttribute('aria-hidden');
       } else {
-        // iOS toont pas beelden na een eerste play()
-        var p = video.play();
-        if (p && p.then) p.then(function () { video.pause(); video.currentTime = 0; }).catch(function () {});
+        // speelt gewoon af (loop, gedempt) zolang Media in beeld is; anders gepauzeerd
+        video.loop = true;
+        if (mediaActive) play(video);
       }
       ScrollTrigger.update();
     }, { once: true });
@@ -774,27 +775,24 @@
       }
     });
 
-    // Resultaat: 0:00 op het moment dat het 9:16-scherm volledig in beeld is, laatste frame als de scène
-    // begint weg te vagen. Desktop: na het invaden van de scène. Mobiel: zodra de resultaatlaag op is
-    // (die komt daar pas op 60% van de montage, over de gedimde tijdlijn heen).
+    // Resultaat: speelt gewoon af (geen scrub meer), alleen zolang het 9:16-scherm in beeld is.
+    // Buiten beeld gepauzeerd, zodat er niets op de achtergrond decodeert. De foto's/tijdlijn blijven op scroll.
     var mediaBuild = builds.media;
     ScrollTrigger.create({
       trigger: '#media',
       start: mobile
         ? function () { return mediaBuild.start + (mediaBuild.end - mediaBuild.start) * mediaResultAt; }
-        : 'top 15%',
-      end: 'bottom 75%',
+        : 'top 85%',
+      end: 'bottom top',
       onToggle: function (self) {
-        if (!LITE || !media.hasVideo) return;
-        media.video.loop = true;
+        mediaActive = self.isActive;
+        if (!media.hasVideo) return;
         if (self.isActive) play(media.video); else media.video.pause();
-      },
-      onUpdate: function (self) {
-        if (LITE || !media.hasVideo || !media.video.duration) return;
-        var t = self.progress * (media.video.duration - 1 / 30);
-        if (Math.abs(media.video.currentTime - t) > 1 / 60) media.video.currentTime = t;
-      },
-      onLeaveBack: function () { if (media.video) media.video.currentTime = 0; }
+      }
+    });
+    document.addEventListener('visibilitychange', function () {
+      if (!media.hasVideo) return;
+      if (document.hidden) media.video.pause(); else if (mediaActive) play(media.video);
     });
 
     // Opening: de video speelt af in een loop (gedempt). Halverwege de opening wordt het frame staand
