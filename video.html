@@ -30,7 +30,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@800&amp;family=Instrument+Serif:ital@1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/film.css?v=20261003e">
 <link rel="stylesheet" href="/pagina.css?v=20260925d">
-<link rel="stylesheet" href="/werk.css?v=20261003a">
+<link rel="stylesheet" href="/werk.css?v=20261007a">
 <script src="/analytics.js?v=20261003a" defer></script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@graph": [{"@type": "Service", "name": "Short-form video uit je eigen foto's en clips", "serviceType": "Videomontage", "provider": {"@id": "https://hartegrowth.eu/#org"}, "areaServed": [{"@type": "Country", "name": "Spain"}, {"@type": "Country", "name": "Netherlands"}], "url": "https://hartegrowth.eu/video", "description": "Stuur 5 à 6 foto's of een paar ruwe clips en krijg binnen 48 uur een gemonteerde video voor social of je website. €35 per video (actie). Geld terug.", "offers": {"@type": "Offer", "price": "35", "priceCurrency": "EUR", "description": "Tijdelijke actieprijs voor short-form content, normaal €50", "url": "https://hartegrowth.eu/video", "priceSpecification": {"@type": "UnitPriceSpecification", "price": "35", "priceCurrency": "EUR", "valueAddedTaxIncluded": false}}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Hoeveel materiaal heb ik nodig?", "acceptedAnswer": {"@type": "Answer", "text": "Een stuk of 5 à 6 foto's of een paar korte clips is genoeg voor één video. Heb je meer? Stuur alles mee, wij kiezen wat het beste werkt."}}, {"@type": "Question", "name": "Hoe lever ik bestanden aan?", "acceptedAnswer": {"@type": "Answer", "text": "Het liefst via WeTransfer. Zet je foto's en clips erin en stuur de link via WhatsApp of mail. Google Drive kan ook. Stuur ze liever niet los via WhatsApp: dan wordt het beeld kleiner gemaakt en gaat de kwaliteit omlaag."}}, {"@type": "Question", "name": "Mag ik de video overal gebruiken?", "acceptedAnswer": {"@type": "Answer", "text": "Ja, de video is van jou. Gebruik hem op social, je website, in een advertentie of in een listing."}}, {"@type": "Question", "name": "Wat als ik niet tevreden ben?", "acceptedAnswer": {"@type": "Answer", "text": "Er zit één revisieronde bij. Komen we er samen niet uit? Dan krijg je je geld terug."}}, {"@type": "Question", "name": "Maken jullie ook meerdere video's per maand?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Wil je elke maand vaste content, dan spreken we een vaste prijs per maand af. Stuur een berichtje, dan rekenen we het voor je uit."}}]}]}
@@ -87,7 +87,7 @@
         </div>
         <p class="fine vid-tip">Stuur je bestanden het liefst via <a class="link" href="https://wetransfer.com" target="_blank" rel="noopener">WeTransfer</a>. Dan blijft de kwaliteit behouden.</p>
       </div>
-      <figure class="phone" aria-label="Voorbeeld: Ferrari 512 BB, autocontent">
+      <figure data-sound class="phone" aria-label="Voorbeeld: Ferrari 512 BB, autocontent">
         <video src="/media/werk/ferrari-9x16.mp4?v=2" poster="/media/werk/ferrari-9x16.webp?v=2" width="360" height="640" muted loop playsinline autoplay preload="auto"></video>
         <figcaption class="phone-tag">Ferrari 512 BB · teaser · 9:16</figcaption>
       </figure>
@@ -294,7 +294,7 @@
   var vids = [].slice.call(document.querySelectorAll('.reel video, .phone video'));
   vids.forEach(function (v) {
     v.removeAttribute('controls');
-    var fig = v.closest('.reel'), btn = fig && fig.querySelector('.reel-play');
+    var fig = v.closest('.reel, .phone'), btn = fig && fig.querySelector('.reel-play'); // .phone = hero (alleen geluidsknop)
     v.userPaused = false;
     // geluidsknop: alleen bij video's met geluid; er speelt er altijd maar één met geluid
     if (fig && fig.hasAttribute('data-sound')) {
@@ -304,7 +304,7 @@
       fig.appendChild(snd);
       snd.addEventListener('click', function () {
         var on = v.muted;
-        vids.forEach(function (o) { if (o !== v && !o.muted) { o.muted = true; var f = o.closest('.reel'); if (f) { f.classList.remove('has-sound'); var b = f.querySelector('.reel-sound'); if (b) { b.setAttribute('aria-pressed', 'false'); b.lastChild.textContent = 'Geluid aan'; } } } });
+        vids.forEach(function (o) { if (o !== v && !o.muted) { o.muted = true; var f = o.closest('.reel, .phone'); if (f) { f.classList.remove('has-sound'); var b = f.querySelector('.reel-sound'); if (b) { b.setAttribute('aria-pressed', 'false'); b.lastChild.textContent = 'Geluid aan'; } } } });
         v.muted = !on;
         fig.classList.toggle('has-sound', on);
         snd.setAttribute('aria-pressed', on ? 'true' : 'false');

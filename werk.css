@@ -78,10 +78,11 @@
   backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
 }
 .reel-sound svg { width: 16px; height: 16px; }
+.phone > .reel-sound { z-index: 2; } /* hero: de Ferrari kan ook met geluid */
 .reel-sound .s-on { display: none; }
-.reel.has-sound .reel-sound { background: var(--accent); color: #fff; }
-.reel.has-sound .reel-sound .s-on { display: block; }
-.reel.has-sound .reel-sound .s-off { display: none; }
+.has-sound > .reel-sound { background: var(--accent); color: #fff; }
+.has-sound > .reel-sound .s-on { display: block; }
+.has-sound > .reel-sound .s-off { display: none; }
 
 /* Prijs: één kaart */
 .vid-price { max-width: 520px; margin-top: 2rem; }
