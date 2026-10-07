@@ -450,7 +450,7 @@ img, video, svg { display: block; max-width: 100%; }
   .is-extra { display: none !important; }
 }
 
-/* ---------- Scène 3: fundament (demosite van een villaverhuur die meescrollt) ---------- */
+/* ---------- Scène 3: fundament (voorbeeldsite Studio Halm in een browservenster) ---------- */
 /* De site zelf is licht: het is de site van de klant, niet die van ons. */
 .browser {
   container-type: inline-size;
@@ -466,42 +466,55 @@ img, video, svg { display: block; max-width: 100%; }
 .ln-m { width: 70%; }
 .ln-s { width: 45%; }
 
-/* demosite (fictieve villaverhuur): gewone HTML in het venster; film.js schuift .d-page mee met het scrollen */
-.demo { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #FBF8F3; color: #1D1B18; }
-.d-page { position: absolute; left: 0; right: 0; top: 0; }
-.d-nav { position: absolute; z-index: 2; left: 0; right: 0; top: 0; display: flex; align-items: center; gap: 2.6cqw; padding: 2.2cqw 4cqw; color: #fff; font: 500 1.3cqw/1 var(--f-body); }
-.d-logo { margin-right: auto; font: 400 2.5cqw/1 'Instrument Serif', Georgia, serif; font-style: italic; }
-.d-link { opacity: .88; }
-.d-cta { padding: .9cqw 1.6cqw; border-radius: 99px; background: rgba(255, 255, 255, .92); color: #1D1B18; font-weight: 600; }
-.d-hero { position: relative; height: 56cqw; overflow: hidden; background: #6f6150; }
-.d-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.d-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 9, 8, .45) 0%, rgba(10, 9, 8, 0) 30%, rgba(10, 9, 8, .1) 55%, rgba(10, 9, 8, .62) 100%); }
-.d-hero-copy { position: absolute; left: 4cqw; right: 4cqw; bottom: 4.4cqw; color: #fff; }
-.d-kicker { font: 500 1.2cqw/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; opacity: .9; }
-.d-h { margin-top: 1.2cqw; font: 400 5.6cqw/1 'Instrument Serif', Georgia, serif; letter-spacing: -.02em; max-width: 12ch; }
-.d-sub { margin-top: 1.2cqw; max-width: 44ch; font: 400 1.45cqw/1.45 var(--f-body); opacity: .92; }
-.d-ctas { display: flex; gap: 1.2cqw; margin-top: 2.2cqw; }
-.d-btn, .d-wa { display: inline-flex; align-items: center; gap: .7cqw; padding: 1.1cqw 2cqw; border-radius: 99px; font: 600 1.35cqw/1 var(--f-body); white-space: nowrap; }
-.d-btn { background: #fff; color: #1D1B18; }
-.d-wa { background: var(--wa); color: #fff; }
+/* Voorbeeldsite Studio Halm (fictief architectenbureau): nagebouwd in HTML, drie lagen boven elkaar.
+   film.js (halmBuild) speelt de effecten af op het scrollen. Zonder beweging staat alleen de hero er (eindbeeld
+   van de statische versie). Maten in cqw van het browservenster, zodat alles meeschaalt. */
+.demo { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+.halm { background: #EFECE6; color: #0E0E0C; font-family: var(--f-body); }
+.halm > div { position: absolute; inset: 0; overflow: hidden; z-index: 1; } /* elke laag een eigen stapel: niets van de hero schijnt erdoor */
+.halm > .hm-mask { z-index: 2; }
+.halm > .hm-work { z-index: 3; }
+.hm-sky, .hm-full, .hm-frame img, .hm-ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hm-nav { position: absolute; z-index: 3; left: 0; right: 0; top: 0; display: flex; align-items: center; gap: 2.2cqw; padding: 1.9cqw 3cqw; font: 500 1.1cqw/1 var(--f-body); color: #0E0E0C; }
+.hm-logo { margin-right: auto; display: flex; align-items: baseline; gap: .7cqw; font: 800 1.9cqw/1 Inter, var(--f-head); letter-spacing: -.05em; }
+.hm-logo small { font: 400 .75cqw/1 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; }
+.hm-link { opacity: .8; }
+.hm-cta { margin-left: .8cqw; padding: .8cqw 1.4cqw; border-radius: 99px; box-shadow: inset 0 0 0 1px currentColor; }
+.hm-copy { position: absolute; z-index: 2; left: 0; right: 0; top: 8.4cqw; text-align: center; }
+.hm-eyebrow { font: 400 .8cqw/1 var(--f-mono); letter-spacing: .18em; text-transform: uppercase; color: #46443f; }
+.hm-title { margin-top: 1.4cqw; font: 800 6.2cqw/.9 Inter, var(--f-head); letter-spacing: -.065em; }
+.hm-l { display: block; overflow: hidden; padding: 0 .1em .06em; }
+.hm-l > span { display: inline-block; }
+.hm-title em { font: italic 400 1.1em/.8 'Instrument Serif', Georgia, serif; letter-spacing: -.02em; }
+.hm-sub { margin: 1.4cqw auto 0; max-width: 36ch; font: 400 1.15cqw/1.45 var(--f-body); color: #3b3a36; }
+.hm-btn { display: inline-flex; gap: .7cqw; margin-top: 1.6cqw; padding: 1cqw 1.8cqw; border-radius: 99px; background: #0E0E0C; color: #EFECE6; font: 500 1cqw/1 var(--f-body); }
+.hm-frame { position: absolute; inset: 0; overflow: hidden; clip-path: inset(61% 33% 4% 33% round 1.2cqw); }
+.hm-frame img { transform: scale(1.18); }
+.hm-cap, .hm-under {
+  position: absolute; z-index: 2; left: 3cqw; right: 3cqw; bottom: 2.2cqw; display: flex; justify-content: space-between;
+  font: 400 .8cqw/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: #EFECE6;
+}
+.hm-cap { visibility: hidden; }
+.hm-mask { display: grid; place-items: center; background: #0E0E0C; visibility: hidden; }
+.hm-word {
+  position: relative; font: 800 26cqw/.8 Inter, var(--f-head); letter-spacing: -.075em; padding-right: .06em;
+  background: url(/media/halm/hero.webp) 50% 60% / cover; -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hm-work { background: #EFECE6; visibility: hidden; }
+.hm-wh { position: absolute; left: 3cqw; top: 7.2cqw; font: 800 4.6cqw/1 Inter, var(--f-head); letter-spacing: -.06em; }
+.hm-wh sup { margin-left: .5cqw; font: 400 .9cqw/1 var(--f-mono); letter-spacing: 0; vertical-align: top; }
+.hm-track { position: absolute; left: 3cqw; top: 15.4cqw; display: flex; gap: 1.6cqw; }
+.hm-card { flex: none; width: 34cqw; }
+.hm-ph { position: relative; aspect-ratio: 3 / 2.15; overflow: hidden; background: #E4E0D8; }
+.hm-tag { position: absolute; left: 1cqw; top: 1cqw; padding: .55cqw .9cqw; border-radius: 99px; background: rgba(239, 236, 230, .92); font: 400 .72cqw/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; }
+.hm-meta { display: flex; align-items: baseline; gap: 1cqw; margin-top: 1.2cqw; font: 400 .75cqw/1 var(--f-mono); color: #8C877E; }
+.hm-meta i { font-style: normal; }
+.hm-meta b { font: 700 1.6cqw/1 Inter, var(--f-head); letter-spacing: -.045em; color: #0E0E0C; }
+.hm-meta span { margin-left: auto; letter-spacing: .12em; text-transform: uppercase; }
+/* WhatsApp-knop die wij op elke klantsite zetten: springt er aan het eind in */
+.d-wa { display: inline-flex; align-items: center; gap: .7cqw; padding: 1.1cqw 2cqw; border-radius: 99px; font: 600 1.35cqw/1 var(--f-body); white-space: nowrap; background: var(--wa); color: #fff; }
 .d-wa svg { width: 1.6cqw; height: 1.6cqw; }
-.d-facts { list-style: none; margin: 0; padding: 2.6cqw 4cqw; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1cqw; border-bottom: 1px solid #E8E1D6; font: 400 1.3cqw/1.3 var(--f-body); color: #5E574D; }
-.d-facts b { display: block; margin-bottom: .4cqw; font: 400 3cqw/1 'Instrument Serif', Georgia, serif; color: #1D1B18; }
-.d-about, .d-review, .d-book { padding: 4.6cqw 4cqw 0; }
-.d-eyebrow { font: 500 1.15cqw/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: #A0714A; }
-.d-h2 { margin-top: 1cqw; font: 400 3.6cqw/1.05 'Instrument Serif', Georgia, serif; letter-spacing: -.01em; max-width: 16ch; }
-.d-txt { margin-top: 1.4cqw; max-width: 52ch; font: 400 1.5cqw/1.55 var(--f-body); color: #5E574D; }
-.d-review { text-align: center; }
-.d-stars { color: #C8963E; font-size: 1.8cqw; letter-spacing: .3em; }
-.d-quote { margin: 1.2cqw auto 0; max-width: 34ch; font: 400 2.5cqw/1.25 'Instrument Serif', Georgia, serif; font-style: italic; }
-.d-who { margin-top: 1.2cqw; font: 400 1.2cqw/1 var(--f-body); color: #8A8276; }
-.d-book { padding-bottom: 5cqw; }
-.d-form { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1cqw; margin-top: 2cqw; padding: 1.2cqw; border-radius: 1.4cqw; background: #fff; box-shadow: 0 1px 0 #E8E1D6, 0 2cqw 5cqw -3cqw rgba(60, 40, 20, .25); }
-.d-field { display: flex; flex-direction: column; gap: .5cqw; padding: .8cqw 1.2cqw; border-radius: .8cqw; background: #F6F1EA; font: 500 1.4cqw/1 var(--f-body); }
-.d-field i { font: 400 1.05cqw/1 var(--f-body); font-style: normal; color: #8A8276; }
-.d-form .d-btn { background: #1D1B18; color: #fff; justify-content: center; }
-.d-fine { margin-top: 1.6cqw; font: 400 1.3cqw/1 var(--f-body); color: #5E574D; display: flex; align-items: center; gap: 1cqw; }
-.d-wa-sm { padding: .8cqw 1.4cqw; font-size: 1.2cqw; }
+.hm-wa { position: absolute; z-index: 5; right: 2.4cqw; bottom: 2.4cqw; box-shadow: 0 1cqw 3cqw -1cqw rgba(0, 0, 0, .45); visibility: hidden; }
 
 @media (max-width: 767px) {
   /* mobiel: dezelfde site, maar op een telefoon */
@@ -512,35 +525,6 @@ img, video, svg { display: block; max-width: 100%; }
   .br-bar i { display: none; }
   .br-url { margin: 0; font-size: 3.6cqw; text-align: center; }
   .ln { height: 2cqw; width: 12cqw; }
-  /* demosite op een telefoon */
-  .d-nav { padding: 4cqw 5cqw; font-size: 3.2cqw; }
-  .d-link { display: none; }
-  .d-logo { font-size: 6cqw; }
-  .d-cta { padding: 2cqw 3.4cqw; }
-  .d-hero { height: 150cqw; }
-  .d-hero-copy { left: 5cqw; right: 5cqw; bottom: 6cqw; }
-  .d-kicker { font-size: 2.8cqw; }
-  .d-h { margin-top: 2.6cqw; font-size: 12cqw; }
-  .d-sub { margin-top: 2.6cqw; font-size: 3.6cqw; }
-  .d-ctas { margin-top: 4.4cqw; gap: 2.4cqw; }
-  .d-btn, .d-wa { padding: 3cqw 4cqw; font-size: 3.4cqw; gap: 1.6cqw; }
-  .d-wa svg { width: 3.8cqw; height: 3.8cqw; }
-  .d-facts { grid-template-columns: 1fr 1fr; gap: 4cqw; padding: 6cqw 5cqw; font-size: 3.2cqw; }
-  .d-facts b { font-size: 7cqw; margin-bottom: 1cqw; }
-  .d-about, .d-review, .d-book { padding: 9cqw 5cqw 0; }
-  .d-eyebrow { font-size: 2.8cqw; }
-  .d-h2 { margin-top: 2.4cqw; font-size: 8.4cqw; }
-  .d-txt { margin-top: 3cqw; font-size: 3.6cqw; }
-  .d-stars { font-size: 4.4cqw; }
-  .d-quote { margin-top: 3cqw; font-size: 6cqw; }
-  .d-who { margin-top: 3cqw; font-size: 3cqw; }
-  .d-book { padding-bottom: 10cqw; }
-  .d-form { grid-template-columns: 1fr 1fr; gap: 2.4cqw; margin-top: 4cqw; padding: 2.8cqw; border-radius: 3cqw; }
-  .d-field { gap: 1.2cqw; padding: 2.4cqw 3cqw; border-radius: 2cqw; font-size: 3.4cqw; }
-  .d-field i { font-size: 2.6cqw; }
-  .d-form .d-btn { grid-column: span 1; }
-  .d-fine { margin-top: 4cqw; font-size: 3.2cqw; gap: 2.4cqw; }
-  .d-wa-sm { padding: 2.2cqw 3.4cqw; font-size: 3cqw; }
 }
 
 /* ---------- Scène 4: verkeer (zoekpagina die meescrollt, fictieve namen, zonder cijfers over jou) ---------- */
@@ -1062,13 +1046,12 @@ img, video, svg { display: block; max-width: 100%; }
   }
   .fl-langs span.is-on { color: var(--bg); background: var(--ink); box-shadow: none; }
 
-  /* Fundament: de demosite in de brede weergave (720px breed ontworpen, film.js schaalt hem naar de schermbreedte) */
+  /* Fundament: de voorbeeldsite in de brede weergave (720px breed ontworpen, film.js schaalt hem naar de schermbreedte) */
   :root:not(.film-on) #fundament .scene-in { aspect-ratio: auto; height: calc(480px * var(--bs, .5)); display: block; place-items: normal; container-type: normal; }
   :root:not(.film-on) #fundament .browser {
     width: 720px; aspect-ratio: 3 / 2; border-radius: 16px; transform-origin: 0 0; transform: scale(var(--bs, .5));
     box-shadow: 0 0 0 1px var(--line-2), 0 50px 90px -40px #000;
   }
-  :root:not(.film-on) #fundament .d-page { will-change: transform; }
 
   /* Opvolging: het hele gesprek, de samenvatting eronder */
   :root:not(.film-on) #opvolging .scene { overflow: visible; }

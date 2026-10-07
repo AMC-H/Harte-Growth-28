@@ -212,42 +212,40 @@
 
   };
 
-  // 3. Fundament: een demosite (fictieve villaverhuur) in het browservenster. De pagina scrollt mee met de
-  //    scrub-tijdlijn; in de hero loopt de villavideo mee met het scrollen, zodat je door de villa beweegt.
-  var demo = { t: 0 }, demoVideo = null, demoLite = null, demoActive = false;
-  SCENES.fundament = function (tl, s) {
-    var page = s.scene.querySelector('.d-page'), view = s.scene.querySelector('.demo');
-    var travel = function () { return Math.max(0, page.offsetHeight - view.clientHeight); };
-    tl.fromTo(s.q('.br-url'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.04 }, 0)
-      .fromTo(demo, { t: 0 }, { t: 1, duration: 0.55, onUpdate: scrubDemo }, 0)
-      .fromTo(s.q('.d-nav'), { autoAlpha: 0, y: -8 }, { autoAlpha: 1, y: 0, duration: 0.06, ease: 'power2.out' }, 0.02)
-      .fromTo(s.q('.d-kicker, .d-h, .d-sub, .d-ctas'), { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.07, stagger: 0.025, ease: 'power2.out' }, 0.06)
-      .fromTo(page, { y: 0 }, { y: function () { return -travel(); }, duration: 0.62, ease: 'power1.inOut' }, 0.26)
-      .fromTo(s.q('.d-book .d-wa'), { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.06, ease: 'back.out(2.6)' }, 0.84);
-    // mobiel: de camera duwt in op de WhatsApp-knop onderaan de boekingssectie
-    if (s.mobile) tl.fromTo(s.q('.browser'), { scale: 1 }, { scale: 1.16, transformOrigin: '30% 90%', duration: 0.1, ease: 'power2.inOut' }, 0.8);
-  };
-  function scrubDemo() {
-    var v = demoVideo;
-    if (!v || !v.duration) return;
-    var t = demo.t * (v.duration - 1 / 30);
-    if (Math.abs(v.currentTime - t) > 1 / 60) v.currentTime = t;
+  // 3. Fundament: voorbeeldsite Studio Halm (fictief architectenbureau) in het browservenster, in HTML nagebouwd.
+  //    De tijdlijn speelt de effecten van die site af op het scrollen: kop uit het masker, de kaart wordt
+  //    volledig beeld, de foto krimpt in de letters van HALM, de projecten schuiven horizontaal voorbij en aan
+  //    het eind springt de WhatsApp-knop erin. Alleen transform/opacity/clip-path: licht voor de GPU.
+  //    Ook gebruikt voor de telefoon zonder film (setupPhone), met een eigen scrub-tijdlijn.
+  function halmBuild(tl, b) {
+    var one = function (sel) { return b.querySelector(sel); };
+    var all = function (sel) { return b.querySelectorAll(sel); };
+    var view = one('.halm'), track = one('.hm-track');
+    if (!view || !track) return;
+    var travel = function () { return -Math.max(0, track.scrollWidth - (view.clientWidth - 2 * track.offsetLeft)); };
+    var card = 'inset(61% 33% 4% 33% round 1.2cqw)';
+    tl.fromTo(one('.br-url'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.04 }, 0)
+      // laden: de kaart schuift van onderen op, de kop komt regel voor regel uit het masker
+      .fromTo(one('.hm-frame'), { clipPath: 'inset(100% 33% 4% 33% round 1.2cqw)' }, { clipPath: card, duration: 0.1, ease: 'power3.out' }, 0.02)
+      .fromTo(all('.hm-l > span'), { yPercent: 110 }, { yPercent: 0, duration: 0.08, stagger: 0.025, ease: 'power3.out' }, 0.02)
+      .fromTo(all('.hm-hero .hm-nav, .hm-eyebrow, .hm-sub, .hm-btn'), { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.07, stagger: 0.015, ease: 'power2.out' }, 0.05)
+      // de kaart wordt volledig beeld
+      .fromTo(one('.hm-frame'), { clipPath: card }, { clipPath: 'inset(0% 0% 0% 0% round 0cqw)', duration: 0.2, ease: 'power2.inOut', immediateRender: false }, 0.17)
+      .fromTo(one('.hm-frame img'), { scale: 1.18 }, { scale: 1, duration: 0.2, ease: 'power2.inOut' }, 0.17)
+      .to(one('.hm-copy'), { yPercent: -28, autoAlpha: 0, duration: 0.12, ease: 'power1.in' }, 0.17)
+      .to(one('.hm-hero .hm-nav'), { color: '#EFECE6', duration: 0.04 }, 0.3)
+      .fromTo(one('.hm-cap'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.04 }, 0.33)
+      // HALM: de foto krimpt in de letters
+      .fromTo(one('.hm-mask'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.02 }, 0.42)
+      .fromTo(one('.hm-word'), { scale: 7 }, { scale: 1, duration: 0.18, ease: 'power2.inOut' }, 0.42)
+      .fromTo(one('.hm-full'), { autoAlpha: 1, scale: 1 }, { autoAlpha: 0, scale: 0.9, duration: 0.09, ease: 'power2.inOut' }, 0.42)
+      .fromTo(all('.hm-under span'), { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.04, stagger: 0.012 }, 0.57)
+      // projecten: de pagina schuift omhoog, daarna loopt de rij horizontaal voorbij
+      .fromTo(one('.hm-work'), { autoAlpha: 1, yPercent: 100 }, { yPercent: 0, duration: 0.08, ease: 'power2.inOut' }, 0.66)
+      .fromTo(track, { x: 0 }, { x: travel, duration: 0.22 }, 0.74)
+      .fromTo(one('.hm-wa'), { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.05, ease: 'back.out(2.6)' }, 0.86);
   }
-  function loadDemoVideo(mobile) {
-    var v = document.querySelector('.d-video');
-    if (!v || v.dataset.loaded) return;
-    v.dataset.loaded = '1';
-    if (mobile && v.dataset.posterMobile) v.poster = v.dataset.posterMobile;
-    v.src = (mobile && v.dataset.srcMobile) || v.dataset.src;
-    v.preload = 'auto';
-    v.addEventListener('loadedmetadata', function () {
-      if (!isFinite(v.duration) || !v.duration) return; // kapot bestand: de poster blijft staan
-      if (LITE) { v.loop = true; demoLite = v; if (demoActive) play(v); return; } // lichte modus: gewoon afspelen
-      demoVideo = v;
-      var p = v.play(); // iOS toont pas beelden na een eerste play()
-      if (p && p.then) p.then(function () { v.pause(); scrubDemo(); }).catch(scrubDemo); else { v.pause(); scrubDemo(); }
-    }, { once: true });
-  }
+  SCENES.fundament = function (tl, s) { halmBuild(tl, s.scene.querySelector('.browser')); };
 
   // 4. Verkeer: een zoekpagina die meescrollt. De vraag wordt getypt, het AI-overzicht noemt de villa, op de
   //    kaart springt zijn pin eruit en in de gewone resultaten klimt hij van onder naar plek 1. Illustratie.
@@ -748,19 +746,6 @@
 
     var stackOff = wallLife(mobile);
 
-    // villavideo van de demosite: laden ruim voordat Fundament in beeld komt
-    ScrollTrigger.create({ trigger: '#fundament', start: 'top 250%', once: true, onEnter: function () { loadDemoVideo(mobile); } });
-    if (LITE) {
-      ScrollTrigger.create({
-        trigger: '#fundament', start: 'top 45%', end: 'bottom 45%',
-        onToggle: function (self) {
-          demoActive = self.isActive;
-          if (!demoLite) return;
-          if (self.isActive) play(demoLite); else demoLite.pause();
-        }
-      });
-    }
-
     // Resultaat (3,5 MB) pas laden als Media in zicht komt (Media begint 1,7 scherm lager, dus pas na
     // de eerste scroll); de ruwe clip speelt alleen in Media.
     ScrollTrigger.create({
@@ -1049,8 +1034,8 @@
 
   /* ---------- Telefoon (< 768px, geen film): brede sites en het WhatsApp-gesprek op scroll ----------
    * Hero: de brede A/C Men-site wisselt rustig van taal (adresbalk en taallabels lopen mee).
-   * Fundament: de demosite staat in de brede weergave (720px ontworpen, geschaald naar de schermbreedte) en
-   *   scrollt mee met de pagina; de villavideo laadt pas als het hoofdstuk dichtbij is.
+   * Fundament: de voorbeeldsite (Studio Halm) staat in de brede weergave (720px ontworpen, geschaald naar de
+   *   schermbreedte); de effecten van die site spelen af terwijl het venster voorbij scrollt.
    * Opvolging: de telefoon blijft staan (pin) terwijl het gesprek bericht voor bericht binnenkomt; de tekst
    *   staat eronder en komt pas in beeld als het gesprek af is. Bij minder beweging staat alles meteen. */
   function setupPhone() {
@@ -1070,20 +1055,6 @@
       fit();
       window.addEventListener('resize', fit);
       offs.push(function () { window.removeEventListener('resize', fit); if (fScene) fScene.style.removeProperty('--bs'); });
-
-      // villavideo laden als Fundament dichtbij is; alleen spelen zolang hij in beeld is
-      var dv = document.querySelector('#fundament .d-video');
-      if (dv && dv.dataset.src) {
-        ScrollTrigger.create({
-          trigger: '#fundament', start: 'top 180%', end: 'bottom top',
-          onToggle: function (self) {
-            if (self.isActive) {
-              if (!dv.getAttribute('src')) { dv.muted = true; dv.loop = true; dv.src = dv.dataset.src; }
-              if (motion) { var p = dv.play(); if (p && p.catch) p.catch(function () {}); }
-            } else dv.pause();
-          }
-        });
-      }
 
       // Hero: taalwissel
       var fig = document.querySelector('#opening .fl-d.fl-main');
@@ -1143,14 +1114,12 @@
       }
 
       if (motion) {
-        // Fundament: de site scrollt mee terwijl het hoofdstuk voorbij komt
-        var page = browser && browser.querySelector('.d-page');
-        var view = browser && browser.querySelector('.demo');
-        if (page && view) {
-          gsap.fromTo(page, { y: 0 }, {
-            y: function () { return -Math.max(0, page.offsetHeight - view.clientHeight); }, ease: 'none',
-            scrollTrigger: { trigger: fScene, start: 'top 40%', end: 'bottom -40%', scrub: 0.6, invalidateOnRefresh: true }
-          });
+        // Fundament: de effecten van de voorbeeldsite spelen af terwijl het venster voorbij scrollt
+        if (browser && browser.querySelector('.halm')) {
+          halmBuild(gsap.timeline({
+            defaults: { ease: 'none' },
+            scrollTrigger: { trigger: fScene, start: 'top 90%', end: 'bottom 45%', scrub: 0.6, invalidateOnRefresh: true } // af terwijl het venster nog onder de kopbalk uit staat
+          }), browser);
         }
 
         // Opvolging: het gesprek komt binnen terwijl de telefoon blijft staan
