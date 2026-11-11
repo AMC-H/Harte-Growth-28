@@ -313,8 +313,22 @@
   <url><loc>https://hartegrowth.eu/costa-blanca/altea</loc><lastmod>2026-10-02</lastmod><priority>0.6</priority></url>
   <url><loc>https://hartegrowth.eu/costa-blanca/denia</loc><lastmod>2026-10-02</lastmod><priority>0.6</priority></url>
   <url><loc>https://hartegrowth.eu/costa-blanca/benidorm</loc><lastmod>2026-10-02</lastmod><priority>0.6</priority></url>
-  <url>
-    <loc>https://hartegrowth.eu/video</loc>
-    <lastmod>2026-10-03</lastmod>
+  <url><loc>https://hartegrowth.eu/video</loc><lastmod>2026-11-11</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://hartegrowth.eu/video"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hartegrowth.eu/en/video.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://hartegrowth.eu/es/video.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hartegrowth.eu/video"/>
+  </url>
+  <url><loc>https://hartegrowth.eu/en/video.html</loc><lastmod>2026-11-11</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://hartegrowth.eu/video"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hartegrowth.eu/en/video.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://hartegrowth.eu/es/video.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hartegrowth.eu/video"/>
+  </url>
+  <url><loc>https://hartegrowth.eu/es/video.html</loc><lastmod>2026-11-11</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://hartegrowth.eu/video"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hartegrowth.eu/en/video.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://hartegrowth.eu/es/video.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hartegrowth.eu/video"/>
   </url>
 </urlset>
