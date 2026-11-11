@@ -184,3 +184,27 @@
   .shelf.is-side.no-scroll .shelf-row { -webkit-mask-image: none; mask-image: none; }
 }
 @media (min-width: 600px) { .shelf:not(.is-side).no-scroll .shelf-row { --per: 4; -webkit-mask-image: none; mask-image: none; } }
+
+/* Werkvideo's: tik om af te spelen (11 nov 2026). Alleen de hero speelt vanzelf. */
+.reel video { cursor: pointer; }
+.reel .reel-play { display: none; }
+.reel-start {
+  position: absolute; left: 50%; top: 50%; width: 76px; height: 76px; margin: -38px 0 0 -38px;
+  display: grid; place-items: center; border: 0; border-radius: 50%; cursor: pointer; color: #fff;
+  background: rgba(15, 17, 19, .55); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .55);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  transition: background-color .2s, transform .2s, opacity .2s;
+}
+.reel-start svg { width: 30px; height: 30px; margin-left: 4px; }
+.reel-start:hover, .reel-start:focus-visible { background: var(--accent); box-shadow: none; transform: scale(1.06); }
+.reel:not(.is-paused) .reel-start { opacity: 0; pointer-events: none; }
+.reel.is-loading .reel-start { opacity: 1; background: rgba(15, 17, 19, .55); }
+.reel.is-loading .reel-start svg { display: none; }
+.reel.is-loading .reel-start::after {
+  content: ""; width: 30px; height: 30px; border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, .25); border-top-color: #fff; animation: reel-spin .8s linear infinite;
+}
+@keyframes reel-spin { to { transform: rotate(360deg); } }
+.reel.is-idle .reel-sound { display: none; }
+.reel-wide .reel-start { width: 92px; height: 92px; margin: -46px 0 0 -46px; }
+@media (prefers-reduced-motion: reduce) { .reel.is-loading .reel-start::after { animation-duration: 2s; } }
