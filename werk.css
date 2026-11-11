@@ -60,15 +60,7 @@
 .reel.is-paused .reel-play .i-play { display: block; }
 .reel.is-paused .reel-play .i-pause { display: none; }
 
-/* Short-form: rij 9:16-video's (desktop 3 naast elkaar, mobiel swipen) */
-.reels-label {
-  grid-column: span 12; display: flex; justify-content: space-between; align-items: baseline; margin: 1.2rem 0 -.25rem;
-  font: 500 .8125rem/1 var(--f-mono); color: var(--mute); letter-spacing: .02em;
-}
-.reels-label span { display: none; color: var(--ink); }
-.reels-row { grid-column: span 12; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
-.reels-row .reel { aspect-ratio: 9 / 16; }
-.reels .reel-cta { grid-column: span 12; }
+.reels .reel-cta { grid-column: span 12; margin-top: clamp(2rem, 5vw, 3.5rem); }
 
 /* Geluidsknop (alleen bij video's met geluid) */
 .reel-sound {
@@ -78,7 +70,7 @@
   backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
 }
 .reel-sound svg { width: 16px; height: 16px; }
-.phone > .reel-sound { z-index: 2; } /* hero: de Ferrari kan ook met geluid */
+.phone > .reel-sound { z-index: 2; } /* hero kan ook met geluid */
 .reel-sound .s-on { display: none; }
 .has-sound > .reel-sound { background: var(--accent); color: #fff; }
 .has-sound > .reel-sound .s-on { display: block; }
@@ -99,19 +91,96 @@
   .reel-half { grid-column: span 12; }
   .reel-third { grid-column: span 12; }
   .reel-tall { grid-column: span 6; }
-  .reels-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .reel-cta { grid-column: span 12; }
 }
 @media (max-width: 599px) {
   .reels { gap: .75rem; }
-  .reels-label span { display: inline; }
-  .reels-row {
-    display: flex; gap: .75rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
-    margin-inline: calc(-1 * var(--gutter, 16px)); padding: 0 var(--gutter, 16px) .25rem; scrollbar-width: none;
-  }
-  .reels-row::-webkit-scrollbar { display: none; }
-  .reels-row .reel { flex: 0 0 72vw; max-width: 300px; scroll-snap-align: center; }
   .reel-tall { grid-column: span 12; max-width: 380px; width: 100%; justify-self: center; }
   .phone { width: min(260px, 64vw); }
   .phone-tag { font-size: .6875rem; padding: 5px 8px; left: 10px; bottom: 10px; }
 }
+
+/* Werk in schappen per soort (11 nov 2026). Desktop ruim 4 naast elkaar met pijltjes, telefoon swipen. */
+.shelf-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.6rem; }
+.shelf-chips a {
+  display: inline-flex; align-items: baseline; gap: .5rem; min-height: 40px; padding: .6rem 1rem; border-radius: 999px;
+  color: var(--ink); text-decoration: none; font-size: .9375rem; box-shadow: inset 0 0 0 1px var(--line-2);
+  transition: box-shadow .2s, background-color .2s;
+}
+.shelf-chips a:hover { box-shadow: inset 0 0 0 1px var(--ink); background: var(--surface); }
+.shelf-chips span { font: 500 .75rem/1 var(--f-mono); color: var(--mute); }
+.shelf, .shelf-head-wide { grid-column: span 12; scroll-margin-top: calc(var(--hdr) + 1rem); }
+.shelf { margin-top: clamp(2.2rem, 5vw, 3.6rem); }
+.shelf-head {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem 2rem;
+  padding-top: 1.1rem; margin-bottom: 1rem; border-top: 1px solid var(--line);
+}
+.shelf-head-wide { margin-bottom: 0; }
+.shelf-h { font: 700 clamp(1.3rem, 1rem + 1vw, 1.85rem)/1.1 var(--f-head); letter-spacing: -.01em; }
+.shelf-sub { margin-top: .4rem; color: var(--mute); font-size: .9375rem; max-width: 56ch; }
+.shelf-nav { display: flex; align-items: center; gap: .5rem; flex: none; }
+.shelf-count { font: 500 .8125rem/1 var(--f-mono); color: var(--mute); margin-right: .4rem; white-space: nowrap; }
+.shelf-btn {
+  width: 42px; height: 42px; border: 0; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+  background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-2); transition: box-shadow .2s, opacity .2s;
+}
+.shelf-btn svg { width: 16px; height: 16px; }
+.shelf-btn:hover:not(:disabled) { box-shadow: inset 0 0 0 1px var(--ink); }
+.shelf-btn:disabled { opacity: .3; cursor: default; }
+.shelf.no-scroll .shelf-btn { display: none; }
+.shelf-row {
+  --per: 4.35; display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+  scrollbar-width: none; border-radius: 14px;
+}
+.shelf-row::-webkit-scrollbar { display: none; }
+.shelf-row > * { flex: 0 0 calc((100% - (var(--per) - 1) * 1rem) / var(--per)); aspect-ratio: 9 / 16; scroll-snap-align: start; }
+.shelf-row.more-r { -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent); mask-image: linear-gradient(90deg, #000 86%, transparent); }
+.shelf-row.more-r.more-l { -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 86%, transparent); }
+.shelf-row:focus-visible { outline-offset: 4px; }
+
+.cover { position: relative; margin: 0; border-radius: 14px; overflow: hidden; background: #000; box-shadow: 0 0 0 1px var(--line); }
+.cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cover figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-wrap: wrap; gap: .25rem .75rem; align-items: baseline;
+  padding: 2.5rem 1rem .9rem; background: linear-gradient(transparent, rgba(0, 0, 0, .78)); font-size: .9375rem;
+}
+.cover figcaption b { font-weight: 600; }
+.cover figcaption span { color: #C9CDD1; font: 400 .75rem/1.2 var(--f-mono); }
+
+.shelf-card {
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: .8rem;
+  padding: 1.4rem; border-radius: 14px;
+  background: radial-gradient(120% 70% at 100% 0%, rgba(255, 59, 48, .24), transparent 60%), var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.shelf-card-h { font: 700 clamp(1.4rem, 1rem + 1.2vw, 2rem)/1.05 var(--f-head); }
+.shelf-card p:not(.shelf-card-h) { color: var(--mute); font-size: .9375rem; }
+
+@media (max-width: 1023px) {
+  .shelf-row { --per: 3.3; }
+}
+@media (max-width: 599px) {
+  .shelf-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); }
+  .shelf-chips::-webkit-scrollbar { display: none; }
+  .shelf-chips a { flex: none; }
+  .shelf-head { flex-direction: column; align-items: flex-start; gap: .6rem; }
+  .shelf-nav .shelf-btn { display: none; }
+  .shelf-count::after { content: " · swipe"; }
+  .shelf-row {
+    gap: .75rem; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+    border-radius: 0; -webkit-mask-image: none !important; mask-image: none !important;
+  }
+  .shelf-row > * { flex: 0 0 min(68vw, 280px); }
+}
+
+/* Kleine schappen (3 stuks): op de computer kop links, beelden rechts, zodat er geen gat rechts valt. */
+@media (min-width: 1024px) {
+  .shelf.is-side {
+    display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); gap: 0 2.5rem; align-items: start;
+    padding-top: 1.1rem; border-top: 1px solid var(--line);
+  }
+  .shelf.is-side .shelf-head { flex-direction: column; align-items: flex-start; gap: 1.2rem; padding-top: 0; border-top: 0; position: sticky; top: calc(var(--hdr) + 1.5rem); }
+  .shelf.is-side .shelf-row { --per: 3; }
+  .shelf.is-side.no-scroll .shelf-row { -webkit-mask-image: none; mask-image: none; }
+}
+@media (min-width: 600px) { .shelf:not(.is-side).no-scroll .shelf-row { --per: 4; -webkit-mask-image: none; mask-image: none; } }
