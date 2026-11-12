@@ -34,7 +34,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=Inter:wght@800&amp;family=Instrument+Serif:ital@1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/film.css?v=20261003e">
 <link rel="stylesheet" href="/pagina.css?v=20260925d">
-<link rel="stylesheet" href="/werk.css?v=20261111b">
+<link rel="stylesheet" href="/werk.css?v=20261112a">
 <script src="/analytics.js?v=20261003a" defer></script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@graph": [{"@type": "Service", "name": "Vídeo corto con tus propias fotos y clips", "serviceType": "Edición de vídeo", "provider": {"@id": "https://hartegrowth.eu/#org"}, "areaServed": [{"@type": "Country", "name": "Spain"}, {"@type": "Country", "name": "Netherlands"}], "url": "https://hartegrowth.eu/es/video.html", "description": "Envía 5 o 6 fotos o unos clips y recibe en 48 horas un vídeo montado para redes o tu web. 35 € por vídeo (oferta). Si no te convence, te devolvemos el dinero.", "offers": {"@type": "Offer", "price": "35", "priceCurrency": "EUR", "description": "Precio de oferta temporal para vídeo corto, normalmente 50 €", "url": "https://hartegrowth.eu/es/video.html", "priceSpecification": {"@type": "UnitPriceSpecification", "price": "35", "priceCurrency": "EUR", "valueAddedTaxIncluded": false}}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Cuánto material necesito?", "acceptedAnswer": {"@type": "Answer", "text": "Con unas 5 o 6 fotos o unos clips cortos basta para un vídeo. ¿Tienes más? Envíalo todo, elegimos lo que mejor funcione."}}, {"@type": "Question", "name": "¿Cómo envío los archivos?", "acceptedAnswer": {"@type": "Answer", "text": "Mejor por WeTransfer. Sube tus fotos y clips y envíanos el enlace por WhatsApp o por email. Google Drive también vale. Mejor no las mandes sueltas por WhatsApp: reduce las imágenes y se pierde calidad."}}, {"@type": "Question", "name": "¿Puedo usar el vídeo donde quiera?", "acceptedAnswer": {"@type": "Answer", "text": "Sí, el vídeo es tuyo. Úsalo en redes, en tu web, en un anuncio o en la ficha de un inmueble."}}, {"@type": "Question", "name": "¿Y si no me convence?", "acceptedAnswer": {"@type": "Answer", "text": "Incluye una ronda de cambios. Si aun así no damos con ello, te devolvemos el dinero."}}, {"@type": "Question", "name": "¿Hacéis también varios vídeos al mes?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. Si quieres contenido fijo cada mes, acordamos un precio mensual cerrado. Escríbenos y te lo calculamos."}}]}]}
@@ -109,6 +109,7 @@
       <nav class="shelf-chips" aria-label="Tipo de trabajo">
           <a href="#w-films">Vídeos corporativos <span>5</span></a>
           <a href="#w-auto">Coches <span>5</span></a>
+          <a href="#w-podcast">Pódcast <span>4</span></a>
           <a href="#w-merken">Negocios y tendencias <span>7</span></a>
           <a href="#w-covers">Portadas <span>6</span></a>
         </nav>
@@ -176,31 +177,34 @@
           </div>
         </div>
 
-        <!-- VERBORGEN tot de nieuwe versies er zijn (w-podcast):
-        <div class="shelf is-side" id="w-podcast">
+        <div class="shelf" id="w-podcast">
           <div class="shelf-head">
             <div><h3 class="shelf-h">Clips de pódcast y entrevistas</h3><p class="shelf-sub">Una conversación larga reducida a una idea potente. Un titular que plantea la pregunta y subtítulos palabra a palabra, para que funcione también sin sonido.</p></div>
-            <div class="shelf-nav"><span class="shelf-count">3 vídeos</span><button class="shelf-btn" type="button" data-dir="-1" aria-label="Anterior en Clips de pódcast y entrevistas"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="shelf-btn" type="button" data-dir="1" aria-label="Siguiente en Clips de pódcast y entrevistas"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+            <div class="shelf-nav"><span class="shelf-count">4 vídeos</span><button class="shelf-btn" type="button" data-dir="-1" aria-label="Anterior en Clips de pódcast y entrevistas"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="shelf-btn" type="button" data-dir="1" aria-label="Siguiente en Clips de pódcast y entrevistas"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
           </div>
           <div class="shelf-row" tabindex="0" role="region" aria-label="Clips de pódcast y entrevistas">
             <figure data-sound class="reel">
-              <video data-poster="/media/werk/cover-iphone.webp?v=1" width="1080" height="1920" muted loop playsinline preload="none" controls aria-label="Succeslebel: Clip de pódcast · iPhones o acciones · 9:16"><source src="/media/werk/succes-iphone-9x16-m.mp4?v=1" type="video/mp4" media="(max-width: 767px)"><source src="/media/werk/succes-iphone-9x16.mp4?v=1" type="video/mp4"></video>
+              <video data-poster="/media/werk/cover-succes-thuis.webp?v=1" width="720" height="1280" muted loop playsinline preload="none" controls aria-label="Succeslebel: Clip de pódcast · jóvenes que viven con sus padres · 9:16"><source src="/media/werk/succes-thuis-9x16.mp4?v=1" type="video/mp4"></video>
               <button class="reel-play" type="button" aria-label="Pausar o reproducir"><svg class="i-pause" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"/></svg><svg class="i-play" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5l9 5.5-9 5.5z" fill="currentColor"/></svg></button>
-              <figcaption><b>Succeslebel</b> <span>Clip de pódcast · iPhones o acciones · 9:16</span></figcaption>
+              <figcaption><b>Succeslebel</b> <span>Clip de pódcast · jóvenes que viven con sus padres · 9:16</span></figcaption>
             </figure>
             <figure data-sound class="reel">
-              <video data-poster="/media/werk/succes-vrienden-9x16.webp?v=1" width="1080" height="1920" muted loop playsinline preload="none" controls aria-label="Succeslebel: Clip de pódcast · tu círculo de amigos · 9:16"><source src="/media/werk/succes-vrienden-9x16-m.mp4?v=1" type="video/mp4" media="(max-width: 767px)"><source src="/media/werk/succes-vrienden-9x16.mp4?v=1" type="video/mp4"></video>
+              <video data-poster="/media/werk/cover-succes-10m.webp?v=1" width="720" height="1280" muted loop playsinline preload="none" controls aria-label="Succeslebel: Clip de pódcast · empleo e IA · 9:16"><source src="/media/werk/succes-10m-9x16.mp4?v=1" type="video/mp4"></video>
               <button class="reel-play" type="button" aria-label="Pausar o reproducir"><svg class="i-pause" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"/></svg><svg class="i-play" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5l9 5.5-9 5.5z" fill="currentColor"/></svg></button>
-              <figcaption><b>Succeslebel</b> <span>Clip de pódcast · tu círculo de amigos · 9:16</span></figcaption>
+              <figcaption><b>Succeslebel</b> <span>Clip de pódcast · empleo e IA · 9:16</span></figcaption>
             </figure>
             <figure data-sound class="reel">
-              <video data-poster="/media/werk/succes-kindness-9x16.webp?v=1" width="1080" height="1920" muted loop playsinline preload="none" controls aria-label="Succeslebel: Clip de pódcast · amabilidad · 9:16"><source src="/media/werk/succes-kindness-9x16-m.mp4?v=1" type="video/mp4" media="(max-width: 767px)"><source src="/media/werk/succes-kindness-9x16.mp4?v=1" type="video/mp4"></video>
+              <video data-poster="/media/werk/cover-succes-informatie.webp?v=1" width="720" height="1280" muted loop playsinline preload="none" controls aria-label="Succeslebel: Clip de pódcast · información y sabiduría · 9:16"><source src="/media/werk/succes-informatie-9x16.mp4?v=1" type="video/mp4"></video>
               <button class="reel-play" type="button" aria-label="Pausar o reproducir"><svg class="i-pause" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"/></svg><svg class="i-play" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5l9 5.5-9 5.5z" fill="currentColor"/></svg></button>
-              <figcaption><b>Succeslebel</b> <span>Clip de pódcast · amabilidad · 9:16</span></figcaption>
+              <figcaption><b>Succeslebel</b> <span>Clip de pódcast · información y sabiduría · 9:16</span></figcaption>
+            </figure>
+            <figure data-sound class="reel">
+              <video data-poster="/media/werk/cover-succes-2242.webp?v=1" width="720" height="1280" muted loop playsinline preload="none" controls aria-label="Succeslebel: Clip de pódcast · la etapa más dura de la vida · 9:16"><source src="/media/werk/succes-2242-9x16.mp4?v=1" type="video/mp4"></video>
+              <button class="reel-play" type="button" aria-label="Pausar o reproducir"><svg class="i-pause" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"/></svg><svg class="i-play" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5l9 5.5-9 5.5z" fill="currentColor"/></svg></button>
+              <figcaption><b>Succeslebel</b> <span>Clip de pódcast · la etapa más dura de la vida · 9:16</span></figcaption>
             </figure>
           </div>
         </div>
-        -->
 
         <!-- VERBORGEN tot de nieuwe versies er zijn (w-sites):
         <div class="shelf is-side" id="w-sites">
@@ -299,7 +303,7 @@
               <figcaption><b>Art of Race</b> <span>Portada de reel</span></figcaption>
             </figure>
             <figure class="cover">
-              <img src="/media/werk/cover-iphone.webp?v=2" width="720" height="1280" loading="lazy" decoding="async" alt="Portada: $22K on iPhones or $326K in stock?">
+              <img src="/media/werk/cover-succes-thuis.webp?v=1" width="720" height="1280" loading="lazy" decoding="async" alt="Portada: Still living at home? Tony Robbins sobre los jóvenes">
               <figcaption><b>Succeslebel</b> <span>Portada de pódcast</span></figcaption>
             </figure>
           </div>

@@ -208,3 +208,6 @@
 .reel.is-idle .reel-sound { display: none; }
 .reel-wide .reel-start { width: 92px; height: 92px; margin: -46px 0 0 -46px; }
 @media (prefers-reduced-motion: reduce) { .reel.is-loading .reel-start::after { animation-duration: 2s; } }
+
+/* Podcastclips: afspeelknop op het shirt, niet over het gezicht (12 nov 2026) */
+#w-podcast .reel-start { top: 70%; }
