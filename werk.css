@@ -211,3 +211,28 @@
 
 /* Podcastclips: afspeelknop op het shirt, niet over het gezicht (12 nov 2026) */
 #w-podcast .reel-start { top: 70%; }
+
+/* ---------- AI + vakmanschap (13 nov 2026) ---------- */
+.craft { display: grid; grid-template-columns: 1fr 1fr; margin-top: clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--line); }
+.craft-col { padding-top: 1.6rem; }
+.craft-ai { padding-right: clamp(1.2rem, 3vw, 2.5rem); }
+.craft-us { position: relative; padding-left: clamp(1.2rem, 3vw, 2.5rem); border-left: 1px solid var(--line); }
+.craft-us::before { content: ""; position: absolute; left: -1px; right: 0; top: -1px; height: 2px; background: var(--accent); }
+.craft h3 { font: 700 1.15rem/1.2 var(--f-head); letter-spacing: -.01em; }
+.craft-ai h3 { color: var(--mute); }
+.craft ul { list-style: none; margin: 1.1rem 0 0; padding: 0; display: grid; gap: .75rem; }
+.craft li { position: relative; padding-left: 1.4rem; line-height: 1.45; }
+.craft-ai li { color: var(--mute); }
+.craft-ai li::before { content: ""; position: absolute; left: 0; top: .72em; width: .6rem; height: 1px; background: currentColor; opacity: .7; }
+.craft-us li::before { content: ""; position: absolute; left: 0; top: .5em; width: .45rem; height: .45rem; background: var(--accent); }
+.craft-note { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(1.5rem, 4vw, 4rem); align-items: start; margin-top: clamp(2.5rem, 5vw, 4rem); }
+.craft-quote { font: italic 400 clamp(1.7rem, 1rem + 2.2vw, 2.7rem)/1.12 'Instrument Serif', Georgia, serif; letter-spacing: -.01em; color: var(--ink); text-wrap: balance; }
+.craft-body p { color: var(--mute); max-width: 52ch; text-wrap: pretty; }
+.craft-body p + p { margin-top: 1rem; }
+@media (max-width: 767px) {
+  .craft { grid-template-columns: 1fr; }
+  .craft-ai { padding-right: 0; }
+  .craft-us { padding-left: 0; border-left: 0; margin-top: 1.8rem; border-top: 1px solid var(--line); }
+  .craft-us::before { left: 0; }
+  .craft-note { grid-template-columns: 1fr; }
+}
